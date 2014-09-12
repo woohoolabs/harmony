@@ -1,0 +1,26 @@
+{
+    "name":"woohoolabs/api-framework",
+    "description":"Woohoo Labs. API Framework",
+    "type":"project",
+    "keywords":["Woohoo Labs.", "API", "REST", "Swagger"],
+    "homepage":"http://api-framework.woohoolabs.com",
+    "license":"MIT",
+    "authors":[
+        {
+            "name":"Máté Kocsis",
+            "email":"kocsismate@woohoolabs.com"
+        }
+    ],
+    "require":{
+        "php":">=5.4.0",
+        "container-interop/container-interop": "~1.0",
+        "symfony/http-foundation": "*",
+        "nikic/fast-route": "*@dev",
+        "jms/serializer": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "WoohooLabs\\ApiFramework\\": "src/"
+        }
+    }
+}
