@@ -36,7 +36,7 @@ And finally, there are full stack and even micro frameworks with a long list of 
 
 Of course, the ideas above doesn't suit the needs of all projects and teams. Firstly, this framework works best for API-s. Furthermore, less experienced teams should probably choose a less lenient framework with more features in order to speed up development in the initial phase.
 
-To sum up, Woohoo Labs. API Framework is the most effective for teams with a solid understanding of API development. Its flexibility is more advantageous if you need complex tools like IoC Containers or API documentation tools like Swagger.
+To sum up, Woohoo Labs. API Framework is most effective for teams with a solid understanding of API development. Its flexibility is more advantageous if you need complex tools like IoC Containers or API documentation tools like Swagger.
 
 ## Features of Woohoo Labs. API Framework
 
@@ -64,7 +64,7 @@ When you instantiate the framework you have to provide your configuration option
 
 ### Router
 
-The router tells you which class method (called handlers as of now) handles a request coming to a specific URI. The default router used by Woohoo Labs. API Framework is the library of a core developer of PHP - namely Nikita Popov - because of its elegance and performance about which you can read [clicking here](http://nikic.github.io/2014/02/18/Fast-request-routing-using-regular-expressions.html). Of course if you weren't satisfied with it, you can change it anytime with a minimal amount of work.
+The router tells you which class method (called handlers as of now) handles a request coming to a specific URI. The default router used by Woohoo Labs. API Framework is the library of Nikita Popov, because of its elegance and performance. You can read more about it [clicking here](http://nikic.github.io/2014/02/18/Fast-request-routing-using-regular-expressions.html). Of course if you weren't satisfied with it, you can change it anytime with a minimal amount of work.
 
 ### Discoverer
 
@@ -76,7 +76,7 @@ A Discoverer simplifies routing but you are absolutely free to use them or not. 
 
 For Woohoo Labs. API Framework, the container is only a class which is capable to instantiate any handlers if you provide them their fully qualified class name (in fact, containers are called IoC Containers and they are much more then described above). The build-in container is a really naive one: it uses pure PHP reflection to create a handler object. If you want to use a more clever IoC Container which is [Container-Interop compliant](https://github.com/container-interop/container-interop) (like PHP-DI), all you have to do is to pass its reference to the framework.
 
-If your chosen container doesn't support this interface (like Pimple or Dice), you only have to write an adapter for them extending that.
+If your chosen container doesn't support this interface (like Pimple or Dice), you only have to write an adapter for them implementing the common interface.
 
 ### Serializer
 
@@ -94,7 +94,7 @@ Again, the response is the Object-Oriented representation of an HTTP response. I
 
 A responder is capable of sending a response into the ether. For this purpose, Symfony's HTTP Foundation is used by a wrapper class which implements the ``ResponderInterface``.
 
-## Usage
+## Usage of Woohoo Labs. API Framework
 
 The workflow with Woohoo Labs. API Framework is quite straightforward. You will only need Composer for the dependencies and the autoloading.
 
@@ -102,14 +102,12 @@ The workflow with Woohoo Labs. API Framework is quite straightforward. You will 
 ```json
 {
     "require": {
-        ...,
         "woohoolabs/api-framework": "0.*"
     }
-    ...
 }
 ```
 
-- Update your dependencies via Composer:
+- Update your dependencies with Composer:
 ```console
 composer update
 ```
@@ -122,7 +120,7 @@ require "vendor/autoload.php"
 
 - Instantiate and configure the framework:
 
-First, let's create the configuration object:
+First, create the configuration object:
 
 ```php
 $config= new \WoohooLabs\ApiFramework\Config();
@@ -130,7 +128,7 @@ $config->setDevelopmentMode(true);
 $config->setCaching(false);
 ```
 
-It will set the framework to run in development mode and turn off the caching. Now, let's define some routes:
+It will set the framework to run in development mode and turn off the caching. Now, define some routes:
 
 ```php
 $router= new FastRouter($config);
@@ -138,7 +136,7 @@ $router->addRoute("GET", "users", ["app\\controllers\\UserController", "getUsers
 $router->addRoute("POST", "users", ["app\\controllers\\UserController", "createUser"]);
 ```
 
-Finally, let's launch the framework and make use of the router created above:
+Finally, launch the framework and make use of the router created above:
 
 ```php
 $apiFramework= new ApiFramework($config);
@@ -147,7 +145,7 @@ $apiFramework->setRouter($router);
 
 - Define the handlers for the ``UserController``:
 
-There are two important things to know here: each handler will receive a ``request`` argument and should provide a return value of the ``ResponseInterface`` type.
+There are two important things to know here: each handler will receive a ``request`` argument and must provide a return value of the ``ResponseInterface`` type.
 
 ```php
 namespace app\controllers;
@@ -163,9 +161,7 @@ class UserController
      */
     public function getUsers(RequestInterface $request)
     {
-        ...
         $users= ["Johnny", "Jacky", "James", "Arny"];
-        ...
         $response= new Response();
         $response->setContent($users);
         return $response;
@@ -177,9 +173,7 @@ class UserController
      */
      public function createUser(RequestInterface $request)
      {
-        ...
         $user= $request->getDataAsArray();
-        ...
         $response= new Response();
         $response->setContent(["id" => 1]);
         return $response;
@@ -189,5 +183,4 @@ class UserController
 
 Of course, you should remain [DRY](http://en.wikipedia.org/wiki/Don't_repeat_yourself) and not copy all this response logic throughout your controllers. Maybe you can create a Factory for it.
 
-You have just learned how to use Woohoo Labs. API Framework!
-```
+#### Congratualitions, you have just learned how to use Woohoo Labs. API Framework! ####
