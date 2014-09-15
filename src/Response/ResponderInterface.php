@@ -4,7 +4,7 @@ namespace WoohooLabs\ApiFramework\Response;
 interface ResponderInterface
 {
     /**
-     * @param \WoohooLabs\ApiFramework\Response\ResponseInfoInterface $responseInfo
+     * @param \WoohooLabs\ApiFramework\Response\ResponseInterface $responseInfo
      */
-    public function respond(ResponseInfoInterface $responseInfo);
+    public function respond(ResponseInterface $responseInfo);
 }

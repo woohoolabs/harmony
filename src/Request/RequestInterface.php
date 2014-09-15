@@ -121,5 +121,5 @@ interface RequestInterface
     /**
      * @return array
      */
-    public function getRequestParametersAsArray();
+    public function getDataAsArray();
 }

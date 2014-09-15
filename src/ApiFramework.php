@@ -8,7 +8,6 @@ use WoohooLabs\ApiFramework\Request\FoundationRequest;
 use WoohooLabs\ApiFramework\Request\RequestInterface;
 use WoohooLabs\ApiFramework\Response\FoundationResponder;
 use WoohooLabs\ApiFramework\Response\ResponderInterface;
-use WoohooLabs\ApiFramework\Response\ResponseInfo;
 use WoohooLabs\ApiFramework\Routing\FastRouter;
 use WoohooLabs\ApiFramework\Routing\RouterInterface;
 use WoohooLabs\ApiFramework\Serializer\JmsSerializer;
@@ -62,9 +61,9 @@ class ApiFramework
     protected $handler;
 
     /**
-     * @var \WoohooLabs\ApiFramework\Response\ResponseInfoInterface
+     * @var \WoohooLabs\ApiFramework\Response\ResponseInterface
      */
-    protected $responseInfo;
+    protected $response;
 
     /**
      * @param Config $config
@@ -132,7 +131,7 @@ class ApiFramework
             call_user_func([$this->handler, $this->config->getPreHandlerHookName()]);
         }
 
-        $this->responseInfo= $this->handler->{$this->handlerInfo->getMethodName()}($this->request);
+        $this->response= $this->handler->{$this->handlerInfo->getMethodName()}($this->request);
 
         if($this->config->getPostHandlerHookName() != null && method_exists($this->handler, $this->config->getPostHandlerHookName()) == true) {
             call_user_func([$this->handler, $this->config->getPostHandlerHookName()]);
@@ -141,7 +140,7 @@ class ApiFramework
 
     protected function respond()
     {
-        $this->responder->respond($this->responseInfo);
+        $this->responder->respond($this->response);
     }
 
     /**

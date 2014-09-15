@@ -30,9 +30,9 @@ class FoundationResponder implements ResponderInterface
     }
 
     /**
-     * @param \WoohooLabs\ApiFramework\Response\ResponseInfoInterface $responseInfo
+     * @param \WoohooLabs\ApiFramework\Response\ResponseInterface $responseInfo
      */
-    public function respond(ResponseInfoInterface $responseInfo)
+    public function respond(ResponseInterface $responseInfo)
     {
         $this->response->setProtocolVersion($responseInfo->getProtocolVersion());
         $this->response->setStatusCode($responseInfo->getStatusCode(), $responseInfo->getReasonPhrase());

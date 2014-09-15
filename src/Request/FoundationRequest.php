@@ -222,7 +222,7 @@ class FoundationRequest implements RequestInterface
     /**
      * @return array
      */
-    public function getRequestParametersAsArray()
+    public function getDataAsArray()
     {
         if ($this->requestParameters == null) {
             if ($this->getMethod() == HttpMethods::GET || HttpMethods::HEAD || HttpMethods::DELETE) {

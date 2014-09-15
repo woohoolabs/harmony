@@ -3,7 +3,7 @@ namespace WoohooLabs\ApiFramework\Response;
 
 use WoohooLabs\ApiFramework\Request\HttpHeaders;
 
-class ResponseInfo implements ResponseInfoInterface
+class Response implements ResponseInterface
 {
     /**
      * @var string

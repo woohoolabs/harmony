@@ -1,7 +1,7 @@
 <?php
 namespace WoohooLabs\ApiFramework\Response;
 
-interface ResponseInfoInterface
+interface ResponseInterface
 {
     /**
      * @return string
