@@ -1,7 +1,7 @@
 {
     "name":"woohoolabs/api-framework",
     "description":"Woohoo Labs. API Framework",
-    "type":"project",
+    "type":"library",
     "keywords":["Woohoo Labs.", "API", "REST", "Swagger"],
     "homepage":"http://api-framework.woohoolabs.com",
     "license":"MIT",
@@ -16,7 +16,8 @@
         "container-interop/container-interop": "~1.0",
         "symfony/http-foundation": "*",
         "nikic/fast-route": "*@dev",
-        "jms/serializer": "*"
+        "jms/serializer": "*",
+		"symfony/yaml": "*"
     },
     "autoload": {
         "psr-4": {

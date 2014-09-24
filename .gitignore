@@ -1,16 +1,6 @@
 # Unnecessary files
 .git/
 .idea/
-.vagrant/
-*.phar
-*.mo
-*.mwb.bak
-cache.properties
-*.box
-*.vdi
-.bash_history
-.ssh/
-.cache/
 
 # Project
 vendor/

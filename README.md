@@ -6,7 +6,7 @@ Our aim was to create an invisible, easily extensible, but first of all, extreme
 
 ## "Long live is the framework"
 
-The general problem with frameworks is that they require you to use one set of tools they have. Initially, everything seems to be OK, because either the scope of the project is small or you are sure that you've found the best framework ever. But as soon as your requirements change (e.g. things get more complicated, you have to maintain the application longer than you thought or you need more scaling), there is a good chance that you will face issues with your framework.
+The general problem with frameworks is that they suggest you using the set of tools they have. Initially, everything seems to be OK, because either the scope of the project is small or you are sure that you've found the best framework ever. But as soon as your requirements change (e.g. things get more complicated, you have to maintain the application longer than you thought or you need more scaling), there is a good chance that you will face issues with your framework.
 
 As Phil Sturgeon pointed out in his great [blog post](http://philsturgeon.uk/blog/2014/01/the-framework-is-dead-long-live-the-framework), in a complex enough situation, with a skilled enough development team, you don't need a framework at all in its original meaning thanks to the modern era of Composer. All you need is only a set of interpluggable components of your preference which can be easily integrated into your application.
 
