@@ -98,7 +98,7 @@ A responder is capable of sending a response into the ether. For this purpose, S
 
 The workflow with Woohoo Labs. API Framework is quite straightforward. You will only need Composer for the dependencies and the autoloading.
 
-#### Add the following to your composer.json:
+##### Add the following to your composer.json:
 ```json
 {
     "require": {
@@ -120,19 +120,19 @@ Furthermore, if you want to use the built-in components (like the autoloader, th
 }
 ```
 
-#### Update your dependencies with Composer:
+##### Update your dependencies with Composer:
 
 ```bash
 $ composer update
 ```
 
-#### Autoload the classes in your bootstrap (if you haven't already done so):
+##### Autoload the classes in your bootstrap (if you haven't already done so):
 
 ```php
 require "vendor/autoload.php"
 ```
 
-#### Instantiate and configure the framework:
+##### Instantiate and configure the framework:
 
 First, create the configuration object:
 
@@ -156,8 +156,8 @@ $router->addRoute("POST", "users", ["App\\Controllers\\UserController", "createU
 use App\Controllers\UserController;
 
 $router= new FastRouter($config);
-$router->addRoute("GET", "users", [UserController::class", "getUsers"]);
-$router->addRoute("POST", "users", [UserController::class", "createUser"]);
+$router->addRoute("GET", "users", [UserController::class, "getUsers"]);
+$router->addRoute("POST", "users", [UserController::class, "createUser"]);
 ```
 
 Finally, launch the framework and make use of the router created above:
@@ -167,7 +167,7 @@ $apiFramework= new ApiFramework($config);
 $apiFramework->setRouter($router);
 ```
 
-#### Define the handlers for the ``UserController``:
+##### Define the handlers for the ``UserController``:
 
 There are two important things to know here: each handler will receive a ``request`` argument and must provide a return value of the ``ResponseInterface`` type.
 
