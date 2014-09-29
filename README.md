@@ -98,7 +98,7 @@ A responder is capable of sending a response into the ether. For this purpose, S
 
 The workflow with Woohoo Labs. API Framework is quite straightforward. You will only need Composer for the dependencies and the autoloading.
 
-### Add the following to your composer.json:
+#### Add the following to your composer.json:
 ```json
 {
     "require": {
@@ -120,19 +120,19 @@ Furthermore, if you want to use the built-in components (like the autoloader, th
 }
 ```
 
-### Update your dependencies with Composer:
+#### Update your dependencies with Composer:
 
 ```bash
 $ composer update
 ```
 
-### Autoload the classes in your bootstrap (if you haven't already done so):
+#### Autoload the classes in your bootstrap (if you haven't already done so):
 
 ```php
 require "vendor/autoload.php"
 ```
 
-### Instantiate and configure the framework:
+#### Instantiate and configure the framework:
 
 First, create the configuration object:
 
@@ -167,7 +167,7 @@ $apiFramework= new ApiFramework($config);
 $apiFramework->setRouter($router);
 ```
 
-### Define the handlers for the ``UserController``:
+#### Define the handlers for the ``UserController``:
 
 There are two important things to know here: each handler will receive a ``request`` argument and must provide a return value of the ``ResponseInterface`` type.
 
@@ -205,7 +205,7 @@ class UserController
 }
 ```
 
-Of course, you should remain [DRY](http://en.wikipedia.org/wiki/Don't_repeat_yourself) and not copy all this response logic throughout your controllers. Maybe you can create a Factory for it.
+Of course, you should remain [DRY](http://en.wikipedia.org/wiki/Don't_repeat_yourself) and not copy all this response logic throughout your controllers.
 
 ## Advanced Usage of Woohoo Labs. API Framework
 
