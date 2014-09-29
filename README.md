@@ -34,7 +34,7 @@ And finally, there are full stack and even micro frameworks with a long list of 
 
 ## Use cases of Woohoo Labs. API Framework
 
-Of course, the ideas above doesn't suit the needs of all projects and teams. Firstly, this framework works best for API-s. Furthermore, less experienced teams should probably choose a less lenient framework with more features in order to speed up development in the initial phase.
+Of course, the ideas above don't suit the needs of all projects and teams. Firstly, this framework works best for API-s. Furthermore, less experienced teams should probably choose a less lenient framework with more features in order to speed up development in the initial phase.
 
 To sum up, Woohoo Labs. API Framework is most effective for teams with a solid understanding of API development. Its flexibility is more advantageous if you need complex tools like IoC Containers or API documentation tools like Swagger.
 
@@ -70,7 +70,7 @@ The router tells you which class method (called handlers as of now) handles a re
 
 The notion of Discoverer was introduced to aid defining routes. Sometimes you don't want to call the ``addRoute()`` method for each route. A reason could be that you have defined your routes elsewhere and you want to avoid duplication of these definitions which can be subjects of frequent change during development.
 
-A Discoverer simplifies routing but you are absolutely free to use them or not. Currently, we only provide one Discoverer which integrates the Swagger 2.0 spec into you application.
+A Discoverer simplifies routing but you are absolutely free to use them. Currently, we only provide one Discoverer which integrates the Swagger 2.0 spec into you application.
 
 ### Container
 
@@ -94,7 +94,7 @@ Again, the response is the Object-Oriented representation of an HTTP response. I
 
 A responder is capable of sending a response into the ether. For this purpose, Symfony's HTTP Foundation is used by a wrapper class which implements the ``ResponderInterface``.
 
-## Usage of Woohoo Labs. API Framework
+## Basic Usage of Woohoo Labs. API Framework
 
 The workflow with Woohoo Labs. API Framework is quite straightforward. You will only need Composer for the dependencies and the autoloading.
 
@@ -103,6 +103,19 @@ The workflow with Woohoo Labs. API Framework is quite straightforward. You will 
 {
     "require": {
         "woohoolabs/api-framework": "0.*"
+    }
+}
+```
+
+Furthermore, if you want to use the built-in components (like the autoloader, the serializer etc.) then you also have to add the following dependencies to the _require_ section of your composer.json:
+
+```json
+{
+    "require": {
+        "symfony/http-foundation": "*",
+        "nikic/fast-route": "*@dev",
+        "jms/serializer": "*",
+        "symfony/yaml": "*"
     }
 }
 ```
@@ -182,5 +195,13 @@ class UserController
 ```
 
 Of course, you should remain [DRY](http://en.wikipedia.org/wiki/Don't_repeat_yourself) and not copy all this response logic throughout your controllers. Maybe you can create a Factory for it.
+
+## Advanced Usage of Woohoo Labs. API Framework
+
+### Hooks
+
+Hooking enables you to get the control before and/or after the dispatching. If you specify a ``preHook`` method in your handler class then it will be called before the handler method. The same way, if you specify a ``postHook`` method in your handler class then it will be dispatched after the original handler method.
+
+And you can even override the name of the hooks in the configuration: so if you have already had a method like ``preDispatch()`` then you can use it easily!
 
 #### Congratualitions, you have just learned how to use Woohoo Labs. API Framework! ####
