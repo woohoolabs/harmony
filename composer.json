@@ -13,11 +13,13 @@
     ],
     "require":{
         "php":">=5.4.0",
-        "container-interop/container-interop": "~1.0",
+        "container-interop/container-interop": "~1.0"
+    },
+    "require-dev":{
         "symfony/http-foundation": "*",
         "nikic/fast-route": "*@dev",
         "jms/serializer": "*",
-		"symfony/yaml": "*"
+        "symfony/yaml": "*"
     },
     "autoload": {
         "psr-4": {
