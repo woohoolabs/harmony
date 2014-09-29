@@ -117,7 +117,7 @@ class ApiFramework
      */
     protected function route()
     {
-        $this->handlerInfo= $this->router->getHandlerInfo($this->request->getMethod(), $this->request->getPath());
+        $this->handlerInfo= $this->router->getHandlerInfo($this->request->getMethod(), $this->request->getUri());
         $this->request->setPathParameters($this->handlerInfo->getParameters());
         $this->handler= $this->container->get($this->handlerInfo->getClassName());
     }
