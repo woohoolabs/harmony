@@ -91,7 +91,7 @@ class FoundationRequest implements RequestInterface
      */
     public function getUri()
     {
-        return $this->request->getRequestUri();
+        return $this->request->getPathInfo();
     }
 
     /**
@@ -217,6 +217,19 @@ class FoundationRequest implements RequestInterface
     public function getHeader($name)
     {
         return $this->request->headers->get($name, null);
+    }
+
+    /**
+     * @return array
+     */
+    public function getETags()
+    {
+        return $this->request->getETags();
+    }
+
+    public function isNoCache()
+    {
+        return $this->request->isNoCache();
     }
 
     /**

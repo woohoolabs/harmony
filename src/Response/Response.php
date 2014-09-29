@@ -1,10 +1,63 @@
 <?php
 namespace WoohooLabs\ApiFramework\Response;
 
-use WoohooLabs\ApiFramework\Request\HttpHeaders;
-
 class Response implements ResponseInterface
 {
+    /**
+     * @var string
+     */
+    private $contentType= "";
+
+    /**
+     * @var string
+     */
+    private $contentCharset= "UTF-8";
+
+    /**
+     * @var string
+     */
+    private $contentLanguage= "en";
+
+    /**
+     * @var string
+     */
+    private $contentEncoding= "";
+
+    /**
+     * @var string|null
+     */
+    private $mime= null;
+
+    /**
+     * @var \DateTime|null
+     */
+    private $expires= null;
+
+    /**
+     * @var string|null
+     */
+    private $eTag= null;
+
+    /**
+     * @var int
+     */
+    private $ttl= 0;
+
+    /**
+     * @var int
+     */
+    private $maxAge= 0;
+
+    /**
+     * @var \DateTime|null
+     */
+    private $lastModified= null;
+
+    /**
+     * @var string
+     */
+    private $customHeaders= [];
+
     /**
      * @var string
      */
@@ -26,16 +79,6 @@ class Response implements ResponseInterface
     private $reasonPhrase= null;
 
     /**
-     * @var string
-     */
-    private $headers= [];
-
-    /**
-     * @var string|null
-     */
-    private $mime= null;
-
-    /**
      * @var Object|array
      */
     private $content= array();
@@ -43,33 +86,69 @@ class Response implements ResponseInterface
     /**
      * @return string
      */
-    public function getCharset()
+    public function getContentType()
     {
-        return $this->getHeader(HttpHeaders::CHARSET);
+        return $this->contentType;
     }
 
     /**
-     * @param string $charset
+     * @param string $contentType
+     * @param string|null $mime
      */
-    public function setCharset($charset)
+    public function setContentType($contentType, $mime = null)
     {
-        $this->headers[HttpHeaders::CHARSET] = $charset;
+        if ($mime == null) {
+            $this->setMime($contentType);
+        }
+        $this->contentType = $contentType;
     }
 
     /**
-     * @return array|Object
+     * @return string
      */
-    public function getContent()
+    public function getContentCharset()
     {
-        return $this->content;
+        return $this->contentCharset;
     }
 
     /**
-     * @param array|Object $content
+     * @param string $contentCharset
      */
-    public function setContent($content)
+    public function setContentCharset($contentCharset)
     {
-        $this->content = $content;
+        $this->contentCharset = $contentCharset;
+    }
+
+    /**
+     * @return string
+     */
+    public function getContentLanguage()
+    {
+        return $this->contentLanguage;
+    }
+
+    /**
+     * @param string $contentLanguage
+     */
+    public function setContentLanguage($contentLanguage)
+    {
+        $this->contentLanguage = $contentLanguage;
+    }
+
+    /**
+     * @return string
+     */
+    public function getContentEncoding()
+    {
+        return $this->contentEncoding;
+    }
+
+    /**
+     * @param string $contentEncoding
+     */
+    public function setContentEncoding($contentEncoding)
+    {
+        $this->contentEncoding = $contentEncoding;
     }
 
     /**
@@ -92,56 +171,85 @@ class Response implements ResponseInterface
         $this->mime = $mime;
     }
 
+
     /**
-     * @return string
+     * @return \DateTime|null
      */
-    public function getEncoding()
+    public function getExpires()
     {
-        return $this->getHeader(HttpHeaders::ENCODING);
+        return $this->expires;
     }
 
     /**
-     * @param string $encoding
+     * @param \DateTime|null $expires
      */
-    public function setEncoding($encoding)
+    public function setExpires($expires)
     {
-        $this->headers[HttpHeaders::ENCODING] = $encoding;
+        $this->expires = $expires;
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getLanguage()
+    public function getETag()
     {
-        return $this->getHeader(HttpHeaders::LANGUAGE);
+        return $this->eTag;
     }
 
     /**
-     * @param string $language
+     * @param string|null $eTag
      */
-    public function setLanguage($language)
+    public function setETag($eTag)
     {
-        $this->headers[HttpHeaders::LANGUAGE] = $language;
+        $this->eTag = $eTag;
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getContentType()
+    public function getTtl()
     {
-        return $this->getHeader(HttpHeaders::CONTENT_TYPE);
+        return $this->ttl;
     }
 
     /**
-     * @param string $contentType
-     * @param string|null $mime
+     * @param int $ttl
      */
-    public function setContentType($contentType, $mime = null)
+    public function setTtl($ttl)
     {
-        if ($mime == null) {
-            $this->setMime($contentType);
-        }
-        $this->headers[HttpHeaders::CONTENT_TYPE] = $contentType;
+        $this->ttl = $ttl;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMaxAge()
+    {
+        return $this->maxAge;
+    }
+
+    /**
+     * @param int $maxAge
+     */
+    public function setMaxAge($maxAge)
+    {
+        $this->maxAge = $maxAge;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getLastModified()
+    {
+        return $this->lastModified;
+    }
+
+    /**
+     * @param \DateTime|null $lastModified
+     */
+    public function setLastModified($lastModified)
+    {
+        $this->lastModified = $lastModified;
     }
 
     /**
@@ -219,26 +327,42 @@ class Response implements ResponseInterface
     /**
      * @return array
      */
-    public function getHeaders()
+    public function getCustomHeaders()
     {
-        return $this->headers;
+        return $this->customHeaders;
     }
 
     /**
      * @param string $name
      * @return string
      */
-    public function getHeader($name)
+    public function getCustomHeader($name)
     {
-        return isset($this->headers[$name]) ? $this->headers[$name] : "";
+        return isset($this->customHeaders[$name]) ? $this->customHeaders[$name] : "";
     }
 
     /**
      * @param string $name
      * @param string $value
      */
-    public function setHeader($name, $value)
+    public function setCustomHeader($name, $value)
     {
-        $this->headers[$name]= $value;
+        $this->customHeaders[$name]= $value;
+    }
+
+    /**
+     * @return array|Object
+     */
+    public function getContent()
+    {
+        return $this->content;
+    }
+
+    /**
+     * @param array|Object $content
+     */
+    public function setContent($content)
+    {
+        $this->content = $content;
     }
 }

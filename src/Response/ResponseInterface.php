@@ -46,22 +46,22 @@ interface ResponseInterface
     /**
      * @return string
      */
-    public function getCharset();
+    public function getContentCharset();
 
     /**
      * @param string $charset
      */
-    public function setCharset($charset);
+    public function setContentCharset($charset);
 
     /**
      * @return string
      */
-    public function getEncoding();
+    public function getContentEncoding();
 
     /**
      * @param string $encoding
      */
-    public function setEncoding($encoding);
+    public function setContentEncoding($encoding);
 
     /**
      * @return string
@@ -87,23 +87,71 @@ interface ResponseInterface
     /**
      * @return string
      */
-    public function getLanguage();
+    public function getContentLanguage();
 
     /**
      * @param string $language
      */
-    public function setLanguage($language);
+    public function setContentLanguage($language);
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getExpires();
+    /**
+     * @param \DateTime|null $expires
+     */
+    public function setExpires($expires);
+
+    /**
+     * @return null|string
+     */
+    public function getETag();
+
+    /**
+     * @param string|null $eTag
+     */
+    public function setETag($eTag);
+
+    /**
+     * @return int
+     */
+    public function getTtl();
+    /**
+     * @param int $ttl
+     */
+    public function setTtl($ttl);
+
+    /**
+     * @return int
+     */
+    public function getMaxAge();
+
+    /**
+     * @param int $maxAge
+     */
+    public function setMaxAge($maxAge);
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getLastModified();
+
+    /**
+     * @param \DateTime|null $lastModified
+     */
+    public function setLastModified($lastModified);
 
     /**
      * @return array
      */
-    public function getHeaders();
+    public function getCustomHeaders();
 
     /**
      * @param string $name
      * @param string $value
      */
-    public function setHeader($name, $value);
+    public function setCustomHeader($name, $value);
 
     /**
      * @return Object|array

@@ -113,6 +113,16 @@ interface RequestInterface
     public function isXmlHttpRequest();
 
     /**
+     * @return array
+     */
+    public function getETags();
+
+    /**
+     * @return boolean
+     */
+    public function isNoCache();
+
+    /**
      * @param string $name
      * @return string|null
      */

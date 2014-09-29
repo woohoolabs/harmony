@@ -30,14 +30,20 @@ class FoundationResponder implements ResponderInterface
     }
 
     /**
-     * @param \WoohooLabs\ApiFramework\Response\ResponseInterface $responseInfo
+     * @param \WoohooLabs\ApiFramework\Response\ResponseInterface $response
      */
-    public function respond(ResponseInterface $responseInfo)
+    public function respond(ResponseInterface $response)
     {
-        $this->response->setProtocolVersion($responseInfo->getProtocolVersion());
-        $this->response->setStatusCode($responseInfo->getStatusCode(), $responseInfo->getReasonPhrase());
-        $this->response->headers->add($responseInfo->getHeaders());
-        $this->response->setContent($this->serializer->serialize($responseInfo->getContent(), $responseInfo->getContentType()));
+        $this->response->setProtocolVersion($response->getProtocolVersion());
+        $this->response->setStatusCode($response->getStatusCode(), $response->getReasonPhrase());
+
+        $this->response->setCharset($response->getContentCharset());
+        $this->response->setEtag($response->getETag());
+        $this->response->setExpires($response->getExpires());
+        $this->response->setMaxAge($response->getMaxAge());
+        $this->response->setTtl($response->getTtl());
+
+        $this->response->setContent($this->serializer->serialize($response->getContent(), $response->getContentType()));
 
         $this->response->send();
     }
