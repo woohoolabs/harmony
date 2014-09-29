@@ -98,7 +98,7 @@ A responder is capable of sending a response into the ether. For this purpose, S
 
 The workflow with Woohoo Labs. API Framework is quite straightforward. You will only need Composer for the dependencies and the autoloading.
 
-- Add the following to your composer.json:
+### Add the following to your composer.json:
 ```json
 {
     "require": {
@@ -120,18 +120,19 @@ Furthermore, if you want to use the built-in components (like the autoloader, th
 }
 ```
 
-- Update your dependencies with Composer:
-```console
-composer update
+### Update your dependencies with Composer:
+
+```bash
+$ composer update
 ```
 
-- Autoload the classes in your bootstrap (if you haven't already done so):
+### Autoload the classes in your bootstrap (if you haven't already done so):
 
 ```php
 require "vendor/autoload.php"
 ```
 
-- Instantiate and configure the framework:
+### Instantiate and configure the framework:
 
 First, create the configuration object:
 
@@ -145,8 +146,18 @@ It will set the framework to run in development mode and turn off the caching. N
 
 ```php
 $router= new FastRouter($config);
-$router->addRoute("GET", "users", ["app\\controllers\\UserController", "getUsers"]);
-$router->addRoute("POST", "users", ["app\\controllers\\UserController", "createUser"]);
+$router->addRoute("GET", "users", ["App\\Controllers\\UserController", "getUsers"]);
+$router->addRoute("POST", "users", ["App\\Controllers\\UserController", "createUser"]);
+```
+
+**Reminder**: Since 5.5, you are able to use the [``::class`` keyword](http://php.net/manual/en/language.oop5.basic.php#language.oop5.basic.class.class) to resolve class names:
+
+```php
+use App\Controllers\UserController;
+
+$router= new FastRouter($config);
+$router->addRoute("GET", "users", [UserController::class", "getUsers"]);
+$router->addRoute("POST", "users", [UserController::class", "createUser"]);
 ```
 
 Finally, launch the framework and make use of the router created above:
@@ -156,7 +167,7 @@ $apiFramework= new ApiFramework($config);
 $apiFramework->setRouter($router);
 ```
 
-- Define the handlers for the ``UserController``:
+### Define the handlers for the ``UserController``:
 
 There are two important things to know here: each handler will receive a ``request`` argument and must provide a return value of the ``ResponseInterface`` type.
 
@@ -200,7 +211,7 @@ Of course, you should remain [DRY](http://en.wikipedia.org/wiki/Don't_repeat_you
 
 ### Hooks
 
-Hooking enables you to get the control before and/or after the dispatching. If you specify a ``preHook`` method in your handler class then it will be called before the handler method. The same way, if you specify a ``postHook`` method in your handler class then it will be dispatched after the original handler method.
+Hooking enables you to get the control before and/or after the dispatching. If you specify a ``preHook()`` method in your handler class then it will be called before the handler method. The same way, if you specify a ``postHook()`` method in your handler class then it will be dispatched after the original handler method. Important to note that these methods must expect a ``Request`` object as the only argument.
 
 And you can even override the name of the hooks in the configuration: so if you have already had a method like ``preDispatch()`` then you can use it easily!
 
