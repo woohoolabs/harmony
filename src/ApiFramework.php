@@ -51,9 +51,9 @@ class ApiFramework
     protected $request;
 
     /**
-     * @var \WoohooLabs\ApiFramework\Routing\HandlerInfo
+     * @var \WoohooLabs\ApiFramework\Dispatcher\AbstractDispatcher
      */
-    protected $handlerInfo;
+    protected $dispatcher;
 
     /**
      * @var Object
@@ -73,7 +73,7 @@ class ApiFramework
         $this->config = $config;
     }
 
-    public function go()
+    public function work()
     {
         $this->initialize();
         $this->discover();
@@ -89,7 +89,7 @@ class ApiFramework
         }
 
         if ($this->router == null) {
-            $this->router = new FastRouter($this->config);
+            $this->router = new FastRouter($this->config, $this->container);
         }
 
         if ($this->serializer == null) {
@@ -117,9 +117,8 @@ class ApiFramework
      */
     protected function route()
     {
-        $this->handlerInfo= $this->router->getHandlerInfo($this->request->getMethod(), $this->request->getUri());
-        $this->request->setPathParameters($this->handlerInfo->getParameters());
-        $this->handler= $this->container->get($this->handlerInfo->getClassName());
+        $this->dispatcher= $this->router->getDispatcher($this->request->getMethod(), $this->request->getUri());
+        $this->request->setUriParameters($this->dispatcher->getParameters());
     }
 
     /**
@@ -127,15 +126,7 @@ class ApiFramework
      */
     protected function dispatch()
     {
-        if($this->config->getPreHandlerHookName() != null && method_exists($this->handler, $this->config->getPreHandlerHookName()) == true) {
-            call_user_func([$this->handler, $this->config->getPreHandlerHookName()]);
-        }
-
-        $this->response= $this->handler->{$this->handlerInfo->getMethodName()}($this->request);
-
-        if($this->config->getPostHandlerHookName() != null && method_exists($this->handler, $this->config->getPostHandlerHookName()) == true) {
-            call_user_func([$this->handler, $this->config->getPostHandlerHookName()]);
-        }
+        $this->response= $this->dispatcher->dispatch($this->request);
     }
 
     protected function respond()
@@ -149,14 +140,6 @@ class ApiFramework
     public function setDiscoverer(DiscovererInterface $discoverer)
     {
         $this->discoverer = $discoverer;
-    }
-
-    /**
-     * @return \WoohooLabs\ApiFramework\Routing\RouterInterface
-     */
-    public function getRouter()
-    {
-        return $this->router;
     }
 
     /**

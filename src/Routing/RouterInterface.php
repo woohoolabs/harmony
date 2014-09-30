@@ -4,16 +4,24 @@ namespace WoohooLabs\ApiFramework\Routing;
 interface RouterInterface
 {
     /**
-     * @param string $method
+     * @param string $verb
      * @param string $route
-     * @param array $handler
+     * @param string $className
+     * @param string $methodName
      */
-    public function addRoute($method, $route, array $handler);
+    public function addRoute($verb, $route, $className, $methodName);
+
+    /**
+     * @param string $verb
+     * @param string $route
+     * @param callable $handler
+     */
+    public function addCallbackRoute($verb, $route, \Closure $handler);
 
     /**
      * @param string $method
      * @param string $uri
-     * @return \WoohooLabs\ApiFramework\Routing\HandlerInfo
+     * @return \WoohooLabs\ApiFramework\Dispatcher\AbstractDispatcher
      */
-    public function getHandlerInfo($method, $uri);
+    public function getDispatcher($method, $uri);
 }

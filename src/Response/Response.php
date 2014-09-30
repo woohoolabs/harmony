@@ -29,6 +29,11 @@ class Response implements ResponseInterface
     private $mime= null;
 
     /**
+     * @var string|null
+     */
+    private $location= null;
+
+    /**
      * @var \DateTime|null
      */
     private $expires= null;
@@ -171,6 +176,31 @@ class Response implements ResponseInterface
         $this->mime = $mime;
     }
 
+    /**
+     * @return boolean
+     */
+    public function isRedirected()
+    {
+        return ($this->getStatusCode() == 304 || $this->getStatusCode() == 307) && $this->location != null;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getRedirectionUrl()
+    {
+        return $this->location;
+    }
+
+    /**
+     * @param $url
+     * @param boolean $isPermanent
+     */
+    public function setRedirection($url, $isPermanent = true)
+    {
+        $this->location= $url;
+        $this->setStatusCode($isPermanent == true ? 301 : 307);
+    }
 
     /**
      * @return \DateTime|null

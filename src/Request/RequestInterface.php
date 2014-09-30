@@ -42,19 +42,25 @@ interface RequestInterface
     public function getUri();
 
     /**
-     * @return string
-     */
-    public function getPath();
-
-    /**
      * @return array
      */
-    public function getPathParameters();
+    public function getUriParameters();
+
+    /**
+     * @param string $name
+     * @return mixed|null
+     */
+    public function getUriParameter($name);
 
     /**
      * @param array $parameters
      */
-    public function setPathParameters(array $parameters);
+    public function setUriParameters(array $parameters);
+
+    /**
+     * @return string
+     */
+    public function getPath();
 
     /**
      * @return string
@@ -123,10 +129,15 @@ interface RequestInterface
     public function isNoCache();
 
     /**
+     * @return array
+     */
+    public function getCustomHeaders();
+
+    /**
      * @param string $name
      * @return string|null
      */
-    public function getHeader($name);
+    public function getCustomHeader($name);
 
     /**
      * @return array

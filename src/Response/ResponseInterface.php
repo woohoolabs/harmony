@@ -95,6 +95,22 @@ interface ResponseInterface
     public function setContentLanguage($language);
 
     /**
+     * @return boolean
+     */
+    public function isRedirected();
+
+    /**
+     * @return string|null
+     */
+    public function getRedirectionUrl();
+
+    /**
+     * @param $url
+     * @param boolean $isPermanent
+     */
+    public function setRedirection($url, $isPermanent = true);
+
+    /**
      * @return \DateTime|null
      */
     public function getExpires();

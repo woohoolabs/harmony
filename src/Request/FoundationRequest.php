@@ -105,15 +105,24 @@ class FoundationRequest implements RequestInterface
     /**
      * @return array
      */
-    public function getPathParameters()
+    public function getUriParameters()
     {
         return $this->pathParameters;
     }
 
     /**
+     * @param string $name
+     * @return mixed|null
+     */
+    public function getUriParameter($name)
+    {
+        return isset($this->pathParameters[$name]) ? $this->pathParameters[$name] : null;
+    }
+
+    /**
      * @param array $pathParameters
      */
-    public function setPathParameters(array $pathParameters)
+    public function setUriParameters(array $pathParameters)
     {
         $this->pathParameters = $pathParameters;
     }
@@ -214,9 +223,17 @@ class FoundationRequest implements RequestInterface
      * @param string $name
      * @return string|null
      */
-    public function getHeader($name)
+    public function getCustomHeader($name)
     {
         return $this->request->headers->get($name, null);
+    }
+
+    /**
+     * @return array
+     */
+    public function getCustomHeaders()
+    {
+        $this->request->headers->all();
     }
 
     /**
