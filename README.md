@@ -13,14 +13,14 @@ the best framework ever. But as soon as your requirements change (e.g. things ge
 maintain the application longer than you thought or you need more scaling), there is a good chance that you will
 face issues with your framework.
 
-As Phil Sturgeon pointed out in his great [blog post](http://philsturgeon.uk/blog/2014/01/the-framework-is-dead-long-live-the-framework),
+As [Phil Sturgeon](https://twitter.com/philsturgeon) pointed out in his great [blog post](http://philsturgeon.uk/blog/2014/01/the-framework-is-dead-long-live-the-framework),
 in a complex enough situation, with a skilled enough development team, you don't need a framework at all in its
 original meaning thanks to the modern era of Composer. All you need is only a set of inter-pluggable components
 of your preference so that they can be easily integrated into your application.
 
 In conclusion, requirements will always change. What seemed to be a good choice once, it is not enough next time.
 If things are impossible to change in your framework then it might lead to hard times when refactoring your
-application even though the fact that it is decoupled from your project.
+application even though that it is decoupled from your project.
 
 We created API Framework to remedy this issue.
 
@@ -28,23 +28,22 @@ We created API Framework to remedy this issue.
 
 Let's look at a realistic scenario to understand the problem better: you have an MVC framework which has its
 integrated IoC Container and ORM layer. You are pretty happy with these tools. Some weeks later, you discover
-that you would cache your database queries, but the interior ORM doesn't support it. Your application is well
-designed so the change isn't a (very) big deal.
+that you would cache your database queries, but the interior ORM doesn't support it.
 
 Next time you realize that you no longer need an MVC framework as you shifted away from this paradigm and
 started adopting something else - let's say Domain Driven Design. Furthermore you want to reorganize your
-project into bundles. But sadly, your framework neither supports changing the directory structure (it can
+project into bundles. Sadly, your framework neither supports changing the directory structure (it can
 easily happen because of autoloading which came from the old times) nor calling your Controllers as Services
-(your Controllers are rather Application Services by now).
+(you wanted to rename them because by now, your Controllers are rather Application Services).
 
 Later on you will find yourself needing a much more sophisticated or performant IoC Container than the one
 you have. Maybe you need Dice or PHP-DI. But the question emerges: how would you swap the core of the
-framework which instantiates all your controllers? There is no way to do that. So you can't overcome the
+framework which instantiates all your controllers? There is no way to do that. You can't overcome the
 situation this time too (without hacking on the code).
 
 ### Lessons learned
 
-The first situation wanted to have a grasp on that there are full stack and micro frameworks with a
+The first situation had a grasp on that there are full stack and micro frameworks with a
 long list of features and components, but in our opinion, a good framework should conform to the
 [Single Responsibility Principle](http://blog.8thlight.com/uncle-bob/2014/05/08/SingleReponsibilityPrinciple.html):
 they shouldn't provide more than that the user actually needs. For example if you won't make use of the
@@ -77,7 +76,7 @@ less experienced teams should probably choose a less lenient framework with more
 up development in the initial phase.
 
 To sum up, Woohoo Labs. API Framework is most effective for teams with a solid understanding of API development.
-Its flexibility is more advantageous if you need complex tools like IoC Containers or API documentation
+Its flexibility is more advantageous if you need sophisticated tools like IoC Containers or API documentation
 tools like Swagger.
 
 ## Features of Woohoo Labs. API Framework
@@ -106,9 +105,10 @@ of your application (DEV or PROD), caching etc. This configuration will be a POP
 
 ### Router
 
-The router tells you which class method (called handlers as of now) handles a request coming to a specific URI.
-The default router used by Woohoo Labs. API Framework is the library of Nikita Popov, because of its elegance and
-performance. You can read more about it [clicking here](http://nikic.github.io/2014/02/18/Fast-request-routing-using-regular-expressions.html).
+Basically, the router tells you which handler (let it be a class method or an anomymous function) is in charge
+of handling the request coming to a specific URI. The default router used by Woohoo Labs. API Framework is the
+library of [Nikita Popov](https://twitter.com/nikita_ppv), because of its elegance and performance. You can read
+more about it [clicking here](http://nikic.github.io/2014/02/18/Fast-request-routing-using-regular-expressions.html).
 Of course if you weren't satisfied with it, you can change it anytime with a minimal amount of work.
 
 ### Discoverer
@@ -124,7 +124,7 @@ which integrates the Swagger 2.0 spec into you application.
 
 For Woohoo Labs. API Framework, the container is only a class which is capable to instantiate any handlers
 if you provide them their fully qualified class name (in fact, containers are called IoC Containers and
-they are much more then described above). The build-in container is a really naive one: it uses pure PHP
+they are much more then described above). The built-in container is a really naive one: it uses pure PHP
 reflection to create a handler object. If you want to use a more clever IoC Container which is
 [Container-Interop compliant](https://github.com/container-interop/container-interop) (like PHP-DI), all
 you have to do is to pass its reference to the framework.
@@ -152,8 +152,6 @@ Again, the response is the Object-Oriented representation of an HTTP response. I
 
 A responder is capable of sending a response into the ether. For this purpose, Symfony's HTTP Foundation is used
 by a wrapper class which implements the ``ResponderInterface``.
-
-## The Woohoo Labs. API Framework Flow
 
 ## Basic Usage of Woohoo Labs. API Framework
 
@@ -197,7 +195,7 @@ require "vendor/autoload.php"
 
 ##### Instantiate and configure the framework:
 
-You have to create an configuration object for this. In the example below, it will set the framework to run in
+You have to create a configuration object for this step. In the example below, it will set the framework to run in
 development mode and turn off caching:
 
 ```php
@@ -216,23 +214,25 @@ the default implementation.
 
 ```php
 $router= new FastRouter($config);
+
 $router->addCallbackRoute("GET", "/me", function($request) {
     $response= new \WoohooLabs\ApiFramework\Response();
-    $response->setContent("Welcome to the Real World!");
+    $response->setContent("Welcome to the real world!");
     return $response;
 });
+
 $router->addRoute("GET", "/users", "App\\Controllers\\UserController", "getUsers");
 $router->addRoute("POST", "/users/{id}", "App\\Controllers\\UserController", "updateUser");
 ```
 
-**Reminder**: As of PHP 5.5, you are able to use the [``::class`` keyword](http://php.net/manual/en/language.oop5.basic.php#language.oop5.basic.class.class)
+**Reminder**: As of PHP 5.5, you are able to use the [::class keyword](http://php.net/manual/en/language.oop5.basic.php#language.oop5.basic.class.class)
 to resolve class names:
 
 ```php
 $router->addRoute("GET", "/users", \App\Controllers\UserController::class, "getUsers");
 ```
 
-##### Define the handlers for the ``UserController``:
+##### Define the handlers for the routes:
 
 There are two important things to notice here: each handler receives a ``RequestInterface`` object and
 they are expected to return a ``ResponseInterface`` object.
@@ -275,13 +275,14 @@ class UserController
 ```
 
 Of course, you should remain [DRY](http://en.wikipedia.org/wiki/Don't_repeat_yourself) and not
-copy all this stuff with the initialization of the response throughout your handlers. Maybe 
-crating an Adapter for the response or building a Factory would make sense.
+copy all this stuff with the initialization of the response throughout your handlers. Creating
+an Adapter for the response or building a Factory should be fine.
 
-However you don't have to worry about the fact that your handlers become tightly coupled to HTTP.
-Just read [this article](https://igor.io/2013/02/03/http-foundation-value.html) from Igor Wiedler.
+However you don't have to worry that your handlers become tightly coupled to HTTP. Just read
+[this fantastic post](https://igor.io/2013/02/03/http-foundation-value.html) from
+[Igor Wiedler](https://twitter.com/igorwhiletrue).
 
-##### Finally launch the framework:
+##### Finally, launch the framework:
 
 ```php
 $apiFramework->work();
@@ -303,4 +304,4 @@ had a method like ``preDispatch()`` then you can use it easily!
 
 ## Fin
 
-Congratulations, you have just learned how to use Woohoo Labs. API Framework!
+**Congratulations, you have just learned how to use Woohoo Labs. API Framework!**

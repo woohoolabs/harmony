@@ -5,7 +5,6 @@ use FastRoute\DataGenerator\GroupPosBased;
 use FastRoute\RouteCollector;
 use FastRoute\RouteParser\Std;
 use FastRoute\Dispatcher;
-use Interop\Container\ContainerInterface;
 use WoohooLabs\ApiFramework\Config;
 use WoohooLabs\ApiFramework\Dispatcher\ClassDispatcher;
 use WoohooLabs\ApiFramework\Dispatcher\CallbackDispatcher;
@@ -16,11 +15,6 @@ class FastRouter implements RouterInterface
      * @var \WoohooLabs\ApiFramework\Config
      */
     protected $config;
-
-    /**
-     * @var \Interop\Container\ContainerInterface
-     */
-    protected $container;
 
     /**
      * @var \FastRoute\RouteCollector
@@ -38,13 +32,11 @@ class FastRouter implements RouterInterface
     protected $cachePath;
 
     /**
-     * @param \Interop\Container\ContainerInterface $container
      * @param \WoohooLabs\ApiFramework\Config $config
      */
-    public function __construct(Config $config, ContainerInterface $container)
+    public function __construct(Config $config)
     {
         $this->config= $config;
-        $this->container= $container;
         $this->caching= $config->isCaching();
         $this->cachePath= rtrim($config->getCacheDirectory(), "\\/")."/route.cache";
         $this->routes= new RouteCollector(new Std(), new GroupPosBased());
@@ -103,7 +95,7 @@ class FastRouter implements RouterInterface
                 if (is_array($routeInfo[1])) {
                     $className= $routeInfo[1][0];
                     $methodName= $routeInfo[1][1];
-                    return new ClassDispatcher($this->config, $this->container, $className, $methodName, $parameters);
+                    return new ClassDispatcher($className, $methodName, $parameters);
                 }
 
                 return new CallbackDispatcher($routeInfo[1], $parameters);

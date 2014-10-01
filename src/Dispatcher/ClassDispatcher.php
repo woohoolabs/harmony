@@ -28,17 +28,13 @@ class ClassDispatcher extends AbstractDispatcher
     private $methodName;
 
     /**
-     * @param \WoohooLabs\ApiFramework\Config $config
-     * @param \Interop\Container\ContainerInterface $container
      * @param string $className
      * @param string $methodName
      * @param array $parameters
      */
-    public function __construct(Config $config, ContainerInterface $container, $className, $methodName, array $parameters)
+    public function __construct($className, $methodName, array $parameters)
     {
         parent::__construct($parameters);
-        $this->config= $config;
-        $this->container= $container;
         $this->className = $className;
         $this->methodName= $methodName;
     }
@@ -78,5 +74,21 @@ class ClassDispatcher extends AbstractDispatcher
     public function getMethodName()
     {
         return $this->methodName;
+    }
+
+    /**
+     * @param \WoohooLabs\ApiFramework\Config $config
+     */
+    public function setConfig(Config $config)
+    {
+        $this->config= $config;
+    }
+
+    /**
+     * @param \Interop\Container\ContainerInterface $container
+     */
+    public function setContainer(ContainerInterface $container)
+    {
+        $this->container= $container;
     }
 }

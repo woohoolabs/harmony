@@ -4,6 +4,7 @@ namespace WoohooLabs\ApiFramework;
 use Interop\Container\ContainerInterface;
 use WoohooLabs\ApiFramework\Container\BasicContainer;
 use WoohooLabs\ApiFramework\Discovery\DiscovererInterface;
+use WoohooLabs\ApiFramework\Dispatcher\ClassDispatcher;
 use WoohooLabs\ApiFramework\Request\FoundationRequest;
 use WoohooLabs\ApiFramework\Request\RequestInterface;
 use WoohooLabs\ApiFramework\Response\FoundationResponder;
@@ -66,7 +67,7 @@ class ApiFramework
     protected $response;
 
     /**
-     * @param Config $config
+     * @param \WoohooLabs\ApiFramework\Config $config
      */
     public function __construct(Config $config)
     {
@@ -126,6 +127,10 @@ class ApiFramework
      */
     protected function dispatch()
     {
+        if ($this->dispatcher instanceof ClassDispatcher) {
+            $this->dispatcher->setConfig($this->config);
+            $this->dispatcher->setContainer($this->container);
+        }
         $this->response= $this->dispatcher->dispatch($this->request);
     }
 
