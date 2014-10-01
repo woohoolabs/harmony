@@ -199,7 +199,7 @@ You have to create a configuration object for this step. In the example below, i
 development mode and turn off caching:
 
 ```php
-$config= new \WoohooLabs\ApiFramework\Config();
+$config= new Config();
 $config->setDevelopmentMode(true);
 $config->setCaching(false);
 
@@ -215,8 +215,8 @@ the default implementation.
 ```php
 $router= new FastRouter($config);
 
-$router->addCallbackRoute("GET", "/me", function($request) {
-    $response= new \WoohooLabs\ApiFramework\Response();
+$router->addCallbackRoute("GET", "/me", function(RequestInterface $request) {
+    $response= new Response();
     $response->setContent("Welcome to the real world!");
     return $response;
 });
@@ -229,7 +229,7 @@ $router->addRoute("POST", "/users/{id}", "App\\Controllers\\UserController", "up
 to resolve class names:
 
 ```php
-$router->addRoute("GET", "/users", \App\Controllers\UserController::class, "getUsers");
+$router->addRoute("GET", "/users", UserController::class, "getUsers");
 ```
 
 ##### Define the handlers for the routes:
