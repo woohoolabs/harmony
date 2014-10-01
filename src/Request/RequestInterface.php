@@ -91,7 +91,7 @@ interface RequestInterface
     /**
      * @return string|null
      */
-    public function getMediaType();
+    public function getContentType();
 
     /**
      * @return array

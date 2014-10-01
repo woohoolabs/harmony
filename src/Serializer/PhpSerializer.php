@@ -1,36 +1,16 @@
 <?php
 namespace WoohooLabs\ApiFramework\Serializer;
 
-use JMS\Serializer\SerializerBuilder;
-use WoohooLabs\ApiFramework\Config;
 use WoohooLabs\ApiFramework\Request\MimeTypes;
 
-class JmsSerializer implements SerializerInterface
+class PhpSerializer implements SerializerInterface
 {
-    /**
-     * @var \JMS\Serializer\SerializerBuilder
-     */
-    private $serializer;
-
     /**
      * @var array
      */
     private $mediaTypes= [
         MimeTypes::JSON => "json",
-        MimeTypes::YML => "yml",
-        MimeTypes::XML => "xml",
     ];
-
-    public function __construct(Config $config)
-    {
-        $serializerBuilder= SerializerBuilder::create();
-        $serializerBuilder->setDebug($config->isDevelopmentMode());
-        if ($config->isCaching()) {
-            $serializerBuilder->setCacheDir($config->getCacheDirectory());
-        }
-
-        $this->serializer= $serializerBuilder->build();
-    }
 
     /**
      * @param array|Object $data
@@ -45,7 +25,7 @@ class JmsSerializer implements SerializerInterface
             throw new MediaTypeNotSupportedException();
         }
 
-        return $this->serializer->serialize($data, $this->getFormat($mediaType));
+        return json_encode($data);
     }
 
     /**
@@ -62,7 +42,7 @@ class JmsSerializer implements SerializerInterface
             throw new MediaTypeNotSupportedException();
         }
 
-        return $this->serializer->deserialize($data, $type, $this->getFormat($mediaType));
+        return json_decode($data, $type == null);
     }
 
     /**

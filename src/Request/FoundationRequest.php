@@ -159,7 +159,7 @@ class FoundationRequest implements RequestInterface
      */
     public function getBodyAsArray()
     {
-        return $this->serializer->deserialize($this->getBody(), $this->getMediaType());
+        return $this->serializer->deserialize($this->getBody(), $this->getContentType());
     }
 
     /**
@@ -168,15 +168,15 @@ class FoundationRequest implements RequestInterface
      */
     public function getBodyAsObject($type)
     {
-        return $this->serializer->deserialize($this->getBody(), $this->getMediaType(), $type);
+        return $this->serializer->deserialize($this->getBody(), $this->getContentType(), $type);
     }
 
     /**
      * @return string|null
      */
-    public function getMediaType()
+    public function getContentType()
     {
-        return $this->request->getContentType();
+        return $this->request->headers->get("Content-Type");
     }
 
     /**
@@ -233,7 +233,7 @@ class FoundationRequest implements RequestInterface
      */
     public function getCustomHeaders()
     {
-        $this->request->headers->all();
+        return $this->request->headers->all();
     }
 
     /**

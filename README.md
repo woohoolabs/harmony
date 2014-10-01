@@ -41,7 +41,7 @@ you have. Maybe you need Dice or PHP-DI. But the question emerges: how would you
 framework which instantiates all your controllers? There is no way to do that. You can't overcome the
 situation this time too (without hacking on the code).
 
-### Lessons learned
+### Lessons Learned
 
 The first situation had a grasp on that there are full stack and micro frameworks with a
 long list of features and components, but in our opinion, a good framework should conform to the
@@ -302,6 +302,6 @@ to provide any return value.
 Additionally you can even override the name of the hooks in the configuration: so if you have already
 had a method like ``preDispatch()`` then you can use it easily!
 
-## Fin
+## The End
 
 **Congratulations, you have just learned how to use Woohoo Labs. API Framework!**
