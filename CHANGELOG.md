@@ -1,32 +1,32 @@
 # Change Log
 
-## 0.2.0 - 2014-XX-XX
+### 0.2.0 - 2014-XX-XX
 
-### Added
+#### Added
 - Routes can be added with ``ApiFramework::addRoutes()`` to enable route caching
 
-### Added
+#### Added
 - A simple ``PhpSerializer`` which only supports the JSON format
 
-## 0.1.2 - 2014-10-02
+### 0.1.2 - 2014-10-02
 
-### Added
+#### Added
 - A simple ``PhpSerializer`` which only supports the JSON format
 
-### Fixed
+#### Fixed
 - ``JmsSerializer`` deserializing error
 - HTTP request errors
 
-### Changed
+#### Changed
 - ``Fastrouter`` doesn't need the ``Container`` as a dependency
 
-## 0.1.1 - 2014-10-01
+### 0.1.1 - 2014-10-01
 
-### Changed
+#### Changed
 - ``Fastrouter`` doesn't need the ``Container`` as a dependency
 
-## 0.1.0 - 2014-10-01
+### 0.1.0 - 2014-10-01
 
-### Added
+#### Added
 - Enabled using callbacks as route handlers
 - Improved support for HTTP caching
