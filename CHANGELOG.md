@@ -5,9 +5,6 @@
 #### Added
 - Routes can be added with ``ApiFramework::addRoutes()`` to enable route caching
 
-#### Added
-- A simple ``PhpSerializer`` which only supports the JSON format
-
 ### 0.1.2 - 2014-10-02
 
 #### Added
