@@ -1,9 +1,9 @@
 <?php
-namespace WoohooLabs\ApiFramework\Discovery;
+namespace WoohooLabs\ApiFramework\Discoverer;
 
 use WoohooLabs\ApiFramework\Serializer\SerializerInterface;
 use WoohooLabs\ApiFramework\Config;
-use WoohooLabs\ApiFramework\Routing\RouterInterface;
+use WoohooLabs\ApiFramework\Router\RouterInterface;
 
 class SwaggerDiscoverer
 {
@@ -27,7 +27,7 @@ class SwaggerDiscoverer
     }
 
     /**
-     * @param \WoohooLabs\ApiFramework\Routing\RouterInterface $router
+     * @param \WoohooLabs\ApiFramework\Router\RouterInterface $router
      */
     public function addRoutes(RouterInterface $router)
     {

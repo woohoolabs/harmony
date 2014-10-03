@@ -1,5 +1,5 @@
 <?php
-namespace WoohooLabs\ApiFramework\Routing;
+namespace WoohooLabs\ApiFramework\Router;
 
 class RouteNotFoundException extends \Exception
 {

@@ -1,5 +1,5 @@
 <?php
-namespace WoohooLabs\ApiFramework\Routing;
+namespace WoohooLabs\ApiFramework\Router;
 
 use FastRoute\DataGenerator\GroupPosBased;
 use FastRoute\RouteCollector;
@@ -67,8 +67,8 @@ class FastRouter implements RouterInterface
      * @param string $method
      * @param string $uri
      * @return \WoohooLabs\ApiFramework\Dispatcher\AbstractDispatcher
-     * @throws \WoohooLabs\ApiFramework\Routing\RouteNotFoundException
-     * @throws \WoohooLabs\ApiFramework\Routing\MethodNotAllowedException
+     * @throws \WoohooLabs\ApiFramework\Router\RouteNotFoundException
+     * @throws \WoohooLabs\ApiFramework\Router\MethodNotAllowedException
      */
     public function getDispatcher($method, $uri)
     {

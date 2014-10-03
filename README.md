@@ -213,16 +213,17 @@ a URI. By convention, start the URI with a _/_. It can also contain curly brace 
 the default implementation.
 
 ```php
-$router= new FastRouter($config);
+$apiFramework->addRoutes(function (RouterInterface $router) {
 
-$router->addCallbackRoute("GET", "/me", function(RequestInterface $request) {
-    $response= new Response();
-    $response->setContent("Welcome to the real world!");
-    return $response;
+    $router->addCallbackRoute("GET", "/me", function (RequestInterface $request) {
+        $response= new Response();
+        $response->setContent("Welcome to the real world!");
+        return $response;
+    });
+    
+    $router->addRoute("GET", "/users", "App\\Controllers\\UserController", "getUsers");
+    $router->addRoute("POST", "/users/{id}", "App\\Controllers\\UserController", "updateUser");
 });
-
-$router->addRoute("GET", "/users", "App\\Controllers\\UserController", "getUsers");
-$router->addRoute("POST", "/users/{id}", "App\\Controllers\\UserController", "updateUser");
 ```
 
 **Reminder**: As of PHP 5.5, you are able to use the [::class keyword](http://php.net/manual/en/language.oop5.basic.php#language.oop5.basic.class.class)

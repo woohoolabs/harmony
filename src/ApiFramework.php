@@ -3,14 +3,14 @@ namespace WoohooLabs\ApiFramework;
 
 use Interop\Container\ContainerInterface;
 use WoohooLabs\ApiFramework\Container\BasicContainer;
-use WoohooLabs\ApiFramework\Discovery\DiscovererInterface;
+use WoohooLabs\ApiFramework\Discoverer\DiscovererInterface;
 use WoohooLabs\ApiFramework\Dispatcher\ClassDispatcher;
 use WoohooLabs\ApiFramework\Request\FoundationRequest;
 use WoohooLabs\ApiFramework\Request\RequestInterface;
 use WoohooLabs\ApiFramework\Response\FoundationResponder;
 use WoohooLabs\ApiFramework\Response\ResponderInterface;
-use WoohooLabs\ApiFramework\Routing\FastRouter;
-use WoohooLabs\ApiFramework\Routing\RouterInterface;
+use WoohooLabs\ApiFramework\Router\FastRouter;
+use WoohooLabs\ApiFramework\Router\RouterInterface;
 use WoohooLabs\ApiFramework\Serializer\JmsSerializer;
 use WoohooLabs\ApiFramework\Serializer\SerializerInterface;
 
@@ -27,14 +27,19 @@ class ApiFramework
     protected $container;
 
     /**
-     * @var \WoohooLabs\ApiFramework\Discovery\DiscovererInterface
+     * @var \WoohooLabs\ApiFramework\Discoverer\DiscovererInterface
      */
     protected $discoverer;
 
     /**
-     * @var \WoohooLabs\ApiFramework\Routing\RouterInterface
+     * @var \WoohooLabs\ApiFramework\Router\RouterInterface
      */
     protected $router;
+
+    /**
+     * @var \Closure
+     */
+    protected $routing;
 
     /**
      * @var \WoohooLabs\ApiFramework\Serializer\SerializerInterface
@@ -108,9 +113,7 @@ class ApiFramework
 
     protected function discover()
     {
-        if ($this->discoverer != null) {
-            $this->discoverer->addRoutes($this->router);
-        }
+        call_user_func($this->routing, $this->router);
     }
 
     /**
@@ -140,7 +143,7 @@ class ApiFramework
     }
 
     /**
-     * @param \WoohooLabs\ApiFramework\Discovery\DiscovererInterface $discoverer
+     * @param \WoohooLabs\ApiFramework\Discoverer\DiscovererInterface $discoverer
      */
     public function setDiscoverer(DiscovererInterface $discoverer)
     {
@@ -148,11 +151,18 @@ class ApiFramework
     }
 
     /**
-     * @param \WoohooLabs\ApiFramework\Routing\RouterInterface $router
+     * @param \WoohooLabs\ApiFramework\Router\RouterInterface $router
      */
     public function setRouter(RouterInterface $router)
     {
         $this->router = $router;
+    }
+
+    /**
+     * @param \Closure $routing
+     */
+    public function addRoutes(\Closure $routing) {
+        $this->routing= $routing;
     }
 
     /**
