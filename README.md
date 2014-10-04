@@ -93,10 +93,11 @@ tools like Swagger.
 2. Router
 3. Discoverer
 4. Container
-5. Serializer
-6. Request
-7. Response
-8. Responder
+5. Deserializer
+6. Serializer
+7. Request
+8. Response
+9. Responder
 
 ### Configuration
 
@@ -111,14 +112,19 @@ library of [Nikita Popov](https://twitter.com/nikita_ppv), because of its elegan
 more about it [clicking here](http://nikic.github.io/2014/02/18/Fast-request-routing-using-regular-expressions.html).
 Of course if you weren't satisfied with it, you can change it anytime with a minimal amount of work.
 
+**Implementations:**
+
+| Class name          | Description                           |
+| ------------------- | ------------------------------------- |
+| `FastRouter     `   | Wrapper around the Fast Route library |
+
 ### Discoverer
 
 The notion of Discoverer was introduced to aid defining routes. Sometimes you don't want to call the ``addRoute()``
 method for each route. A reason could be that you have defined your routes elsewhere and you want to avoid
 duplication of these definitions which can be subjects of frequent change during development.
 
-A Discoverer simplifies routing but you are absolutely free to use them. Currently, we only provide one Discoverer
-which integrates the Swagger 2.0 spec into you application.
+Currently, there aren't any implementations.
 
 ### Container
 
@@ -132,17 +138,51 @@ you have to do is to pass its reference to the framework.
 If your chosen container doesn't support this interface (like Pimple or Dice), you only have to write an
 adapter for them implementing the common interface.
 
+**Implementations:**
+
+| Class name          | Description                                      |
+| ------------------- | ------------------------------------------------ |
+| `BasicContainer `   | Instantiates the handler classes with reflection |
+
+### Deserializer
+
+A deserializer automatically handles string to array/object conversion from data formats like JSON, XML or
+YML. They are needed in the beginning of the a request-response lifecycle when the framework receives a
+request and the contained data (e.g.: body) should be converted into an array or object. As a default,
+``PHPDeserializer`` is used.
+
+**Implementations:**
+
+| Class name          | Supported formats | Description                                  |
+| ------------------- | ----------------- | -------------------------------------------- |
+| `PhpDeserializer`   | JSON              | Deserializes with pure PHP functions         |
+| `JmsDeserializer`   | JSON, XML         | A wrapper around the JmsSerializer library   |
+| `NaiveDeserializer` | -                 | Only outputs the original data               |
+
 ### Serializer
 
-A serializer handles automatic conversion of data formats like JSON, XML or YML. They are needed twice during
-a request-response lifecycle. First, when the framework receives a request and the contained data (e.g.: body)
-should be converted into an array or object. A serializer will also be needed when you want to send your data
-as a response. As a default, the popular library, JMS Serializer is used.
+A serializer automatically handles array/object to string conversion into data formats like JSON, XML or YML.
+They are needed in the end of the request-response lifecycle when you want to send your data as a response.
+As a default, ``PHPSerializer`` is used which is able to produce data in JSON format.
+
+**Implementations:**
+
+| Class name        | Supported formats | Description                                  |
+| ----------------- | ----------------- | -------------------------------------------- |
+| `PhpSerializer`   | JSON              | Serializes with pure PHP functions           |
+| `JmsSerializer`   | JSON, XML, YML    | A wrapper around the JmsSerializer library   |
+| `NaiveSerializer` | -                 | Only outputs the original data               |
 
 ### Request
 
 A request object is the Object-Oriented representation of an HTTP request. For this purpose,
 Symfony's HTTP Foundation is used by a wrapper class which implements the ``RequestInterface``.
+
+**Implementations:**
+
+| Class name           | Description                                      |
+| -------------------- | ------------------------------------------------ |
+| `FoundationRequest ` | A wrapper around the Symfony Foundation library  |
 
 ### Response
 
@@ -152,6 +192,12 @@ Again, the response is the Object-Oriented representation of an HTTP response. I
 
 A responder is capable of sending a response into the ether. For this purpose, Symfony's HTTP Foundation is used
 by a wrapper class which implements the ``ResponderInterface``.
+
+**Implementations:**
+
+| Class name           | Description                                       |
+| -------------------- | ------------------------------------------------- |
+| `FoundationResponder | A wrapper around the Symfony Foundation responder |
 
 ## Basic Usage of Woohoo Labs. API Framework
 

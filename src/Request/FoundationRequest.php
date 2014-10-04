@@ -1,16 +1,16 @@
 <?php
 namespace WoohooLabs\ApiFramework\Request;
 
-use WoohooLabs\ApiFramework\Serializer\SerializerInterface;
+use WoohooLabs\ApiFramework\Serializer\Deserializer\DeserializerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use WoohooLabs\ApiFramework\Config;
 
 class FoundationRequest implements RequestInterface
 {
     /**
-     * @var \WoohooLabs\ApiFramework\Serializer\SerializerInterface
+     * @var \WoohooLabs\ApiFramework\Serializer\Deserializer\DeserializerInterface
      */
-    private $serializer;
+    private $deserializer;
 
     /**
      * @var \Symfony\Component\HttpFoundation\Request
@@ -27,13 +27,13 @@ class FoundationRequest implements RequestInterface
      */
     private $requestParameters;
 
-    public function __construct(Config $config, SerializerInterface $serializer)
+    public function __construct(Config $config, DeserializerInterface $deserializer)
     {
         $this->request= Request::createFromGlobals();
         if ($config->isHttpMethodParameterOverrideSupported()) {
             $this->request->enableHttpMethodParameterOverride();
         }
-        $this->serializer= $serializer;
+        $this->deserializer= $deserializer;
     }
 
     /**
@@ -159,7 +159,7 @@ class FoundationRequest implements RequestInterface
      */
     public function getBodyAsArray()
     {
-        return $this->serializer->deserialize($this->getBody(), $this->getContentType());
+        return $this->deserializer->deserialize($this->getBody(), $this->getContentType());
     }
 
     /**
@@ -168,7 +168,7 @@ class FoundationRequest implements RequestInterface
      */
     public function getBodyAsObject($type)
     {
-        return $this->serializer->deserialize($this->getBody(), $this->getContentType(), $type);
+        return $this->deserializer->deserialize($this->getBody(), $this->getContentType(), $type);
     }
 
     /**

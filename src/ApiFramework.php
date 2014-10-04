@@ -11,8 +11,10 @@ use WoohooLabs\ApiFramework\Response\FoundationResponder;
 use WoohooLabs\ApiFramework\Response\ResponderInterface;
 use WoohooLabs\ApiFramework\Router\FastRouter;
 use WoohooLabs\ApiFramework\Router\RouterInterface;
-use WoohooLabs\ApiFramework\Serializer\JmsSerializer;
-use WoohooLabs\ApiFramework\Serializer\SerializerInterface;
+use WoohooLabs\ApiFramework\Serializer\Serializer\PhpSerializer;
+use WoohooLabs\ApiFramework\Serializer\Serializer\SerializerInterface;
+use WoohooLabs\ApiFramework\Serializer\Deserializer\PhpDeserializer;
+use WoohooLabs\ApiFramework\Serializer\Deserializer\DeserializerInterface;
 
 class ApiFramework
 {
@@ -42,9 +44,14 @@ class ApiFramework
     protected $routing;
 
     /**
-     * @var \WoohooLabs\ApiFramework\Serializer\SerializerInterface
+     * @var \WoohooLabs\ApiFramework\Serializer\Serializer\SerializerInterface
      */
     protected $serializer;
+
+    /**
+     * @var \WoohooLabs\ApiFramework\Serializer\Deserializer\DeserializerInterface
+     */
+    protected $deserializer;
 
     /**
      * @var \WoohooLabs\ApiFramework\Response\ResponderInterface
@@ -99,7 +106,11 @@ class ApiFramework
         }
 
         if ($this->serializer == null) {
-            $this->serializer = new JmsSerializer($this->config);
+            $this->serializer = new PhpSerializer();
+        }
+
+        if ($this->deserializer == null) {
+            $this->deserializer = new PhpDeserializer();
         }
 
         if ($this->responder == null) {
@@ -107,10 +118,13 @@ class ApiFramework
         }
 
         if ($this->request == null) {
-            $this->request = new FoundationRequest($this->config, $this->serializer);
+            $this->request = new FoundationRequest($this->config, $this->deserializer);
         }
     }
 
+    /**
+     * Finds all the routes.
+     */
     protected function discover()
     {
         call_user_func($this->routing, $this->router);
@@ -174,11 +188,19 @@ class ApiFramework
     }
 
     /**
-     * @param \WoohooLabs\ApiFramework\Serializer\SerializerInterface $serializer
+     * @param \WoohooLabs\ApiFramework\Serializer\Serializer\SerializerInterface $serializer
      */
     public function setSerializer(SerializerInterface $serializer)
     {
         $this->serializer = $serializer;
+    }
+
+    /**
+     * @param \WoohooLabs\ApiFramework\Serializer\Deserializer\DeserializerInterface $deserializer
+     */
+    public function setDeserializer(DeserializerInterface $deserializer)
+    {
+        $this->deserializer = $deserializer;
     }
 
     /**

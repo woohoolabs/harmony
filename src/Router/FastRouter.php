@@ -1,9 +1,7 @@
 <?php
 namespace WoohooLabs\ApiFramework\Router;
 
-use FastRoute\DataGenerator\GroupPosBased;
 use FastRoute\RouteCollector;
-use FastRoute\RouteParser\Std;
 use FastRoute\Dispatcher;
 use WoohooLabs\ApiFramework\Config;
 use WoohooLabs\ApiFramework\Dispatcher\ClassDispatcher;
@@ -17,7 +15,7 @@ class FastRouter implements RouterInterface
     protected $config;
 
     /**
-     * @var \FastRoute\RouteCollector
+     * @var array
      */
     protected $routes;
 
@@ -39,7 +37,7 @@ class FastRouter implements RouterInterface
         $this->config= $config;
         $this->caching= $config->isCaching();
         $this->cachePath= rtrim($config->getCacheDirectory(), "\\/")."/route.cache";
-        $this->routes= new RouteCollector(new Std(), new GroupPosBased());
+        $this->routes= [];
     }
 
     /**
@@ -50,7 +48,7 @@ class FastRouter implements RouterInterface
      */
     public function addRoute($verb, $route, $className, $methodName)
     {
-        $this->routes->addRoute($verb, "/" . ltrim($route, "\\/"), [$className, $methodName]);
+        $this->routes[]= [$verb, "/" . ltrim($route, "\\/"), [$className, $methodName]];
     }
 
     /**
@@ -60,7 +58,7 @@ class FastRouter implements RouterInterface
      */
     public function addCallbackRoute($verb, $route, \Closure $handler)
     {
-        $this->routes->addRoute($verb, "/" . ltrim($route, "\\/"), $handler);
+        $this->routes[]= [$verb, "/" . ltrim($route, "\\/"), $handler];
     }
 
     /**
@@ -72,13 +70,14 @@ class FastRouter implements RouterInterface
      */
     public function getDispatcher($method, $uri)
     {
-        $router = \FastRoute\cachedDispatcher(
-            function(RouteCollector &$r) {
-                $r= $this->routes;
-            }, [
-                'cacheFile' => $this->cachePath,
-                'cacheDisabled' => !$this->caching,
-            ]);
+        $router = \FastRoute\cachedDispatcher(function (RouteCollector $r) {
+            foreach ($this->routes as $route) {
+                $r->addRoute($route[0], $route[1], $route[2]);
+            }
+        }, [
+            'cacheFile' => $this->cachePath,
+            'cacheDisabled' => !$this->caching,
+        ]);
 
         $routeInfo = $router->dispatch($method, $uri);
 

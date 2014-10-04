@@ -3,7 +3,7 @@ namespace WoohooLabs\ApiFramework\Response;
 
 use Symfony\Component\HttpFoundation\Response;
 use WoohooLabs\ApiFramework\Config;
-use WoohooLabs\ApiFramework\Serializer\SerializerInterface;
+use WoohooLabs\ApiFramework\Serializer\Serializer\SerializerInterface;
 
 class FoundationResponder implements ResponderInterface
 {
@@ -18,7 +18,7 @@ class FoundationResponder implements ResponderInterface
     private $response;
 
     /**
-     * @var \WoohooLabs\ApiFramework\Serializer\SerializerInterface
+     * @var \WoohooLabs\ApiFramework\Serializer\Serializer\SerializerInterface
      */
     private $serializer;
 

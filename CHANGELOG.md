@@ -4,6 +4,14 @@
 
 #### Added
 - Routes can be added with ``ApiFramework::addRoutes()`` to enable route caching
+- Separated serializing and deserializing
+
+#### Changed
+- ``PHPSerializer`` became the default serializer implementation
+- ``PHPDeserializer`` became the default deserializer implementation
+
+#### Fixed
+- ``FastRouter`` now works as expected! 
 
 ### 0.1.2 - 2014-10-02
 
