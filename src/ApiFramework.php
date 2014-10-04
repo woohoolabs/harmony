@@ -39,11 +39,6 @@ class ApiFramework
     protected $router;
 
     /**
-     * @var \Closure
-     */
-    protected $routing;
-
-    /**
      * @var \WoohooLabs\ApiFramework\Serializer\Serializer\SerializerInterface
      */
     protected $serializer;
@@ -127,7 +122,9 @@ class ApiFramework
      */
     protected function discover()
     {
-        call_user_func($this->routing, $this->router);
+        if ($this->config->getRoutes() !== null) {
+            call_user_func($this->config->getRoutes(), $this->router);
+        }
     }
 
     /**
@@ -170,13 +167,6 @@ class ApiFramework
     public function setRouter(RouterInterface $router)
     {
         $this->router = $router;
-    }
-
-    /**
-     * @param \Closure $routing
-     */
-    public function addRoutes(\Closure $routing) {
-        $this->routing= $routing;
     }
 
     /**

@@ -21,6 +21,11 @@ class Config
     private $cacheDirectory= "";
 
     /**
+     * @var \Closure
+     */
+    protected $routes;
+
+    /**
      * @var array
      */
     private $supportedMediaTypes= [MimeTypes::JSON, MimeTypes::YML];
@@ -86,6 +91,22 @@ class Config
     public function setDevelopmentMode($isDevelopmentMode)
     {
         $this->developmentMode = $isDevelopmentMode;
+    }
+
+    /**
+     * @param \Closure $routes
+     */
+    public function setRoutes(\Closure $routes)
+    {
+        $this->routes= $routes;
+    }
+
+    /**
+     * @return \Closure|null
+     */
+    public function getRoutes()
+    {
+        return $this->routes;
     }
 
     /**

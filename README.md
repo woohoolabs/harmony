@@ -199,12 +199,12 @@ by a wrapper class which implements the ``ResponderInterface``.
 | -------------------- | ------------------------------------------------- |
 | `FoundationResponder | A wrapper around the Symfony Foundation responder |
 
-## Basic Usage of Woohoo Labs. API Framework
+## Install Woohoo Labs. API Framework
 
-The workflow with Woohoo Labs. API Framework is quite straightforward. You will only need Composer for the
-dependencies and the autoloading.
+The steps of this process are quite straightforward. The only thing you need is [Composer](http://getcomposer.org).
 
-##### Add the following to your composer.json:
+##### Add API Framework to your composer.json:
+
 ```json
 {
     "require": {
@@ -213,19 +213,22 @@ dependencies and the autoloading.
 }
 ```
 
-Furthermore, if you want to use the built-in components (like the autoloader, the serializer etc.) then you also
-have to add the following dependencies to the _require_ section of your composer.json:
+##### Add the dependencies of the built-in components to your composer.json:
+
+If you want to use the default components (like the router, serializer etc.) then you have to ask for the following
+dependencies too:
 
 ```json
 {
     "require": {
         "symfony/http-foundation": "*",
         "nikic/fast-route": "*@dev",
-        "jms/serializer": "*",
         "symfony/yaml": "*"
     }
 }
 ```
+
+In order to use the ``JmsSerializer`` and ``JmsDeserializer`` classes, require the ``"jms/serializer": "*"`` too.
 
 ##### Update your dependencies with Composer:
 
@@ -233,11 +236,13 @@ have to add the following dependencies to the _require_ section of your composer
 $ composer update
 ```
 
-##### Autoload the classes in your bootstrap (if you haven't already done so):
+##### Autoload the classes in your bootstrap:
 
 ```php
 require "vendor/autoload.php"
 ```
+
+## Basic Usage of Woohoo Labs. API Framework
 
 ##### Instantiate and configure the framework:
 
@@ -259,8 +264,7 @@ a URI. By convention, start the URI with a _/_. It can also contain curly brace 
 the default implementation.
 
 ```php
-$apiFramework->addRoutes(function (RouterInterface $router) {
-
+$config->setRoutes(function (RouterInterface $router) {
     $router->addCallbackRoute("GET", "/me", function (RequestInterface $request) {
         $response= new Response();
         $response->setContent("Welcome to the real world!");

@@ -3,7 +3,7 @@
 ### 0.2.0 - 2014-XX-XX
 
 #### Added
-- Routes can be added with ``ApiFramework::addRoutes()`` to enable route caching
+- Routes can be added with ``Config::setRoutes()`` to enable route caching
 - Separated serializing and deserializing
 
 #### Changed
