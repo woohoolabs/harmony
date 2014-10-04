@@ -228,7 +228,7 @@ dependencies too:
 }
 ```
 
-In order to use the ``JmsSerializer`` and ``JmsDeserializer`` classes, require the ``"jms/serializer": "*"`` too.
+In order to use the ``JmsSerializer`` and ``JmsDeserializer`` classes, require ``"jms/serializer": "*"`` too.
 
 ##### Update your dependencies with Composer:
 
@@ -244,7 +244,7 @@ require "vendor/autoload.php"
 
 ## Basic Usage of Woohoo Labs. API Framework
 
-##### Instantiate and configure the framework:
+##### Configure the framework:
 
 You have to create a configuration object for this step. In the example below, it will set the framework to run in
 development mode and turn off caching:
@@ -253,8 +253,6 @@ development mode and turn off caching:
 $config= new Config();
 $config->setDevelopmentMode(true);
 $config->setCaching(false);
-
-$apiFramework= new ApiFramework($config);
 ```
 
 ##### Define some routes:
@@ -336,6 +334,7 @@ However you don't have to worry that your handlers become tightly coupled to HTT
 ##### Finally, launch the framework:
 
 ```php
+$apiFramework= new ApiFramework($config);
 $apiFramework->work();
 ```
 
