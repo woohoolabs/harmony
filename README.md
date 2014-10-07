@@ -5,7 +5,9 @@
 Our aim was to create an invisible, easily extensible, but first of all, extremely flexible framework for API-s.
 We wanted to give you total control while providing a clean interface to communicate with.
 
-## "Long live is the framework"
+## Introduction
+ 
+#### "Long live is the framework"
 
 The general problem with frameworks is that they suggest you using the set of tools they have. Initially,
 everything seems to be OK, because either the scope of your project is too small or you are sure that you've found
@@ -24,7 +26,7 @@ application even though that it is decoupled from your project.
 
 We created API Framework to remedy this issue.
 
-### A Case Study
+#### A Case Study
 
 Let's look at a realistic scenario to understand the problem better: you have an MVC framework which has its
 integrated IoC Container and ORM layer. You are pretty happy with these tools. Some weeks later, you discover
@@ -41,7 +43,7 @@ you have. Maybe you need Dice or PHP-DI. But the question emerges: how would you
 framework which instantiates all your controllers? There is no way to do that. You can't overcome the
 situation this time too (without hacking on the code).
 
-### Lessons Learned
+#### Lessons Learned
 
 The first situation had a grasp on that there are full stack and micro frameworks with a
 long list of features and components, but in our opinion, a good framework should conform to the
@@ -68,7 +70,7 @@ As a general suggestion, when your project is huge make sure that you can easily
 from every part of your framework too. That's why we designed API Framework so that almost every piece
 of it can be changed with minimal effort and with minimal impact on your project.
 
-## Use Cases of Woohoo Labs. API Framework
+#### Use Cases of Woohoo Labs. API Framework
 
 Certainly, API Framework won't suit the needs of all projects and teams. Firstly, this framework works best
 for API-s as every single detail of the framework was brought to live to support these efforts. Furthermore,
@@ -79,7 +81,7 @@ To sum up, Woohoo Labs. API Framework is most effective for teams with a solid u
 Its flexibility is more advantageous if you need sophisticated tools like IoC Containers or API documentation
 tools like Swagger.
 
-## Features of Woohoo Labs. API Framework
+## Features
 
 - Extreme flexibility
 - Totally Object-Oriented workflow
@@ -87,7 +89,7 @@ tools like Swagger.
 - Support for different media types (JSON, YML, XML)
 - Support for any IoC Containers
 
-## Concepts of Woohoo Labs. API Framework
+## Concepts
 
 1. Configuration
 2. Router
@@ -99,12 +101,12 @@ tools like Swagger.
 8. Response
 9. Responder
 
-### Configuration
+#### Configuration
 
 When you instantiate the framework you have to provide your configuration options including the current environment
 of your application (DEV or PROD), caching etc. This configuration will be a POPO (Plain old PHP Object).
 
-### Router
+#### Router
 
 Basically, the router tells you which handler (let it be a class method or an anomymous function) is in charge
 of handling the request coming to a specific URI. The default router used by Woohoo Labs. API Framework is the
@@ -118,7 +120,7 @@ Of course if you weren't satisfied with it, you can change it anytime with a min
 | ------------------- | ------------------------------------- |
 | `FastRouter     `   | Wrapper around the Fast Route library |
 
-### Discoverer
+#### Discoverer
 
 The notion of Discoverer was introduced to aid defining routes. Sometimes you don't want to call the ``addRoute()``
 method for each route. A reason could be that you have defined your routes elsewhere and you want to avoid
@@ -126,7 +128,7 @@ duplication of these definitions which can be subjects of frequent change during
 
 Currently, there aren't any implementations.
 
-### Container
+#### Container
 
 For Woohoo Labs. API Framework, the container is only a class which is capable to instantiate any handlers
 if you provide them their fully qualified class name (in fact, containers are called IoC Containers and
@@ -144,7 +146,7 @@ adapter for them implementing the common interface.
 | ------------------- | ------------------------------------------------ |
 | `BasicContainer `   | Instantiates the handler classes with reflection |
 
-### Deserializer
+#### Deserializer
 
 A deserializer automatically handles string to array/object conversion from data formats like JSON, XML or
 YML. They are needed in the beginning of the a request-response lifecycle when the framework receives a
@@ -159,7 +161,7 @@ request and the contained data (e.g.: body) should be converted into an array or
 | `JmsDeserializer`   | JSON, XML         | A wrapper around the JmsSerializer library   |
 | `NaiveDeserializer` | -                 | Only outputs the original data               |
 
-### Serializer
+#### Serializer
 
 A serializer automatically handles array/object to string conversion into data formats like JSON, XML or YML.
 They are needed in the end of the request-response lifecycle when you want to send your data as a response.
@@ -173,7 +175,7 @@ As a default, ``PHPSerializer`` is used which is able to produce data in JSON fo
 | `JmsSerializer`   | JSON, XML, YML    | A wrapper around the JmsSerializer library   |
 | `NaiveSerializer` | -                 | Only outputs the original data               |
 
-### Request
+#### Request
 
 A request object is the Object-Oriented representation of an HTTP request. For this purpose,
 Symfony's HTTP Foundation is used by a wrapper class which implements the ``RequestInterface``.
@@ -182,28 +184,28 @@ Symfony's HTTP Foundation is used by a wrapper class which implements the ``Requ
 
 | Class name           | Description                                      |
 | -------------------- | ------------------------------------------------ |
-| `FoundationRequest ` | A wrapper around the Symfony Foundation library  |
+| `FoundationRequest`  | A wrapper around the Symfony Foundation library  |
 
-### Response
+#### Response
 
 Again, the response is the Object-Oriented representation of an HTTP response. It is just a POPO again.
 
-### Responder
+#### Responder
 
 A responder is capable of sending a response into the ether. For this purpose, Symfony's HTTP Foundation is used
 by a wrapper class which implements the ``ResponderInterface``.
 
 **Implementations:**
 
-| Class name           | Description                                       |
-| -------------------- | ------------------------------------------------- |
-| `FoundationResponder | A wrapper around the Symfony Foundation responder |
+| Class name            | Description                                       |
+| --------------------- | ------------------------------------------------- |
+| `FoundationResponder `| A wrapper around the Symfony Foundation responder |
 
-## Install Woohoo Labs. API Framework
+## Install
 
 The steps of this process are quite straightforward. The only thing you need is [Composer](http://getcomposer.org).
 
-##### Add API Framework to your composer.json:
+#### Add API Framework to your composer.json:
 
 ```json
 {
@@ -213,7 +215,7 @@ The steps of this process are quite straightforward. The only thing you need is 
 }
 ```
 
-##### Add the dependencies of the built-in components to your composer.json:
+### Add the dependencies of the built-in components to your composer.json:
 
 If you want to use the default components (like the router, serializer etc.) then you have to ask for the following
 dependencies too:
@@ -230,21 +232,21 @@ dependencies too:
 
 In order to use the ``JmsSerializer`` and ``JmsDeserializer`` classes, require ``"jms/serializer": "*"`` too.
 
-##### Update your dependencies with Composer:
+### Update your dependencies with Composer:
 
 ```bash
 $ composer update
 ```
 
-##### Autoload the classes in your bootstrap:
+### Autoload the classes in your bootstrap:
 
 ```php
 require "vendor/autoload.php"
 ```
 
-## Basic Usage of Woohoo Labs. API Framework
+## Basic Usage
 
-##### Configure the framework:
+#### Configure the framework:
 
 You have to create a configuration object for this step. In the example below, it will set the framework to run in
 development mode and turn off caching:
@@ -255,7 +257,7 @@ $config->setDevelopmentMode(true);
 $config->setCaching(false);
 ```
 
-##### Define some routes:
+#### Define some routes:
 
 You have to define either a class or a callback handler for each route. A route consists of an HTTP verb and
 a URI. By convention, start the URI with a _/_. It can also contain curly brace templates if you stay with
@@ -281,7 +283,7 @@ to resolve class names:
 $router->addRoute("GET", "/users", UserController::class, "getUsers");
 ```
 
-##### Define the handlers for the routes:
+#### Define the handlers for the routes:
 
 There are two important things to notice here: each handler receives a ``RequestInterface`` object and
 they are expected to return a ``ResponseInterface`` object.
@@ -331,16 +333,35 @@ However you don't have to worry that your handlers become tightly coupled to HTT
 [this fantastic post](https://igor.io/2013/02/03/http-foundation-value.html) from
 [Igor Wiedler](https://twitter.com/igorwhiletrue).
 
-##### Finally, launch the framework:
+#### Finally, launch the framework:
 
 ```php
 $apiFramework= new ApiFramework($config);
 $apiFramework->work();
 ```
 
-## Advanced Usage of Woohoo Labs. API Framework
+## Advanced Usage
 
-### Hooks
+#### Redefining Default Components
+
+The motivation of creating Woohoo Labs. API Framework was to become able to change every single aspect
+of the framework. That's why you can customize almost all the aspects of framework with minimal effort.
+
+The following example shows how to swap the ``BasicRouter`` with the PHP-DI Container then how to use the
+serializer and deserializer of the famous JMS library instead of the default one.
+
+```php
+$router= new \DI\Container();
+$apiFramework->setContainer($router);
+
+$serializer= new JmsSerializer($config);
+$apiFramework->setSerializer($serializer);
+
+$deserializer= new JmsDeserializer($config);
+$apiFramework->setDeserializer($deserializer);
+```
+
+#### Hooks
 
 Hooking enables you to get the control before and/or after dispatching occurs. Note that it is only
 available for class handlers! If you specify a ``preHook()`` method in your handler class then it
