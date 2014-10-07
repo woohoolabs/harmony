@@ -215,7 +215,7 @@ The steps of this process are quite straightforward. The only thing you need is 
 }
 ```
 
-### Add the dependencies of the built-in components to your composer.json:
+#### Add the dependencies to your composer.json if needed:
 
 If you want to use the default components (like the router, serializer etc.) then you have to ask for the following
 dependencies too:
@@ -232,13 +232,13 @@ dependencies too:
 
 In order to use the ``JmsSerializer`` and ``JmsDeserializer`` classes, require ``"jms/serializer": "*"`` too.
 
-### Update your dependencies with Composer:
+#### Update your dependencies with Composer:
 
 ```bash
 $ composer update
 ```
 
-### Autoload the classes in your bootstrap:
+#### Autoload the classes in your bootstrap:
 
 ```php
 require "vendor/autoload.php"
