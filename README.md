@@ -114,9 +114,7 @@ library of [Nikita Popov](https://twitter.com/nikita_ppv), because of its elegan
 more about it [clicking here](http://nikic.github.io/2014/02/18/Fast-request-routing-using-regular-expressions.html).
 Of course if you weren't satisfied with it, you can change it anytime with a minimal amount of work.
 
-**Implementations:**
-
-| Class name          | Description                           |
+| Implementation      | Description                           |
 | ------------------- | ------------------------------------- |
 | `FastRouter     `   | Wrapper around the Fast Route library |
 
@@ -140,9 +138,7 @@ you have to do is to pass its reference to the framework.
 If your chosen container doesn't support this interface (like Pimple or Dice), you only have to write an
 adapter for them implementing the common interface.
 
-**Implementations:**
-
-| Class name          | Description                                      |
+| Implementation      | Description                                      |
 | ------------------- | ------------------------------------------------ |
 | `BasicContainer `   | Instantiates the handler classes with reflection |
 
@@ -153,9 +149,7 @@ YML. They are needed in the beginning of the a request-response lifecycle when t
 request and the contained data (e.g.: body) should be converted into an array or object. As a default,
 ``PHPDeserializer`` is used.
 
-**Implementations:**
-
-| Class name          | Supported formats | Description                                  |
+| Implementation      | Supported formats | Description                                  |
 | ------------------- | ----------------- | -------------------------------------------- |
 | `PhpDeserializer`   | JSON              | Deserializes with pure PHP functions         |
 | `JmsDeserializer`   | JSON, XML         | A wrapper around the JmsSerializer library   |
@@ -167,9 +161,7 @@ A serializer automatically handles array/object to string conversion into data f
 They are needed in the end of the request-response lifecycle when you want to send your data as a response.
 As a default, ``PHPSerializer`` is used which is able to produce data in JSON format.
 
-**Implementations:**
-
-| Class name        | Supported formats | Description                                  |
+| Implementation    | Supported formats | Description                                  |
 | ----------------- | ----------------- | -------------------------------------------- |
 | `PhpSerializer`   | JSON              | Serializes with pure PHP functions           |
 | `JmsSerializer`   | JSON, XML, YML    | A wrapper around the JmsSerializer library   |
@@ -180,9 +172,8 @@ As a default, ``PHPSerializer`` is used which is able to produce data in JSON fo
 A request object is the Object-Oriented representation of an HTTP request. For this purpose,
 Symfony's HTTP Foundation is used by a wrapper class which implements the ``RequestInterface``.
 
-**Implementations:**
-
-| Class name           | Description                                      |
+| 
+| Implementation       | Description                                      |
 | -------------------- | ------------------------------------------------ |
 | `FoundationRequest`  | A wrapper around the Symfony Foundation library  |
 
@@ -195,9 +186,7 @@ Again, the response is the Object-Oriented representation of an HTTP response. I
 A responder is capable of sending a response into the ether. For this purpose, Symfony's HTTP Foundation is used
 by a wrapper class which implements the ``ResponderInterface``.
 
-**Implementations:**
-
-| Class name            | Description                                       |
+| Implementation        | Description                                       |
 | --------------------- | ------------------------------------------------- |
 | `FoundationResponder `| A wrapper around the Symfony Foundation responder |
 
