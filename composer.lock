@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "24a21ded32cab8be6cffc0d03e447872",
+    "hash": "3615dcecbe862ea12b39c323cc58b3ce",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -314,16 +314,16 @@
         },
         {
             "name": "nikic/fast-route",
-            "version": "v0.2.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/FastRoute.git",
-                "reference": "7dc9a43cb856debc22fe158a1144018e16f7a637"
+                "reference": "88ac2888aa29d888cf3f447899753a4a1e599759"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/FastRoute/zipball/7dc9a43cb856debc22fe158a1144018e16f7a637",
-                "reference": "7dc9a43cb856debc22fe158a1144018e16f7a637",
+                "url": "https://api.github.com/repos/nikic/FastRoute/zipball/88ac2888aa29d888cf3f447899753a4a1e599759",
+                "reference": "88ac2888aa29d888cf3f447899753a4a1e599759",
                 "shasum": ""
             },
             "require": {
@@ -353,7 +353,7 @@
                 "router",
                 "routing"
             ],
-            "time": "2014-05-17 11:33:04"
+            "time": "2014-09-30 16:53:49"
         },
         {
             "name": "phpcollection/phpcollection",

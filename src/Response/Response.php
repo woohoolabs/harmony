@@ -181,7 +181,7 @@ class Response implements ResponseInterface
      */
     public function isRedirected()
     {
-        return ($this->getStatusCode() === 304 || $this->getStatusCode() == 307) && $this->location != null;
+        return ($this->getStatusCode() === 304 || $this->getStatusCode() === 307) && $this->location !== null;
     }
 
     /**

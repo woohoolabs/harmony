@@ -362,13 +362,13 @@ had a method like ``preDispatch()`` then you can use it easily!
 
 #### Events
 
-Listening to events is also possible with API Framework. If you want to use this functionality, you will
-have to complete the following steps:
+Listening to events is also possible with API Framework. You have to complete the following steps
+if you want to use this functionality:
 
-- Change the main class of the framework to ``EventApiFramework`` in your code and the configuration class
+- Change the framework class in your code to ``EventApiFramework`` and the configuration class
 to ``EventConfig``.
 
-- Subscribe for the events in the configuration similar to the way you define the routes.
+- Subscribe to the events in the configuration similar to the way you define the routes.
 
 - You can customize which event dispatching library to use by calling
 ``EventApiFramework::setEventDispatcher()``. Of course this step is totally optional.
@@ -377,7 +377,7 @@ to ``EventConfig``.
 your composer.json:
 
 ```bash
-$ composer require symfony/event-dispatcher 
+$ composer require symfony/event-dispatcher
 ```
 
 Here is an example:
