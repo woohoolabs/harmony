@@ -19,17 +19,17 @@ interface ResponseInterface
     public function setStatusCodeSuppressed($isStatusCodeSuppressed);
 
     /**
-     * @return string
+     * @return int
      */
     public function getStatusCode();
 
     /**
-     * @return string
+     * @return int
      */
     public function getOriginalStatusCode();
 
     /**
-     * @param string $statusCode
+     * @param int $statusCode
      */
     public function setStatusCode($statusCode);
 

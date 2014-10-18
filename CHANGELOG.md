@@ -3,15 +3,17 @@
 ### 0.2.0 - 2014-XX-XX
 
 #### Added
+- Event dispatcher
 - Routes can be added with ``Config::setRoutes()`` to enable route caching
 - Separated serializing and deserializing
 
 #### Changed
 - ``PHPSerializer`` became the default serializer implementation
 - ``PHPDeserializer`` became the default deserializer implementation
+- Removed Discoverers
 
 #### Fixed
-- ``FastRouter`` now works as expected! 
+- ``FastRouter`` now works as expected!
 
 ### 0.1.2 - 2014-10-02
 

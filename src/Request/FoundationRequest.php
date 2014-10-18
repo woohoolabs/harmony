@@ -254,7 +254,7 @@ class FoundationRequest implements RequestInterface
      */
     public function getDataAsArray()
     {
-        if ($this->requestParameters == null) {
+        if ($this->requestParameters === null) {
             if ($this->getMethod() == HttpMethods::GET || HttpMethods::HEAD || HttpMethods::DELETE) {
                 $this->requestParameters = $this->getQueryStringAsArray();
             } else {

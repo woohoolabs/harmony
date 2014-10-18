@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6cb0084d8396bff26b5fa5e9ce02aaad",
+    "hash": "24a21ded32cab8be6cffc0d03e447872",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -314,16 +314,16 @@
         },
         {
             "name": "nikic/fast-route",
-            "version": "dev-master",
+            "version": "v0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/FastRoute.git",
-                "reference": "88ac2888aa29d888cf3f447899753a4a1e599759"
+                "reference": "7dc9a43cb856debc22fe158a1144018e16f7a637"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/FastRoute/zipball/88ac2888aa29d888cf3f447899753a4a1e599759",
-                "reference": "88ac2888aa29d888cf3f447899753a4a1e599759",
+                "url": "https://api.github.com/repos/nikic/FastRoute/zipball/7dc9a43cb856debc22fe158a1144018e16f7a637",
+                "reference": "7dc9a43cb856debc22fe158a1144018e16f7a637",
                 "shasum": ""
             },
             "require": {
@@ -353,7 +353,7 @@
                 "router",
                 "routing"
             ],
-            "time": "2014-09-30 16:53:49"
+            "time": "2014-05-17 11:33:04"
         },
         {
             "name": "phpcollection/phpcollection",
@@ -453,6 +453,63 @@
                 "type"
             ],
             "time": "2014-01-09 22:37:17"
+        },
+        {
+            "name": "symfony/event-dispatcher",
+            "version": "v2.5.5",
+            "target-dir": "Symfony/Component/EventDispatcher",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/EventDispatcher.git",
+                "reference": "f6281337bf5f985f585d1db6a83adb05ce531f46"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/f6281337bf5f985f585d1db6a83adb05ce531f46",
+                "reference": "f6281337bf5f985f585d1db6a83adb05ce531f46",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "psr/log": "~1.0",
+                "symfony/config": "~2.0",
+                "symfony/dependency-injection": "~2.0,<2.6.0",
+                "symfony/stopwatch": "~2.2"
+            },
+            "suggest": {
+                "symfony/dependency-injection": "",
+                "symfony/http-kernel": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.5-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\EventDispatcher\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                }
+            ],
+            "description": "Symfony EventDispatcher Component",
+            "homepage": "http://symfony.com",
+            "time": "2014-09-28 15:56:11"
         },
         {
             "name": "symfony/http-foundation",
@@ -555,9 +612,7 @@
             "time": "2014-09-22 09:14:18"
         }
     ],
-    "aliases": [
-
-    ],
+    "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
         "nikic/fast-route": 20
@@ -566,7 +621,5 @@
     "platform": {
         "php": ">=5.4.0"
     },
-    "platform-dev": [
-
-    ]
+    "platform-dev": []
 }

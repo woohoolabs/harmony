@@ -46,6 +46,6 @@ class JmsDeserializer extends AbstractSerializer implements DeserializerInterfac
             throw new MediaTypeNotSupportedException();
         }
 
-        return $this->deserializer->deserialize($data, $isArray == true ? null : $isArray, $this->getFormat($mediaType));
+        return $this->deserializer->deserialize($data, $isArray === true ? null : $isArray, $this->getFormat($mediaType));
     }
 }

@@ -47,13 +47,13 @@ class ClassDispatcher extends AbstractDispatcher
     {
         $object= $this->container->get($this->className);
 
-        if($this->config->getPreHandlerHookName() != null && method_exists($object, $this->config->getPreHandlerHookName()) == true) {
+        if($this->config->getPreHandlerHookName() !== null && method_exists($object, $this->config->getPreHandlerHookName()) === true) {
             $object->{$this->config->getPreHandlerHookName($request)};
         }
 
         $response= $object->{$this->methodName}($request);
 
-        if($this->config->getPostHandlerHookName() != null && method_exists($object, $this->config->getPostHandlerHookName()) == true) {
+        if($this->config->getPostHandlerHookName() !== null && method_exists($object, $this->config->getPostHandlerHookName()) === true) {
             $object->{$this->config->getPostHandlerHookName($request)};
         }
 

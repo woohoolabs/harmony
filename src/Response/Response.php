@@ -74,7 +74,7 @@ class Response implements ResponseInterface
     private $suppressStatusCode= false;
 
     /**
-     * @var string
+     * @var int
      */
     private $statusCode= 200;
 
@@ -102,7 +102,7 @@ class Response implements ResponseInterface
      */
     public function setContentType($contentType, $mime = null)
     {
-        if ($mime == null) {
+        if ($mime === null) {
             $this->setMime($contentType);
         }
         $this->contentType = $contentType;
@@ -161,7 +161,7 @@ class Response implements ResponseInterface
      */
     public function getMime()
     {
-        if ($this->mime == null) {
+        if ($this->mime === null) {
             return $this->getContentType();
         }
 
@@ -181,7 +181,7 @@ class Response implements ResponseInterface
      */
     public function isRedirected()
     {
-        return ($this->getStatusCode() == 304 || $this->getStatusCode() == 307) && $this->location != null;
+        return ($this->getStatusCode() === 304 || $this->getStatusCode() == 307) && $this->location != null;
     }
 
     /**
@@ -199,7 +199,7 @@ class Response implements ResponseInterface
     public function setRedirection($url, $isPermanent = true)
     {
         $this->location= $url;
-        $this->setStatusCode($isPermanent == true ? 301 : 307);
+        $this->setStatusCode($isPermanent === true ? 301 : 307);
     }
 
     /**
@@ -315,7 +315,7 @@ class Response implements ResponseInterface
     }
 
     /**
-     * @return string
+     * @return int
      */
     public function getStatusCode()
     {
@@ -323,7 +323,7 @@ class Response implements ResponseInterface
     }
 
     /**
-     * @return string
+     * @return int
      */
     public function getOriginalStatusCode()
     {
@@ -331,7 +331,7 @@ class Response implements ResponseInterface
     }
 
     /**
-     * @param string $statusCode
+     * @param int $statusCode
      */
     public function setStatusCode($statusCode)
     {

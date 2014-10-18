@@ -3,7 +3,6 @@ namespace WoohooLabs\ApiFramework;
 
 use Interop\Container\ContainerInterface;
 use WoohooLabs\ApiFramework\Container\BasicContainer;
-use WoohooLabs\ApiFramework\Discoverer\DiscovererInterface;
 use WoohooLabs\ApiFramework\Dispatcher\ClassDispatcher;
 use WoohooLabs\ApiFramework\Request\FoundationRequest;
 use WoohooLabs\ApiFramework\Request\RequestInterface;
@@ -27,11 +26,6 @@ class ApiFramework
      * @var \Interop\Container\ContainerInterface
      */
     protected $container;
-
-    /**
-     * @var \WoohooLabs\ApiFramework\Discoverer\DiscovererInterface
-     */
-    protected $discoverer;
 
     /**
      * @var \WoohooLabs\ApiFramework\Router\RouterInterface
@@ -92,28 +86,37 @@ class ApiFramework
 
     protected function initialize()
     {
-        if ($this->container == null) {
+        $this->initializeBaseComponents();
+        $this->initializeTopComponents();
+    }
+
+    protected function initializeBaseComponents()
+    {
+        if ($this->container === null) {
             $this->container = new BasicContainer();
         }
+    }
 
-        if ($this->router == null) {
-            $this->router = new FastRouter($this->config, $this->container);
-        }
-
-        if ($this->serializer == null) {
-            $this->serializer = new PhpSerializer();
-        }
-
-        if ($this->deserializer == null) {
+    protected function initializeTopComponents()
+    {
+        if ($this->deserializer === null) {
             $this->deserializer = new PhpDeserializer();
         }
 
-        if ($this->responder == null) {
-            $this->responder = new FoundationResponder($this->config, $this->serializer, $this->request);
+        if ($this->serializer === null) {
+            $this->serializer = new PhpSerializer();
         }
 
-        if ($this->request == null) {
+        if ($this->request === null) {
             $this->request = new FoundationRequest($this->config, $this->deserializer);
+        }
+
+        if ($this->router === null) {
+            $this->router = new FastRouter($this->config, $this->container);
+        }
+
+        if ($this->responder === null) {
+            $this->responder = new FoundationResponder($this->config, $this->serializer, $this->request);
         }
     }
 
@@ -151,14 +154,6 @@ class ApiFramework
     protected function respond()
     {
         $this->responder->respond($this->response);
-    }
-
-    /**
-     * @param \WoohooLabs\ApiFramework\Discoverer\DiscovererInterface $discoverer
-     */
-    public function setDiscoverer(DiscovererInterface $discoverer)
-    {
-        $this->discoverer = $discoverer;
     }
 
     /**

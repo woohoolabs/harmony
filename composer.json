@@ -16,10 +16,18 @@
         "container-interop/container-interop": "~1.0"
     },
     "require-dev":{
-        "symfony/http-foundation": "*",
-        "nikic/fast-route": "*@dev",
-        "jms/serializer": "*",
-        "symfony/yaml": "*"
+        "jms/serializer": "~0.16",
+        "nikic/fast-route": "~0.2@dev",
+        "symfony/event-dispatcher": "~2.5",
+        "symfony/http-foundation": "~2.5",
+        "symfony/yaml": "~2.5"
+    },
+    "suggest":{
+        "jms/serializer": "If you want to use JmsSerializer or JmsDeserializer",
+        "nikic/fast-route": "If you want to use the default Router implementation",
+        "symfony/event-dispatcher": "If you want to use the default event dispatcher",
+        "symfony/http-foundation": "If you want to use the default Request and Responder implementations",
+        "symfony/yaml": "If you want to support serialization of YML format"
     },
     "autoload": {
         "psr-4": {

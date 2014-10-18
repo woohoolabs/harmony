@@ -88,18 +88,19 @@ tools like Swagger.
 - Full control over HTTP requests and responses
 - Support for different media types (JSON, YML, XML)
 - Support for any IoC Containers
+- Support for event listening
 
 ## Concepts
 
 1. Configuration
 2. Router
-3. Discoverer
-4. Container
-5. Deserializer
-6. Serializer
-7. Request
-8. Response
-9. Responder
+3. Container
+4. Deserializer
+5. Serializer
+6. Request
+7. Response
+8. Responder
+9. Event Dispatcher
 
 #### Configuration
 
@@ -117,14 +118,6 @@ Of course if you weren't satisfied with it, you can change it anytime with a min
 | Implementation      | Description                           |
 | ------------------- | ------------------------------------- |
 | `FastRouter     `   | Wrapper around the Fast Route library |
-
-#### Discoverer
-
-The notion of Discoverer was introduced to aid defining routes. Sometimes you don't want to call the ``addRoute()``
-method for each route. A reason could be that you have defined your routes elsewhere and you want to avoid
-duplication of these definitions which can be subjects of frequent change during development.
-
-Currently, there aren't any implementations.
 
 #### Container
 
@@ -173,9 +166,9 @@ A request object is the Object-Oriented representation of an HTTP request. For t
 Symfony's HTTP Foundation is used by a wrapper class which implements the ``RequestInterface``.
 
 | 
-| Implementation       | Description                                      |
-| -------------------- | ------------------------------------------------ |
-| `FoundationRequest`  | A wrapper around the Symfony Foundation library  |
+| Implementation       | Description                                            |
+| -------------------- | ------------------------------------------------------ |
+| `FoundationRequest`  | A wrapper around the Symfony Foundation request class  |
 
 #### Response
 
@@ -186,9 +179,19 @@ Again, the response is the Object-Oriented representation of an HTTP response. I
 A responder is capable of sending a response into the ether. For this purpose, Symfony's HTTP Foundation is used
 by a wrapper class which implements the ``ResponderInterface``.
 
-| Implementation        | Description                                       |
-| --------------------- | ------------------------------------------------- |
-| `FoundationResponder `| A wrapper around the Symfony Foundation responder |
+| Implementation        | Description                                             |
+| --------------------- | ------------------------------------------------------- |
+| `FoundationResponder` | A wrapper around the Symfony Foundation response class  |
+
+#### Event Dispatcher
+
+An event dispatcher emits events during each phase of the control flow. These events can be listened
+by listeners (they are callables or class methods) after you had them subscribed. Read more about it
+in the Advanced Usage section.
+
+| Implementation           | Description                                       |
+| ------------------------ | ------------------------------------------------- |
+| `SymfonyEventDispatcher` | A wrapper around Symfony Event Dispatcher         |
 
 ## Install
 
@@ -196,30 +199,25 @@ The steps of this process are quite straightforward. The only thing you need is 
 
 #### Add API Framework to your composer.json:
 
-```json
-{
-    "require": {
-        "woohoolabs/api-framework": "0.*"
-    }
-}
+To install this library, run the command below and you will get the latest version:
+
+```bash
+$ composer require woohoolabs/api-framework
 ```
 
-#### Add the dependencies to your composer.json if needed:
+#### Add the necessary dependencies:
 
-If you want to use the default components (like the router, serializer etc.) then you have to ask for the following
-dependencies too:
+If you want to use the default components (like the router, serializer, event dispatcher etc.) then you have to ask
+for the following dependencies too:
 
-```json
-{
-    "require": {
-        "symfony/http-foundation": "*",
-        "nikic/fast-route": "*@dev",
-        "symfony/yaml": "*"
-    }
-}
+```bash
+$ composer require symfony/http-foundation
+$ composer require nikic/fast-route
+$ composer require symfony/event-dispatcher
+$ composer require symfony/yaml
 ```
 
-In order to use the ``JmsSerializer`` and ``JmsDeserializer`` classes, require ``"jms/serializer": "*"`` too.
+In order to use the ``JmsSerializer`` and ``JmsDeserializer`` classes, require ``jms/serializer`` too.
 
 #### Update your dependencies with Composer:
 
@@ -362,6 +360,59 @@ to provide any return value.
 Additionally you can even override the name of the hooks in the configuration: so if you have already
 had a method like ``preDispatch()`` then you can use it easily!
 
-## The End
+#### Events
 
-**Congratulations, you have just learned how to use Woohoo Labs. API Framework!**
+Listening to events is also possible with API Framework. If you want to use this functionality, you will
+have to complete the following steps:
+
+- Change the main class of the framework to ``EventApiFramework`` in your code and the configuration class
+to ``EventConfig``.
+
+- Subscribe for the events in the configuration similar to the way you define the routes.
+
+- You can customize which event dispatching library to use by calling
+``EventApiFramework::setEventDispatcher()``. Of course this step is totally optional.
+
+- If you stay with the default implementation, ensure you required the Symfony Event Dispatcher library in
+your composer.json:
+
+```bash
+$ composer require symfony/event-dispatcher 
+```
+
+Here is an example:
+
+use WoohooLabs\ApiFramework\Event\EventDispatcherConsumerInterface;
+use WoohooLabs\ApiFramework\Event\Events;
+use WoohooLabs\ApiFramework\Event\EventInterface;
+
+```php
+$config= new EventConfig();
+$config->setEvents(function (EventDispatcherConsumerInterface $eventDispatcher) {
+    $eventDispatcher->addCallbackListener(Events::BEFORE_SENDING_RESPONSE, function (EventInterface $event) {
+        echo "Request URI: " . $event->getRequest()->getUri() . "<br />";
+        echo "Response Content-Type: " . $event->getResponse()->getContentType();
+        exit();
+    });
+});
+
+$apiFramework= new EventApiFramework($config);
+$apiFramework->work();
+```
+
+Note that your listeners always have to expect one argument with a type of ``EventInterface``. Depending
+on the current phase of request-response lifecycle, this object can carry the request and/or the response objects (as
+you can see above). Here is the list of the different events:
+
+| Name                                 | Description                                                                  |
+| ------------------------------------ | ---------------------------------------------------------------------------- |
+| ``Events::BEFORE_RECEIVING_REQUEST`` | Dispatched before the request object is instantiated                         |
+| ``Events::AFTER_RECEIVING_REQUEST``  | Dispatched after the instantiation of the request object                     |
+| ``Events::AFTER_DISCOVERY``          | Dispatched after the routes have been defined but not yet dispatched         |
+| ``Events::AFTER_ROUTING``            | Dispatched after the appropriate route has been selected but not yet handled |
+| ``Events::BEFORE_SENDING_RESPONSE``  | Dispatched before sending the composed response                              |
+
+## License
+
+The MIT License (MIT). Please see [License File](https://github.com/woohoolabs/api-framework/blob/master/LICENSE.md)
+for more information.
