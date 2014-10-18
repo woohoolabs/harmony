@@ -225,7 +225,7 @@ In order to use the ``JmsSerializer`` and ``JmsDeserializer`` classes, require `
 $ composer update
 ```
 
-#### Autoload the classes in your bootstrap:
+#### Autoload classes in your bootstrap:
 
 ```php
 require "vendor/autoload.php"
