@@ -18,9 +18,9 @@
     "require-dev":{
         "jms/serializer": "~0.16",
         "nikic/fast-route": "dev-master",
-        "symfony/event-dispatcher": "~2.4",
-        "symfony/http-foundation": "~2.4",
-        "symfony/yaml": "~2.4"
+        "symfony/event-dispatcher": "~2.5",
+        "symfony/http-foundation": "~2.5",
+        "symfony/yaml": "~2.5"
     },
     "suggest":{
         "jms/serializer": "If you want to use JmsSerializer or JmsDeserializer",
