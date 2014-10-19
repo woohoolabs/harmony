@@ -129,6 +129,11 @@ interface RequestInterface
     public function isNoCache();
 
     /**
+     * @return string|null
+     */
+    public function getAuthorizationHeader();
+
+    /**
      * @return array
      */
     public function getCustomHeaders();

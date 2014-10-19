@@ -3,6 +3,7 @@
 ### 0.3.0 - XXXX-XX-XX
 
 #### Added
+- New methods and properties for the ``Request`` and ``Response`` objects 
 
 #### Changed
 

@@ -2,7 +2,7 @@
     "name":"woohoolabs/api-framework",
     "description":"Woohoo Labs. API Framework",
     "type":"library",
-    "keywords":["Woohoo Labs.", "API", "REST", "Swagger"],
+    "keywords":["Woohoo Labs.", "API", "REST", "Framework"],
     "homepage":"http://api-framework.woohoolabs.com",
     "license":"MIT",
     "authors":[

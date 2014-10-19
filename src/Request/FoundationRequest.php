@@ -220,6 +220,14 @@ class FoundationRequest implements RequestInterface
     }
 
     /**
+     * @return string|null
+     */
+    public function getAuthorizationHeader()
+    {
+        return $this->request->headers->get("Authorization", null);
+    }
+
+    /**
      * @param string $name
      * @return string|null
      */
