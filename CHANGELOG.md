@@ -1,6 +1,19 @@
 # Change Log
 
-### 0.2.0 - 2014-XX-XX
+### 0.3.0 - XXXX-XX-XX
+
+#### Added
+
+#### Changed
+
+#### Fixed
+
+### 0.2.1 - 2014-10-19
+
+#### Fixed
+- Issue with class event listeners
+
+### 0.2.0 - 2014-10-18
 
 #### Added
 - Event dispatcher
