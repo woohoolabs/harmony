@@ -52,7 +52,6 @@ class EventApiFramework extends ApiFramework
     {
         $this->eventDispatcher->dispatchBeforeSendingResponse($this->request, $this->response);
         parent::respond();
-        $this->eventDispatcher->dispatchAfterSendingResponse();
     }
 
     /**

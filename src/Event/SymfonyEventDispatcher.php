@@ -23,6 +23,7 @@ class SymfonyEventDispatcher implements EventDispatcherInterface, EventDispatche
      */
     public function __construct(ContainerInterface $container)
     {
+        $this->container = $container;
         $this->eventDispatcher= new EventDispatcher();
     }
 

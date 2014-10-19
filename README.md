@@ -389,11 +389,14 @@ use WoohooLabs\ApiFramework\Event\EventInterface;
 ```php
 $config= new EventConfig();
 $config->setEvents(function (EventDispatcherConsumerInterface $eventDispatcher) {
-    $eventDispatcher->addCallbackListener(Events::BEFORE_SENDING_RESPONSE, function (EventInterface $event) {
-        echo "Request URI: " . $event->getRequest()->getUri() . "<br />";
-        echo "Response Content-Type: " . $event->getResponse()->getContentType();
-        exit();
-    });
+    $eventDispatcher->addCallbackListener(
+        Events::BEFORE_SENDING_RESPONSE,
+        function (EventInterface $event) {
+            echo "Request URI: " . $event->getRequest()->getUri() . "<br />";
+            echo "Response Content-Type: " . $event->getResponse()->getContentType();
+            exit();
+        }
+    );
 });
 
 $apiFramework= new EventApiFramework($config);
@@ -406,7 +409,7 @@ you can see above). Here is the list of the different events:
 
 | Name                                 | Description                                                                  |
 | ------------------------------------ | ---------------------------------------------------------------------------- |
-| ``Events::BEFORE_RECEIVING_REQUEST`` | Dispatched before the request object is instantiated                         |
+| ``Events::BEFORE_RECEIVING_REQUEST`` | Dispatched before the request object is instantiate.                         |
 | ``Events::AFTER_RECEIVING_REQUEST``  | Dispatched after the instantiation of the request object                     |
 | ``Events::AFTER_DISCOVERY``          | Dispatched after the routes have been defined but not yet dispatched         |
 | ``Events::AFTER_ROUTING``            | Dispatched after the appropriate route has been selected but not yet handled |
