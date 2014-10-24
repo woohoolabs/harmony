@@ -100,7 +100,7 @@ class ApiFramework
         }
 
         if ($this->response === null) {
-            $this->response = new FoundationResponse($this->config, $this->serializer, $this->request);
+            $this->response = new FoundationResponse($this->serializer);
         }
     }
 
