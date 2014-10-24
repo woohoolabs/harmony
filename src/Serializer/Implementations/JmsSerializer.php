@@ -4,15 +4,14 @@ namespace WoohooLabs\ApiFramework\Serializer\Implementations;
 use JMS\Serializer\Exception\UnsupportedFormatException;
 use JMS\Serializer\SerializerBuilder;
 use WoohooLabs\ApiFramework\Config;
-use WoohooLabs\ApiFramework\Serializer\DeserializerInterface;
 use WoohooLabs\ApiFramework\Serializer\DeserializerTrait;
 use WoohooLabs\ApiFramework\Serializer\FormatNotSupportedException;
 use WoohooLabs\ApiFramework\Serializer\Formats;
 use WoohooLabs\ApiFramework\Serializer\SerializerException;
-use WoohooLabs\ApiFramework\Serializer\SerializerInterface;
 use WoohooLabs\ApiFramework\Serializer\SerializerTrait;
+use WoohooLabs\ApiFramework\Serializer\TwoWaySerializerInterface;
 
-class JmsSerializer implements SerializerInterface, DeserializerInterface
+class JmsSerializer implements TwoWaySerializerInterface
 {
     use SerializerTrait;
     use DeserializerTrait;
@@ -61,6 +60,10 @@ class JmsSerializer implements SerializerInterface, DeserializerInterface
      */
     public function serialize($data, $format)
     {
+        if ($this->isFormatDeserializable($format) !== true) {
+            throw new FormatNotSupportedException;
+        }
+
         try {
             return $this->serializer->serialize($data, $format);
         } catch (UnsupportedFormatException $e) {
@@ -79,6 +82,10 @@ class JmsSerializer implements SerializerInterface, DeserializerInterface
      */
     public function deserialize($data, $format)
     {
+        if ($this->isFormatDeserializable($format) !== true) {
+            throw new FormatNotSupportedException;
+        }
+
         try {
             return $this->serializer->deserialize($data, null, $format);
         } catch (UnsupportedFormatException $e) {

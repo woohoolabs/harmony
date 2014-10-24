@@ -3,6 +3,7 @@ namespace WoohooLabs\ApiFramework\Serializer\Implementations;
 
 use WoohooLabs\ApiFramework\Serializer\DeserializerInterface;
 use WoohooLabs\ApiFramework\Serializer\DeserializerTrait;
+use WoohooLabs\ApiFramework\Serializer\FormatNotSupportedException;
 use WoohooLabs\ApiFramework\Serializer\Formats;
 use WoohooLabs\ApiFramework\Serializer\SerializerException;
 use WoohooLabs\ApiFramework\Serializer\SerializerInterface;
@@ -38,6 +39,10 @@ class JsonSerializer implements SerializerInterface, DeserializerInterface
      */
     public function serialize($data, $format)
     {
+        if ($this->isFormatDeserializable($format) !== true) {
+            throw new FormatNotSupportedException;
+        }
+
         try {
             return json_encode($data);
         } catch (\Exception $e) {
@@ -54,6 +59,10 @@ class JsonSerializer implements SerializerInterface, DeserializerInterface
      */
     public function deserialize($data, $format)
     {
+        if ($this->isFormatDeserializable($format) !== true) {
+            throw new FormatNotSupportedException;
+        }
+
         try {
             return json_decode($data, true);
         } catch (\Exception $e) {

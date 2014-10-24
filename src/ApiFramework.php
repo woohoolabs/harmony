@@ -6,14 +6,11 @@ use WoohooLabs\ApiFramework\Container\BasicContainer;
 use WoohooLabs\ApiFramework\Dispatcher\ClassDispatcher;
 use WoohooLabs\ApiFramework\Request\FoundationRequest;
 use WoohooLabs\ApiFramework\Request\RequestInterface;
-use WoohooLabs\ApiFramework\Response\FoundationResponder;
-use WoohooLabs\ApiFramework\Response\ResponderInterface;
+use WoohooLabs\ApiFramework\Response\FoundationResponse;
+use WoohooLabs\ApiFramework\Response\ResponseInterface;
 use WoohooLabs\ApiFramework\Router\FastRouter;
 use WoohooLabs\ApiFramework\Router\RouterInterface;
-use WoohooLabs\ApiFramework\Serializer\Formats;
-use WoohooLabs\ApiFramework\Serializer\Implementations\CompositeSerializer;
 use WoohooLabs\ApiFramework\Serializer\Implementations\JmsSerializer;
-use WoohooLabs\ApiFramework\Serializer\Implementations\NaiveSerializer;
 use WoohooLabs\ApiFramework\Serializer\TwoWaySerializerInterface;
 
 class ApiFramework
@@ -34,19 +31,19 @@ class ApiFramework
     protected $router;
 
     /**
-     * @var \WoohooLabs\ApiFramework\Serializer\Implementations\CompositeSerializer
+     * @var \WoohooLabs\ApiFramework\Serializer\TwoWaySerializerInterface
      */
     protected $serializer;
-
-    /**
-     * @var \WoohooLabs\ApiFramework\Response\ResponderInterface
-     */
-    protected $responder;
 
     /**
      * @var \WoohooLabs\ApiFramework\Request\RequestInterface
      */
     protected $request;
+
+    /**
+     * @var \WoohooLabs\ApiFramework\Response\ResponseInterface
+     */
+    protected $response;
 
     /**
      * @var \WoohooLabs\ApiFramework\Dispatcher\AbstractDispatcher
@@ -57,11 +54,6 @@ class ApiFramework
      * @var Object
      */
     protected $handler;
-
-    /**
-     * @var \WoohooLabs\ApiFramework\Response\ResponseInterface
-     */
-    protected $response;
 
     /**
      * @param \WoohooLabs\ApiFramework\Config $config
@@ -96,15 +88,7 @@ class ApiFramework
     protected function initializeTopComponents()
     {
         if ($this->serializer === null) {
-            $naiveSerializer= function() {return new NaiveSerializer();};
-            $jmsSerializer= function() {return new JmsSerializer($this->config); };
-
-            $this->serializer = new CompositeSerializer($this->config);
-            $this->serializer->addMultiSerializer([Formats::HTML, Formats::PLAIN], $naiveSerializer);
-            $this->serializer->addMultiDeserializer([Formats::HTML, Formats::PLAIN], $naiveSerializer);
-
-            $this->serializer->addMultiSerializer([Formats::JSON, Formats::XML, Formats::YML], $jmsSerializer);
-            $this->serializer->addMultiDeserializer([Formats::JSON, Formats::XML], $jmsSerializer);
+            $this->serializer = new JmsSerializer($this->config);
         }
 
         if ($this->request === null) {
@@ -115,8 +99,8 @@ class ApiFramework
             $this->router = new FastRouter($this->config, $this->container);
         }
 
-        if ($this->responder === null) {
-            $this->responder = new FoundationResponder($this->config, $this->serializer, $this->request);
+        if ($this->response === null) {
+            $this->response = new FoundationResponse($this->config, $this->serializer, $this->request);
         }
     }
 
@@ -148,12 +132,12 @@ class ApiFramework
             $this->dispatcher->setConfig($this->config);
             $this->dispatcher->setContainer($this->container);
         }
-        $this->response= $this->dispatcher->dispatch($this->request);
+        $this->response= $this->dispatcher->dispatch($this->request, $this->response);
     }
 
     protected function respond()
     {
-        $this->responder->respond($this->response);
+        $this->response->respond();
     }
 
     /**
@@ -189,10 +173,10 @@ class ApiFramework
     }
 
     /**
-     * @param \WoohooLabs\ApiFramework\Response\ResponderInterface $responder
+     * @param \WoohooLabs\ApiFramework\Response\ResponseInterface $responder
      */
-    public function setResponder(ResponderInterface $responder)
+    public function setResponse(ResponseInterface $responder)
     {
-        $this->responder = $responder;
+        $this->response = $responder;
     }
 }
