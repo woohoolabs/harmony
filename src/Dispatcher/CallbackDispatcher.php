@@ -2,6 +2,7 @@
 namespace WoohooLabs\ApiFramework\Dispatcher;
 
 use WoohooLabs\ApiFramework\Request\RequestInterface;
+use WoohooLabs\ApiFramework\Response\ResponseInterface;
 
 class CallbackDispatcher extends AbstractDispatcher
 {
@@ -22,11 +23,12 @@ class CallbackDispatcher extends AbstractDispatcher
 
     /**
      * @param \WoohooLabs\ApiFramework\Request\RequestInterface $request
+     * @param \WoohooLabs\ApiFramework\Response\ResponseInterface $response
      * @return \WoohooLabs\ApiFramework\Response\ResponseInterface
      */
-    public function dispatch(RequestInterface $request)
+    public function dispatch(RequestInterface $request, ResponseInterface $response)
     {
-        return call_user_func($this->callback, $request);
+        return call_user_func($this->callback, $request, $response);
     }
 
     /**

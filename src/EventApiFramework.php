@@ -33,19 +33,19 @@ class EventApiFramework extends ApiFramework
 
         parent::initializeTopComponents();
 
-        $this->eventDispatcher->dispatchAfterReceivingRequest($this->request);
+        $this->eventDispatcher->dispatchAfterReceivingRequest($this->request, $this->response);
     }
 
     protected function discover()
     {
         parent::discover();
-        $this->eventDispatcher->dispatchAfterDiscovery($this->request);
+        $this->eventDispatcher->dispatchAfterDiscovery($this->request, $this->response);
     }
 
     protected function route()
     {
         parent::route();
-        $this->eventDispatcher->dispatchAfterRouting($this->request);
+        $this->eventDispatcher->dispatchAfterRouting($this->request, $this->response);
     }
 
     protected function respond()

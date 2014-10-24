@@ -1,9 +1,9 @@
 <?php
 namespace WoohooLabs\ApiFramework\Response;
 
-use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use WoohooLabs\ApiFramework\Serializer\SerializerInterface;
 
 class FoundationResponse implements ResponseInterface
 {

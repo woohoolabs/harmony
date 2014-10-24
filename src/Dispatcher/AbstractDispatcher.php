@@ -2,6 +2,7 @@
 namespace WoohooLabs\ApiFramework\Dispatcher;
 
 use WoohooLabs\ApiFramework\Request\RequestInterface;
+use WoohooLabs\ApiFramework\Response\ResponseInterface;
 
 abstract class AbstractDispatcher
 {
@@ -12,9 +13,10 @@ abstract class AbstractDispatcher
 
     /**
      * @param \WoohooLabs\ApiFramework\Request\RequestInterface $request
+     * @param \WoohooLabs\ApiFramework\Response\ResponseInterface $response
      * @return \WoohooLabs\ApiFramework\Response\ResponseInterface
      */
-    abstract public function dispatch(RequestInterface $request);
+    abstract public function dispatch(RequestInterface $request, ResponseInterface $response);
 
     /**
      * @param array $parameters

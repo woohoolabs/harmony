@@ -56,31 +56,34 @@ class SymfonyEventDispatcher implements EventDispatcherInterface, EventDispatche
 
     /**
      * @param \WoohooLabs\ApiFramework\Request\RequestInterface $request
+     * @param \WoohooLabs\ApiFramework\Response\ResponseInterface $response
      */
-    public function dispatchAfterReceivingRequest(RequestInterface $request)
+    public function dispatchAfterReceivingRequest(RequestInterface $request, ResponseInterface $response)
     {
         if ($this->eventDispatcher->hasListeners(Events::AFTER_RECEIVING_REQUEST)) {
-            $this->dispatch(Events::AFTER_RECEIVING_REQUEST, new SymfonyEvent($request));
+            $this->dispatch(Events::AFTER_RECEIVING_REQUEST, new SymfonyEvent($request, $response));
         }
     }
 
     /**
      * @param \WoohooLabs\ApiFramework\Request\RequestInterface $request
+     * @param \WoohooLabs\ApiFramework\Response\ResponseInterface $response
      */
-    public function dispatchAfterDiscovery(RequestInterface $request)
+    public function dispatchAfterDiscovery(RequestInterface $request, ResponseInterface $response)
     {
         if ($this->eventDispatcher->hasListeners(Events::AFTER_DISCOVERY)) {
-            $this->dispatch(Events::AFTER_DISCOVERY, new SymfonyEvent($request));
+            $this->dispatch(Events::AFTER_DISCOVERY, new SymfonyEvent($request, $response));
         }
     }
 
     /**
      * @param \WoohooLabs\ApiFramework\Request\RequestInterface $request
+     * @param \WoohooLabs\ApiFramework\Response\ResponseInterface $response
      */
-    public function dispatchAfterRouting(RequestInterface $request)
+    public function dispatchAfterRouting(RequestInterface $request, ResponseInterface $response)
     {
         if ($this->eventDispatcher->hasListeners(Events::AFTER_ROUTING)) {
-            $this->dispatch(Events::AFTER_ROUTING, new SymfonyEvent($request));
+            $this->dispatch(Events::AFTER_ROUTING, new SymfonyEvent($request, $response));
         }
     }
 
