@@ -1,11 +1,13 @@
 # Change Log
 
-### 0.3.0 - XXXX-XX-XX
+### 0.3.0 - 2014-10-25
 
 #### Added
-- New methods and properties for the ``Request`` and ``Response`` objects 
+- ``Request`` and ``Response`` objects got new capabilities
 
 #### Changed
+- Completely reworked serializers/deserializers
+- ``Responder`` objects were removed, ``Response`` objects became responders too
 
 #### Fixed
 

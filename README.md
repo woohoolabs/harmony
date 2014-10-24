@@ -99,8 +99,7 @@ tools like Swagger.
 5. Serializer
 6. Request
 7. Response
-8. Responder
-9. Event Dispatcher
+8. Event Dispatcher
 
 #### Configuration
 
@@ -135,30 +134,22 @@ adapter for them implementing the common interface.
 | ------------------- | ------------------------------------------------ |
 | `BasicContainer `   | Instantiates the handler classes with reflection |
 
-#### Deserializer
+#### Serializers/Deserializers
 
 A deserializer automatically handles string to array/object conversion from data formats like JSON, XML or
 YML. They are needed in the beginning of the a request-response lifecycle when the framework receives a
-request and the contained data (e.g.: body) should be converted into an array or object. As a default,
-``PHPDeserializer`` is used.
-
-| Implementation      | Supported formats | Description                                  |
-| ------------------- | ----------------- | -------------------------------------------- |
-| `PhpDeserializer`   | JSON              | Deserializes with pure PHP functions         |
-| `JmsDeserializer`   | JSON, XML         | A wrapper around the JmsSerializer library   |
-| `NaiveDeserializer` | -                 | Only outputs the original data               |
-
-#### Serializer
+request and the contained data (the body) should be converted into an array or object.
 
 A serializer automatically handles array/object to string conversion into data formats like JSON, XML or YML.
 They are needed in the end of the request-response lifecycle when you want to send your data as a response.
-As a default, ``PHPSerializer`` is used which is able to produce data in JSON format.
 
-| Implementation    | Supported formats | Description                                  |
-| ----------------- | ----------------- | -------------------------------------------- |
-| `PhpSerializer`   | JSON              | Serializes with pure PHP functions           |
-| `JmsSerializer`   | JSON, XML, YML    | A wrapper around the JmsSerializer library   |
-| `NaiveSerializer` | -                 | Only outputs the original data               |
+| Implementation       | Supported formats | Description                                                 |
+| -------------------- | ----------------- | ----------------------------------------------------------- |
+| `JmsSerializer`      | JSON, XML, YML    | A wrapper around the JmsSerializer library                  |
+| `FormSerializer`     | form data         | Serializes/deserializes form data                           |
+| `JsonSerializer`     | JSON              | Serializes/deserializes with pure PHP functions             |
+| `CompoundSerializer` | any               | Supports choosing a serializer/deserializer for each format |
+| `NaiveSerializer`    | -                 | Just transmits the received data                            |
 
 #### Request
 
@@ -172,16 +163,12 @@ Symfony's HTTP Foundation is used by a wrapper class which implements the ``Requ
 
 #### Response
 
-Again, the response is the Object-Oriented representation of an HTTP response. It is just a POPO again.
+The response is the Object-Oriented representation of an HTTP response. It is capable to send itself
+into the ether. For this purpose, Symfony's HTTP Foundation is used by default by a wrapper class.
 
-#### Responder
-
-A responder is capable of sending a response into the ether. For this purpose, Symfony's HTTP Foundation is used
-by a wrapper class which implements the ``ResponderInterface``.
-
-| Implementation        | Description                                             |
-| --------------------- | ------------------------------------------------------- |
-| `FoundationResponder` | A wrapper around the Symfony Foundation response class  |
+| Implementation        | Description                                            |
+| --------------------- | ------------------------------------------------------ |
+| `FoundationResponse`  | A wrapper around the Symfony Foundation response class |
 
 #### Event Dispatcher
 
@@ -417,5 +404,5 @@ you can see above). Here is the list of the different events:
 
 ## License
 
-The MIT License (MIT). Please see [License File](https://github.com/woohoolabs/api-framework/blob/master/LICENSE.md)
+The MIT License (MIT). Please see the [License File](https://github.com/woohoolabs/api-framework/blob/master/LICENSE.md)
 for more information.
