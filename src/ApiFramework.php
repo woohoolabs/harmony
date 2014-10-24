@@ -10,10 +10,11 @@ use WoohooLabs\ApiFramework\Response\FoundationResponder;
 use WoohooLabs\ApiFramework\Response\ResponderInterface;
 use WoohooLabs\ApiFramework\Router\FastRouter;
 use WoohooLabs\ApiFramework\Router\RouterInterface;
-use WoohooLabs\ApiFramework\Serializer\Serializer\PhpSerializer;
-use WoohooLabs\ApiFramework\Serializer\Serializer\SerializerInterface;
-use WoohooLabs\ApiFramework\Serializer\Deserializer\PhpDeserializer;
-use WoohooLabs\ApiFramework\Serializer\Deserializer\DeserializerInterface;
+use WoohooLabs\ApiFramework\Serializer\Formats;
+use WoohooLabs\ApiFramework\Serializer\Implementations\CompositeSerializer;
+use WoohooLabs\ApiFramework\Serializer\Implementations\JmsSerializer;
+use WoohooLabs\ApiFramework\Serializer\Implementations\NaiveSerializer;
+use WoohooLabs\ApiFramework\Serializer\TwoWaySerializerInterface;
 
 class ApiFramework
 {
@@ -33,14 +34,9 @@ class ApiFramework
     protected $router;
 
     /**
-     * @var \WoohooLabs\ApiFramework\Serializer\Serializer\SerializerInterface
+     * @var \WoohooLabs\ApiFramework\Serializer\Implementations\CompositeSerializer
      */
     protected $serializer;
-
-    /**
-     * @var \WoohooLabs\ApiFramework\Serializer\Deserializer\DeserializerInterface
-     */
-    protected $deserializer;
 
     /**
      * @var \WoohooLabs\ApiFramework\Response\ResponderInterface
@@ -99,16 +95,20 @@ class ApiFramework
 
     protected function initializeTopComponents()
     {
-        if ($this->deserializer === null) {
-            $this->deserializer = new PhpDeserializer();
-        }
-
         if ($this->serializer === null) {
-            $this->serializer = new PhpSerializer();
+            $naiveSerializer= function() {return new NaiveSerializer();};
+            $jmsSerializer= function() {return new JmsSerializer($this->config); };
+
+            $this->serializer = new CompositeSerializer($this->config);
+            $this->serializer->addMultiSerializer([Formats::HTML, Formats::PLAIN], $naiveSerializer);
+            $this->serializer->addMultiDeserializer([Formats::HTML, Formats::PLAIN], $naiveSerializer);
+
+            $this->serializer->addMultiSerializer([Formats::JSON, Formats::XML, Formats::YML], $jmsSerializer);
+            $this->serializer->addMultiDeserializer([Formats::JSON, Formats::XML], $jmsSerializer);
         }
 
         if ($this->request === null) {
-            $this->request = new FoundationRequest($this->config, $this->deserializer);
+            $this->request = new FoundationRequest($this->config, $this->serializer);
         }
 
         if ($this->router === null) {
@@ -173,19 +173,11 @@ class ApiFramework
     }
 
     /**
-     * @param \WoohooLabs\ApiFramework\Serializer\Serializer\SerializerInterface $serializer
+     * @param \WoohooLabs\ApiFramework\Serializer\TwoWaySerializerInterface $serializer
      */
-    public function setSerializer(SerializerInterface $serializer)
+    public function setSerializer(TwoWaySerializerInterface $serializer)
     {
         $this->serializer = $serializer;
-    }
-
-    /**
-     * @param \WoohooLabs\ApiFramework\Serializer\Deserializer\DeserializerInterface $deserializer
-     */
-    public function setDeserializer(DeserializerInterface $deserializer)
-    {
-        $this->deserializer = $deserializer;
     }
 
     /**
