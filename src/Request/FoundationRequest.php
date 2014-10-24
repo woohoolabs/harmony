@@ -1,14 +1,15 @@
 <?php
 namespace WoohooLabs\ApiFramework\Request;
 
-use WoohooLabs\ApiFramework\Serializer\Deserializer\DeserializerInterface;
+use WoohooLabs\ApiFramework\Serializer\DeserializerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use WoohooLabs\ApiFramework\Config;
+use WoohooLabs\ApiFramework\Serializer\Formats;
 
 class FoundationRequest implements RequestInterface
 {
     /**
-     * @var \WoohooLabs\ApiFramework\Serializer\Deserializer\DeserializerInterface
+     * @var \WoohooLabs\ApiFramework\Serializer\DeserializerInterface
      */
     private $deserializer;
 
@@ -27,6 +28,15 @@ class FoundationRequest implements RequestInterface
      */
     private $requestParameters;
 
+    /**
+     * @var string
+     */
+    private $route;
+
+    /**
+     * @param \WoohooLabs\ApiFramework\Config $config
+     * @param \WoohooLabs\ApiFramework\Serializer\DeserializerInterface $deserializer
+     */
     public function __construct(Config $config, DeserializerInterface $deserializer)
     {
         $this->request= Request::createFromGlobals();
@@ -73,14 +83,6 @@ class FoundationRequest implements RequestInterface
     /**
      * @return string
      */
-    public function getUrl()
-    {
-        return $this->request->getUri();
-    }
-
-    /**
-     * @return string
-     */
     public function getMethod()
     {
         return $this->request->getMethod();
@@ -92,14 +94,6 @@ class FoundationRequest implements RequestInterface
     public function getUri()
     {
         return $this->request->getPathInfo();
-    }
-
-    /**
-     * @return string
-     */
-    public function getPath()
-    {
-        return $this->request->getRequestUri();
     }
 
     /**
@@ -147,28 +141,52 @@ class FoundationRequest implements RequestInterface
     }
 
     /**
+     * @param string $key
+     * @return string|null
+     */
+    public function getQueryStringProperty($key)
+    {
+        return $this->request->query->get($key);
+    }
+
+    /**
      * @return string
      */
-    public function getBody()
+    public function getPath()
     {
-        return $this->request->getContent();
+        return $this->request->getRequestUri();
     }
 
     /**
-     * @return array
+     * @return string
      */
-    public function getBodyAsArray()
+    public function getRoute()
     {
-        return $this->deserializer->deserialize($this->getBody(), $this->getContentType());
+        return $this->route;
     }
 
     /**
-     * @param string $type
-     * @return array
+     * @param string $route
      */
-    public function getBodyAsObject($type)
+    public function setRoute($route)
     {
-        return $this->deserializer->deserialize($this->getBody(), $this->getContentType(), $type);
+        $this->route = $route;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrl()
+    {
+        return $this->request->getPathInfo();
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getFormat()
+    {
+        return Formats::convertMimeTypeToFormat($this->request->getContentType());
     }
 
     /**
@@ -176,7 +194,7 @@ class FoundationRequest implements RequestInterface
      */
     public function getContentType()
     {
-        return $this->request->headers->get("Content-Type");
+        return $this->request->getContentType();
     }
 
     /**
@@ -231,7 +249,7 @@ class FoundationRequest implements RequestInterface
      * @param string $name
      * @return string|null
      */
-    public function getCustomHeader($name)
+    public function getHeader($name)
     {
         return $this->request->headers->get($name, null);
     }
@@ -239,7 +257,7 @@ class FoundationRequest implements RequestInterface
     /**
      * @return array
      */
-    public function getCustomHeaders()
+    public function getAllHeaders()
     {
         return $this->request->headers->all();
     }
@@ -258,15 +276,31 @@ class FoundationRequest implements RequestInterface
     }
 
     /**
+     * @return string
+     */
+    public function getBody()
+    {
+        return $this->request->getContent();
+    }
+
+    /**
      * @return array
      */
-    public function getDataAsArray()
+    public function getBodyDeserialized()
+    {
+        return $this->deserializer->deserialize($this->getBody(), $this->getFormat());
+    }
+
+    /**
+     * @return array
+     */
+    public function getDataDeserialized()
     {
         if ($this->requestParameters === null) {
             if ($this->getMethod() == HttpMethods::GET || HttpMethods::HEAD || HttpMethods::DELETE) {
                 $this->requestParameters = $this->getQueryStringAsArray();
             } else {
-                $this->requestParameters = $this->getBodyAsArray();
+                $this->requestParameters = $this->getBodyDeserialized();
             }
         }
 

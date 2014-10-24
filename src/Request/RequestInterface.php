@@ -5,6 +5,12 @@ interface RequestInterface
 {
     /**
      * @return string
+     * @example GET
+     */
+    public function getMethod();
+
+    /**
+     * @return string
      * @example http
      */
     public function getScheme();
@@ -23,26 +29,19 @@ interface RequestInterface
 
     /**
      * @return string
+     * @example 8080
      */
     public function getPort();
 
     /**
      * @return string
-     */
-    public function getMethod();
-
-    /**
-     * @return string
-     */
-    public function getUrl();
-
-    /**
-     * @return string
+     * @example /users/1
      */
     public function getUri();
 
     /**
      * @return array
+     * @example ['user' => 1]
      */
     public function getUriParameters();
 
@@ -59,37 +58,54 @@ interface RequestInterface
 
     /**
      * @return string
-     */
-    public function getPath();
-
-    /**
-     * @return string
+     * @example page=1&per_page=10
      */
     public function getQueryString();
 
     /**
      * @return array
+     * @example ['page' => 1, 'per_page' => 10]
      */
     public function getQueryStringAsArray();
 
     /**
+     * @param string $key
+     * @return string|null
+     */
+    public function getQueryStringProperty($key);
+
+    /**
      * @return string
+     * @example /users/1?page=1&per_page=10
      */
-    public function getBody();
-
-    /**
-     * @return array
-     */
-    public function getBodyAsArray();
-
-    /**
-     * @param string $type
-     * @return array
-     */
-    public function getBodyAsObject($type);
+    public function getPath();
 
     /**
      * @return string|null
+     * @example /users/{userId}
+     */
+    public function getRoute();
+
+    /**
+     * @param string $route
+     */
+    public function setRoute($route);
+
+    /**
+     * @return string
+     * @example http://example.com:8080/users/1
+     */
+    public function getUrl();
+
+    /**
+     * @return string|null
+     * @example json
+     */
+    public function getFormat();
+
+    /**
+     * @return string|null
+     * @example application/json
      */
     public function getContentType();
 
@@ -136,16 +152,26 @@ interface RequestInterface
     /**
      * @return array
      */
-    public function getCustomHeaders();
+    public function getAllHeaders();
 
     /**
      * @param string $name
      * @return string|null
      */
-    public function getCustomHeader($name);
+    public function getHeader($name);
+
+    /**
+     * @return string
+     */
+    public function getBody();
 
     /**
      * @return array
      */
-    public function getDataAsArray();
+    public function getBodyDeserialized();
+
+    /**
+     * @return array
+     */
+    public function getDataDeserialized();
 }
