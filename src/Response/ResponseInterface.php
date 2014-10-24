@@ -4,9 +4,19 @@ namespace WoohooLabs\ApiFramework\Response;
 interface ResponseInterface
 {
     /**
+     * Sends itself to the ether.
+     */
+    public function respond();
+
+    /**
      * @return string
      */
     public function getProtocolVersion();
+
+    /**
+     * @param string $version
+     */
+    public function setProtocolVersion($version);
 
     /**
      * @return boolean
@@ -30,21 +40,12 @@ interface ResponseInterface
 
     /**
      * @param int $statusCode
+     * @param string|null $reasonPhrase
      */
-    public function setStatusCode($statusCode);
+    public function setStatus($statusCode, $reasonPhrase = null);
 
     /**
      * @return string|null
-     */
-    public function getReasonPhrase();
-
-    /**
-     * @param string|null $reasonPhrase
-     */
-    public function setReasonPhrase($reasonPhrase);
-
-    /**
-     * @return string
      */
     public function getContentCharset();
 
@@ -54,7 +55,7 @@ interface ResponseInterface
     public function setContentCharset($charset);
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getContentEncoding();
 
@@ -64,28 +65,7 @@ interface ResponseInterface
     public function setContentEncoding($encoding);
 
     /**
-     * @return string
-     */
-    public function getContentType();
-
-    /**
-     * @param string $contentType
-     * @param string|null $mime
-     */
-    public function setContentType($contentType, $mime = null);
-
-    /**
-     * @return string
-     */
-    public function getMime();
-
-    /**
-     * @param string $mime
-     */
-    public function setMime($mime);
-
-    /**
-     * @return string
+     * @return string|null
      */
     public function getContentLanguage();
 
@@ -93,6 +73,30 @@ interface ResponseInterface
      * @param string $language
      */
     public function setContentLanguage($language);
+
+    /**
+     * @return string|null
+     */
+    public function getContentType();
+
+    /**
+     * @return string
+     */
+    public function getFormat();
+
+    /**
+     * @param string $contentType
+     * @param string|null $format
+     */
+    public function setContentType($contentType, $format = null);
+
+    /**
+     * @param array|Object $data
+     * @param string $contentType
+     * @param string $format
+     * @return mixed
+     */
+    public function setSerializableContent($data, $contentType = null, $format = null);
 
     /**
      * @return boolean
@@ -105,10 +109,22 @@ interface ResponseInterface
     public function getRedirectionUrl();
 
     /**
-     * @param $url
+     * @param string $url
      * @param boolean $isPermanent
+     * @return mixed
      */
-    public function setRedirection($url, $isPermanent = true);
+    public function setRedirected($url, $isPermanent = true);
+
+    /**
+     * @return string|null
+     */
+    public function getFileServed();
+
+    /**
+     * @param string $fileUrl
+     * @return mixed
+     */
+    public function setFileServed($fileUrl);
 
     /**
      * @return \DateTime|null
@@ -117,17 +133,18 @@ interface ResponseInterface
     /**
      * @param \DateTime|null $expires
      */
-    public function setExpires($expires);
+    public function setExpires(\DateTime $expires = null);
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getETag();
 
     /**
-     * @param string|null $eTag
+     * @param string $eTag
+     * @param boolean $isWeak
      */
-    public function setETag($eTag);
+    public function setETag($eTag, $isWeak = false);
 
     /**
      * @return int
@@ -156,21 +173,37 @@ interface ResponseInterface
     /**
      * @param \DateTime|null $lastModified
      */
-    public function setLastModified($lastModified);
+    public function setLastModified(\DateTime $lastModified = null);
 
     /**
      * @return array
      */
-    public function getCustomHeaders();
+    public function getHeaders();
+
+    /**
+     * @param string $name
+     * @return string
+     */
+    public function getHeader($name);
 
     /**
      * @param string $name
      * @param string $value
      */
-    public function setCustomHeader($name, $value);
+    public function setHeader($name, $value);
 
     /**
-     * @return Object|array
+     * @param string $name
      */
-    public function getContent();
+    public function removeHeader($name);
+
+    /**
+     * @return string
+     */
+    public function getBody();
+
+    /**
+     * @param string $body
+     */
+    public function setBody($body);
 }
