@@ -95,11 +95,10 @@ tools like Swagger.
 1. Configuration
 2. Router
 3. Container
-4. Deserializer
-5. Serializer
-6. Request
-7. Response
-8. Event Dispatcher
+4. Serializer/Deserializer
+5. Request
+6. Response
+7. Event Dispatcher
 
 #### Configuration
 
