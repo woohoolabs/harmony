@@ -4,6 +4,7 @@
 
 # Project
 vendor/
+*.lock
 
 # Other
 *tmp
