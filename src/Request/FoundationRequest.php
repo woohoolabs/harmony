@@ -377,4 +377,22 @@ class FoundationRequest implements RequestInterface
 
         return $this->requestParameters;
     }
+
+    /**
+     * @param string $key
+     * @return boolean
+     */
+    public function hasFormData($key)
+    {
+        return $this->request->request->has($key);
+    }
+
+    /**
+     * @param string $key
+     * @return mixed
+     */
+    public function getFormData($key)
+    {
+        return $this->request->request->get($key);
+    }
 }

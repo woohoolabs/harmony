@@ -216,4 +216,16 @@ interface RequestInterface
      * @return array
      */
     public function getDataDeserialized();
+
+    /**
+     * @param string $key
+     * @return boolean
+     */
+    public function hasFormData($key);
+
+    /**
+     * @param string $key
+     * @return mixed
+     */
+    public function getFormData($key);
 }

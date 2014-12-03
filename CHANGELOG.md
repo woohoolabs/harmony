@@ -4,6 +4,7 @@
 
 #### Added
 - Session handling
+- Easier to retrieve POST-ed form data 
 
 ### 0.3.0 - 2014-10-25
 
