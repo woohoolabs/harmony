@@ -1,5 +1,10 @@
 # Change Log
 
+### 0.4.0 - 2014-12-03
+
+#### Added
+- Session handling
+
 ### 0.3.0 - 2014-10-25
 
 #### Added

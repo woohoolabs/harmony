@@ -160,6 +160,48 @@ interface RequestInterface
      */
     public function getHeader($name);
 
+    public function startSession();
+
+    public function closeSession();
+
+    /**
+     * @param string $key
+     * @return mixed
+     */
+    public function getSession($key);
+
+    /**
+     * @return array
+     */
+    public function getSessions();
+
+    /**
+     * @param string $key
+     * @return mixed
+     */
+    public function hasSession($key);
+
+    /**
+     * @param string $key
+     * @param mixed $value
+     * @return mixed
+     */
+    public function setSession($key, $value);
+
+    /**
+     * @param array $keys
+     * @return mixed
+     */
+    public function setSessions(array $keys);
+
+    /**
+     * @param string $key
+     * @return mixed
+     */
+    public function removeSession($key);
+
+    public function clearSession();
+
     /**
      * @return string
      */

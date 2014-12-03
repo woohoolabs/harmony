@@ -1,6 +1,7 @@
 <?php
 namespace WoohooLabs\ApiFramework\Request;
 
+use Symfony\Component\HttpFoundation\Session\Session;
 use WoohooLabs\ApiFramework\Serializer\DeserializerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use WoohooLabs\ApiFramework\Config;
@@ -273,6 +274,76 @@ class FoundationRequest implements RequestInterface
     public function isNoCache()
     {
         return $this->request->isNoCache();
+    }
+
+    public function startSession()
+    {
+        $this->request->setSession(new Session());
+        $this->request->getSession()->start();
+    }
+
+    public function closeSession()
+    {
+        session_destroy();
+    }
+
+    /**
+     * @param string $key
+     * @return mixed
+     */
+    public function getSession($key)
+    {
+        return $this->request->getSession()->get($key);
+    }
+
+    /**
+     * @param string $key
+     * @return mixed
+     */
+    public function hasSession($key)
+    {
+        return $this->request->getSession()->has($key);
+    }
+
+    /**
+     * @return array
+     */
+    public function getSessions()
+    {
+        return $this->request->getSession()->all();
+    }
+
+    /**
+     * @param string $key
+     * @param mixed $value
+     * @return mixed
+     */
+    public function setSession($key, $value)
+    {
+        $this->request->getSession()->set($key, $value);
+    }
+
+    /**
+     * @param array $keys
+     * @return mixed
+     */
+    public function setSessions(array $keys)
+    {
+        $this->request->getSession()->replace($keys);
+    }
+
+    /**
+     * @param string $key
+     * @return mixed
+     */
+    public function removeSession($key)
+    {
+        $this->request->getSession()->remove($key);
+    }
+
+    public function clearSession()
+    {
+        $this->request->getSession()->clear();
     }
 
     /**
