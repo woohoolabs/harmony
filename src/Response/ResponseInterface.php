@@ -116,6 +116,13 @@ interface ResponseInterface
     public function setRedirected($url, $isPermanent = true);
 
     /**
+     * @param string $url
+     * @param boolean $isPermanent
+     * Redirects immediately
+     */
+    public function redirect($url, $isPermanent = true);
+
+    /**
      * @return string|null
      */
     public function getFileServed();

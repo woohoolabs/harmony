@@ -213,6 +213,17 @@ class FoundationResponse implements ResponseInterface
     }
 
     /**
+     * Redirects immediately.
+     * @param string $url
+     * @param boolean $isPermanent
+     */
+    public function redirect($url, $isPermanent = true)
+    {
+        $this->setRedirected($url, $isPermanent);
+        $this->respond();
+    }
+
+    /**
      * @return string|null
      */
     public function getFileServed()
