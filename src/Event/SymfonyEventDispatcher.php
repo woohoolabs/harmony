@@ -92,7 +92,7 @@ class SymfonyEventDispatcher implements EventDispatcherInterface, EventDispatche
      * @param \WoohooLabs\ApiFramework\Request\RequestInterface $request
      * @param \WoohooLabs\ApiFramework\Response\ResponseInterface $response
      */
-    public function dispatchBeforeSendingResponse(RequestInterface $request, ResponseInterface $response)
+    public function dispatchBeforeSendingResponse(RequestInterface $request, ResponseInterface $response = null)
     {
         if ($this->eventDispatcher->hasListeners(Events::BEFORE_SENDING_RESPONSE)) {
             $this->dispatch(Events::BEFORE_SENDING_RESPONSE, new SymfonyEvent($request, $response));
