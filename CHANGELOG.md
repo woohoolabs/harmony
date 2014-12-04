@@ -1,10 +1,13 @@
 # Change Log
 
-### 0.4.0 - 2014-12-03
+### 0.4.0 - 2014-12-04
 
 #### Added
 - Session handling
-- Easier to retrieve POST-ed form data 
+- Form data handling
+
+#### Changed
+- Handlers don't have to return the response
 
 ### 0.3.0 - 2014-10-25
 

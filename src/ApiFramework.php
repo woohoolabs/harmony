@@ -132,7 +132,8 @@ class ApiFramework
             $this->dispatcher->setConfig($this->config);
             $this->dispatcher->setContainer($this->container);
         }
-        $this->response= $this->dispatcher->dispatch($this->request, $this->response);
+
+        $this->dispatcher->dispatch($this->request, $this->response);
     }
 
     protected function respond()
