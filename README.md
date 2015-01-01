@@ -6,7 +6,7 @@ Our aim was to create an invisible, easily extensible, but first of all, extreme
 We wanted to give you total control while providing a clean interface to communicate with.
 
 ## Introduction
- 
+
 #### "Long live is the framework"
 
 The general problem with frameworks is that they suggest you using the set of tools they have. Initially,
@@ -73,9 +73,8 @@ of it can be changed with minimal effort and with minimal impact on your project
 #### Use Cases of Woohoo Labs. API Framework
 
 Certainly, API Framework won't suit the needs of all projects and teams. Firstly, this framework works best
-for API-s as every single detail of the framework was brought to live to support these efforts. Furthermore,
-less experienced teams should probably choose a less lenient framework with more features in order to speed
-up development in the initial phase.
+for advanced teams. So less experienced teams should probably choose a less lenient framework with more features
+in order to speed up development in the initial phase.
 
 To sum up, Woohoo Labs. API Framework is most effective for teams with a solid understanding of API development.
 Its flexibility is more advantageous if you need sophisticated tools like IoC Containers or API documentation
@@ -84,7 +83,7 @@ tools like Swagger.
 ## Features
 
 - Extreme flexibility
-- Totally Object-Oriented workflow
+- Totally object-oriented workflow
 - Full control over HTTP requests and responses
 - Support for different media types (JSON, YML, XML)
 - Support for any IoC Containers
@@ -136,11 +135,11 @@ adapter for them implementing the common interface.
 #### Serializers/Deserializers
 
 A deserializer automatically handles string to array/object conversion from data formats like JSON, XML or
-YML. They are needed in the beginning of the a request-response lifecycle when the framework receives a
+YML. They may be needed in the beginning of the a request-response lifecycle when the framework receives a
 request and the contained data (the body) should be converted into an array or object.
 
 A serializer automatically handles array/object to string conversion into data formats like JSON, XML or YML.
-They are needed in the end of the request-response lifecycle when you want to send your data as a response.
+They may be needed in the end of the request-response lifecycle when you want to send your data as a response.
 
 | Implementation       | Supported formats | Description                                                 |
 | -------------------- | ----------------- | ----------------------------------------------------------- |
@@ -197,13 +196,12 @@ If you want to use the default components (like the router, serializer, event di
 for the following dependencies too:
 
 ```bash
-$ composer require symfony/http-foundation
+$ composer require jms/serializer
 $ composer require nikic/fast-route
+$ composer require symfony/http-foundation
 $ composer require symfony/event-dispatcher
 $ composer require symfony/yaml
 ```
-
-In order to use the ``JmsSerializer`` and ``JmsDeserializer`` classes, require ``jms/serializer`` too.
 
 #### Update your dependencies with Composer:
 
@@ -238,10 +236,8 @@ the default implementation.
 
 ```php
 $config->setRoutes(function (RouterInterface $router) {
-    $router->addCallbackRoute("GET", "/me", function (RequestInterface $request) {
-        $response= new Response();
+    $router->addCallbackRoute("GET", "/me", function (RequestInterface $request, ResponseInterface $response) {
         $response->setContent("Welcome to the real world!");
-        return $response;
     });
     
     $router->addRoute("GET", "/users", "App\\Controllers\\UserController", "getUsers");
@@ -258,8 +254,8 @@ $router->addRoute("GET", "/users", UserController::class, "getUsers");
 
 #### Define the handlers for the routes:
 
-There are two important things to notice here: each handler receives a ``RequestInterface`` object and
-they are expected to return a ``ResponseInterface`` object.
+There are two important things to notice here: each handler receives a ``RequestInterface`` and a ``ResponseInterface``
+object and they are expected to manipulate the latter.
 
 ```php
 namespace App\Controllers;
@@ -271,29 +267,23 @@ class UserController
 {
     /**
      * @param RequestInterface $request
-     * @return ResponseInterface
+     * @param ResponseInterface $response
      */
-    public function getUsers(RequestInterface $request)
+    public function getUsers(RequestInterface $request, ResponseInterface $response)
     {
         $users= ["Steve", "Arnie", "Jason", "Bud"];
-        
-        $response= new Response();
         $response->setContent($users);
-        return $response;
     }
 
     /**
      * @param RequestInterface $request
-     * @return ResponseInterface
+     * @param ResponseInterface $response
      */
-     public function updateUser(RequestInterface $request)
+     public function updateUser(RequestInterface $request, ResponseInterface $response)
      {
         $userId= $request->getUriParameter("id");
         $userData= $request->getBodyAsArray();
-        
-        $response= new Response();
         $response->setContent(array_merge($userData, ["id" => $userId]));
-        return $response;
      }
 }
 ```
@@ -320,7 +310,7 @@ $apiFramework->work();
 The motivation of creating Woohoo Labs. API Framework was to become able to change every single aspect
 of the framework. That's why you can customize almost all the aspects of framework with minimal effort.
 
-The following example shows how to swap the ``BasicRouter`` with the PHP-DI Container then how to use the
+The following example shows how to swap the ``BasicContainer`` with the PHP-DI Container then how to use the
 serializer and deserializer of the famous JMS library instead of the default one.
 
 ```php
@@ -340,8 +330,8 @@ Hooking enables you to get the control before and/or after dispatching occurs. N
 available for class handlers! If you specify a ``preHook()`` method in your handler class then it
 will be automatically invoked before the handler method. The same way, if you specify a ``postHook()``
 method then it will be called after the original handler method has been invoked. Important to note
-that these methods must expect a ``Request`` object as their only argument but they aren't required
-to provide any return value.
+that these methods must expect a ``Request`` and a ``Response`` object as their only arguments and they
+aren't required to provide any return value (see regular handlers).
 
 Additionally you can even override the name of the hooks in the configuration: so if you have already
 had a method like ``preDispatch()`` then you can use it easily!
