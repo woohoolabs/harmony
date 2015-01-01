@@ -153,8 +153,7 @@ They may be needed in the end of the request-response lifecycle when you want to
 
 A request object is the Object-Oriented representation of an HTTP request. For this purpose,
 Symfony's HTTP Foundation is used by a wrapper class which implements the ``RequestInterface``.
-
-| 
+ 
 | Implementation       | Description                                            |
 | -------------------- | ------------------------------------------------------ |
 | `FoundationRequest`  | A wrapper around the Symfony Foundation request class  |
@@ -331,7 +330,7 @@ available for class handlers! If you specify a ``preHook()`` method in your hand
 will be automatically invoked before the handler method. The same way, if you specify a ``postHook()``
 method then it will be called after the original handler method has been invoked. Important to note
 that these methods must expect a ``Request`` and a ``Response`` object as their only arguments and they
-aren't required to provide any return value (see regular handlers).
+aren't required to provide any return value (see regular handlers for more info and examples).
 
 Additionally you can even override the name of the hooks in the configuration: so if you have already
 had a method like ``preDispatch()`` then you can use it easily!
