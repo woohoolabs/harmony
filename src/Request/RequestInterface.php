@@ -70,9 +70,10 @@ interface RequestInterface
 
     /**
      * @param string $key
+     * @param mixed $default
      * @return string|null
      */
-    public function getQueryStringProperty($key);
+    public function getQueryStringProperty($key, $default = null);
 
     /**
      * @return string
@@ -156,9 +157,10 @@ interface RequestInterface
 
     /**
      * @param string $name
+     * @param mixed $default
      * @return string|null
      */
-    public function getHeader($name);
+    public function getHeader($name, $default = null);
 
     public function startSession();
 
@@ -166,9 +168,10 @@ interface RequestInterface
 
     /**
      * @param string $key
+     * @param mixed $default
      * @return mixed
      */
-    public function getSession($key);
+    public function getSession($key, $default = null);
 
     /**
      * @return array
@@ -225,7 +228,8 @@ interface RequestInterface
 
     /**
      * @param string $key
+     * @param mixed $default
      * @return mixed
      */
-    public function getFormData($key);
+    public function getFormData($key, $default = null);
 }

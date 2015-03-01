@@ -143,11 +143,12 @@ class FoundationRequest implements RequestInterface
 
     /**
      * @param string $key
+     * @param mixed $default
      * @return string|null
      */
-    public function getQueryStringProperty($key)
+    public function getQueryStringProperty($key, $default = null)
     {
-        return $this->request->query->get($key);
+        return $this->request->query->get($key, $default);
     }
 
     /**
@@ -248,11 +249,12 @@ class FoundationRequest implements RequestInterface
 
     /**
      * @param string $name
+     * @param mixed $default
      * @return string|null
      */
-    public function getHeader($name)
+    public function getHeader($name, $default = null)
     {
-        return $this->request->headers->get($name, null);
+        return $this->request->headers->get($name, $default);
     }
 
     /**
@@ -289,11 +291,12 @@ class FoundationRequest implements RequestInterface
 
     /**
      * @param string $key
+     * @param mixed $default
      * @return mixed
      */
-    public function getSession($key)
+    public function getSession($key, $default = null)
     {
-        return $this->request->getSession()->get($key);
+        return $this->request->getSession()->get($key, $default);
     }
 
     /**
@@ -389,10 +392,11 @@ class FoundationRequest implements RequestInterface
 
     /**
      * @param string $key
+     * @param mixed $default
      * @return mixed
      */
-    public function getFormData($key)
+    public function getFormData($key, $default = null)
     {
-        return $this->request->request->get($key);
+        return $this->request->request->get($key, $default);
     }
 }
