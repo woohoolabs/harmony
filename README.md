@@ -287,10 +287,6 @@ class UserController
 }
 ```
 
-Of course, you should remain [DRY](http://en.wikipedia.org/wiki/Don't_repeat_yourself) and not
-copy all this stuff with the initialization of the response throughout your handlers. Creating
-an Adapter for the response or building a Factory should be fine.
-
 However you don't have to worry that your handlers become tightly coupled to HTTP. Just read
 [this fantastic post](https://igor.io/2013/02/03/http-foundation-value.html) from
 [Igor Wiedler](https://twitter.com/igorwhiletrue).
@@ -307,7 +303,7 @@ $apiFramework->work();
 #### Redefining Default Components
 
 The motivation of creating Woohoo Labs. API Framework was to become able to change every single aspect
-of the framework. That's why you can customize almost all the aspects of framework with minimal effort.
+of the framework. That's why you can customize almost everything with minimal effort.
 
 The following example shows how to swap the ``BasicContainer`` with the PHP-DI Container then how to use the
 serializer and deserializer of the famous JMS library instead of the default one.
@@ -357,11 +353,11 @@ $ composer require symfony/event-dispatcher
 
 Here is an example:
 
+```php
 use WoohooLabs\ApiFramework\Event\EventDispatcherConsumerInterface;
 use WoohooLabs\ApiFramework\Event\Events;
 use WoohooLabs\ApiFramework\Event\EventInterface;
 
-```php
 $config= new EventConfig();
 $config->setEvents(function (EventDispatcherConsumerInterface $eventDispatcher) {
     $eventDispatcher->addCallbackListener(
