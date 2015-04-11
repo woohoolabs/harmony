@@ -1,5 +1,7 @@
 # Woohoo Labs. Harmony
 
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/1aa0881f-c185-4be8-b1e8-4b6378f4c5b2/big.png)](https://insight.sensiolabs.com/projects/1aa0881f-c185-4be8-b1e8-4b6378f4c5b2)
+
 **Woohoo Labs. Harmony is a flexible micro-framework developed for quality applications.**
 
 Our aim was to create an invisible, easily extensible, but first of all, extremely flexible framework for your
