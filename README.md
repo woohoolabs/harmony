@@ -170,7 +170,7 @@ $router = function(FastRoute\RouteCollector $r) {
     });
     $r->addRoute("GET", "/users", ["App\\Controllers\\UserController", "getUsers"]);
     $r->addRoute("POST", "/users/{id}", ["App\\Controllers\\UserController", "updateUser"]);
-});
+};
 ```
 
 You can define either a class or a callback handler for each route. A route consists of an HTTP verb and
@@ -227,9 +227,9 @@ However you don't have to worry that your handlers become tightly coupled to HTT
 #### Finally, launch the framework:
 
 ```php
-$harmony= Harmony::build()
+Harmony::build()
     ->addMiddleware(new InitializerMiddleware())
-    ->addMiddleware(new RouterMiddleware($router)
+    ->addMiddleware(new RouterMiddleware($router))
     ->addMiddleware(new DispatcherMiddleware())
     ->addMiddleware(new ResponderMiddleware())
     ->live();
