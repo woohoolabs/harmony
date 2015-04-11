@@ -163,7 +163,7 @@ require "vendor/autoload.php"
 
 #### Define some routes:
 
-'''php
+```php
 $router = function(FastRoute\RouteCollector $r) {
     $r->addRoute("GET", "/me", function (RequestInterface $request, ResponseInterface $response) {
         $response->setContent("Welcome to the real world!");
