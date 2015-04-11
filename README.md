@@ -76,9 +76,9 @@ Certainly, Harmony won't suit the needs of all projects and teams. Firstly, this
 for advanced teams. So less experienced teams should probably choose a less lenient framework with more features
 in order to speed up development in the initial phase.
 
-To sum up, Woohoo Labs. Harmony is most effective for teams with a solid understanding of API development.
-Its flexibility is more advantageous if you need sophisticated tools like IoC Containers or API documentation
-tools like Swagger.
+To sum up, Woohoo Labs. Harmony is most effective for teams with a solid understanding of software development.
+Its flexibility is the most advantageous if your application is a long-term, strategic project or you need
+sophisticated tools like IoC Containers.
 
 ## Features
 
