@@ -2,7 +2,7 @@
 
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/1aa0881f-c185-4be8-b1e8-4b6378f4c5b2/big.png)](https://insight.sensiolabs.com/projects/1aa0881f-c185-4be8-b1e8-4b6378f4c5b2)
 
-**Woohoo Labs. Harmony is an extremely flexible micro-framework developed for PHP applications.**
+**Woohoo Labs. Harmony is a flexible micro-framework developed for PHP applications.**
 
 Our aim was to create an invisible, easily extensible, but first of all, extremely flexible framework for your
 quality application. We wanted to give you total control while providing a clean interface to communicate with.
@@ -56,6 +56,9 @@ sophisticated tools like IoC Containers.
 6. Response
 
 #### Middleware
+
+
+#### Router
 
 Basically, the router tells you which handler (let it be a class method or an anomymous function) is in charge
 of handling the request coming to a specific URI. The default router used by Woohoo Labs. Harmony is FastRouter, the
@@ -160,6 +163,7 @@ require "vendor/autoload.php"
 
 #### Define some routes:
 
+'''php
 $router = function(FastRoute\RouteCollector $r) {
     $r->addRoute("GET", "/me", function (RequestInterface $request, ResponseInterface $response) {
         $response->setContent("Welcome to the real world!");
@@ -167,6 +171,7 @@ $router = function(FastRoute\RouteCollector $r) {
     $r->addRoute("GET", "/users", ["App\\Controllers\\UserController", "getUsers"]);
     $r->addRoute("POST", "/users/{id}", ["App\\Controllers\\UserController", "updateUser"]);
 });
+'''
 
 You can define either a class or a callback handler for each route. A route consists of an HTTP verb and
 a URI. By convention, start the URI with a _/_. It can also contain curly brace templates if you stay with
@@ -222,7 +227,7 @@ However you don't have to worry that your handlers become tightly coupled to HTT
 #### Finally, launch the framework:
 
 ```php
-$harmony= Harmony::build
+$harmony= Harmony::build()
     ->addMiddleware(new InitializerMiddleware())
     ->addMiddleware(new RouterMiddleware($router)
     ->addMiddleware(new DispatcherMiddleware())
