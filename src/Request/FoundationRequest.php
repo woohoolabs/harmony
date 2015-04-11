@@ -2,10 +2,10 @@
 namespace WoohooLabs\Harmony\Request;
 
 use Symfony\Component\HttpFoundation\Session\Session;
-use WoohooLabs\Harmony\Serializer\DeserializerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use WoohooLabs\Harmony\Config;
+use WoohooLabs\Harmony\Serializer\DeserializerInterface;
 use WoohooLabs\Harmony\Serializer\Formats;
+use WoohooLabs\Harmony\Serializer\Implementations\JmsSerializer;
 
 class FoundationRequest implements RequestInterface
 {
@@ -35,15 +35,12 @@ class FoundationRequest implements RequestInterface
     private $route;
 
     /**
-     * @param \WoohooLabs\Harmony\Config $config
+     * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \WoohooLabs\Harmony\Serializer\DeserializerInterface $deserializer
      */
-    public function __construct(Config $config, DeserializerInterface $deserializer)
+    public function __construct(Request $request, DeserializerInterface $deserializer = null)
     {
-        $this->request= Request::createFromGlobals();
-        if ($config->isHttpMethodParameterOverrideSupported()) {
-            $this->request->enableHttpMethodParameterOverride();
-        }
+        $this->request= $request;
         $this->deserializer= $deserializer;
     }
 
@@ -232,7 +229,7 @@ class FoundationRequest implements RequestInterface
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isXmlHttpRequest()
     {
@@ -383,7 +380,7 @@ class FoundationRequest implements RequestInterface
 
     /**
      * @param string $key
-     * @return boolean
+     * @return bool
      */
     public function hasFormData($key)
     {
@@ -398,5 +395,17 @@ class FoundationRequest implements RequestInterface
     public function getFormData($key, $default = null)
     {
         return $this->request->request->get($key, $default);
+    }
+
+    /**
+     * @return \WoohooLabs\Harmony\Serializer\DeserializerInterface
+     */
+    public function getDeserializer()
+    {
+        if ($this->deserializer === null) {
+            $this->deserializer = new JmsSerializer();
+        }
+
+        return $this->deserializer;
     }
 }

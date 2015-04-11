@@ -1,7 +1,6 @@
 <?php
 namespace WoohooLabs\Harmony\Serializer\Implementations;
 
-use WoohooLabs\Harmony\Config;
 use WoohooLabs\Harmony\Serializer\DeserializerInterface;
 use WoohooLabs\Harmony\Serializer\FormatNotSupportedException;
 use WoohooLabs\Harmony\Serializer\SerializerException;
@@ -21,21 +20,8 @@ class CompositeSerializer implements TwoWaySerializerInterface
     protected $deserializers= [];
 
     /**
-     * @var \WoohooLabs\Harmony\Config
-     */
-    protected $config;
-
-    /**
-     * @param \WoohooLabs\Harmony\Config $config
-     */
-    public function __construct(Config $config)
-    {
-        $this->config= $config;
-    }
-
-    /**
      * @param string $format
-     * @return boolean
+     * @return bool
      */
     public function isFormatSerializable($format)
     {
@@ -44,7 +30,7 @@ class CompositeSerializer implements TwoWaySerializerInterface
 
     /**
      * @param string $format
-     * @return boolean
+     * @return bool
      */
     public function isFormatDeserializable($format)
     {

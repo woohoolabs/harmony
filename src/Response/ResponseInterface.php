@@ -19,12 +19,12 @@ interface ResponseInterface
     public function setProtocolVersion($version);
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isStatusCodeSuppressed();
 
     /**
-     * @param boolean $isStatusCodeSuppressed
+     * @param bool $isStatusCodeSuppressed
      */
     public function setStatusCodeSuppressed($isStatusCodeSuppressed);
 
@@ -99,7 +99,7 @@ interface ResponseInterface
     public function setSerializableContent($data, $contentType = null, $format = null);
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isRedirected();
 
@@ -110,14 +110,14 @@ interface ResponseInterface
 
     /**
      * @param string $url
-     * @param boolean $isPermanent
+     * @param bool $isPermanent
      * @return mixed
      */
     public function setRedirected($url, $isPermanent = true);
 
     /**
      * @param string $url
-     * @param boolean $isPermanent
+     * @param bool $isPermanent
      * Redirects immediately
      */
     public function redirect($url, $isPermanent = true);
@@ -149,7 +149,7 @@ interface ResponseInterface
 
     /**
      * @param string $eTag
-     * @param boolean $isWeak
+     * @param bool $isWeak
      */
     public function setETag($eTag, $isWeak = false);
 

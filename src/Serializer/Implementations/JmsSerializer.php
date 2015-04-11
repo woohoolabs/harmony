@@ -3,7 +3,6 @@ namespace WoohooLabs\Harmony\Serializer\Implementations;
 
 use JMS\Serializer\Exception\UnsupportedFormatException;
 use JMS\Serializer\SerializerBuilder;
-use WoohooLabs\Harmony\Config;
 use WoohooLabs\Harmony\Serializer\DeserializerTrait;
 use WoohooLabs\Harmony\Serializer\FormatNotSupportedException;
 use WoohooLabs\Harmony\Serializer\Formats;
@@ -38,16 +37,12 @@ class JmsSerializer implements TwoWaySerializerInterface
     }
 
     /**
-     * @param \WoohooLabs\Harmony\Config $config
+     * @param bool $isDebug
      */
-    public function __construct(Config $config)
+    public function __construct($isDebug = false)
     {
         $serializerBuilder= SerializerBuilder::create();
-        $serializerBuilder->setDebug($config->isDevelopmentMode());
-        if ($config->isCaching()) {
-            $serializerBuilder->setCacheDir($config->getCacheDirectory());
-        }
-
+        $serializerBuilder->setDebug($isDebug);
         $this->serializer= $serializerBuilder->build();
     }
 

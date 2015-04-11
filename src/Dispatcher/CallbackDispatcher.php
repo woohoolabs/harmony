@@ -12,13 +12,13 @@ class CallbackDispatcher extends AbstractDispatcher
     private $callback;
 
     /**
-     * @param array $parameters
-     * @param string $handler
+     * @param array $params
+     * @param callable $callback
      */
-    public function __construct($handler, array $parameters)
+    public function __construct(callable $callback, array $params)
     {
-        parent::__construct($parameters);
-        $this->callback = $handler;
+        parent::__construct($params);
+        $this->callback = $callback;
     }
 
     /**

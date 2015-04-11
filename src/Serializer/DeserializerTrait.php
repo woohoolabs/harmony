@@ -10,7 +10,7 @@ trait DeserializerTrait
 
     /**
      * @param string $format
-     * @return boolean
+     * @return bool
      */
     public function isFormatDeserializable($format)
     {

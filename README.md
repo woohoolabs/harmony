@@ -2,7 +2,7 @@
 
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/1aa0881f-c185-4be8-b1e8-4b6378f4c5b2/big.png)](https://insight.sensiolabs.com/projects/1aa0881f-c185-4be8-b1e8-4b6378f4c5b2)
 
-**Woohoo Labs. Harmony is a flexible micro-framework developed for quality applications.**
+**Woohoo Labs. Harmony is a flexible micro-framework developed for PHP applications.**
 
 Our aim was to create an invisible, easily extensible, but first of all, extremely flexible framework for your
 quality application. We wanted to give you total control while providing a clean interface to communicate with.
@@ -296,8 +296,12 @@ However you don't have to worry that your handlers become tightly coupled to HTT
 #### Finally, launch the framework:
 
 ```php
-$harmony= new Harmony($config);
-$harmony->live();
+$harmony= Harmony::build
+    ->addMiddleware(new InitializerMiddleware())
+    ->addMiddleware(new RouterMiddleware([]))
+    ->addMiddleware(new DispatcherMiddleware())
+    ->addMiddleware(new ResponderMiddleware())
+    ->live();
 ```
 
 ## Advanced Usage
@@ -311,14 +315,11 @@ The following example shows how to swap the ``BasicContainer`` with the PHP-DI C
 serializer and deserializer of the famous JMS library instead of the default one.
 
 ```php
-$router= new \DI\Container();
-$harmony->setContainer($router);
+$container= new \DI\Container();
+$harmony->setContainer($container);
 
 $serializer= new JmsSerializer($config);
 $harmony->setSerializer($serializer);
-
-$deserializer= new JmsDeserializer($config);
-$harmony->setDeserializer($deserializer);
 ```
 
 #### Hooks

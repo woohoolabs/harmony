@@ -8,7 +8,7 @@ class NaiveSerializer implements SerializerInterface, DeserializerInterface
 {
     /**
      * @param string $format
-     * @return boolean
+     * @return bool
      */
     public function isFormatSerializable($format)
     {
@@ -17,7 +17,7 @@ class NaiveSerializer implements SerializerInterface, DeserializerInterface
 
     /**
      * @param string $format
-     * @return boolean
+     * @return bool
      */
     public function isFormatDeserializable($format)
     {

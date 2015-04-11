@@ -1,5 +1,14 @@
 # Change Log
 
+### 0.7 - 2015-04-12
+
+#### Added
+- Support for middlewares
+
+#### Changed
+- Workflow is now based on middlewares completely
+- Removed events and config class
+
 ### 0.5.0 - 2015-04-11
 
 #### Added

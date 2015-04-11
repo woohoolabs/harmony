@@ -19,17 +19,17 @@ abstract class AbstractDispatcher
     abstract public function dispatch(RequestInterface $request, ResponseInterface $response);
 
     /**
-     * @param array $parameters
+     * @param array $params
      */
-    public function __construct(array $parameters)
+    public function __construct(array $params)
     {
-        $this->parameters = $parameters;
+        $this->parameters = $params;
     }
 
     /**
      * @return array
      */
-    public function getParameters()
+    public function getParams()
     {
         return $this->parameters;
     }

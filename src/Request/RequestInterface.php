@@ -131,7 +131,7 @@ interface RequestInterface
     public function getAcceptableMediaTypes();
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isXmlHttpRequest();
 
@@ -141,7 +141,7 @@ interface RequestInterface
     public function getETags();
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isNoCache();
 
@@ -222,7 +222,7 @@ interface RequestInterface
 
     /**
      * @param string $key
-     * @return boolean
+     * @return bool
      */
     public function hasFormData($key);
 

@@ -10,7 +10,7 @@ trait SerializerTrait
 
     /**
      * @param string $format
-     * @return boolean
+     * @return bool
      */
     public function isFormatSerializable($format)
     {

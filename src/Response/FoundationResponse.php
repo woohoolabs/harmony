@@ -3,6 +3,7 @@ namespace WoohooLabs\Harmony\Response;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use WoohooLabs\Harmony\Serializer\Implementations\JmsSerializer;
 use WoohooLabs\Harmony\Serializer\SerializerInterface;
 
 class FoundationResponse implements ResponseInterface
@@ -23,11 +24,11 @@ class FoundationResponse implements ResponseInterface
     private $format;
 
     /**
-     * @var boolean
+     * @var bool
      */
     private $isStatusCodeSuppressed;
 
-    public function __construct(SerializerInterface $serializer)
+    public function __construct(SerializerInterface $serializer = null)
     {
         $this->response= new Response();
         $this->serializer= $serializer;
@@ -59,7 +60,7 @@ class FoundationResponse implements ResponseInterface
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isStatusCodeSuppressed()
     {
@@ -67,7 +68,7 @@ class FoundationResponse implements ResponseInterface
     }
 
     /**
-     * @param boolean $isStatusCodeSuppressed
+     * @param bool $isStatusCodeSuppressed
      */
     public function setStatusCodeSuppressed($isStatusCodeSuppressed)
     {
@@ -182,11 +183,11 @@ class FoundationResponse implements ResponseInterface
     public function setSerializableContent($data, $contentType = null, $format = null)
     {
         $this->setContentType($contentType, $format);
-        $this->response->setContent($this->serializer->serialize($data, $this->getFormat()));
+        $this->response->setContent($this->getSerializer()->serialize($data, $this->getFormat()));
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isRedirected()
     {
@@ -203,7 +204,7 @@ class FoundationResponse implements ResponseInterface
 
     /**
      * @param string $url
-     * @param boolean $isPermanent
+     * @param bool $isPermanent
      * @return mixed
      */
     public function setRedirected($url, $isPermanent = true)
@@ -215,7 +216,7 @@ class FoundationResponse implements ResponseInterface
     /**
      * Redirects immediately.
      * @param string $url
-     * @param boolean $isPermanent
+     * @param bool $isPermanent
      */
     public function redirect($url, $isPermanent = true)
     {
@@ -267,7 +268,7 @@ class FoundationResponse implements ResponseInterface
 
     /**
      * @param string|null $eTag
-     * @param boolean $isWeak
+     * @param bool $isWeak
      */
     public function setETag($eTag, $isWeak = false)
     {
@@ -370,5 +371,17 @@ class FoundationResponse implements ResponseInterface
     public function setBody($body)
     {
         $this->response->setContent($body);
+    }
+
+    /**
+     * @return \WoohooLabs\Harmony\Serializer\SerializerInterface
+     */
+    public function getSerializer()
+    {
+        if ($this->serializer === null) {
+            $this->serializer = new JmsSerializer();
+        }
+
+        return $this->serializer;
     }
 }

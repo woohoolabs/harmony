@@ -2,38 +2,22 @@
 namespace WoohooLabs\Harmony;
 
 use Interop\Container\ContainerInterface;
-use WoohooLabs\Harmony\Container\BasicContainer;
-use WoohooLabs\Harmony\Dispatcher\ClassDispatcher;
-use WoohooLabs\Harmony\Request\FoundationRequest;
+use WoohooLabs\Harmony\Dispatcher\AbstractDispatcher;
+use WoohooLabs\Harmony\Middlewares\MiddlewareInterface;
 use WoohooLabs\Harmony\Request\RequestInterface;
-use WoohooLabs\Harmony\Response\FoundationResponse;
 use WoohooLabs\Harmony\Response\ResponseInterface;
-use WoohooLabs\Harmony\Router\FastRouter;
-use WoohooLabs\Harmony\Router\RouterInterface;
-use WoohooLabs\Harmony\Serializer\Implementations\JmsSerializer;
-use WoohooLabs\Harmony\Serializer\TwoWaySerializerInterface;
 
 class Harmony
 {
     /**
-     * @var \WoohooLabs\Harmony\Config
+     * @var array
      */
-    protected $config;
+    protected $middlewares;
 
     /**
      * @var \Interop\Container\ContainerInterface
      */
     protected $container;
-
-    /**
-     * @var \WoohooLabs\Harmony\Router\RouterInterface
-     */
-    protected $router;
-
-    /**
-     * @var \WoohooLabs\Harmony\Serializer\TwoWaySerializerInterface
-     */
-    protected $serializer;
 
     /**
      * @var \WoohooLabs\Harmony\Request\RequestInterface
@@ -51,102 +35,70 @@ class Harmony
     protected $dispatcher;
 
     /**
-     * @var Object
+     * @return $this
      */
-    protected $handler;
-
-    /**
-     * @param \WoohooLabs\Harmony\Config $config
-     */
-    public function __construct(Config $config)
+    public static function build()
     {
-        $this->config = $config;
+        return new Harmony();
     }
 
     public function live()
     {
-        $this->initialize();
-        $this->discover();
-        $this->route();
-        $this->dispatch();
-        $this->respond();
-    }
-
-    protected function initialize()
-    {
-        $this->initializeBaseComponents();
-        $this->initializeTopComponents();
-    }
-
-    protected function initializeBaseComponents()
-    {
-        if ($this->container === null) {
-            $this->container = new BasicContainer();
-        }
-    }
-
-    protected function initializeTopComponents()
-    {
-        if ($this->serializer === null) {
-            $this->serializer = new JmsSerializer($this->config);
-        }
-
-        if ($this->request === null) {
-            $this->request = new FoundationRequest($this->config, $this->serializer);
-        }
-
-        if ($this->router === null) {
-            $this->router = new FastRouter($this->config, $this->container);
-        }
-
-        if ($this->response === null) {
-            $this->response = new FoundationResponse($this->serializer);
+        foreach ($this->middlewares as $middleware) {
+            /** @var \WoohooLabs\Harmony\Middlewares\MiddlewareInterface $middleware */
+            $middleware->execute($this);
         }
     }
 
     /**
-     * Finds all the routes.
+     * @return array
      */
-    protected function discover()
+    public function getMiddlewares()
     {
-        if ($this->config->getRoutes() !== null) {
-            call_user_func($this->config->getRoutes(), $this->router);
-        }
+        return $this->middlewares;
     }
 
     /**
-     * Finding and instantiating the controller, saving the route parameters.
+     * @param \WoohooLabs\Harmony\Middlewares\MiddlewareInterface $middleware
+     * @return $this
      */
-    protected function route()
+    public function addMiddleware(MiddlewareInterface $middleware)
     {
-        $this->dispatcher= $this->router->getDispatcher($this->request->getMethod(), $this->request->getUri());
-        $this->request->setUriParameters($this->dispatcher->getParameters());
+        $this->middlewares[$middleware->getId()]= $middleware;
+
+        return $this;
     }
 
     /**
-     * Dispatching the appropriate controller method for the route.
+     * @param string $id
+     * @param \WoohooLabs\Harmony\Middlewares\MiddlewareInterface $middleware
+     * @return $this
      */
-    protected function dispatch()
+    public function addMiddlewareBefore($id, MiddlewareInterface $middleware)
     {
-        if ($this->dispatcher instanceof ClassDispatcher) {
-            $this->dispatcher->setConfig($this->config);
-            $this->dispatcher->setContainer($this->container);
-        }
+        $this->middlewares[$id]= $middleware;
 
-        $this->dispatcher->dispatch($this->request, $this->response);
-    }
-
-    protected function respond()
-    {
-        $this->response->respond();
+        return $this;
     }
 
     /**
-     * @param \WoohooLabs\Harmony\Router\RouterInterface $router
+     * @param string $id
+     * @param \WoohooLabs\Harmony\Middlewares\MiddlewareInterface $middleware
+     * @return $this
      */
-    public function setRouter(RouterInterface $router)
+    public function addMiddlewareAfter($id, MiddlewareInterface $middleware)
     {
-        $this->router = $router;
+        $this->middlewares[$id]= $middleware;
+
+        return $this;
+    }
+
+    /**
+     * @return \Interop\Container\ContainerInterface
+     */
+    public function getContainer()
+    {
+        return $this->container;
     }
 
     /**
@@ -158,11 +110,11 @@ class Harmony
     }
 
     /**
-     * @param \WoohooLabs\Harmony\Serializer\TwoWaySerializerInterface $serializer
+     * @return \WoohooLabs\Harmony\Request\RequestInterface
      */
-    public function setSerializer(TwoWaySerializerInterface $serializer)
+    public function getRequest()
     {
-        $this->serializer = $serializer;
+        return $this->request;
     }
 
     /**
@@ -174,10 +126,34 @@ class Harmony
     }
 
     /**
+     * @return \WoohooLabs\Harmony\Response\ResponseInterface
+     */
+    public function getResponse()
+    {
+        return $this->response;
+    }
+
+    /**
      * @param \WoohooLabs\Harmony\Response\ResponseInterface $responder
      */
     public function setResponse(ResponseInterface $responder)
     {
         $this->response = $responder;
+    }
+
+    /**
+     * @return Dispatcher\AbstractDispatcher
+     */
+    public function getDispatcher()
+    {
+        return $this->dispatcher;
+    }
+
+    /**
+     * @param Dispatcher\AbstractDispatcher $dispatcher
+     */
+    public function setDispatcher(AbstractDispatcher $dispatcher)
+    {
+        $this->dispatcher = $dispatcher;
     }
 }
