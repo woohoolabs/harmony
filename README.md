@@ -2,7 +2,7 @@
 
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/1aa0881f-c185-4be8-b1e8-4b6378f4c5b2/big.png)](https://insight.sensiolabs.com/projects/1aa0881f-c185-4be8-b1e8-4b6378f4c5b2)
 
-**Woohoo Labs. Harmony is a flexible micro-framework developed for PHP applications.**
+**Woohoo Labs. Harmony is an extremely flexible micro-framework developed for PHP applications.**
 
 Our aim was to create an invisible, easily extensible, but first of all, extremely flexible framework for your
 quality application. We wanted to give you total control while providing a clean interface to communicate with.
@@ -28,95 +28,44 @@ application even though that it is decoupled from your project.
 
 We created Harmony to remedy this issue.
 
-#### A Case Study
-
-Let's look at a realistic scenario to understand the problem better: you have an MVC framework which has its
-integrated IoC Container and ORM layer. You are pretty happy with these tools. Some weeks later, you discover
-that you would cache your database queries, but the interior ORM doesn't support it.
-
-Next time you realize that you no longer need an MVC framework as you shifted away from this paradigm and
-started adopting something else - let's say Domain Driven Design. Furthermore you want to reorganize your
-project into bundles. Sadly, your framework neither supports changing the directory structure (it can
-easily happen because of autoloading which came from the old times) nor calling your Controllers as Services
-(you wanted to rename them because by now, your Controllers are rather Application Services).
-
-Later on you will find yourself needing a much more sophisticated or performant IoC Container than the one
-you have. Maybe you need Dice or PHP-DI. But the question emerges: how would you swap the core of the
-framework which instantiates all your controllers? There is no way to do that. You can't overcome the
-situation this time too (without hacking on the code).
-
-#### Lessons Learned
-
-The first situation had a grasp on that there are full stack and micro frameworks with a
-long list of features and components, but in our opinion, a good framework should conform to the
-[Single Responsibility Principle](http://blog.8thlight.com/uncle-bob/2014/05/08/SingleReponsibilityPrinciple.html):
-they shouldn't provide more than that the user actually needs. For example if you won't make use of the
-Eloquent ORM in Laravel, why placing it into the project? In the most cases it's better to just
-create separate components and let the user decide which libraries they prefer.
-
-The second lesson intended to teach you that it was a big mistake to leave everything as-is (e.g.:
-class names, directory structure) despite the fact that the paradigm you use has been changed. When
-developing quality software, naming must be in focus. According to DDD initiatives like Matthias
-Verraes, finding expressive and consistent names for things is inevitable! As everything varies over
-time, you mustn't let your framework restrict any changes or define the directory structure instead
-of you. The advantage of this principle is well summarized by Anna-Julie Scheuermann:
-
-> Once I'm happy with the names, I'm usually happy with the design.
-
-Finally in the third story, we wanted to point out that changing routing or class instantiation in a
-framework can be hard on-the-fly. But why not think about these situations in advance? For example,
-regarding IoC Containers a (not yet officially accepted) common interface already exists, so it makes
-any changes with them as easy as ABC!
-
-As a general suggestion, when your project is huge make sure that you can easily swap things in and out
-from every part of your framework too. That's why we designed Harmony so that almost every piece
-of it can be changed with minimal effort and with minimal impact on your project.
-
 #### Use Cases of Woohoo Labs. Harmony
 
 Certainly, Harmony won't suit the needs of all projects and teams. Firstly, this framework works best
 for advanced teams. So less experienced teams should probably choose a less lenient framework with more features
-in order to speed up development in the initial phase.
+in order to speed up development in its initial phase.
 
-To sum up, Woohoo Labs. Harmony is most effective for teams with a solid understanding of software development.
+To sum up, Woohoo Labs. Harmony is the most effective for teams with a solid understanding of software development.
 Its flexibility is the most advantageous if your application is a long-term, strategic project or you need
 sophisticated tools like IoC Containers.
 
 ## Features
 
-- Extreme flexibility
+- Extreme flexibility through middlewares
 - Totally object-oriented workflow
 - Full control over HTTP requests and responses
-- Support for different media types (JSON, YML, XML)
+- Support for serializing/deserializing different media types (JSON, XML, YAML)
 - Support for any IoC Containers
-- Support for event listening
 
 ## Concepts
 
-1. Configuration
+1. Middleware
 2. Router
 3. Container
 4. Serializer/Deserializer
 5. Request
 6. Response
-7. Event Dispatcher
 
-#### Configuration
-
-When you instantiate the framework you have to provide your configuration options including the current environment
-of your application (DEV or PROD), caching etc. This configuration will be a POPO (Plain old PHP Object).
-
-#### Router
+#### Middleware
 
 Basically, the router tells you which handler (let it be a class method or an anomymous function) is in charge
-of handling the request coming to a specific URI. The default router used by Woohoo Labs. Harmony is the
+of handling the request coming to a specific URI. The default router used by Woohoo Labs. Harmony is FastRouter, the
 library of [Nikita Popov](https://twitter.com/nikita_ppv), because of its elegance and performance. You can read
 more about it [clicking here](http://nikic.github.io/2014/02/18/Fast-request-routing-using-regular-expressions.html).
 Of course if you weren't satisfied with it, you can change it anytime with a minimal amount of work.
 
-| Implementation      | Description                           |
+| Middleware name     | Description                           |
 | ------------------- | ------------------------------------- |
-| `FastRouter     `   | Wrapper around the Fast Route library |
+| `RouterMiddleware`  | Wrapper around the Fast Route library |
 
 #### Container
 
@@ -155,7 +104,7 @@ They may be needed in the end of the request-response lifecycle when you want to
 
 A request object is the Object-Oriented representation of an HTTP request. For this purpose,
 Symfony's HTTP Foundation is used by a wrapper class which implements the ``RequestInterface``.
- 
+
 | Implementation       | Description                                            |
 | -------------------- | ------------------------------------------------------ |
 | `FoundationRequest`  | A wrapper around the Symfony Foundation request class  |
@@ -191,23 +140,14 @@ To install this library, run the command below and you will get the latest versi
 $ composer require woohoolabs/harmony
 ```
 
-#### Add the necessary dependencies:
+#### Require the necessary dependencies:
 
-If you want to use the default components (like the router, serializer, event dispatcher etc.) then you have to ask
-for the following dependencies too:
+If you want to use the default middlewares then you have to ask for the following dependencies too:
 
 ```bash
-$ composer require jms/serializer
 $ composer require nikic/fast-route
 $ composer require symfony/http-foundation
-$ composer require symfony/event-dispatcher
-$ composer require symfony/yaml
-```
-
-#### Update your dependencies with Composer:
-
-```bash
-$ composer update
+$ composer require jms/serializer
 ```
 
 #### Autoload classes in your bootstrap:
@@ -218,39 +158,25 @@ require "vendor/autoload.php"
 
 ## Basic Usage
 
-#### Configure the framework:
-
-You have to create a configuration object for this step. In the example below, it will set the framework to run in
-development mode and turn off caching:
-
-```php
-$config= new Config();
-$config->setDevelopmentMode(true);
-$config->setCaching(false);
-```
-
 #### Define some routes:
 
-You have to define either a class or a callback handler for each route. A route consists of an HTTP verb and
-a URI. By convention, start the URI with a _/_. It can also contain curly brace templates if you stay with
-the default implementation.
-
-```php
-$config->setRoutes(function (RouterInterface $router) {
-    $router->addCallbackRoute("GET", "/me", function (RequestInterface $request, ResponseInterface $response) {
+$router = function(FastRoute\RouteCollector $r) {
+    $r->addRoute("GET", "/me", function (RequestInterface $request, ResponseInterface $response) {
         $response->setContent("Welcome to the real world!");
     });
-    
-    $router->addRoute("GET", "/users", "App\\Controllers\\UserController", "getUsers");
-    $router->addRoute("POST", "/users/{id}", "App\\Controllers\\UserController", "updateUser");
+    $r->addRoute("GET", "/users", ["App\\Controllers\\UserController", "getUsers"]);
+    $r->addRoute("POST", "/users/{id}", ["App\\Controllers\\UserController", "updateUser"]);
 });
-```
+
+You can define either a class or a callback handler for each route. A route consists of an HTTP verb and
+a URI. By convention, start the URI with a _/_. It can also contain curly brace templates if you stay with
+the default implementation.
 
 **Reminder**: As of PHP 5.5, you are able to use the [::class keyword](http://php.net/manual/en/language.oop5.basic.php#language.oop5.basic.class.class)
 to resolve class names:
 
 ```php
-$router->addRoute("GET", "/users", UserController::class, "getUsers");
+$r->addRoute("GET", "/users", [\App\Controllers\UserController::class, "getUsers"]);
 ```
 
 #### Define the handlers for the routes:
@@ -298,7 +224,7 @@ However you don't have to worry that your handlers become tightly coupled to HTT
 ```php
 $harmony= Harmony::build
     ->addMiddleware(new InitializerMiddleware())
-    ->addMiddleware(new RouterMiddleware([]))
+    ->addMiddleware(new RouterMiddleware($router)
     ->addMiddleware(new DispatcherMiddleware())
     ->addMiddleware(new ResponderMiddleware())
     ->live();
@@ -328,66 +254,8 @@ Hooking enables you to get the control before and/or after dispatching occurs. N
 available for class handlers! If you specify a ``preHook()`` method in your handler class then it
 will be automatically invoked before the handler method. The same way, if you specify a ``postHook()``
 method then it will be called after the original handler method has been invoked. Important to note
-that these methods must expect a ``Request`` and a ``Response`` object as their only arguments and they
-aren't required to provide any return value (see regular handlers for more info and examples).
-
-Additionally you can even override the name of the hooks in the configuration: so if you have already
-had a method like ``preDispatch()`` then you can use it easily!
-
-#### Events
-
-Listening to events is also possible with Harmony. You have to complete the following steps
-if you want to use this functionality:
-
-- Change the framework class in your code to ``EventHarmony`` and the configuration class
-to ``EventConfig``.
-
-- Subscribe to the events in the configuration similar to the way you define the routes.
-
-- You can customize which event dispatching library to use by calling
-``EventHarmony::setEventDispatcher()``. Of course this step is totally optional.
-
-- If you stay with the default implementation, ensure you required the Symfony Event Dispatcher library in
-your composer.json:
-
-```bash
-$ composer require symfony/event-dispatcher
-```
-
-Here is an example:
-
-```php
-use WoohooLabs\Harmony\Event\EventDispatcherConsumerInterface;
-use WoohooLabs\Harmony\Event\Events;
-use WoohooLabs\Harmony\Event\EventInterface;
-
-$config= new EventConfig();
-$config->setEvents(function (EventDispatcherConsumerInterface $eventDispatcher) {
-    $eventDispatcher->addCallbackListener(
-        Events::BEFORE_SENDING_RESPONSE,
-        function (EventInterface $event) {
-            echo "Request URI: " . $event->getRequest()->getUri() . "<br />";
-            echo "Response Content-Type: " . $event->getResponse()->getContentType();
-            exit();
-        }
-    );
-});
-
-$harmony= new EventHarmony($config);
-$harmony->live();
-```
-
-Note that your listeners always have to expect one argument with a type of ``EventInterface``. Depending
-on the current phase of request-response lifecycle, this object can carry the request and/or the response objects (as
-you can see above). Here is the list of the different events:
-
-| Name                                 | Description                                                                  |
-| ------------------------------------ | ---------------------------------------------------------------------------- |
-| ``Events::BEFORE_RECEIVING_REQUEST`` | Dispatched before the request object is instantiate.                         |
-| ``Events::AFTER_RECEIVING_REQUEST``  | Dispatched after the instantiation of the request object                     |
-| ``Events::AFTER_DISCOVERY``          | Dispatched after the routes have been defined but not yet dispatched         |
-| ``Events::AFTER_ROUTING``            | Dispatched after the appropriate route has been selected but not yet handled |
-| ``Events::BEFORE_SENDING_RESPONSE``  | Dispatched before sending the composed response                              |
+that the hooking methods must also expect a ``Request`` and a ``Response`` object as their only arguments
+and they aren't required to provide any return value (just like regular handler methods).
 
 ## License
 
