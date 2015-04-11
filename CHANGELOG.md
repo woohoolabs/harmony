@@ -1,5 +1,14 @@
 # Change Log
 
+### 0.5.0 - 2015-04-11
+
+#### Added
+- Possibility to define defaults for various request data
+
+#### Changed
+- Renamed project to Harmony
+- Renamed the framework's handler method to live()
+
 ### 0.4.0 - 2014-12-04
 
 #### Added
@@ -17,8 +26,6 @@
 #### Changed
 - Completely reworked serializers/deserializers
 - ``Responder`` objects were removed, ``Response`` objects became responders too
-
-#### Fixed
 
 ### 0.2.1 - 2014-10-19
 

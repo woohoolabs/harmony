@@ -1,5 +1,5 @@
 <?php
-namespace WoohooLabs\ApiFramework\Serializer;
+namespace WoohooLabs\Harmony\Serializer;
 
 class FormatNotSupportedException extends \Exception
 {

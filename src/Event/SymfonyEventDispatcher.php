@@ -1,10 +1,10 @@
 <?php
-namespace WoohooLabs\ApiFramework\Event;
+namespace WoohooLabs\Harmony\Event;
 
 use Interop\Container\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
-use WoohooLabs\ApiFramework\Request\RequestInterface;
-use WoohooLabs\ApiFramework\Response\ResponseInterface;
+use WoohooLabs\Harmony\Request\RequestInterface;
+use WoohooLabs\Harmony\Response\ResponseInterface;
 
 class SymfonyEventDispatcher implements EventDispatcherInterface, EventDispatcherConsumerInterface
 {
@@ -56,8 +56,8 @@ class SymfonyEventDispatcher implements EventDispatcherInterface, EventDispatche
     }
 
     /**
-     * @param \WoohooLabs\ApiFramework\Request\RequestInterface $request
-     * @param \WoohooLabs\ApiFramework\Response\ResponseInterface $response
+     * @param \WoohooLabs\Harmony\Request\RequestInterface $request
+     * @param \WoohooLabs\Harmony\Response\ResponseInterface $response
      */
     public function dispatchAfterReceivingRequest(RequestInterface $request, ResponseInterface $response)
     {
@@ -67,8 +67,8 @@ class SymfonyEventDispatcher implements EventDispatcherInterface, EventDispatche
     }
 
     /**
-     * @param \WoohooLabs\ApiFramework\Request\RequestInterface $request
-     * @param \WoohooLabs\ApiFramework\Response\ResponseInterface $response
+     * @param \WoohooLabs\Harmony\Request\RequestInterface $request
+     * @param \WoohooLabs\Harmony\Response\ResponseInterface $response
      */
     public function dispatchAfterDiscovery(RequestInterface $request, ResponseInterface $response)
     {
@@ -78,8 +78,8 @@ class SymfonyEventDispatcher implements EventDispatcherInterface, EventDispatche
     }
 
     /**
-     * @param \WoohooLabs\ApiFramework\Request\RequestInterface $request
-     * @param \WoohooLabs\ApiFramework\Response\ResponseInterface $response
+     * @param \WoohooLabs\Harmony\Request\RequestInterface $request
+     * @param \WoohooLabs\Harmony\Response\ResponseInterface $response
      */
     public function dispatchAfterRouting(RequestInterface $request, ResponseInterface $response)
     {
@@ -89,8 +89,8 @@ class SymfonyEventDispatcher implements EventDispatcherInterface, EventDispatche
     }
 
     /**
-     * @param \WoohooLabs\ApiFramework\Request\RequestInterface $request
-     * @param \WoohooLabs\ApiFramework\Response\ResponseInterface $response
+     * @param \WoohooLabs\Harmony\Request\RequestInterface $request
+     * @param \WoohooLabs\Harmony\Response\ResponseInterface $response
      */
     public function dispatchBeforeSendingResponse(RequestInterface $request, ResponseInterface $response = null)
     {
@@ -101,7 +101,7 @@ class SymfonyEventDispatcher implements EventDispatcherInterface, EventDispatche
 
     /**
      * @param string $eventName
-     * @param \WoohooLabs\ApiFramework\Event\SymfonyEvent $event
+     * @param \WoohooLabs\Harmony\Event\SymfonyEvent $event
      */
     protected function dispatch($eventName, SymfonyEvent $event = null)
     {

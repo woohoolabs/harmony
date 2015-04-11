@@ -1,5 +1,5 @@
 <?php
-namespace WoohooLabs\ApiFramework\Container;
+namespace WoohooLabs\Harmony\Container;
 
 use Interop\Container\ContainerInterface;
 

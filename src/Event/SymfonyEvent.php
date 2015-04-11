@@ -1,25 +1,25 @@
 <?php
-namespace WoohooLabs\ApiFramework\Event;
+namespace WoohooLabs\Harmony\Event;
 
 use Symfony\Component\EventDispatcher\Event;
-use WoohooLabs\ApiFramework\Request\RequestInterface;
-use WoohooLabs\ApiFramework\Response\ResponseInterface;
+use WoohooLabs\Harmony\Request\RequestInterface;
+use WoohooLabs\Harmony\Response\ResponseInterface;
 
 class SymfonyEvent extends Event implements EventInterface
 {
     /**
-     * @var \WoohooLabs\ApiFramework\Request\RequestInterface
+     * @var \WoohooLabs\Harmony\Request\RequestInterface
      */
     protected $request;
 
     /**
-     * @var \WoohooLabs\ApiFramework\Response\ResponseInterface
+     * @var \WoohooLabs\Harmony\Response\ResponseInterface
      */
     protected $response;
 
     /**
-     * @param \WoohooLabs\ApiFramework\Request\RequestInterface|null $request
-     * @param \WoohooLabs\ApiFramework\Response\ResponseInterface|null $response
+     * @param \WoohooLabs\Harmony\Request\RequestInterface|null $request
+     * @param \WoohooLabs\Harmony\Response\ResponseInterface|null $response
      */
     public function __construct(RequestInterface $request = null, ResponseInterface $response = null)
     {
@@ -28,7 +28,7 @@ class SymfonyEvent extends Event implements EventInterface
     }
 
     /**
-     * @return \WoohooLabs\ApiFramework\Request\RequestInterface|null
+     * @return \WoohooLabs\Harmony\Request\RequestInterface|null
      */
     public function getRequest()
     {
@@ -36,7 +36,7 @@ class SymfonyEvent extends Event implements EventInterface
     }
 
     /**
-     * @return \WoohooLabs\ApiFramework\Response\ResponseInterface|null
+     * @return \WoohooLabs\Harmony\Response\ResponseInterface|null
      */
     public function getResponse()
     {

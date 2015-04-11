@@ -1,5 +1,5 @@
 <?php
-namespace WoohooLabs\ApiFramework\Request;
+namespace WoohooLabs\Harmony\Request;
 
 class MimeTypes
 {

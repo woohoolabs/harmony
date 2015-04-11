@@ -1,18 +1,18 @@
 <?php
-namespace WoohooLabs\ApiFramework;
+namespace WoohooLabs\Harmony;
 
-use WoohooLabs\ApiFramework\Event\EventDispatcherInterface;
-use WoohooLabs\ApiFramework\Event\SymfonyEventDispatcher;
+use WoohooLabs\Harmony\Event\EventDispatcherInterface;
+use WoohooLabs\Harmony\Event\SymfonyEventDispatcher;
 
-class EventApiFramework extends ApiFramework
+class EventHarmony extends Harmony
 {
     /**
-     * @var \WoohooLabs\ApiFramework\Event\EventDispatcherInterface
+     * @var \WoohooLabs\Harmony\Event\EventDispatcherInterface
      */
     protected $eventDispatcher;
 
     /**
-     * @param \WoohooLabs\ApiFramework\EventConfig $config
+     * @param \WoohooLabs\Harmony\EventConfig $config
      */
     public function __construct(EventConfig $config)
     {
@@ -55,7 +55,7 @@ class EventApiFramework extends ApiFramework
     }
 
     /**
-     * @param \WoohooLabs\ApiFramework\Event\EventDispatcherInterface $eventDispatcher
+     * @param \WoohooLabs\Harmony\Event\EventDispatcherInterface $eventDispatcher
      */
     public function setEventDispatcher(EventDispatcherInterface $eventDispatcher)
     {

@@ -1,12 +1,12 @@
 <?php
-namespace WoohooLabs\ApiFramework\Serializer\Implementations;
+namespace WoohooLabs\Harmony\Serializer\Implementations;
 
-use WoohooLabs\ApiFramework\Config;
-use WoohooLabs\ApiFramework\Serializer\DeserializerInterface;
-use WoohooLabs\ApiFramework\Serializer\FormatNotSupportedException;
-use WoohooLabs\ApiFramework\Serializer\SerializerException;
-use WoohooLabs\ApiFramework\Serializer\SerializerInterface;
-use WoohooLabs\ApiFramework\Serializer\TwoWaySerializerInterface;
+use WoohooLabs\Harmony\Config;
+use WoohooLabs\Harmony\Serializer\DeserializerInterface;
+use WoohooLabs\Harmony\Serializer\FormatNotSupportedException;
+use WoohooLabs\Harmony\Serializer\SerializerException;
+use WoohooLabs\Harmony\Serializer\SerializerInterface;
+use WoohooLabs\Harmony\Serializer\TwoWaySerializerInterface;
 
 class CompositeSerializer implements TwoWaySerializerInterface
 {
@@ -21,12 +21,12 @@ class CompositeSerializer implements TwoWaySerializerInterface
     protected $deserializers= [];
 
     /**
-     * @var \WoohooLabs\ApiFramework\Config
+     * @var \WoohooLabs\Harmony\Config
      */
     protected $config;
 
     /**
-     * @param \WoohooLabs\ApiFramework\Config $config
+     * @param \WoohooLabs\Harmony\Config $config
      */
     public function __construct(Config $config)
     {
@@ -55,8 +55,8 @@ class CompositeSerializer implements TwoWaySerializerInterface
      * @param array|Object $data
      * @param string $format
      * @return string
-     * @throws \WoohooLabs\ApiFramework\Serializer\FormatNotSupportedException
-     * @throws \WoohooLabs\ApiFramework\Serializer\SerializerException
+     * @throws \WoohooLabs\Harmony\Serializer\FormatNotSupportedException
+     * @throws \WoohooLabs\Harmony\Serializer\SerializerException
      */
     public function serialize($data, $format)
     {
@@ -77,8 +77,8 @@ class CompositeSerializer implements TwoWaySerializerInterface
      * @param string $data
      * @param string $format
      * @return array
-     * @throws \WoohooLabs\ApiFramework\Serializer\FormatNotSupportedException
-     * @throws \WoohooLabs\ApiFramework\Serializer\SerializerException
+     * @throws \WoohooLabs\Harmony\Serializer\FormatNotSupportedException
+     * @throws \WoohooLabs\Harmony\Serializer\SerializerException
      */
     public function deserialize($data, $format)
     {

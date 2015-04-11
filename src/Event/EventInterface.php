@@ -1,15 +1,15 @@
 <?php
-namespace WoohooLabs\ApiFramework\Event;
+namespace WoohooLabs\Harmony\Event;
 
 interface EventInterface
 {
     /**
-     * @return \WoohooLabs\ApiFramework\Request\RequestInterface
+     * @return \WoohooLabs\Harmony\Request\RequestInterface
      */
     public function getRequest();
 
     /**
-     * @return \WoohooLabs\ApiFramework\Response\ResponseInterface
+     * @return \WoohooLabs\Harmony\Response\ResponseInterface
      */
     public function getResponse();
 }

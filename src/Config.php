@@ -1,7 +1,7 @@
 <?php
-namespace WoohooLabs\ApiFramework;
+namespace WoohooLabs\Harmony;
 
-use WoohooLabs\ApiFramework\Request\MimeTypes;
+use WoohooLabs\Harmony\Request\MimeTypes;
 
 class Config
 {

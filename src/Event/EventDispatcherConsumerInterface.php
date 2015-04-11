@@ -1,5 +1,5 @@
 <?php
-namespace WoohooLabs\ApiFramework\Event;
+namespace WoohooLabs\Harmony\Event;
 
 interface EventDispatcherConsumerInterface
 {

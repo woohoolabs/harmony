@@ -1,8 +1,8 @@
 <?php
-namespace WoohooLabs\ApiFramework\Serializer\Implementations;
+namespace WoohooLabs\Harmony\Serializer\Implementations;
 
-use WoohooLabs\ApiFramework\Serializer\DeserializerInterface;
-use WoohooLabs\ApiFramework\Serializer\SerializerInterface;
+use WoohooLabs\Harmony\Serializer\DeserializerInterface;
+use WoohooLabs\Harmony\Serializer\SerializerInterface;
 
 class NaiveSerializer implements SerializerInterface, DeserializerInterface
 {

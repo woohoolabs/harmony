@@ -1,13 +1,13 @@
 <?php
-namespace WoohooLabs\ApiFramework\Serializer\Implementations;
+namespace WoohooLabs\Harmony\Serializer\Implementations;
 
-use WoohooLabs\ApiFramework\Serializer\DeserializerInterface;
-use WoohooLabs\ApiFramework\Serializer\DeserializerTrait;
-use WoohooLabs\ApiFramework\Serializer\FormatNotSupportedException;
-use WoohooLabs\ApiFramework\Serializer\Formats;
-use WoohooLabs\ApiFramework\Serializer\SerializerException;
-use WoohooLabs\ApiFramework\Serializer\SerializerInterface;
-use WoohooLabs\ApiFramework\Serializer\SerializerTrait;
+use WoohooLabs\Harmony\Serializer\DeserializerInterface;
+use WoohooLabs\Harmony\Serializer\DeserializerTrait;
+use WoohooLabs\Harmony\Serializer\FormatNotSupportedException;
+use WoohooLabs\Harmony\Serializer\Formats;
+use WoohooLabs\Harmony\Serializer\SerializerException;
+use WoohooLabs\Harmony\Serializer\SerializerInterface;
+use WoohooLabs\Harmony\Serializer\SerializerTrait;
 
 class JsonSerializer implements SerializerInterface, DeserializerInterface
 {
@@ -34,8 +34,8 @@ class JsonSerializer implements SerializerInterface, DeserializerInterface
      * @param array|Object $data
      * @param string $format
      * @return string
-     * @throws \WoohooLabs\ApiFramework\Serializer\FormatNotSupportedException
-     * @throws \WoohooLabs\ApiFramework\Serializer\SerializerException
+     * @throws \WoohooLabs\Harmony\Serializer\FormatNotSupportedException
+     * @throws \WoohooLabs\Harmony\Serializer\SerializerException
      */
     public function serialize($data, $format)
     {
@@ -54,8 +54,8 @@ class JsonSerializer implements SerializerInterface, DeserializerInterface
      * @param string $data
      * @param string $format
      * @return array
-     * @throws \WoohooLabs\ApiFramework\Serializer\FormatNotSupportedException
-     * @throws \WoohooLabs\ApiFramework\Serializer\SerializerException
+     * @throws \WoohooLabs\Harmony\Serializer\FormatNotSupportedException
+     * @throws \WoohooLabs\Harmony\Serializer\SerializerException
      */
     public function deserialize($data, $format)
     {

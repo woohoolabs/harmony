@@ -1,5 +1,5 @@
 <?php
-namespace WoohooLabs\ApiFramework\Router;
+namespace WoohooLabs\Harmony\Router;
 
 class MethodNotAllowedException extends \Exception
 {

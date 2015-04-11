@@ -1,5 +1,5 @@
 <?php
-namespace WoohooLabs\ApiFramework\Router;
+namespace WoohooLabs\Harmony\Router;
 
 interface RouterInterface
 {
@@ -21,7 +21,7 @@ interface RouterInterface
     /**
      * @param string $method
      * @param string $uri
-     * @return \WoohooLabs\ApiFramework\Dispatcher\AbstractDispatcher
+     * @return \WoohooLabs\Harmony\Dispatcher\AbstractDispatcher
      */
     public function getDispatcher($method, $uri);
 }

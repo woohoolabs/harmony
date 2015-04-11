@@ -1,8 +1,8 @@
 <?php
-namespace WoohooLabs\ApiFramework\Dispatcher;
+namespace WoohooLabs\Harmony\Dispatcher;
 
-use WoohooLabs\ApiFramework\Request\RequestInterface;
-use WoohooLabs\ApiFramework\Response\ResponseInterface;
+use WoohooLabs\Harmony\Request\RequestInterface;
+use WoohooLabs\Harmony\Response\ResponseInterface;
 
 abstract class AbstractDispatcher
 {
@@ -12,9 +12,9 @@ abstract class AbstractDispatcher
     private $parameters;
 
     /**
-     * @param \WoohooLabs\ApiFramework\Request\RequestInterface $request
-     * @param \WoohooLabs\ApiFramework\Response\ResponseInterface $response
-     * @return \WoohooLabs\ApiFramework\Response\ResponseInterface
+     * @param \WoohooLabs\Harmony\Request\RequestInterface $request
+     * @param \WoohooLabs\Harmony\Response\ResponseInterface $response
+     * @return \WoohooLabs\Harmony\Response\ResponseInterface
      */
     abstract public function dispatch(RequestInterface $request, ResponseInterface $response);
 

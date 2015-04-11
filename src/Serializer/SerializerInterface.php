@@ -1,5 +1,5 @@
 <?php
-namespace WoohooLabs\ApiFramework\Serializer;
+namespace WoohooLabs\Harmony\Serializer;
 
 interface SerializerInterface
 {
@@ -7,8 +7,8 @@ interface SerializerInterface
      * @param mixed $data
      * @param string $format
      * @return string
-     * @throws \WoohooLabs\ApiFramework\Serializer\FormatNotSupportedException
-     * @throws \WoohooLabs\ApiFramework\Serializer\SerializerException
+     * @throws \WoohooLabs\Harmony\Serializer\FormatNotSupportedException
+     * @throws \WoohooLabs\Harmony\Serializer\SerializerException
      */
     public function serialize($data, $format);
 

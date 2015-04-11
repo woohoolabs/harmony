@@ -1,5 +1,5 @@
 <?php
-namespace WoohooLabs\ApiFramework;
+namespace WoohooLabs\Harmony;
 
 class EventConfig extends Config
 {

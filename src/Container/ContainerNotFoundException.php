@@ -1,5 +1,5 @@
 <?php
-namespace WoohooLabs\ApiFramework\Container;
+namespace WoohooLabs\Harmony\Container;
 
 class ContainerNotFoundException extends \Exception implements \Interop\Container\Exception\NotFoundException
 {

@@ -1,16 +1,16 @@
 <?php
-namespace WoohooLabs\ApiFramework\Request;
+namespace WoohooLabs\Harmony\Request;
 
 use Symfony\Component\HttpFoundation\Session\Session;
-use WoohooLabs\ApiFramework\Serializer\DeserializerInterface;
+use WoohooLabs\Harmony\Serializer\DeserializerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use WoohooLabs\ApiFramework\Config;
-use WoohooLabs\ApiFramework\Serializer\Formats;
+use WoohooLabs\Harmony\Config;
+use WoohooLabs\Harmony\Serializer\Formats;
 
 class FoundationRequest implements RequestInterface
 {
     /**
-     * @var \WoohooLabs\ApiFramework\Serializer\DeserializerInterface
+     * @var \WoohooLabs\Harmony\Serializer\DeserializerInterface
      */
     private $deserializer;
 
@@ -35,8 +35,8 @@ class FoundationRequest implements RequestInterface
     private $route;
 
     /**
-     * @param \WoohooLabs\ApiFramework\Config $config
-     * @param \WoohooLabs\ApiFramework\Serializer\DeserializerInterface $deserializer
+     * @param \WoohooLabs\Harmony\Config $config
+     * @param \WoohooLabs\Harmony\Serializer\DeserializerInterface $deserializer
      */
     public function __construct(Config $config, DeserializerInterface $deserializer)
     {

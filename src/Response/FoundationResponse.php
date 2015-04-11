@@ -1,9 +1,9 @@
 <?php
-namespace WoohooLabs\ApiFramework\Response;
+namespace WoohooLabs\Harmony\Response;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use WoohooLabs\ApiFramework\Serializer\SerializerInterface;
+use WoohooLabs\Harmony\Serializer\SerializerInterface;
 
 class FoundationResponse implements ResponseInterface
 {
@@ -13,7 +13,7 @@ class FoundationResponse implements ResponseInterface
     private $response;
 
     /**
-     * @var \WoohooLabs\ApiFramework\Serializer\SerializerInterface
+     * @var \WoohooLabs\Harmony\Serializer\SerializerInterface
      */
     private $serializer;
 

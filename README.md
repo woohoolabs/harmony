@@ -1,9 +1,9 @@
-# Woohoo Labs. API Framework
+# Woohoo Labs. Harmony
 
-**Woohoo Labs. API Framework is a flexible micro-framework developed for quality API-s.**
+**Woohoo Labs. Harmony is a flexible micro-framework developed for quality applications.**
 
-Our aim was to create an invisible, easily extensible, but first of all, extremely flexible framework for API-s.
-We wanted to give you total control while providing a clean interface to communicate with.
+Our aim was to create an invisible, easily extensible, but first of all, extremely flexible framework for your
+quality application. We wanted to give you total control while providing a clean interface to communicate with.
 
 ## Introduction
 
@@ -24,7 +24,7 @@ In conclusion, requirements will always change. What seemed to be a good choice 
 If things are impossible to change in your framework then it might lead to hard times when refactoring your
 application even though that it is decoupled from your project.
 
-We created API Framework to remedy this issue.
+We created Harmony to remedy this issue.
 
 #### A Case Study
 
@@ -67,16 +67,16 @@ regarding IoC Containers a (not yet officially accepted) common interface alread
 any changes with them as easy as ABC!
 
 As a general suggestion, when your project is huge make sure that you can easily swap things in and out
-from every part of your framework too. That's why we designed API Framework so that almost every piece
+from every part of your framework too. That's why we designed Harmony so that almost every piece
 of it can be changed with minimal effort and with minimal impact on your project.
 
-#### Use Cases of Woohoo Labs. API Framework
+#### Use Cases of Woohoo Labs. Harmony
 
-Certainly, API Framework won't suit the needs of all projects and teams. Firstly, this framework works best
+Certainly, Harmony won't suit the needs of all projects and teams. Firstly, this framework works best
 for advanced teams. So less experienced teams should probably choose a less lenient framework with more features
 in order to speed up development in the initial phase.
 
-To sum up, Woohoo Labs. API Framework is most effective for teams with a solid understanding of API development.
+To sum up, Woohoo Labs. Harmony is most effective for teams with a solid understanding of API development.
 Its flexibility is more advantageous if you need sophisticated tools like IoC Containers or API documentation
 tools like Swagger.
 
@@ -107,7 +107,7 @@ of your application (DEV or PROD), caching etc. This configuration will be a POP
 #### Router
 
 Basically, the router tells you which handler (let it be a class method or an anomymous function) is in charge
-of handling the request coming to a specific URI. The default router used by Woohoo Labs. API Framework is the
+of handling the request coming to a specific URI. The default router used by Woohoo Labs. Harmony is the
 library of [Nikita Popov](https://twitter.com/nikita_ppv), because of its elegance and performance. You can read
 more about it [clicking here](http://nikic.github.io/2014/02/18/Fast-request-routing-using-regular-expressions.html).
 Of course if you weren't satisfied with it, you can change it anytime with a minimal amount of work.
@@ -118,7 +118,7 @@ Of course if you weren't satisfied with it, you can change it anytime with a min
 
 #### Container
 
-For Woohoo Labs. API Framework, the container is only a class which is capable to instantiate any handlers
+For Woohoo Labs. Harmony, the container is only a class which is capable to instantiate any handlers
 if you provide them their fully qualified class name (in fact, containers are called IoC Containers and
 they are much more then described above). The built-in container is a really naive one: it uses pure PHP
 reflection to create a handler object. If you want to use a more clever IoC Container which is
@@ -181,12 +181,12 @@ in the Advanced Usage section.
 
 The steps of this process are quite straightforward. The only thing you need is [Composer](http://getcomposer.org).
 
-#### Add API Framework to your composer.json:
+#### Add Harmony to your composer.json:
 
 To install this library, run the command below and you will get the latest version:
 
 ```bash
-$ composer require woohoolabs/api-framework
+$ composer require woohoolabs/harmony
 ```
 
 #### Add the necessary dependencies:
@@ -259,8 +259,8 @@ object and they are expected to manipulate the latter.
 ```php
 namespace App\Controllers;
 
-use WoohooLabs\ApiFramework\Request\RequestInterface;
-use WoohooLabs\ApiFramework\Response\ResponseInterface;
+use WoohooLabs\Harmony\Request\RequestInterface;
+use WoohooLabs\Harmony\Response\ResponseInterface;
 
 class UserController
 {
@@ -294,15 +294,15 @@ However you don't have to worry that your handlers become tightly coupled to HTT
 #### Finally, launch the framework:
 
 ```php
-$apiFramework= new ApiFramework($config);
-$apiFramework->work();
+$harmony= new Harmony($config);
+$harmony->live();
 ```
 
 ## Advanced Usage
 
 #### Redefining Default Components
 
-The motivation of creating Woohoo Labs. API Framework was to become able to change every single aspect
+The motivation of creating Woohoo Labs. Harmony was to become able to change every single aspect
 of the framework. That's why you can customize almost everything with minimal effort.
 
 The following example shows how to swap the ``BasicContainer`` with the PHP-DI Container then how to use the
@@ -310,13 +310,13 @@ serializer and deserializer of the famous JMS library instead of the default one
 
 ```php
 $router= new \DI\Container();
-$apiFramework->setContainer($router);
+$harmony->setContainer($router);
 
 $serializer= new JmsSerializer($config);
-$apiFramework->setSerializer($serializer);
+$harmony->setSerializer($serializer);
 
 $deserializer= new JmsDeserializer($config);
-$apiFramework->setDeserializer($deserializer);
+$harmony->setDeserializer($deserializer);
 ```
 
 #### Hooks
@@ -333,16 +333,16 @@ had a method like ``preDispatch()`` then you can use it easily!
 
 #### Events
 
-Listening to events is also possible with API Framework. You have to complete the following steps
+Listening to events is also possible with Harmony. You have to complete the following steps
 if you want to use this functionality:
 
-- Change the framework class in your code to ``EventApiFramework`` and the configuration class
+- Change the framework class in your code to ``EventHarmony`` and the configuration class
 to ``EventConfig``.
 
 - Subscribe to the events in the configuration similar to the way you define the routes.
 
 - You can customize which event dispatching library to use by calling
-``EventApiFramework::setEventDispatcher()``. Of course this step is totally optional.
+``EventHarmony::setEventDispatcher()``. Of course this step is totally optional.
 
 - If you stay with the default implementation, ensure you required the Symfony Event Dispatcher library in
 your composer.json:
@@ -354,9 +354,9 @@ $ composer require symfony/event-dispatcher
 Here is an example:
 
 ```php
-use WoohooLabs\ApiFramework\Event\EventDispatcherConsumerInterface;
-use WoohooLabs\ApiFramework\Event\Events;
-use WoohooLabs\ApiFramework\Event\EventInterface;
+use WoohooLabs\Harmony\Event\EventDispatcherConsumerInterface;
+use WoohooLabs\Harmony\Event\Events;
+use WoohooLabs\Harmony\Event\EventInterface;
 
 $config= new EventConfig();
 $config->setEvents(function (EventDispatcherConsumerInterface $eventDispatcher) {
@@ -370,8 +370,8 @@ $config->setEvents(function (EventDispatcherConsumerInterface $eventDispatcher) 
     );
 });
 
-$apiFramework= new EventApiFramework($config);
-$apiFramework->work();
+$harmony= new EventHarmony($config);
+$harmony->work();
 ```
 
 Note that your listeners always have to expect one argument with a type of ``EventInterface``. Depending
@@ -388,5 +388,5 @@ you can see above). Here is the list of the different events:
 
 ## License
 
-The MIT License (MIT). Please see the [License File](https://github.com/woohoolabs/api-framework/blob/master/LICENSE.md)
+The MIT License (MIT). Please see the [License File](https://github.com/woohoolabs/harmony/blob/master/LICENSE.md)
 for more information.

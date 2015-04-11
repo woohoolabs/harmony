@@ -1,9 +1,9 @@
 {
-    "name":"woohoolabs/api-framework",
-    "description":"Woohoo Labs. API Framework",
+    "name":"woohoolabs/harmony",
+    "description":"Woohoo Labs. Harmony",
     "type":"library",
     "keywords":["Woohoo Labs.", "API", "REST", "Framework"],
-    "homepage":"http://api-framework.woohoolabs.com",
+    "homepage":"http://harmony.woohoolabs.com",
     "license":"MIT",
     "authors":[
         {
@@ -31,7 +31,7 @@
     },
     "autoload": {
         "psr-4": {
-            "WoohooLabs\\ApiFramework\\": "src/"
+            "WoohooLabs\\Harmony\\": "src/"
         }
     }
 }

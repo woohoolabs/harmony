@@ -1,22 +1,22 @@
 <?php
-namespace WoohooLabs\ApiFramework;
+namespace WoohooLabs\Harmony;
 
 use Interop\Container\ContainerInterface;
-use WoohooLabs\ApiFramework\Container\BasicContainer;
-use WoohooLabs\ApiFramework\Dispatcher\ClassDispatcher;
-use WoohooLabs\ApiFramework\Request\FoundationRequest;
-use WoohooLabs\ApiFramework\Request\RequestInterface;
-use WoohooLabs\ApiFramework\Response\FoundationResponse;
-use WoohooLabs\ApiFramework\Response\ResponseInterface;
-use WoohooLabs\ApiFramework\Router\FastRouter;
-use WoohooLabs\ApiFramework\Router\RouterInterface;
-use WoohooLabs\ApiFramework\Serializer\Implementations\JmsSerializer;
-use WoohooLabs\ApiFramework\Serializer\TwoWaySerializerInterface;
+use WoohooLabs\Harmony\Container\BasicContainer;
+use WoohooLabs\Harmony\Dispatcher\ClassDispatcher;
+use WoohooLabs\Harmony\Request\FoundationRequest;
+use WoohooLabs\Harmony\Request\RequestInterface;
+use WoohooLabs\Harmony\Response\FoundationResponse;
+use WoohooLabs\Harmony\Response\ResponseInterface;
+use WoohooLabs\Harmony\Router\FastRouter;
+use WoohooLabs\Harmony\Router\RouterInterface;
+use WoohooLabs\Harmony\Serializer\Implementations\JmsSerializer;
+use WoohooLabs\Harmony\Serializer\TwoWaySerializerInterface;
 
-class ApiFramework
+class Harmony
 {
     /**
-     * @var \WoohooLabs\ApiFramework\Config
+     * @var \WoohooLabs\Harmony\Config
      */
     protected $config;
 
@@ -26,27 +26,27 @@ class ApiFramework
     protected $container;
 
     /**
-     * @var \WoohooLabs\ApiFramework\Router\RouterInterface
+     * @var \WoohooLabs\Harmony\Router\RouterInterface
      */
     protected $router;
 
     /**
-     * @var \WoohooLabs\ApiFramework\Serializer\TwoWaySerializerInterface
+     * @var \WoohooLabs\Harmony\Serializer\TwoWaySerializerInterface
      */
     protected $serializer;
 
     /**
-     * @var \WoohooLabs\ApiFramework\Request\RequestInterface
+     * @var \WoohooLabs\Harmony\Request\RequestInterface
      */
     protected $request;
 
     /**
-     * @var \WoohooLabs\ApiFramework\Response\ResponseInterface
+     * @var \WoohooLabs\Harmony\Response\ResponseInterface
      */
     protected $response;
 
     /**
-     * @var \WoohooLabs\ApiFramework\Dispatcher\AbstractDispatcher
+     * @var \WoohooLabs\Harmony\Dispatcher\AbstractDispatcher
      */
     protected $dispatcher;
 
@@ -56,14 +56,14 @@ class ApiFramework
     protected $handler;
 
     /**
-     * @param \WoohooLabs\ApiFramework\Config $config
+     * @param \WoohooLabs\Harmony\Config $config
      */
     public function __construct(Config $config)
     {
         $this->config = $config;
     }
 
-    public function work()
+    public function live()
     {
         $this->initialize();
         $this->discover();
@@ -142,7 +142,7 @@ class ApiFramework
     }
 
     /**
-     * @param \WoohooLabs\ApiFramework\Router\RouterInterface $router
+     * @param \WoohooLabs\Harmony\Router\RouterInterface $router
      */
     public function setRouter(RouterInterface $router)
     {
@@ -158,7 +158,7 @@ class ApiFramework
     }
 
     /**
-     * @param \WoohooLabs\ApiFramework\Serializer\TwoWaySerializerInterface $serializer
+     * @param \WoohooLabs\Harmony\Serializer\TwoWaySerializerInterface $serializer
      */
     public function setSerializer(TwoWaySerializerInterface $serializer)
     {
@@ -166,7 +166,7 @@ class ApiFramework
     }
 
     /**
-     * @param \WoohooLabs\ApiFramework\Request\RequestInterface $request
+     * @param \WoohooLabs\Harmony\Request\RequestInterface $request
      */
     public function setRequest(RequestInterface $request)
     {
@@ -174,7 +174,7 @@ class ApiFramework
     }
 
     /**
-     * @param \WoohooLabs\ApiFramework\Response\ResponseInterface $responder
+     * @param \WoohooLabs\Harmony\Response\ResponseInterface $responder
      */
     public function setResponse(ResponseInterface $responder)
     {

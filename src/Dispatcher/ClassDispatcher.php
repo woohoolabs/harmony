@@ -1,10 +1,10 @@
 <?php
-namespace WoohooLabs\ApiFramework\Dispatcher;
+namespace WoohooLabs\Harmony\Dispatcher;
 
 use Interop\Container\ContainerInterface;
-use WoohooLabs\ApiFramework\Config;
-use WoohooLabs\ApiFramework\Request\RequestInterface;
-use WoohooLabs\ApiFramework\Response\ResponseInterface;
+use WoohooLabs\Harmony\Config;
+use WoohooLabs\Harmony\Request\RequestInterface;
+use WoohooLabs\Harmony\Response\ResponseInterface;
 
 class ClassDispatcher extends AbstractDispatcher
 {
@@ -14,7 +14,7 @@ class ClassDispatcher extends AbstractDispatcher
     private $container;
 
     /**
-     * @var \WoohooLabs\ApiFramework\Config
+     * @var \WoohooLabs\Harmony\Config
      */
     private $config;
 
@@ -41,9 +41,9 @@ class ClassDispatcher extends AbstractDispatcher
     }
 
     /**
-     * @param \WoohooLabs\ApiFramework\Request\RequestInterface $request
-     * @param \WoohooLabs\ApiFramework\Response\ResponseInterface $response
-     * @return \WoohooLabs\ApiFramework\Response\ResponseInterface
+     * @param \WoohooLabs\Harmony\Request\RequestInterface $request
+     * @param \WoohooLabs\Harmony\Response\ResponseInterface $response
+     * @return \WoohooLabs\Harmony\Response\ResponseInterface
      */
     public function dispatch(RequestInterface $request, ResponseInterface $response)
     {
@@ -79,7 +79,7 @@ class ClassDispatcher extends AbstractDispatcher
     }
 
     /**
-     * @param \WoohooLabs\ApiFramework\Config $config
+     * @param \WoohooLabs\Harmony\Config $config
      */
     public function setConfig(Config $config)
     {

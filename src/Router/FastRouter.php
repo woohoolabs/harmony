@@ -1,16 +1,16 @@
 <?php
-namespace WoohooLabs\ApiFramework\Router;
+namespace WoohooLabs\Harmony\Router;
 
 use FastRoute\RouteCollector;
 use FastRoute\Dispatcher;
-use WoohooLabs\ApiFramework\Config;
-use WoohooLabs\ApiFramework\Dispatcher\ClassDispatcher;
-use WoohooLabs\ApiFramework\Dispatcher\CallbackDispatcher;
+use WoohooLabs\Harmony\Config;
+use WoohooLabs\Harmony\Dispatcher\ClassDispatcher;
+use WoohooLabs\Harmony\Dispatcher\CallbackDispatcher;
 
 class FastRouter implements RouterInterface
 {
     /**
-     * @var \WoohooLabs\ApiFramework\Config
+     * @var \WoohooLabs\Harmony\Config
      */
     protected $config;
 
@@ -30,7 +30,7 @@ class FastRouter implements RouterInterface
     protected $cachePath;
 
     /**
-     * @param \WoohooLabs\ApiFramework\Config $config
+     * @param \WoohooLabs\Harmony\Config $config
      */
     public function __construct(Config $config)
     {
@@ -64,9 +64,9 @@ class FastRouter implements RouterInterface
     /**
      * @param string $method
      * @param string $uri
-     * @return \WoohooLabs\ApiFramework\Dispatcher\AbstractDispatcher
-     * @throws \WoohooLabs\ApiFramework\Router\RouteNotFoundException
-     * @throws \WoohooLabs\ApiFramework\Router\MethodNotAllowedException
+     * @return \WoohooLabs\Harmony\Dispatcher\AbstractDispatcher
+     * @throws \WoohooLabs\Harmony\Router\RouteNotFoundException
+     * @throws \WoohooLabs\Harmony\Router\MethodNotAllowedException
      */
     public function getDispatcher($method, $uri)
     {

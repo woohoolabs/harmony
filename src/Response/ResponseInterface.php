@@ -1,5 +1,5 @@
 <?php
-namespace WoohooLabs\ApiFramework\Response;
+namespace WoohooLabs\Harmony\Response;
 
 interface ResponseInterface
 {
