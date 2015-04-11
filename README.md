@@ -171,7 +171,7 @@ $router = function(FastRoute\RouteCollector $r) {
     $r->addRoute("GET", "/users", ["App\\Controllers\\UserController", "getUsers"]);
     $r->addRoute("POST", "/users/{id}", ["App\\Controllers\\UserController", "updateUser"]);
 });
-'''
+```
 
 You can define either a class or a callback handler for each route. A route consists of an HTTP verb and
 a URI. By convention, start the URI with a _/_. It can also contain curly brace templates if you stay with
