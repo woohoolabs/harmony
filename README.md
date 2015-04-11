@@ -371,7 +371,7 @@ $config->setEvents(function (EventDispatcherConsumerInterface $eventDispatcher) 
 });
 
 $harmony= new EventHarmony($config);
-$harmony->work();
+$harmony->live();
 ```
 
 Note that your listeners always have to expect one argument with a type of ``EventInterface``. Depending
