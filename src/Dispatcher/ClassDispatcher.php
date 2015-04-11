@@ -31,6 +31,7 @@ class ClassDispatcher extends AbstractDispatcher
     public function __construct(ContainerInterface $container, $className, $methodName, array $params)
     {
         parent::__construct($params);
+        $this->container = $container;
         $this->className = $className;
         $this->methodName= $methodName;
     }

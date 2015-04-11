@@ -13,16 +13,16 @@ class RouterMiddleware implements MiddlewareInterface
     const ID = "router";
 
     /**
-     * @var callable
+     * @var \FastRoute\Dispatcher
      */
-    protected $router;
+    protected $dispatcher;
 
     /**
-     * @param callable $router
+     * @param \FastRoute\Dispatcher $dispatcher
      */
-    public function __construct(callable $router)
+    public function __construct(Dispatcher $dispatcher)
     {
-        $this->router = $router;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -40,7 +40,7 @@ class RouterMiddleware implements MiddlewareInterface
      */
     public function execute(Harmony $harmony)
     {
-        $routeInfo = $this->router->dispatch($harmony->getRequest()->getMethod(), $harmony->getRequest()->getUri());
+        $routeInfo = $this->dispatcher->dispatch($harmony->getRequest()->getMethod(), $harmony->getRequest()->getUri());
 
         switch ($routeInfo[0]) {
             case Dispatcher::NOT_FOUND:
@@ -56,9 +56,9 @@ class RouterMiddleware implements MiddlewareInterface
                     $className= $routeInfo[1][0];
                     $methodName= $routeInfo[1][1];
                     $harmony->setDispatcher(new ClassDispatcher($harmony->getContainer(), $className, $methodName, $params));
+                } else {
+                    $harmony->setDispatcher(new CallbackDispatcher($routeInfo[1], $params));
                 }
-
-                $harmony->setDispatcher(new CallbackDispatcher($routeInfo[1], $params));
                 break;
             default:
                 throw new RouteNotFoundException();
