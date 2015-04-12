@@ -145,7 +145,7 @@ the [library](https://github.com/nikic/FastRoute) of Nikita Popov, because of it
 more about it [in his blog](http://nikic.github.io/2014/02/18/Fast-request-routing-using-regular-expressions.html).
 
 ```php
-$router = FastRoute\dispatcher(function(FastRoute\RouteCollector $r) {
+$router = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute("GET", "/me", function (RequestInterface $request, ResponseInterface $response) {
         $response->setContent("Welcome to the real world!");
     });
