@@ -7,7 +7,7 @@
 
 #### Changed
 - Workflow is now based on middlewares completely
-- Removed events and config class
+- Removed events and configuration class
 
 ### 0.5.0 - 2015-04-11
 

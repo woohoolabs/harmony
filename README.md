@@ -32,13 +32,14 @@ We created Harmony to remedy this issue.
 
 Certainly, Harmony won't suit the needs of all projects and teams. Firstly, this framework works best
 for advanced teams. So less experienced teams should probably choose a less lenient framework with more features
-in order to speed up development in its initial phase.
+in order to speed up development in its initial phase. Furthermore, legacy applications can also profit from Harmony
+because it eases gradual refactoring.
 
 To sum up, Woohoo Labs. Harmony is the most effective for teams with a solid understanding of software development.
 Its flexibility is the most advantageous if your application is a long-term, strategic project or you need
 sophisticated tools like IoC Containers.
 
-## Features
+#### Features
 
 - Extreme flexibility through middlewares
 - Totally object-oriented workflow
@@ -46,90 +47,29 @@ sophisticated tools like IoC Containers.
 - Support for serializing/deserializing different media types (JSON, XML, YAML)
 - Support for any IoC Containers
 
-## Concepts
+#### Concepts
 
-1. Middleware
-2. Router
-3. Container
-4. Serializer/Deserializer
-5. Request
-6. Response
+Woohoo Labs. Harmony is build upon two main concepts: middlewares and common interfaces as they both promote
+separation of concerns. Why is that?
 
-#### Middleware
+Middlewares - that are [described in detail by Igor Wiedler](https://igor.io/2013/02/02/http-kernel-middlewares.html) -
+make it possible to take hands on the course of action of the request-response lifecycle: you can authenticate before
+routing, do some logging after the response has been sent, or you can even dispatch multiple routes in one
+request if you want. They can be achieved because everything in Harmony is a middleware, so the framework itself only
+consists of some getters and setters. And that's why there is no framework-wide configuration (only the middlewares can
+be configured). That's why, basically it only depends on your imagination and needs what you do with Harmony.
 
+But middlewares must work in cooperation (especially the router and the dispatcher are tightly coupled to each other,
+or one can also mention the request and the router). That's why it is also important to provide common interfaces for
+the distinct components of the framework.
 
-#### Router
-
-Basically, the router tells you which handler (let it be a class method or an anomymous function) is in charge
-of handling the request coming to a specific URI. The default router used by Woohoo Labs. Harmony is FastRouter, the
-library of [Nikita Popov](https://twitter.com/nikita_ppv), because of its elegance and performance. You can read
-more about it [clicking here](http://nikic.github.io/2014/02/18/Fast-request-routing-using-regular-expressions.html).
-Of course if you weren't satisfied with it, you can change it anytime with a minimal amount of work.
-
-| Middleware name     | Description                           |
-| ------------------- | ------------------------------------- |
-| `RouterMiddleware`  | Wrapper around the Fast Route library |
-
-#### Container
-
-For Woohoo Labs. Harmony, the container is only a class which is capable to instantiate any handlers
-if you provide them their fully qualified class name (in fact, containers are called IoC Containers and
-they are much more then described above). The built-in container is a really naive one: it uses pure PHP
-reflection to create a handler object. If you want to use a more clever IoC Container which is
-[Container-Interop compliant](https://github.com/container-interop/container-interop) (like PHP-DI), all
-you have to do is to pass its reference to the framework.
-
-If your chosen container doesn't support this interface (like Pimple or Dice), you only have to write an
-adapter for them implementing the common interface.
-
-| Implementation      | Description                                      |
-| ------------------- | ------------------------------------------------ |
-| `BasicContainer `   | Instantiates the handler classes with reflection |
-
-#### Serializers/Deserializers
-
-A deserializer automatically handles string to array/object conversion from data formats like JSON, XML or
-YML. They may be needed in the beginning of the a request-response lifecycle when the framework receives a
-request and the contained data (the body) should be converted into an array or object.
-
-A serializer automatically handles array/object to string conversion into data formats like JSON, XML or YML.
-They may be needed in the end of the request-response lifecycle when you want to send your data as a response.
-
-| Implementation       | Supported formats | Description                                                 |
-| -------------------- | ----------------- | ----------------------------------------------------------- |
-| `JmsSerializer`      | JSON, XML, YML    | A wrapper around the JmsSerializer library                  |
-| `FormSerializer`     | form data         | Serializes/deserializes form data                           |
-| `JsonSerializer`     | JSON              | Serializes/deserializes with pure PHP functions             |
-| `CompoundSerializer` | any               | Supports choosing a serializer/deserializer for each format |
-| `NaiveSerializer`    | -                 | Just transmits the received data                            |
-
-#### Request
-
-A request object is the Object-Oriented representation of an HTTP request. For this purpose,
-Symfony's HTTP Foundation is used by a wrapper class which implements the ``RequestInterface``.
-
-| Implementation       | Description                                            |
-| -------------------- | ------------------------------------------------------ |
-| `FoundationRequest`  | A wrapper around the Symfony Foundation request class  |
-
-#### Response
-
-The response is the Object-Oriented representation of an HTTP response. It is capable to send itself
-into the ether. For this purpose, Symfony's HTTP Foundation is used by default by a wrapper class.
-
-| Implementation        | Description                                            |
-| --------------------- | ------------------------------------------------------ |
-| `FoundationResponse`  | A wrapper around the Symfony Foundation response class |
-
-#### Event Dispatcher
-
-An event dispatcher emits events during each phase of the control flow. These events can be listened
-by listeners (they are callables or class methods) after you had them subscribed. Read more about it
-in the Advanced Usage section.
-
-| Implementation           | Description                                       |
-| ------------------------ | ------------------------------------------------- |
-| `SymfonyEventDispatcher` | A wrapper around Symfony Event Dispatcher         |
+The most notable interfaces created are the ones which models the [HTTP request](https://github.com/woohoolabs/harmony/blob/master/src/Request/RequestInterface.php)
+and the [response](https://github.com/woohoolabs/harmony/blob/master/src/Response/ResponseInterface.php). But in order to
+faciliate the use of different IoC Containers when dispatching a controller, whe adapted the
+[Container-Interop standard interface](https://github.com/container-interop/container-interop/blob/master/src/Interop/Container/ContainerInterface.php)
+(which is supported by various containers off-the-shelf). These, in conjunction with the
+[dispatchers](https://github.com/woohoolabs/harmony/tree/master/src/Dispatcher) fully separates the concerns of routing
+the HTTP request to the appropriate controller. And they make it so easy to band your favourite components together!
 
 ## Install
 
@@ -153,7 +93,7 @@ $ composer require symfony/http-foundation
 $ composer require jms/serializer
 ```
 
-#### Autoload classes in your bootstrap:
+#### Autoload in your bootstrap:
 
 ```php
 require "vendor/autoload.php"
@@ -161,33 +101,11 @@ require "vendor/autoload.php"
 
 ## Basic Usage
 
-#### Define some routes:
+#### Define your endpoints:
 
-```php
-$router = function(FastRoute\RouteCollector $r) {
-    $r->addRoute("GET", "/me", function (RequestInterface $request, ResponseInterface $response) {
-        $response->setContent("Welcome to the real world!");
-    });
-    $r->addRoute("GET", "/users", ["App\\Controllers\\UserController", "getUsers"]);
-    $r->addRoute("POST", "/users/{id}", ["App\\Controllers\\UserController", "updateUser"]);
-};
-```
-
-You can define either a class or a callback handler for each route. A route consists of an HTTP verb and
-a URI. By convention, start the URI with a _/_. It can also contain curly brace templates if you stay with
-the default implementation.
-
-**Reminder**: As of PHP 5.5, you are able to use the [::class keyword](http://php.net/manual/en/language.oop5.basic.php#language.oop5.basic.class.class)
-to resolve class names:
-
-```php
-$r->addRoute("GET", "/users", [\App\Controllers\UserController::class, "getUsers"]);
-```
-
-#### Define the handlers for the routes:
-
-There are two important things to notice here: each handler receives a ``RequestInterface`` and a ``ResponseInterface``
-object and they are expected to manipulate the latter.
+There are two important things to notice here: first, each endpoint receives a ``RequestInterface`` and a ``ResponseInterface``
+object and they are expected to manipulate the latter. Second, you are not forced to use classes only for the endpoints,
+it is possible to define anonymous functions too (see the next step).
 
 ```php
 namespace App\Controllers;
@@ -220,47 +138,155 @@ class UserController
 }
 ```
 
-However you don't have to worry that your handlers become tightly coupled to HTTP. Just read
-[this fantastic post](https://igor.io/2013/02/03/http-foundation-value.html) from
-[Igor Wiedler](https://twitter.com/igorwhiletrue).
+However you don't have to worry that your endpoints become tightly coupled to HTTP. Just read
+[this fantastic post](https://igor.io/2013/02/03/http-foundation-value.html) from [Igor Wiedler](https://twitter.com/igorwhiletrue).
+
+#### Define your routes:
+
+The following example pertains only to the default router used by Woohoo Labs. Harmony. We chose FastRouter for this purpose,
+the [library](https://github.com/nikic/FastRoute) of Nikita Popov, because of its performance and elegance. You can read
+more about it [in his blog](http://nikic.github.io/2014/02/18/Fast-request-routing-using-regular-expressions.html).
+
+```php
+$router = FastRoute\dispatcher(function(FastRoute\RouteCollector $router) {
+    $r->addRoute("GET", "/me", function (RequestInterface $request, ResponseInterface $response) {
+        $response->setContent("Welcome to the real world!");
+    });
+    $r->addRoute("GET", "/users", ["App\\Controllers\\UserController", "getUsers"]);
+    $r->addRoute("POST", "/users/{id}", ["App\\Controllers\\UserController", "updateUser"]);
+};
+```
+
+**Reminder**: As of PHP 5.5, you are able to use the [::class keyword](http://php.net/manual/en/language.oop5.basic.php#language.oop5.basic.class.class)
+to resolve class names:
+
+```php
+$r->addRoute("GET", "/users", [\App\Controllers\UserController::class, "getUsers"]);
+```
 
 #### Finally, launch the framework:
 
+You have to register all the following middlewares in order for the framework to function properly:
+
 ```php
-Harmony::build()
+$harmony = Harmony::build()
     ->addMiddleware(new InitializerMiddleware())
     ->addMiddleware(new RouterMiddleware($router))
     ->addMiddleware(new DispatcherMiddleware())
-    ->addMiddleware(new ResponderMiddleware())
-    ->live();
+
+$harmony->live();
 ```
 
+Of course, it is completely up to you how you add additional middlewares or how you replace them with your own
+implementations. When you'd like to go live, just call the ``live()`` method!
+
 ## Advanced Usage
+
+#### Adding Custom Middlewares
+
+It's not a big deal to add a new middleware to your stack. For a basic scenario, there is a ``CallbackMiddleware`` that
+you can utilize. Let's say you would like to authenticate all the requests:
+
+```php
+$harmony->addMiddleware(
+    new CallbackMiddleware("authentication",
+        function(Harmony $harmony) {
+            if ($harmony->getRequest()->getHeader("x-api-key") !== "123") {
+                die();
+            }
+        }
+    )
+);
+```
+
+The first argument of the constructor is the ID of the middleware that must be unique, the second argument is an anonymous
+function which gets the reference of the full framework as its only parameter.
+ 
+It you need more sophistication, there is also possibility to create a custom middleware. Let's reimplement the previous
+authentication functionality:
+
+```php
+use WoohooLabs\Harmony\Middleware\MiddlewareInterface;
+use WoohooLabs\Harmony\Harmony;
+
+class CallbackMiddleware implements MiddlewareInterface
+{
+    /**
+     * @var string
+     */
+    protected $apiKey;
+
+    /**
+     * @param string $apiKey
+     */
+    public function __construct($apiKey)
+    {
+        $this->apiKey = $apiKey;
+    }
+
+    /**
+     * @return string
+     */
+    public function getId()
+    {
+        return "authentication";
+    }
+
+    /**
+     * @param \WoohooLabs\Harmony\Harmony $harmony
+     */
+    public function execute(Harmony $harmony)
+    {
+        if ($harmony->getRequest()->getHeader("x-api-key") !== $this->apiKey) {
+             die();
+        }
+    }
+    
+    public function getApiKey()
+}
+```
+
+As you can see, the constructor receives the API Key, while the ``execute()`` method is responsible for performing the
+authentication. It's interesting that you are even able to manipulate the other middlewares thanks to the framework's
+reference passed to the method!
 
 #### Redefining Default Components
 
 The motivation of creating Woohoo Labs. Harmony was to become able to change every single aspect
 of the framework. That's why you can customize almost everything with minimal effort.
 
-The following example shows how to swap the ``BasicContainer`` with the PHP-DI Container then how to use the
-serializer and deserializer of the famous JMS library instead of the default one.
+The following example shows how to swap the ``BasicContainer`` with PHP-DI:
 
 ```php
 $container= new \DI\Container();
 $harmony->setContainer($container);
-
-$serializer= new JmsSerializer($config);
-$harmony->setSerializer($serializer);
 ```
+
+Maybe its more elegant to use the initializer middleware for this purpose:
+
+```php
+$harmony->addMiddleware(new InitializerMiddleware($container));
+```
+
+This middleware is able to prepopulate the HTTP request and the response too. By default, we wrapped Symfony's HttpFoundation
+inside classes implementing the common HTTP interfaces, but you are free to provide your own implementations if you need
+something else.
+
+```php
+$harmony->addMiddleware($yourContainer, $yourRequest, $yourResponse);
+```
+
+What if you would like to replace the default router? just do it, We don't care. OK, there is something: please, make sure
+that your new router plays nice with the ``DispatcherMiddleware``, or you have to implement this functionality by yourself.
 
 #### Hooks
 
-Hooking enables you to get the control before and/or after dispatching occurs. Note that it is only
-available for class handlers! If you specify a ``preHook()`` method in your handler class then it
-will be automatically invoked before the handler method. The same way, if you specify a ``postHook()``
-method then it will be called after the original handler method has been invoked. Important to note
-that the hooking methods must also expect a ``Request`` and a ``Response`` object as their only arguments
-and they aren't required to provide any return value (just like regular handler methods).
+Hooking enables you to get the control before and/or after dispatching occurs. Note that it is available for class
+endpoints only! If you specify a ``preHook()`` method in your handler class then it will be automatically invoked
+before the handler method. The same way, if you specify a ``postHook()`` method then it will be called after the
+original handler method has been invoked. Important to note that the hooking methods must also expect a ``Request``
+and a ``Response`` object as their only arguments and they aren't required to provide any return value (just like regular
+handler methods).
 
 ## License
 
