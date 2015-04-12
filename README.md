@@ -55,15 +55,15 @@ separation of concerns. Why is that?
 Middlewares - that are [described in detail by Igor Wiedler](https://igor.io/2013/02/02/http-kernel-middlewares.html) -
 make it possible to take hands on the course of action of the request-response lifecycle: you can authenticate before
 routing, do some logging after the response has been sent, or you can even dispatch multiple routes in one
-request if you want. They can be achieved because everything in Harmony is a middleware, so the framework itself only
+request if you want. These can be achieved because everything in Harmony is a middleware, so the framework itself only
 consists of some getters and setters. And that's why there is no framework-wide configuration (only the middlewares can
-be configured). That's why, basically it only depends on your imagination and needs what you do with Harmony.
+be configured). Basically it only depends on your imagination and needs what you do with Harmony.
 
 But middlewares must work in cooperation (especially the router and the dispatcher are tightly coupled to each other,
 or one can also mention the request and the router). That's why it is also important to provide common interfaces for
 the distinct components of the framework.
 
-The most notable interfaces created are the ones which models the [HTTP request](https://github.com/woohoolabs/harmony/blob/master/src/Request/RequestInterface.php)
+The most notable interfaces created are the ones which model the [HTTP request](https://github.com/woohoolabs/harmony/blob/master/src/Request/RequestInterface.php)
 and the [response](https://github.com/woohoolabs/harmony/blob/master/src/Response/ResponseInterface.php). But in order to
 faciliate the use of different IoC Containers when dispatching a controller, whe adapted the
 [Container-Interop standard interface](https://github.com/container-interop/container-interop/blob/master/src/Interop/Container/ContainerInterface.php)
@@ -148,7 +148,7 @@ the [library](https://github.com/nikic/FastRoute) of Nikita Popov, because of it
 more about it [in his blog](http://nikic.github.io/2014/02/18/Fast-request-routing-using-regular-expressions.html).
 
 ```php
-$router = FastRoute\dispatcher(function(FastRoute\RouteCollector $router) {
+$router = FastRoute\dispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute("GET", "/me", function (RequestInterface $request, ResponseInterface $response) {
         $response->setContent("Welcome to the real world!");
     });
@@ -173,6 +173,7 @@ $harmony = Harmony::build()
     ->addMiddleware(new InitializerMiddleware())
     ->addMiddleware(new RouterMiddleware($router))
     ->addMiddleware(new DispatcherMiddleware())
+    ->addMiddleware(new ResponderMiddleware())
 
 $harmony->live();
 ```
@@ -209,7 +210,7 @@ authentication functionality:
 use WoohooLabs\Harmony\Middleware\MiddlewareInterface;
 use WoohooLabs\Harmony\Harmony;
 
-class CallbackMiddleware implements MiddlewareInterface
+class AuthenticationMiddleware implements MiddlewareInterface
 {
     /**
      * @var string
@@ -241,9 +242,13 @@ class CallbackMiddleware implements MiddlewareInterface
              die();
         }
     }
-    
-    public function getApiKey()
 }
+```
+
+then
+
+```php
+$harmony->addMiddleware(new AuthenticationMiddleware("123"));
 ```
 
 As you can see, the constructor receives the API Key, while the ``execute()`` method is responsible for performing the
@@ -273,11 +278,12 @@ inside classes implementing the common HTTP interfaces, but you are free to prov
 something else.
 
 ```php
-$harmony->addMiddleware($yourContainer, $yourRequest, $yourResponse);
+$harmony->addMiddleware(new InitializerMiddleware($yourContainer, $yourRequest, $yourResponse));
 ```
 
-What if you would like to replace the default router? just do it, We don't care. OK, there is something: please, make sure
-that your new router plays nice with the ``DispatcherMiddleware``, or you have to implement this functionality by yourself.
+And what if you would like to replace the default router? Just do it, We don't really care. OK, there is something:
+please make sure that your new router plays nice with the ``DispatcherMiddleware``, or you have to implement its
+functionality by yourself (those two lines of code).
 
 #### Hooks
 
