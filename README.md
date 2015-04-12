@@ -32,12 +32,9 @@ We created Harmony to remedy this issue.
 
 Certainly, Harmony won't suit the needs of all projects and teams. Firstly, this framework works best
 for advanced teams. So less experienced teams should probably choose a less lenient framework with more features
-in order to speed up development in its initial phase. Furthermore, legacy applications can also profit from Harmony
-because it eases gradual refactoring.
-
-To sum up, Woohoo Labs. Harmony is the most effective for teams with a solid understanding of software development.
-Its flexibility is the most advantageous if your application is a long-term, strategic project or you need
-sophisticated tools like IoC Containers.
+in order to speed up development in its initial phase. Harmony's flexibility is the most advantageous if your
+software is a long-term, strategic project. That's why legacy applications can also profit from Harmony because it
+eases gradual refactoring.
 
 #### Features
 
