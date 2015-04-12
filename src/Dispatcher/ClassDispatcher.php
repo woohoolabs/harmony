@@ -59,11 +59,11 @@ class ClassDispatcher extends AbstractDispatcher
     }
 
     /**
-     * @param \Interop\Container\ContainerInterface $container
+     * @return \Interop\Container\ContainerInterface
      */
-    public function setContainer(ContainerInterface $container)
+    public function getContainer()
     {
-        $this->container= $container;
+        return $this->container;
     }
 
     /**
@@ -75,26 +75,10 @@ class ClassDispatcher extends AbstractDispatcher
     }
 
     /**
-     * @param string $className
-     */
-    public function setClassName($className)
-    {
-        $this->className = $className;
-    }
-
-    /**
      * @return string
      */
     public function getMethodName()
     {
         return $this->methodName;
-    }
-
-    /**
-     * @param string $methodName
-     */
-    public function setMethodName($methodName)
-    {
-        $this->methodName = $methodName;
     }
 }

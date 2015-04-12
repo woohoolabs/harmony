@@ -9,7 +9,7 @@ abstract class AbstractDispatcher
     /**
      * @var array
      */
-    private $parameters;
+    private $params;
 
     /**
      * @param \WoohooLabs\Harmony\Request\RequestInterface $request
@@ -23,7 +23,7 @@ abstract class AbstractDispatcher
      */
     public function __construct(array $params)
     {
-        $this->parameters = $params;
+        $this->params = $params;
     }
 
     /**
@@ -31,6 +31,6 @@ abstract class AbstractDispatcher
      */
     public function getParams()
     {
-        return $this->parameters;
+        return $this->params;
     }
 }

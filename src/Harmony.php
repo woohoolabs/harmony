@@ -3,7 +3,7 @@ namespace WoohooLabs\Harmony;
 
 use Interop\Container\ContainerInterface;
 use WoohooLabs\Harmony\Dispatcher\AbstractDispatcher;
-use WoohooLabs\Harmony\Middlewares\MiddlewareInterface;
+use WoohooLabs\Harmony\Middleware\MiddlewareInterface;
 use WoohooLabs\Harmony\Request\RequestInterface;
 use WoohooLabs\Harmony\Response\ResponseInterface;
 
@@ -45,7 +45,7 @@ class Harmony
     public function live()
     {
         foreach ($this->middlewares as $middleware) {
-            /** @var \WoohooLabs\Harmony\Middlewares\MiddlewareInterface $middleware */
+            /** @var \WoohooLabs\Harmony\Middleware\MiddlewareInterface $middleware */
             $middleware->execute($this);
         }
     }
@@ -59,7 +59,16 @@ class Harmony
     }
 
     /**
-     * @param \WoohooLabs\Harmony\Middlewares\MiddlewareInterface $middleware
+     * @param string $id
+     * @return \WoohooLabs\Harmony\Middleware\MiddlewareInterface|null
+     */
+    public function getMiddleware($id)
+    {
+        return isset($this->middlewares[$id]) ? $this->middlewares[$id] : null;
+    }
+
+    /**
+     * @param \WoohooLabs\Harmony\Middleware\MiddlewareInterface $middleware
      * @return $this
      */
     public function addMiddleware(MiddlewareInterface $middleware)
@@ -70,25 +79,12 @@ class Harmony
     }
 
     /**
-     * @param string $id
-     * @param \WoohooLabs\Harmony\Middlewares\MiddlewareInterface $middleware
+     * @param \WoohooLabs\Harmony\Middleware\MiddlewareInterface $middleware
      * @return $this
      */
-    public function addMiddlewareBefore($id, MiddlewareInterface $middleware)
+    public function removeMiddleware(MiddlewareInterface $middleware)
     {
-        $this->middlewares[$id]= $middleware;
-
-        return $this;
-    }
-
-    /**
-     * @param string $id
-     * @param \WoohooLabs\Harmony\Middlewares\MiddlewareInterface $middleware
-     * @return $this
-     */
-    public function addMiddlewareAfter($id, MiddlewareInterface $middleware)
-    {
-        $this->middlewares[$id]= $middleware;
+        unset($this->middlewares[$middleware->getId()]);
 
         return $this;
     }
@@ -142,7 +138,7 @@ class Harmony
     }
 
     /**
-     * @return Dispatcher\AbstractDispatcher
+     * @return \WoohooLabs\Harmony\Dispatcher\AbstractDispatcher
      */
     public function getDispatcher()
     {
@@ -150,7 +146,7 @@ class Harmony
     }
 
     /**
-     * @param Dispatcher\AbstractDispatcher $dispatcher
+     * @param \WoohooLabs\Harmony\Dispatcher\AbstractDispatcher $dispatcher
      */
     public function setDispatcher(AbstractDispatcher $dispatcher)
     {

@@ -1,5 +1,5 @@
 <?php
-namespace WoohooLabs\Harmony\Middlewares;
+namespace WoohooLabs\Harmony\Middleware;
 
 use FastRoute\Dispatcher;
 use WoohooLabs\Harmony\Dispatcher\CallbackDispatcher;
