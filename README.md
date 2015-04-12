@@ -61,8 +61,8 @@ or one can also mention the request and the router). That's why it is also impor
 the distinct components of the framework.
 
 The most notable interfaces created are the ones which model the [HTTP request](https://github.com/woohoolabs/harmony/blob/master/src/Request/RequestInterface.php)
-and the [response](https://github.com/woohoolabs/harmony/blob/master/src/Response/ResponseInterface.php). But in order to
-faciliate the use of different IoC Containers when dispatching a controller, whe adapted the
+and the [response](https://github.com/woohoolabs/harmony/blob/master/src/Response/ResponseInterface.php). However, in
+order to faciliate the use of different IoC Containers when dispatching a controller, whe adapted the
 [Container-Interop standard interface](https://github.com/container-interop/container-interop/blob/master/src/Interop/Container/ContainerInterface.php)
 (which is supported by various containers off-the-shelf). These, in conjunction with the
 [dispatchers](https://github.com/woohoolabs/harmony/tree/master/src/Dispatcher) fully separates the concerns of routing
@@ -135,7 +135,7 @@ class UserController
 }
 ```
 
-However you don't have to worry that your endpoints become tightly coupled to HTTP. Just read
+You don't have to worry that your endpoints become tightly coupled to HTTP. Just read
 [this fantastic post](https://igor.io/2013/02/03/http-foundation-value.html) from [Igor Wiedler](https://twitter.com/igorwhiletrue).
 
 #### Define your routes:
