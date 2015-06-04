@@ -359,7 +359,7 @@ class FoundationRequest implements RequestInterface
      */
     public function getBodyDeserialized()
     {
-        return $this->deserializer->deserialize($this->getBody(), $this->getFormat());
+        return $this->getDeserializer()->deserialize($this->getBody(), $this->getFormat());
     }
 
     /**
