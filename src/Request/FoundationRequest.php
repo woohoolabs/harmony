@@ -185,7 +185,7 @@ class FoundationRequest implements RequestInterface
      */
     public function getFormat()
     {
-        return Formats::convertMimeTypeToFormat($this->request->getContentType());
+        return $this->request->getContentType();
     }
 
     /**
@@ -344,6 +344,11 @@ class FoundationRequest implements RequestInterface
     public function clearSession()
     {
         $this->request->getSession()->clear();
+    }
+
+    public function getCookie($name)
+    {
+        return $this->request->cookies->get($name);
     }
 
     /**

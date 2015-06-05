@@ -206,6 +206,12 @@ interface RequestInterface
     public function clearSession();
 
     /**
+     * @param string $name
+     * @return string
+     */
+    public function getCookie($name);
+
+    /**
      * @return string
      */
     public function getBody();

@@ -205,6 +205,18 @@ interface ResponseInterface
     public function removeHeader($name);
 
     /**
+     * @param string $name
+     * @param string $value
+     * @param int $expiration
+     */
+    public function setCookie($name, $value, $expiration = 0);
+
+    /**
+     * @return array
+     */
+    public function getCookies();
+
+    /**
      * @return string
      */
     public function getBody();

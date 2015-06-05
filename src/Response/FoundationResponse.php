@@ -1,6 +1,7 @@
 <?php
 namespace WoohooLabs\Harmony\Response;
 
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use WoohooLabs\Harmony\Serializer\Implementations\JmsSerializer;
@@ -355,6 +356,24 @@ class FoundationResponse implements ResponseInterface
     public function removeHeader($name)
     {
         $this->response->headers->remove($name);
+    }
+
+    /**
+     * @param string $name
+     * @param mixed $value
+     * @param int $expiration
+     */
+    public function setCookie($name, $value, $expiration = 0)
+    {
+        $this->response->headers->setCookie(new Cookie($name, $value, $expiration));
+    }
+
+    /**
+     * @return array
+     */
+    public function getCookies()
+    {
+        $this->response->headers->getCookies();
     }
 
     /**
