@@ -22,5 +22,6 @@ class DispatcherMiddleware implements MiddlewareInterface
     {
         $response = $harmony->getDispatcher()->dispatch($harmony->getRequest(), $harmony->getResponse());
         $harmony->setResponse($response);
+        $harmony->next();
     }
 }

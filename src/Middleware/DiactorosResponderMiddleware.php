@@ -35,6 +35,7 @@ class DiactorosResponderMiddleware implements MiddlewareInterface
     public function execute(Harmony $harmony)
     {
         $this->emitter->emit($harmony->getResponse());
+        $harmony->next();
     }
 
     /**

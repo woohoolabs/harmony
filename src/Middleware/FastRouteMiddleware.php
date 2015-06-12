@@ -63,6 +63,8 @@ class FastRouteMiddleware implements MiddlewareInterface
             default:
                 throw new RouteNotFoundException();
         }
+
+        $harmony->next();
     }
 
     /**

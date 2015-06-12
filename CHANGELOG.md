@@ -4,7 +4,7 @@
 
 #### Added
 - Support for PSR-7
-- Tests
+- Improved middleware control
 
 #### Removed
 - Original request and response interfaces

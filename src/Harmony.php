@@ -42,11 +42,43 @@ class Harmony
         return new Harmony();
     }
 
+    /**
+     * Starts the framework.
+     */
     public function live()
     {
-        foreach ($this->middlewares as $middleware) {
-            /** @var \WoohooLabs\Harmony\Middleware\MiddlewareInterface $middleware */
-            $middleware->execute($this);
+        $start = reset($this->middlewares);
+
+        if ($start !== false) {
+            /** @var \WoohooLabs\Harmony\Middleware\MiddlewareInterface $start */
+            $start->execute($this);
+        }
+    }
+
+    /**
+     * Continues the execution with the next middleware.
+     */
+    public function next()
+    {
+        $next = next($this->middlewares);
+
+        if ($next !== false) {
+            /** @var \WoohooLabs\Harmony\Middleware\MiddlewareInterface $next */
+            $next->execute($this);
+        }
+    }
+
+    /**
+     * Continues the execution with the middleware with the specified id.
+     * @param string $id
+     */
+    public function continueWith($id)
+    {
+        $next = $this->middlewares[$id];
+
+        if (isset($next)) {
+            /** @var \WoohooLabs\Harmony\Middleware\MiddlewareInterface $next */
+            $next->execute($this);
         }
     }
 

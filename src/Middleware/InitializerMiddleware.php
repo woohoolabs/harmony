@@ -58,5 +58,7 @@ class InitializerMiddleware implements MiddlewareInterface
         $harmony->setContainer($this->container);
         $harmony->setRequest($this->request);
         $harmony->setResponse($this->response);
+
+        $harmony->next();
     }
 }
