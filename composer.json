@@ -2,7 +2,7 @@
     "name":"woohoolabs/harmony",
     "description":"Woohoo Labs. Harmony",
     "type":"library",
-    "keywords":["Woohoo Labs.", "API", "REST", "Framework"],
+    "keywords":["Woohoo Labs.", "Harmony", "Framework", "Container-Interop", "PSR-7"],
     "homepage":"http://harmony.woohoolabs.com",
     "license":"MIT",
     "authors":[
@@ -11,19 +11,31 @@
             "email":"kocsismate@woohoolabs.com"
         }
     ],
+    "support": {
+        "issues": "https://github.com/woohooalbs/harmony/issues",
+        "source": "https://github.com/woohooalbs/harmony"
+    },
     "require":{
-        "php":">=5.4.0",
-        "container-interop/container-interop": "~1.0"
+        "php":">=5.5.0",
+        "container-interop/container-interop": "~1.0",
+        "psr/http-message": "~1.0"
+    },
+    "require-dev": {
+        "phpunit/PHPUnit": "^4.7.0",
+        "squizlabs/php_codesniffer": "^2.3.1"
     },
     "suggest":{
-        "jms/serializer": "If you want to use JmsSerializer or JmsDeserializer",
-        "nikic/fast-route": "If you want to use the default Router implementation",
-        "symfony/event-dispatcher": "If you want to use the default event dispatcher",
-        "symfony/http-foundation": "If you want to use the default Request and Responder implementations"
+        "nikic/fast-route": "Allows to use the default Router implementation",
+        "zendframework/zend-diactoros": "Allows to use the default Router implementation"
     },
     "autoload": {
         "psr-4": {
             "WoohooLabs\\Harmony\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "WoohooLabsTest\\Harmony\\": "tests/"
         }
     }
 }

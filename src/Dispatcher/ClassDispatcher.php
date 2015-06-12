@@ -2,10 +2,10 @@
 namespace WoohooLabs\Harmony\Dispatcher;
 
 use Interop\Container\ContainerInterface;
-use WoohooLabs\Harmony\Request\RequestInterface;
-use WoohooLabs\Harmony\Response\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
-class ClassDispatcher extends AbstractDispatcher
+class ClassDispatcherInterface implements DispatcherInterface
 {
     /**
      * @var \Interop\Container\ContainerInterface
@@ -26,22 +26,20 @@ class ClassDispatcher extends AbstractDispatcher
      * @param \Interop\Container\ContainerInterface $container
      * @param string $className
      * @param string $methodName
-     * @param array $params
      */
-    public function __construct(ContainerInterface $container, $className, $methodName, array $params)
+    public function __construct(ContainerInterface $container, $className, $methodName)
     {
-        parent::__construct($params);
         $this->container = $container;
         $this->className = $className;
         $this->methodName= $methodName;
     }
 
     /**
-     * @param \WoohooLabs\Harmony\Request\RequestInterface $request
-     * @param \WoohooLabs\Harmony\Response\ResponseInterface $response
-     * @return \WoohooLabs\Harmony\Response\ResponseInterface
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @return \Psr\Http\Message\ResponseInterface
      */
-    public function dispatch(RequestInterface $request, ResponseInterface $response)
+    public function dispatch(ServerRequestInterface $request, ResponseInterface $response)
     {
         $object= $this->container->get($this->className);
 

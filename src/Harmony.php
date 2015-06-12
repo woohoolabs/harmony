@@ -2,10 +2,10 @@
 namespace WoohooLabs\Harmony;
 
 use Interop\Container\ContainerInterface;
-use WoohooLabs\Harmony\Dispatcher\AbstractDispatcher;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use WoohooLabs\Harmony\Dispatcher\DispatcherInterface;
 use WoohooLabs\Harmony\Middleware\MiddlewareInterface;
-use WoohooLabs\Harmony\Request\RequestInterface;
-use WoohooLabs\Harmony\Response\ResponseInterface;
 
 class Harmony
 {
@@ -20,17 +20,17 @@ class Harmony
     protected $container;
 
     /**
-     * @var \WoohooLabs\Harmony\Request\RequestInterface
+     * @var \Psr\Http\Message\ServerRequestInterface
      */
     protected $request;
 
     /**
-     * @var \WoohooLabs\Harmony\Response\ResponseInterface
+     * @var \Psr\Http\Message\ResponseInterface
      */
     protected $response;
 
     /**
-     * @var \WoohooLabs\Harmony\Dispatcher\AbstractDispatcher
+     * @var \WoohooLabs\Harmony\Dispatcher\DispatcherInterface
      */
     protected $dispatcher;
 
@@ -106,7 +106,7 @@ class Harmony
     }
 
     /**
-     * @return \WoohooLabs\Harmony\Request\RequestInterface
+     * @return \Psr\Http\Message\ServerRequestInterface
      */
     public function getRequest()
     {
@@ -114,15 +114,15 @@ class Harmony
     }
 
     /**
-     * @param \WoohooLabs\Harmony\Request\RequestInterface $request
+     * @param \Psr\Http\Message\ServerRequestInterface $request
      */
-    public function setRequest(RequestInterface $request)
+    public function setRequest(ServerRequestInterface $request)
     {
         $this->request = $request;
     }
 
     /**
-     * @return \WoohooLabs\Harmony\Response\ResponseInterface
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function getResponse()
     {
@@ -130,7 +130,7 @@ class Harmony
     }
 
     /**
-     * @param \WoohooLabs\Harmony\Response\ResponseInterface $responder
+     * @param \Psr\Http\Message\ResponseInterface $responder
      */
     public function setResponse(ResponseInterface $responder)
     {
@@ -138,7 +138,7 @@ class Harmony
     }
 
     /**
-     * @return \WoohooLabs\Harmony\Dispatcher\AbstractDispatcher
+     * @return \WoohooLabs\Harmony\Dispatcher\DispatcherInterface
      */
     public function getDispatcher()
     {
@@ -146,9 +146,9 @@ class Harmony
     }
 
     /**
-     * @param \WoohooLabs\Harmony\Dispatcher\AbstractDispatcher $dispatcher
+     * @param \WoohooLabs\Harmony\Dispatcher\DispatcherInterface $dispatcher
      */
-    public function setDispatcher(AbstractDispatcher $dispatcher)
+    public function setDispatcher(DispatcherInterface $dispatcher)
     {
         $this->dispatcher = $dispatcher;
     }

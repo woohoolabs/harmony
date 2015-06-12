@@ -1,11 +1,3 @@
-# Unnecessary files
-.git/
-.idea/
-
-# Project
 vendor/
-*.lock
-
-# Other
-*tmp
-*/Thumbs.db
+composer.lock
+phpunit.xml

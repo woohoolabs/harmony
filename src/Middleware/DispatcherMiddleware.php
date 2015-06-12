@@ -20,7 +20,7 @@ class DispatcherMiddleware implements MiddlewareInterface
      */
     public function execute(Harmony $harmony)
     {
-        $harmony->getRequest()->setUriParameters($harmony->getDispatcher()->getParams());
-        $harmony->getDispatcher()->dispatch($harmony->getRequest(), $harmony->getResponse());
+        $response = $harmony->getDispatcher()->dispatch($harmony->getRequest(), $harmony->getResponse());
+        $harmony->setResponse($response);
     }
 }

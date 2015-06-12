@@ -1,10 +1,10 @@
 <?php
 namespace WoohooLabs\Harmony\Dispatcher;
 
-use WoohooLabs\Harmony\Request\RequestInterface;
-use WoohooLabs\Harmony\Response\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
-class CallbackDispatcher extends AbstractDispatcher
+class CallbackDispatcherInterface implements DispatcherInterface
 {
      /**
      * @var callable
@@ -12,21 +12,19 @@ class CallbackDispatcher extends AbstractDispatcher
     private $callback;
 
     /**
-     * @param array $params
      * @param callable $callback
      */
-    public function __construct(callable $callback, array $params)
+    public function __construct(callable $callback)
     {
-        parent::__construct($params);
         $this->callback = $callback;
     }
 
     /**
-     * @param \WoohooLabs\Harmony\Request\RequestInterface $request
-     * @param \WoohooLabs\Harmony\Response\ResponseInterface $response
-     * @return \WoohooLabs\Harmony\Response\ResponseInterface
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @return \Psr\Http\Message\ResponseInterface
      */
-    public function dispatch(RequestInterface $request, ResponseInterface $response)
+    public function dispatch(ServerRequestInterface $request, ResponseInterface $response)
     {
         return call_user_func($this->callback, $request, $response);
     }

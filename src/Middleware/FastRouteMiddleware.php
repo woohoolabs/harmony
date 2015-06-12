@@ -2,15 +2,15 @@
 namespace WoohooLabs\Harmony\Middleware;
 
 use FastRoute\Dispatcher;
-use WoohooLabs\Harmony\Dispatcher\CallbackDispatcher;
-use WoohooLabs\Harmony\Dispatcher\ClassDispatcher;
+use WoohooLabs\Harmony\Dispatcher\CallbackDispatcherInterface;
+use WoohooLabs\Harmony\Dispatcher\ClassDispatcherInterface;
 use WoohooLabs\Harmony\Harmony;
 use WoohooLabs\Harmony\Router\MethodNotAllowedException;
 use WoohooLabs\Harmony\Router\RouteNotFoundException;
 
-class RouterMiddleware implements MiddlewareInterface
+class FastRouteMiddleware implements MiddlewareInterface
 {
-    const ID = "router";
+    const ID = "fast_route";
 
     /**
      * @var \FastRoute\Dispatcher
@@ -45,19 +45,19 @@ class RouterMiddleware implements MiddlewareInterface
         switch ($routeInfo[0]) {
             case Dispatcher::NOT_FOUND:
                 throw new RouteNotFoundException();
-                break;
             case Dispatcher::METHOD_NOT_ALLOWED:
                 throw new MethodNotAllowedException();
-                break;
             case Dispatcher::FOUND:
-                $params = $routeInfo[2];
+                foreach ($routeInfo[2] as $param => $value) {
+                    $harmony->setRequest($harmony->getRequest()->withAttribute($param, $value));
+                }
 
                 if (is_array($routeInfo[1])) {
                     $className= $routeInfo[1][0];
                     $methodName= $routeInfo[1][1];
-                    $harmony->setDispatcher(new ClassDispatcher($harmony->getContainer(), $className, $methodName, $params));
+                    $harmony->setDispatcher(new ClassDispatcherInterface($harmony->getContainer(), $className, $methodName));
                 } else {
-                    $harmony->setDispatcher(new CallbackDispatcher($routeInfo[1], $params));
+                    $harmony->setDispatcher(new CallbackDispatcherInterface($routeInfo[1]));
                 }
                 break;
             default:

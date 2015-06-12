@@ -2,13 +2,10 @@
 namespace WoohooLabs\Harmony\Middleware;
 
 use Interop\Container\ContainerInterface;
-use Symfony\Component\HttpFoundation\Request;
 use WoohooLabs\Harmony\Container\BasicContainer;
 use WoohooLabs\Harmony\Harmony;
-use WoohooLabs\Harmony\Request\FoundationRequest;
-use WoohooLabs\Harmony\Request\RequestInterface;
-use WoohooLabs\Harmony\Response\FoundationResponse;
-use WoohooLabs\Harmony\Response\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 class InitializerMiddleware implements MiddlewareInterface
 {
@@ -20,21 +17,21 @@ class InitializerMiddleware implements MiddlewareInterface
     protected $container;
 
     /**
-     * @var \WoohooLabs\Harmony\Request\RequestInterface
+     * @var \Psr\Http\Message\ServerRequestInterface
      */
     protected $request;
 
     /**
-     * @var \WoohooLabs\Harmony\Response\ResponseInterface
+     * @var \Psr\Http\Message\ResponseInterface
      */
     protected $response;
 
     /**
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ResponseInterface $response
      * @param \Interop\Container\ContainerInterface $container
-     * @param \WoohooLabs\Harmony\Request\RequestInterface $request
-     * @param \WoohooLabs\Harmony\Response\ResponseInterface $response
      */
-    public function __construct(ContainerInterface $container = null, RequestInterface $request = null, ResponseInterface $response = null)
+    public function __construct(ServerRequestInterface $request, ResponseInterface $response, ContainerInterface $container = null)
     {
         $this->container = $container;
         $this->request = $request;
@@ -56,14 +53,6 @@ class InitializerMiddleware implements MiddlewareInterface
     {
         if ($this->container === null) {
             $this->container = new BasicContainer();
-        }
-
-        if ($this->request === null) {
-            $this->request = new FoundationRequest(Request::createFromGlobals());
-        }
-
-        if ($this->response === null) {
-            $this->response = new FoundationResponse();
         }
 
         $harmony->setContainer($this->container);

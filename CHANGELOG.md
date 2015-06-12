@@ -1,5 +1,15 @@
 # Change Log
 
+### 1.0.0 - 2015-06-16
+
+#### Added
+- Support for PSR-7
+- Tests
+
+#### Removed
+- Original request and response interfaces
+- Serialization capabilities
+
 ### 0.7 - 2015-04-12
 
 #### Added
