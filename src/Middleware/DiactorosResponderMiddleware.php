@@ -11,12 +11,12 @@ class DiactorosResponderMiddleware implements MiddlewareInterface
     /**
      * @var \Zend\Diactoros\Response\EmitterInterface
      */
-    private $emitter;
+    protected $emitter;
 
     /**
      * @param \Zend\Diactoros\Response\EmitterInterface $emitter
      */
-    public function __construct(EmitterInterface $emitter)
+    public function __construct(EmitterInterface $emitter = null)
     {
         $this->emitter = $emitter;
     }
@@ -35,5 +35,21 @@ class DiactorosResponderMiddleware implements MiddlewareInterface
     public function execute(Harmony $harmony)
     {
         $this->emitter->emit($harmony->getResponse());
+    }
+
+    /**
+     * @return \Zend\Diactoros\Response\EmitterInterface
+     */
+    public function getEmitter()
+    {
+        return $this->emitter;
+    }
+
+    /**
+     * @param \Zend\Diactoros\Response\EmitterInterface $emitter
+     */
+    public function setEmitter($emitter)
+    {
+        $this->emitter = $emitter;
     }
 }

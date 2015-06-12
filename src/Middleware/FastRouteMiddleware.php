@@ -20,7 +20,7 @@ class FastRouteMiddleware implements MiddlewareInterface
     /**
      * @param \FastRoute\Dispatcher $dispatcher
      */
-    public function __construct(Dispatcher $dispatcher)
+    public function __construct(Dispatcher $dispatcher = null)
     {
         $this->dispatcher = $dispatcher;
     }
@@ -63,5 +63,21 @@ class FastRouteMiddleware implements MiddlewareInterface
             default:
                 throw new RouteNotFoundException();
         }
+    }
+
+    /**
+     * @return \FastRoute\Dispatcher
+     */
+    public function getDispatcher()
+    {
+        return $this->dispatcher;
+    }
+
+    /**
+     * @param \FastRoute\Dispatcher $dispatcher
+     */
+    public function setDispatcher(Dispatcher $dispatcher)
+    {
+        $this->dispatcher = $dispatcher;
     }
 }
