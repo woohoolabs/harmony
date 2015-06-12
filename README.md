@@ -2,7 +2,7 @@
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/woohoolabs/harmony/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/woohoolabs/harmony/?branch=master)
 [![Build Status](https://travis-ci.org/woohoolabs/harmony.svg)](https://travis-ci.org/woohoolabs/harmony)
-![Coverage Status](https://coveralls.io/repos/woohoolabs/harmony/badge.svg)](https://coveralls.io/r/woohoolabs/harmony)
+[![Coverage Status](https://coveralls.io/repos/woohoolabs/harmony/badge.svg)](https://coveralls.io/r/woohoolabs/harmony)
 
 **Woohoo Labs. Harmony is a flexible micro-framework developed for PHP applications.**
 
@@ -167,9 +167,10 @@ use WoohooLabs\Harmony\Middleware\FastRouteMiddleware;
 use WoohooLabs\Harmony\Middleware\CallbackMiddleware;
 use WoohooLabs\Harmony\Middleware\DispatcherMiddleware;
 use WoohooLabs\Harmony\Middleware\DiactorosResponderMiddleware;
+use Zend\Diactoros\ServerRequestFactory;
 
 $harmony = Harmony::build()
-    ->addMiddleware(new InitializerMiddleware())
+    ->addMiddleware(new InitializerMiddleware(ServerRequestFactory::fromGlobals(), new Response(), $container))
     ->addMiddleware(new FastRouteMiddleware($router))
     ->addMiddleware(new DispatcherMiddleware())
     ->addMiddleware(new DiactorosResponderMiddleware())
