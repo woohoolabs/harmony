@@ -168,14 +168,16 @@ use WoohooLabs\Harmony\Middleware\CallbackMiddleware;
 use WoohooLabs\Harmony\Middleware\DispatcherMiddleware;
 use WoohooLabs\Harmony\Middleware\DiactorosResponderMiddleware;
 use Zend\Diactoros\ServerRequestFactory;
+use Zend\Diactoros\Response;
+use Zend\Diactoros\Response\SapiEmitter;
 
-$harmony = Harmony::build()
+Harmony::build()
     ->addMiddleware(new InitializerMiddleware(ServerRequestFactory::fromGlobals(), new Response(), $container))
     ->addMiddleware(new FastRouteMiddleware($router))
+    ->addMiddleware(new CallbackMiddleware("authentication", $authentication))
     ->addMiddleware(new DispatcherMiddleware())
-    ->addMiddleware(new DiactorosResponderMiddleware())
-
-$harmony->live();
+    ->addMiddleware(new DiactorosResponderMiddleware(new SapiEmitter()))
+    ->live();
 ```
 
 Of course, it is completely up to you how you add additional middlewares or how you replace them with your own
