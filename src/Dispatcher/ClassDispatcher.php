@@ -31,7 +31,7 @@ class ClassDispatcher implements DispatcherInterface
     {
         $this->container = $container;
         $this->className = $className;
-        $this->methodName= $methodName;
+        $this->methodName = $methodName;
     }
 
     /**
@@ -41,13 +41,13 @@ class ClassDispatcher implements DispatcherInterface
      */
     public function dispatch(ServerRequestInterface $request, ResponseInterface $response)
     {
-        $object= $this->container->get($this->className);
+        $object = $this->container->get($this->className);
 
         if (method_exists($object, "preHook") === true) {
             $object->preHook($request, $response);
         }
 
-        $response= $object->{$this->methodName}($request, $response);
+        $response = $object->{$this->methodName}($request, $response);
 
         if (method_exists($object, "postHook") === true) {
             $object->postHook($request, $response);
