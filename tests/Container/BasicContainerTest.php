@@ -20,7 +20,6 @@ class BasicContainerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers \WoohooLabs\Harmony\Container\BasicContainer::has()
-     * @covers \WoohooLabs\Harmony\Container\BasicContainer::get()
      */
     public function testHasNotExistingClass()
     {
@@ -30,7 +29,6 @@ class BasicContainerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \WoohooLabs\Harmony\Container\BasicContainer::has()
      * @covers \WoohooLabs\Harmony\Container\BasicContainer::get()
      * @expectedException \WoohooLabs\Harmony\Container\ContainerException
      */
@@ -38,6 +36,6 @@ class BasicContainerTest extends \PHPUnit_Framework_TestCase
     {
         $container = new BasicContainer();
 
-        $this->assertEquals(false, $container->has("FooBarClass"));
+        $this->assertEquals(false, $container->get("FooBarClass"));
     }
 }

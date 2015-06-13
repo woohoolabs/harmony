@@ -11,9 +11,9 @@ class ClassDispatcherTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @covers \WoohooLabs\Harmony\Dispatcher\ClassDispatcher::dispatch()
-     * @covers \WoohooLabs\Harmony\Dispatcher\CallbackDispatcher::getContainer()
-     * @covers \WoohooLabs\Harmony\Dispatcher\CallbackDispatcher::getClassName()
-     * @covers \WoohooLabs\Harmony\Dispatcher\CallbackDispatcher::getMethodName()
+     * @covers \WoohooLabs\Harmony\Dispatcher\ClassDispatcher::getContainer()
+     * @covers \WoohooLabs\Harmony\Dispatcher\ClassDispatcher::getClassName()
+     * @covers \WoohooLabs\Harmony\Dispatcher\ClassDispatcher::getMethodName()
      */
     public function testClassDispatcher()
     {
