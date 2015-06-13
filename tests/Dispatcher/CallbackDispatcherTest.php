@@ -18,9 +18,11 @@ class CallbackDispatcherTest extends PHPUnit_Framework_TestCase
     {
         $originalRequest = new DummyServerRequest();
         $originalResponse = new DummyResponse();
-        $dispatcher = new CallbackDispatcher(function (ServerRequestInterface $request, ResponseInterface $response) {
-           return $response;
-        });
+        $dispatcher = new CallbackDispatcher(
+            function (ServerRequestInterface $request, ResponseInterface $response) {
+                return $response;
+            }
+        );
 
         $response = $dispatcher->dispatch($originalRequest, $originalResponse);
         $callbackResponse = call_user_func($dispatcher->getCallback(), new DummyServerRequest(), new DummyResponse());
