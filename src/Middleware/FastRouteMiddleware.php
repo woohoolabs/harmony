@@ -53,8 +53,8 @@ class FastRouteMiddleware implements MiddlewareInterface
                 }
 
                 if (is_array($routeInfo[1])) {
-                    $className= $routeInfo[1][0];
-                    $methodName= $routeInfo[1][1];
+                    $className = $routeInfo[1][0];
+                    $methodName = $routeInfo[1][1];
                     $harmony->setDispatcher(
                         new ClassDispatcher($harmony->getContainer(), $className, $methodName)
                     );

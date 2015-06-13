@@ -42,10 +42,7 @@ class ClassDispatcher implements DispatcherInterface
     public function dispatch(ServerRequestInterface $request, ResponseInterface $response)
     {
         $object = $this->container->get($this->className);
-
-        $response = $object->{$this->methodName}($request, $response);
-
-        return $response;
+        return $object->{$this->methodName}($request, $response);
     }
 
     /**

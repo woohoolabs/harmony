@@ -6,7 +6,7 @@ use Psr\Http\Message\ResponseInterface;
 
 class CallbackDispatcher implements DispatcherInterface
 {
-     /**
+    /**
      * @var callable
      */
     private $callback;

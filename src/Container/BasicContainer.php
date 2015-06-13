@@ -22,7 +22,7 @@ class BasicContainer implements ContainerInterface
         }
 
         try {
-            $entry= new $id();
+            $entry = new $id();
         } catch (\Exception $exception) {
             throw new ContainerException();
         }

@@ -105,7 +105,7 @@ class Harmony
      */
     public function addMiddleware(MiddlewareInterface $middleware)
     {
-        $this->middlewares[$middleware->getId()]= $middleware;
+        $this->middlewares[$middleware->getId()] = $middleware;
 
         return $this;
     }
