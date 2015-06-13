@@ -1,10 +1,11 @@
 # Change Log
 
-### 1.0.0 - 2015-06-16
+### 1.0.0 - Unreleased
 
 #### Added
 - Support for PSR-7
 - Improved middleware control
+- Unit tests
 
 #### Removed
 - Original request and response interfaces

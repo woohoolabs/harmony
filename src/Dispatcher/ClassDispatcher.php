@@ -5,7 +5,7 @@ use Interop\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-class ClassDispatcherInterface implements DispatcherInterface
+class ClassDispatcher implements DispatcherInterface
 {
     /**
      * @var \Interop\Container\ContainerInterface
@@ -43,13 +43,13 @@ class ClassDispatcherInterface implements DispatcherInterface
     {
         $object= $this->container->get($this->className);
 
-        if(method_exists($object, "preHook") === true) {
+        if (method_exists($object, "preHook") === true) {
             $object->preHook($request, $response);
         }
 
         $response= $object->{$this->methodName}($request, $response);
 
-        if(method_exists($object, "postHook") === true) {
+        if (method_exists($object, "postHook") === true) {
             $object->postHook($request, $response);
         }
 

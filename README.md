@@ -1,8 +1,8 @@
 # Woohoo Labs. Harmony
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/woohoolabs/harmony/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/woohoolabs/harmony/?branch=master)
-[![Build Status](https://travis-ci.org/woohoolabs/harmony.svg)](https://travis-ci.org/woohoolabs/harmony)
-[![Coverage Status](https://coveralls.io/repos/woohoolabs/harmony/badge.svg)](https://coveralls.io/r/woohoolabs/harmony)
+[![Build Status](https://scrutinizer-ci.com/g/woohoolabs/harmony/badges/build.png?b=master)](https://scrutinizer-ci.com/g/woohoolabs/harmony/build-status/master)
+[![Code Coverage](https://scrutinizer-ci.com/g/woohoolabs/harmony/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/woohoolabs/harmony/?branch=master)
 [![Stable Release](https://img.shields.io/packagist/vpre/woohoolabs/harmony.svg?style=flat-square)](https://packagist.org/packages/woohoolabs/harmony)
 [![License](https://img.shields.io/packagist/l/woohoolabs/harmony.svg?style=flat-square)](https://packagist.org/packages/woohoolabs/harmony)
 
@@ -43,9 +43,9 @@ eases gradual refactoring.
 #### Features
 
 - Extreme flexibility through middlewares
-- Totally object-oriented workflow
 - Full control over HTTP requests and responses via PSR-7
 - Support for any IoC Containers via Container-Interop
+- Totally object-oriented workflow
 
 #### Concepts
 
@@ -101,7 +101,7 @@ require "vendor/autoload.php"
 #### Define your endpoints:
 
 There are two important things to notice here: first, each endpoint receives a ``Psr\Http\Message\ServerRequestInterface``
-and a ``Psr\Http\Message\ResponseInterface`` object and they are expected to manipulate and return with the latter.
+and a ``Psr\Http\Message\ResponseInterface`` object and they are expected to manipulate and return the latter.
 Second, you are not forced to use classes only for the endpoints, it is possible to define anonymous functions too (see
 the next step).
 
@@ -120,7 +120,6 @@ class UserController
     public function getUsers(ServerRequestInterface $request, ResponseInterface $response)
     {
         $users= ["Steve", "Arnie", "Jason", "Bud"];
-        $response->setContent($users);
     }
 
     /**
@@ -138,12 +137,9 @@ class UserController
 }
 ```
 
-You don't have to worry that your endpoints become tightly coupled to HTTP. Just read
-[this fantastic post](https://igor.io/2013/02/03/http-foundation-value.html) from [Igor Wiedler](https://twitter.com/igorwhiletrue).
-
 #### Define your routes:
 
-The following example pertains only to the default router used by Woohoo Labs. Harmony. We chose FastRouter for this purpose,
+The following example pertains only to the default router used by Woohoo Labs. Harmony. We chose FastRoute for this purpose,
 the [library](https://github.com/nikic/FastRoute) of Nikita Popov, because of its performance and elegance. You can read
 more about it [in his blog](http://nikic.github.io/2014/02/18/Fast-request-routing-using-regular-expressions.html).
 
@@ -166,7 +162,6 @@ You have to register all the following middlewares in order for the framework to
 use WoohooLabs\Harmony\Harmony;
 use WoohooLabs\Harmony\Middleware\InitializerMiddleware;
 use WoohooLabs\Harmony\Middleware\FastRouteMiddleware;
-use WoohooLabs\Harmony\Middleware\CallbackMiddleware;
 use WoohooLabs\Harmony\Middleware\DispatcherMiddleware;
 use WoohooLabs\Harmony\Middleware\DiactorosResponderMiddleware;
 use Zend\Diactoros\ServerRequestFactory;
@@ -174,9 +169,8 @@ use Zend\Diactoros\Response;
 use Zend\Diactoros\Response\SapiEmitter;
 
 Harmony::build()
-    ->addMiddleware(new InitializerMiddleware(ServerRequestFactory::fromGlobals(), new Response(), $container))
+    ->addMiddleware(new InitializerMiddleware(ServerRequestFactory::fromGlobals(), new Response()))
     ->addMiddleware(new FastRouteMiddleware($router))
-    ->addMiddleware(new CallbackMiddleware("authentication", $authentication))
     ->addMiddleware(new DispatcherMiddleware())
     ->addMiddleware(new DiactorosResponderMiddleware(new SapiEmitter()))
     ->live();
@@ -196,8 +190,8 @@ you can utilize. Let's say you would like to authenticate all the requests:
 $harmony->addMiddleware(
     new CallbackMiddleware("authentication",
         function(Harmony $harmony) {
-            if ($harmony->getRequest()->getHeader("x-api-key") !== "123") {
-                die();
+            if ($harmony->getRequest()->getHeader("x-api-key") === "123") {
+                $harmony->next();
             }
         }
     )
@@ -206,7 +200,7 @@ $harmony->addMiddleware(
 
 The first argument of the constructor is the ID of the middleware that must be unique, the second argument is an anonymous
 function which gets the reference of the full framework as its only parameter.
- 
+
 It you need more sophistication, there is also possibility to create a custom middleware. Let's reimplement the previous
 authentication functionality:
 
@@ -242,8 +236,8 @@ class AuthenticationMiddleware implements MiddlewareInterface
      */
     public function execute(Harmony $harmony)
     {
-        if ($harmony->getRequest()->getHeader("x-api-key") !== $this->apiKey) {
-             die();
+        if ($harmony->getRequest()->getHeader("x-api-key") === $this->apiKey) {
+             $harmony->next();
         }
     }
 }
@@ -274,7 +268,7 @@ $harmony->setContainer($container);
 Maybe its more elegant to use the initializer middleware for this purpose:
 
 ```php
-$harmony->addMiddleware(new InitializerMiddleware($container));
+$harmony->addMiddleware(new InitializerMiddleware(ServerRequestFactory::fromGlobals(), new Response(), $container));
 ```
 
 This middleware is able to prepopulate the HTTP request and the response too. By default, we wrapped Symfony's HttpFoundation

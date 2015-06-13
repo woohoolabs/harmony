@@ -31,8 +31,11 @@ class InitializerMiddleware implements MiddlewareInterface
      * @param \Psr\Http\Message\ResponseInterface $response
      * @param \Interop\Container\ContainerInterface $container
      */
-    public function __construct(ServerRequestInterface $request, ResponseInterface $response, ContainerInterface $container = null)
-    {
+    public function __construct(
+        ServerRequestInterface $request,
+        ResponseInterface $response,
+        ContainerInterface $container = null
+    ) {
         $this->container = $container;
         $this->request = $request;
         $this->response = $response;

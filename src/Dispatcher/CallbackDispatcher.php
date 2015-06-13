@@ -4,7 +4,7 @@ namespace WoohooLabs\Harmony\Dispatcher;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-class CallbackDispatcherInterface implements DispatcherInterface
+class CallbackDispatcher implements DispatcherInterface
 {
      /**
      * @var callable

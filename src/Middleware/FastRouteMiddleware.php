@@ -2,7 +2,7 @@
 namespace WoohooLabs\Harmony\Middleware;
 
 use FastRoute\Dispatcher;
-use WoohooLabs\Harmony\Dispatcher\CallbackDispatcherInterface;
+use WoohooLabs\Harmony\Dispatcher\CallbackDispatcherTest;
 use WoohooLabs\Harmony\Dispatcher\ClassDispatcherInterface;
 use WoohooLabs\Harmony\Harmony;
 use WoohooLabs\Harmony\Router\MethodNotAllowedException;
@@ -55,9 +55,11 @@ class FastRouteMiddleware implements MiddlewareInterface
                 if (is_array($routeInfo[1])) {
                     $className= $routeInfo[1][0];
                     $methodName= $routeInfo[1][1];
-                    $harmony->setDispatcher(new ClassDispatcherInterface($harmony->getContainer(), $className, $methodName));
+                    $harmony->setDispatcher(
+                        new ClassDispatcherInterface($harmony->getContainer(), $className, $methodName)
+                    );
                 } else {
-                    $harmony->setDispatcher(new CallbackDispatcherInterface($routeInfo[1]));
+                    $harmony->setDispatcher(new CallbackDispatcherTest($routeInfo[1]));
                 }
                 break;
             default:
