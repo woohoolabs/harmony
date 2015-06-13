@@ -43,15 +43,7 @@ class ClassDispatcher implements DispatcherInterface
     {
         $object = $this->container->get($this->className);
 
-        if (method_exists($object, "preHook") === true) {
-            $object->preHook($request, $response);
-        }
-
         $response = $object->{$this->methodName}($request, $response);
-
-        if (method_exists($object, "postHook") === true) {
-            $object->postHook($request, $response);
-        }
 
         return $response;
     }

@@ -10,6 +10,7 @@
 #### Removed
 - Original request and response interfaces
 - Serialization capabilities
+- Hooks from handler classes
 
 ### 0.7 - 2015-04-12
 

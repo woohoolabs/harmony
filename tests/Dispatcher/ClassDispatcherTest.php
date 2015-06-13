@@ -10,6 +10,7 @@ use WoohooLabsTest\Harmony\Utils\Psr7\DummyServerRequest;
 class ClassDispatcherTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * @covers \WoohooLabs\Harmony\Dispatcher\ClassDispatcher::__construct()
      * @covers \WoohooLabs\Harmony\Dispatcher\ClassDispatcher::dispatch()
      * @covers \WoohooLabs\Harmony\Dispatcher\ClassDispatcher::getContainer()
      * @covers \WoohooLabs\Harmony\Dispatcher\ClassDispatcher::getClassName()

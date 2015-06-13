@@ -283,15 +283,6 @@ And what if you would like to replace the default router? Just do it, We don't r
 please make sure that your new router plays nice with the ``DispatcherMiddleware``, or you have to implement its
 functionality by yourself (those two lines of code).
 
-#### Hooks
-
-Hooking enables you to get the control before and/or after dispatching occurs. Note that it is available for class
-endpoints only! If you specify a ``preHook()`` method in your handler class then it will be automatically invoked
-before the handler method. The same way, if you specify a ``postHook()`` method then it will be called after the
-original handler method has been invoked. Important to note that the hooking methods must also expect a ``Request``
-and a ``Response`` object as their only arguments and they aren't required to provide any return value (just like regular
-handler methods).
-
 ## License
 
 The MIT License (MIT). Please see the [License File](https://github.com/woohoolabs/harmony/blob/master/LICENSE.md)

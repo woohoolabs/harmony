@@ -11,6 +11,7 @@ use Psr\Http\Message\ServerRequestInterface;
 class CallbackDispatcherTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * @covers \WoohooLabs\Harmony\Dispatcher\CallbackDispatcher::__construct()
      * @covers \WoohooLabs\Harmony\Dispatcher\CallbackDispatcher::dispatch()
      * @covers \WoohooLabs\Harmony\Dispatcher\CallbackDispatcher::getCallback()
      */
