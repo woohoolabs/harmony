@@ -16,12 +16,16 @@ class CallbackDispatcherTest extends PHPUnit_Framework_TestCase
      */
     public function testAnonymousFunction()
     {
+        $originalRequest = new DummyServerRequest();
+        $originalResponse = new DummyResponse();
         $dispatcher = new CallbackDispatcher(function (ServerRequestInterface $request, ResponseInterface $response) {
            return $response;
         });
-        $response = $dispatcher->dispatch(new DummyServerRequest(), new DummyResponse());
+
+        $response = $dispatcher->dispatch($originalRequest, $originalResponse);
+        $callbackResponse = call_user_func($dispatcher->getCallback(), new DummyServerRequest(), new DummyResponse());
 
         $this->assertInstanceOf(DummyResponse::class, $response);
-        $this->assertInstanceOf(DummyResponse::class, $dispatcher->getCallback());
+        $this->assertEquals($response, $callbackResponse);
     }
 }

@@ -30,7 +30,7 @@ class BasicContainerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers \WoohooLabs\Harmony\Container\BasicContainer::get()
-     * @expectedException \WoohooLabs\Harmony\Container\ContainerException
+     * @expectedException \WoohooLabs\Harmony\Container\ContainerNotFoundException
      */
     public function testGetNotExistingClass()
     {

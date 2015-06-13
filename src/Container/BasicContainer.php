@@ -40,6 +40,6 @@ class BasicContainer implements ContainerInterface
      */
     public function has($id)
     {
-        return class_exists($id, false);
+        return class_exists($id);
     }
 }
