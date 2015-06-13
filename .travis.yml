@@ -33,5 +33,5 @@ script:
   - if [[ $EXECUTE_CS_CHECK == 'true' ]]; then ./vendor/bin/phpcs --standard=PSR2 src tests ; fi
 
 after_script:
-  - if [[ $EXECUTE_COVERAGE == 'true' ]]; wget https://scrutinizer-ci.com/ocular.phar ; fi
+  - if [[ $EXECUTE_COVERAGE == 'true' ]]; then wget https://scrutinizer-ci.com/ocular.phar ; fi
   - if [[ $EXECUTE_COVERAGE == 'true' ]]; then php ocular.phar code-coverage:upload --format=php-clover coverage.clover ; fi
