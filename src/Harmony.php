@@ -43,6 +43,14 @@ class Harmony
     }
 
     /**
+     * Harmony constructor.
+     */
+    public function __construct()
+    {
+        $this->middlewares = [];
+    }
+
+    /**
      * Starts the framework.
      */
     public function live()

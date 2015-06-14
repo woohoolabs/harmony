@@ -18,7 +18,6 @@ class HarmonyTest extends PHPUnit_Framework_TestCase
     public function testBuild()
     {
         $harmony = Harmony::build();
-        $harmony->live();
 
         $this->assertInstanceOf(Harmony::class, $harmony);
     }
@@ -26,6 +25,7 @@ class HarmonyTest extends PHPUnit_Framework_TestCase
     /**
      * @covers \WoohooLabs\Harmony\Harmony::live()
      * @covers \WoohooLabs\Harmony\Harmony::addMiddleware()
+     * @expectedException \WoohooLabsTest\Harmony\Utils\Exception\TestException
      * @expectedExceptionMessage dummy1
      */
     public function testLive()
@@ -39,6 +39,7 @@ class HarmonyTest extends PHPUnit_Framework_TestCase
      * @covers \WoohooLabs\Harmony\Harmony::next()
      * @covers \WoohooLabs\Harmony\Harmony::live()
      * @covers \WoohooLabs\Harmony\Harmony::addMiddleware()
+     * @expectedException \WoohooLabsTest\Harmony\Utils\Exception\TestException
      * @expectedExceptionMessage dummy2
      */
     public function testNext()
@@ -54,6 +55,7 @@ class HarmonyTest extends PHPUnit_Framework_TestCase
      * @covers \WoohooLabs\Harmony\Harmony::next()
      * @covers \WoohooLabs\Harmony\Harmony::live()
      * @covers \WoohooLabs\Harmony\Harmony::addMiddleware()
+     * @expectedException \WoohooLabsTest\Harmony\Utils\Exception\TestException
      * @expectedExceptionMessage dummy3
      */
     public function testContinueWith()
@@ -102,7 +104,7 @@ class HarmonyTest extends PHPUnit_Framework_TestCase
         $container = new BasicContainer();
         $harmony->setContainer($container);
 
-        $this->assertEquals($container, $harmony->getResponse());
+        $this->assertEquals($container, $harmony->getContainer());
     }
 
     /**

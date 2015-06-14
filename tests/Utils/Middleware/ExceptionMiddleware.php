@@ -3,6 +3,7 @@ namespace WoohooLabsTest\Harmony\Utils\Middleware;
 
 use WoohooLabs\Harmony\Harmony;
 use WoohooLabs\Harmony\Middleware\MiddlewareInterface;
+use WoohooLabsTest\Harmony\Utils\Exception\TestException;
 
 class ExceptionMiddleware implements MiddlewareInterface
 {
@@ -26,10 +27,10 @@ class ExceptionMiddleware implements MiddlewareInterface
 
     /**
      * @param \WoohooLabs\Harmony\Harmony $harmony
-     * @throws \Exception
+     * @throws \WoohooLabsTest\Harmony\Utils\Exception\TestException
      */
     public function execute(Harmony $harmony)
     {
-        throw new \Exception($this->id);
+        throw new TestException($this->id);
     }
 }

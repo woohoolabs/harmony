@@ -2,7 +2,7 @@
 namespace WoohooLabsTest\Harmony\Container;
 
 use WoohooLabs\Harmony\Container\BasicContainer;
-use WoohooLabsTest\Harmony\Dispatcher\DummyController;
+use WoohooLabsTest\Harmony\Utils\Controller\DummyController;
 
 class BasicContainerTest extends \PHPUnit_Framework_TestCase
 {
