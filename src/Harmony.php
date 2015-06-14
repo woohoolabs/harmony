@@ -111,12 +111,12 @@ class Harmony
     }
 
     /**
-     * @param \WoohooLabs\Harmony\Middleware\MiddlewareInterface $middleware
+     * @param string $id
      * @return $this
      */
-    public function removeMiddleware(MiddlewareInterface $middleware)
+    public function removeMiddleware($id)
     {
-        unset($this->middlewares[$middleware->getId()]);
+        unset($this->middlewares[$id]);
 
         return $this;
     }
@@ -162,11 +162,11 @@ class Harmony
     }
 
     /**
-     * @param \Psr\Http\Message\ResponseInterface $responder
+     * @param \Psr\Http\Message\ResponseInterface $response
      */
-    public function setResponse(ResponseInterface $responder)
+    public function setResponse(ResponseInterface $response)
     {
-        $this->response = $responder;
+        $this->response = $response;
     }
 
     /**
