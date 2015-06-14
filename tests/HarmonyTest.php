@@ -1,12 +1,12 @@
 <?php
-namespace WoohooLabsTest\Harmony\Dispatcher;
+namespace WoohooLabsTest\Harmony;
 
 use PHPUnit_Framework_TestCase;
 use WoohooLabs\Harmony\Container\BasicContainer;
 use WoohooLabs\Harmony\Dispatcher\CallbackDispatcher;
 use WoohooLabs\Harmony\Harmony;
-use WoohooLabsTest\Harmony\Utils\Middlewares\DummyMiddleware;
-use WoohooLabsTest\Harmony\Utils\Middlewares\ExceptionMiddleware;
+use WoohooLabsTest\Harmony\Utils\Middleware\DummyMiddleware;
+use WoohooLabsTest\Harmony\Utils\Middleware\ExceptionMiddleware;
 use WoohooLabsTest\Harmony\Utils\Psr7\DummyResponse;
 use WoohooLabsTest\Harmony\Utils\Psr7\DummyServerRequest;
 

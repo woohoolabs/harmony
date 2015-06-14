@@ -1,5 +1,5 @@
 <?php
-namespace WoohooLabsTest\Harmony\Utils\Middlewares;
+namespace WoohooLabsTest\Harmony\Utils\Middleware;
 
 use WoohooLabs\Harmony\Harmony;
 use WoohooLabs\Harmony\Middleware\MiddlewareInterface;

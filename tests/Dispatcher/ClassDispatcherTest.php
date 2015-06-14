@@ -4,6 +4,7 @@ namespace WoohooLabsTest\Harmony\Dispatcher;
 use PHPUnit_Framework_TestCase;
 use WoohooLabs\Harmony\Container\BasicContainer;
 use WoohooLabs\Harmony\Dispatcher\ClassDispatcher;
+use WoohooLabsTest\Harmony\Utils\Controller\DummyController;
 use WoohooLabsTest\Harmony\Utils\Psr7\DummyResponse;
 use WoohooLabsTest\Harmony\Utils\Psr7\DummyServerRequest;
 
