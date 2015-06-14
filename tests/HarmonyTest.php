@@ -14,12 +14,14 @@ class HarmonyTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @covers \WoohooLabs\Harmony\Harmony::build()
+     * @covers \WoohooLabs\Harmony\Harmony::__construct()
      */
     public function testBuild()
     {
         $harmony = Harmony::build();
 
         $this->assertInstanceOf(Harmony::class, $harmony);
+        $this->assertTrue(is_array($harmony->getMiddlewares()));
     }
 
     /**

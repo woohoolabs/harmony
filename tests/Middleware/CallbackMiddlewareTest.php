@@ -14,7 +14,8 @@ class CallbackMiddlewareTest extends PHPUnit_Framework_TestCase
      */
     public function testGetId()
     {
-        $middleware = new CallbackMiddleware("middleware1",
+        $middleware = new CallbackMiddleware(
+            "middleware1",
             function (Harmony $harmony) {
             }
         );
@@ -30,9 +31,12 @@ class CallbackMiddlewareTest extends PHPUnit_Framework_TestCase
      */
     public function testExecute()
     {
-        $middleware = new CallbackMiddleware("middleware1", function (Harmony $harmony) {
-            throw new TestException("middleware1");
-        });
+        $middleware = new CallbackMiddleware(
+            "middleware1",
+            function (Harmony $harmony) {
+                throw new TestException("middleware1");
+            }
+        );
 
         $middleware->execute(new Harmony());
     }
