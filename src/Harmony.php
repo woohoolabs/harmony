@@ -71,9 +71,8 @@ class Harmony
      */
     public function next()
     {
-        $this->currentMiddleware++;
-        if (isset($this->middlewares[$this->currentMiddleware])) {
-            $this->middlewares[$this->currentMiddleware]->execute($this);
+        if (isset($this->middlewares[$this->currentMiddleware+1])) {
+            $this->middlewares[++$this->currentMiddleware]->execute($this);
         }
     }
 
