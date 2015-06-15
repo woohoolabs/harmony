@@ -26,18 +26,18 @@ class CallbackMiddlewareTest extends PHPUnit_Framework_TestCase
     /**
      * @covers \WoohooLabs\Harmony\Middleware\CallbackMiddleware::__construct()
      * @covers \WoohooLabs\Harmony\Middleware\CallbackMiddleware::execute()
-     * @expectedException \WoohooLabsTest\Harmony\Utils\Exception\TestException
-     * @expectedExceptionMessage middleware1
      */
     public function testExecute()
     {
+        $isSuccess = false;
+
         $middleware = new CallbackMiddleware(
             "middleware1",
-            function (Harmony $harmony) {
-                throw new TestException("middleware1");
+            function (Harmony $harmony) use (&$isSuccess) {
+                $isSuccess = true;
             }
         );
-
         $middleware->execute(new Harmony());
+        $this->assertEquals(true, $isSuccess);
     }
 }

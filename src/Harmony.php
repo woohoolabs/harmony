@@ -15,6 +15,11 @@ class Harmony
     protected $middlewares;
 
     /**
+     * @var int
+     */
+    private $currentMiddleware;
+
+    /**
      * @var \Interop\Container\ContainerInterface
      */
     protected $container;
@@ -55,11 +60,9 @@ class Harmony
      */
     public function live()
     {
-        $start = reset($this->middlewares);
-
-        if ($start !== false) {
-            /** @var \WoohooLabs\Harmony\Middleware\MiddlewareInterface $start */
-            $start->execute($this);
+        $this->currentMiddleware = 0;
+        if (isset($this->middlewares[0])) {
+            $this->middlewares[0]->execute($this);
         }
     }
 
@@ -68,25 +71,9 @@ class Harmony
      */
     public function next()
     {
-        $next = next($this->middlewares);
-
-        if ($next !== false) {
-            /** @var \WoohooLabs\Harmony\Middleware\MiddlewareInterface $next */
-            $next->execute($this);
-        }
-    }
-
-    /**
-     * Continues the execution with the middleware with the specified id.
-     * @param string $id
-     */
-    public function continueWith($id)
-    {
-        $next = $this->middlewares[$id];
-
-        if (isset($next)) {
-            /** @var \WoohooLabs\Harmony\Middleware\MiddlewareInterface $next */
-            $next->execute($this);
+        $this->currentMiddleware++;
+        if (isset($this->middlewares[$this->currentMiddleware])) {
+            $this->middlewares[$this->currentMiddleware]->execute($this);
         }
     }
 
@@ -104,7 +91,14 @@ class Harmony
      */
     public function getMiddleware($id)
     {
-        return isset($this->middlewares[$id]) ? $this->middlewares[$id] : null;
+        foreach ($this->middlewares as $k => $middleware) {
+            /** @var \WoohooLabs\Harmony\Middleware\MiddlewareInterface $middleware */
+            if ($middleware->getId() === $id) {
+                return $this->middlewares[$k];
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -113,7 +107,7 @@ class Harmony
      */
     public function addMiddleware(MiddlewareInterface $middleware)
     {
-        $this->middlewares[$middleware->getId()] = $middleware;
+        $this->middlewares[] = $middleware;
 
         return $this;
     }
@@ -124,7 +118,13 @@ class Harmony
      */
     public function removeMiddleware($id)
     {
-        unset($this->middlewares[$id]);
+        foreach ($this->middlewares as $k => $middleware) {
+            /** @var \WoohooLabs\Harmony\Middleware\MiddlewareInterface $middleware */
+            if ($middleware->getId() === $id) {
+                unset($this->middlewares[$k]);
+                break;
+            }
+        }
 
         return $this;
     }
