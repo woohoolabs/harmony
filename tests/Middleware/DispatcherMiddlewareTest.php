@@ -14,7 +14,6 @@ use WoohooLabsTest\Harmony\Utils\Psr7\DummyServerRequest;
 class DispatcherMiddlewareTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @covers \WoohooLabs\Harmony\Middleware\DispatcherMiddleware::__construct()
      * @covers \WoohooLabs\Harmony\Middleware\DispatcherMiddleware::getId()
      */
     public function testGetId()

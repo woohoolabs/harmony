@@ -13,7 +13,6 @@ use WoohooLabsTest\Harmony\Utils\Psr7\DummyServerRequest;
 class InitializerMiddlewareTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @covers \WoohooLabs\Harmony\Middleware\InitializerMiddleware::__construct()
      * @covers \WoohooLabs\Harmony\Middleware\InitializerMiddleware::getId()
      */
     public function testGetId()
@@ -24,6 +23,7 @@ class InitializerMiddlewareTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers \WoohooLabs\Harmony\Middleware\InitializerMiddleware::__construct()
      * @covers \WoohooLabs\Harmony\Middleware\InitializerMiddleware::execute()
      */
     public function testInitializationWithoutProvidedContainer()
@@ -38,6 +38,7 @@ class InitializerMiddlewareTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers \WoohooLabs\Harmony\Middleware\InitializerMiddleware::__construct()
      * @covers \WoohooLabs\Harmony\Middleware\InitializerMiddleware::execute()
      */
     public function testFullInitialization()
