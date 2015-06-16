@@ -11,7 +11,7 @@
 Our aim was to create an invisible, easily extensible, but first of all, extremely flexible framework for your
 quality application. We wanted to give you total control via
 [PSR-7](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-7-http-message.md) and
-[Container-Interop]([Container-Interop standard interface](https://github.com/container-interop/container-interop/blob/master/docs/ContainerInterface.md)).
+[Container-Interop](https://github.com/container-interop/container-interop/blob/master/docs/ContainerInterface.md).
 
 ## Introduction
 
@@ -71,7 +71,7 @@ for modelling the HTTP request and response.
 In order to faciliate the use of different IoC Containers when dispatching a controller, whe adapted the
 [Container-Interop standard interface](https://github.com/container-interop/container-interop/blob/master/docs/ContainerInterface.md)
 (which is supported by various containers off-the-shelf). These, in conjunction with the
-[dispatcher interface](https://github.com/woohoolabs/harmony/tree/master/src/DispatcherInterface) fully separates the
+[dispatcher interface](https://github.com/woohoolabs/harmony/tree/master/src/Dispatcher/DispatcherInterface.php) fully separates the
 concerns of routing the HTTP request to the appropriate controller. And they make it so easy to band your favourite
 components together!
 
@@ -109,7 +109,7 @@ require "vendor/autoload.php"
 There are two important things to notice here: first, each endpoint receives a ``Psr\Http\Message\ServerRequestInterface``
 and a ``Psr\Http\Message\ResponseInterface`` object and they are expected to manipulate and return the latter.
 Second, you are not forced to only use classes for the endpoints, it is possible to define anonymous functions too (see
-below).
+below in the routing section).
 
 ```php
 namespace App\Controllers;
@@ -126,6 +126,9 @@ class UserController
     public function getUsers(ServerRequestInterface $request, ResponseInterface $response)
     {
         $users= ["Steve", "Arnie", "Jason", "Bud"];
+        $response->getBody()->write(json_encode($users));
+        
+        return $response;
     }
 
     /**
@@ -136,7 +139,8 @@ class UserController
      {
         $userId= $request->getAttribute("id");
         $userData= $request->getParsedBody();
-        $response = $response->withBody(new Stream('php://temp'));
+
+        // Updating user...
         
         return $response;
      }
@@ -149,12 +153,14 @@ The following example pertains only to the default router used by Woohoo Labs. H
 the [library](https://github.com/nikic/FastRoute) of Nikita Popov, because of its performance and elegance. You can read
 more about it [in his blog](http://nikic.github.io/2014/02/18/Fast-request-routing-using-regular-expressions.html).
 
-Let's add three routes to the router!
+Let's add three routes to the router among which the first one is an anonymous function:
 
 ```php
 $router = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
-    $r->addRoute("GET", "/me", function (RequestInterface $request, ResponseInterface $response) {
-        $response->setContent("Welcome to the real world!");
+    $r->addRoute("GET", "/me", function (ServerRequestInterface $request, ResponseInterface $response) {
+        $response->getBody()->write("Welcome to the real world!");
+        
+        return $response;
     });
     
     $r->addRoute("GET", "/users", [\App\Controllers\UserController::class, "getUsers"]);
@@ -165,11 +171,10 @@ $router = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
 #### Finally, launch the framework:
 
 You have to register all the following middlewares in order for the framework to function properly:
-- ``InitializerMiddleware`` helps you to pass an HTTP request and a response and optionally a container
-object for the framework.
-- ``FastRouteMiddleware`` takes care of routing (note that the ``$router`` variable was configured in the previous step) 
+- ``InitializerMiddleware`` initializes the framework with an HTTP request, a response and a container
+- ``FastRouteMiddleware`` takes care of routing (``$router``  was configured in the previous step)
 - ``DispatcherMiddleware`` dispatches a controller class or callable which belongs to the current route
-- ``DiactorosResponderMiddleware`` sends the response to the ether via Zend Diactoros
+- ``DiactorosResponderMiddleware`` sends the response to the ether via [Zend Diactoros](https://github.com/zendframework/zend-diactoros)
 
 ```php
 use WoohooLabs\Harmony\Harmony;
@@ -269,7 +274,7 @@ $harmony->addMiddleware(new AuthenticationMiddleware("123"));
 As you can see, the constructor receives the API Key, while the ``execute()`` method is responsible for performing the
 authentication.
 
-Again, the single most important thing any middleware can do is to call ``$harmony-next()`` to invoke the next middleware
+Again: the single most important thing any middleware can do is to call ``$harmony-next()`` to invoke the next middleware
 when its function was accomplished. Not calling this method means interrupting the framework's operation! That's why
 we only invoke ``$harmony->next`` in this example when authentication was successful.
 
@@ -292,7 +297,7 @@ $container= new \DI\Container();
 $harmony->addMiddleware(new InitializerMiddleware($yourRequest, $yourResponse, $container));
 ```
 
-And what if you would like to replace the default router? Just do it, We don't really care. OK, there is something:
+And what if you would like to replace the default router? Just do it, we don't really care. OK, there is something:
 please make sure that your new router plays nice with the ``DispatcherMiddleware``, or you have to implement its
 functionality by yourself (those two lines of code).
 

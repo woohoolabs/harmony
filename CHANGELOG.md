@@ -1,6 +1,6 @@
 # Change Log
 
-### 1.0.0 - Unreleased
+### 1.0.0 - 2015.06.16.
 
 #### Added
 - Support for PSR-7
