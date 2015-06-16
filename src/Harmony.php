@@ -12,12 +12,12 @@ class Harmony
     /**
      * @var array
      */
-    protected $middlewares;
+    protected $middlewares = [];
 
     /**
      * @var int
      */
-    private $currentMiddleware;
+    private $currentMiddleware = -1;
 
     /**
      * @var \Interop\Container\ContainerInterface
@@ -52,7 +52,6 @@ class Harmony
      */
     public function __construct()
     {
-        $this->middlewares = [];
     }
 
     /**
@@ -71,7 +70,7 @@ class Harmony
      */
     public function next()
     {
-        if (isset($this->middlewares[$this->currentMiddleware+1])) {
+        if (isset($this->middlewares[$this->currentMiddleware + 1])) {
             $this->middlewares[++$this->currentMiddleware]->execute($this);
         }
     }

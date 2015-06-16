@@ -7,6 +7,16 @@ use Psr\Http\Message\StreamInterface;
 class DummyResponse implements ResponseInterface
 {
     /**
+     * @var string
+     */
+    private $reasonPhrase = '';
+
+    /**
+     * @var int
+     */
+    private $statusCode = 200;
+
+    /**
      * Retrieves the HTTP protocol version as a string.
      *
      * The string MUST contain only the HTTP version number (e.g., "1.1", "1.0").
@@ -207,6 +217,7 @@ class DummyResponse implements ResponseInterface
      */
     public function getStatusCode()
     {
+        return $this->statusCode;
     }
 
     /**
@@ -231,6 +242,11 @@ class DummyResponse implements ResponseInterface
      */
     public function withStatus($code, $reasonPhrase = '')
     {
+        $new = clone $this;
+        $new->statusCode = $code;
+        $new->reasonPhrase = $reasonPhrase;
+
+        return $new;
     }
 
     /**

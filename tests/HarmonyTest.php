@@ -54,6 +54,24 @@ class HarmonyTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers \WoohooLabs\Harmony\Harmony::next()
+     * @covers \WoohooLabs\Harmony\Harmony::live()
+     * @covers \WoohooLabs\Harmony\Harmony::addMiddleware()
+     * @expectedException \WoohooLabsTest\Harmony\Utils\Exception\TestException
+     * @expectedExceptionMessage dummy3
+     */
+    public function testNextNext()
+    {
+        $harmony = new Harmony();
+        $harmony->addMiddleware(new DummyMiddleware("dummy1"));
+        $harmony->live();
+        $harmony->addMiddleware(new DummyMiddleware("dummy2"));
+        $harmony->next();
+        $harmony->addMiddleware(new ExceptionMiddleware("dummy3"));
+        $harmony->next();
+    }
+
+    /**
      * @covers \WoohooLabs\Harmony\Harmony::setRequest()
      * @covers \WoohooLabs\Harmony\Harmony::getRequest()
      */
