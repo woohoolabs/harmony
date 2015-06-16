@@ -1,15 +1,17 @@
 # Woohoo Labs. Harmony
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/woohoolabs/harmony/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/woohoolabs/harmony/?branch=master)
-[![Build Status](https://scrutinizer-ci.com/g/woohoolabs/harmony/badges/build.png?b=master)](https://scrutinizer-ci.com/g/woohoolabs/harmony/build-status/master)
+[![Build Status](https://img.shields.io/travis/woohoolabs/harmony.svg)](https://travis-ci.org/woohoolabs/harmony)
 [![Code Coverage](https://scrutinizer-ci.com/g/woohoolabs/harmony/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/woohoolabs/harmony/?branch=master)
-[![Stable Release](https://img.shields.io/packagist/vpre/woohoolabs/harmony.svg?style=flat-square)](https://packagist.org/packages/woohoolabs/harmony)
-[![License](https://img.shields.io/packagist/l/woohoolabs/harmony.svg?style=flat-square)](https://packagist.org/packages/woohoolabs/harmony)
+[![Stable Release](https://img.shields.io/packagist/v/woohoolabs/harmony.svg)](https://packagist.org/packages/woohoolabs/harmony)
+[![License](https://img.shields.io/packagist/l/woohoolabs/harmony.svg)](https://packagist.org/packages/woohoolabs/harmony)
 
 **Woohoo Labs. Harmony is a flexible micro-framework developed for PHP applications.**
 
 Our aim was to create an invisible, easily extensible, but first of all, extremely flexible framework for your
-quality application. We wanted to give you total control while providing a clean interface to communicate with.
+quality application. We wanted to give you total control via
+[PSR-7](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-7-http-message.md) and
+[Container-Interop]([Container-Interop standard interface](https://github.com/container-interop/container-interop/blob/master/docs/ContainerInterface.md)).
 
 ## Introduction
 
@@ -63,11 +65,15 @@ But middlewares must work in cooperation (especially the router and the dispatch
 or one can also mention the request and the router). That's why it is also important to provide common interfaces for
 the distinct components of the framework.
 
+Naturally, we decided to use [PSR-7](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-7-http-message.md)
+for modelling the HTTP request and response.
+
 In order to faciliate the use of different IoC Containers when dispatching a controller, whe adapted the
-[Container-Interop standard interface](https://github.com/container-interop/container-interop/blob/master/src/Interop/Container/ContainerInterface.php)
+[Container-Interop standard interface](https://github.com/container-interop/container-interop/blob/master/docs/ContainerInterface.md)
 (which is supported by various containers off-the-shelf). These, in conjunction with the
-[dispatchers](https://github.com/woohoolabs/harmony/tree/master/src/Dispatcher) fully separates the concerns of routing
-the HTTP request to the appropriate controller. And they make it so easy to band your favourite components together!
+[dispatcher interface](https://github.com/woohoolabs/harmony/tree/master/src/DispatcherInterface) fully separates the
+concerns of routing the HTTP request to the appropriate controller. And they make it so easy to band your favourite
+components together!
 
 ## Install
 
@@ -102,8 +108,8 @@ require "vendor/autoload.php"
 
 There are two important things to notice here: first, each endpoint receives a ``Psr\Http\Message\ServerRequestInterface``
 and a ``Psr\Http\Message\ResponseInterface`` object and they are expected to manipulate and return the latter.
-Second, you are not forced to use classes only for the endpoints, it is possible to define anonymous functions too (see
-the next step).
+Second, you are not forced to only use classes for the endpoints, it is possible to define anonymous functions too (see
+below).
 
 ```php
 namespace App\Controllers;
@@ -143,6 +149,8 @@ The following example pertains only to the default router used by Woohoo Labs. H
 the [library](https://github.com/nikic/FastRoute) of Nikita Popov, because of its performance and elegance. You can read
 more about it [in his blog](http://nikic.github.io/2014/02/18/Fast-request-routing-using-regular-expressions.html).
 
+Let's add three routes to the router!
+
 ```php
 $router = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute("GET", "/me", function (RequestInterface $request, ResponseInterface $response) {
@@ -157,6 +165,11 @@ $router = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
 #### Finally, launch the framework:
 
 You have to register all the following middlewares in order for the framework to function properly:
+- ``InitializerMiddleware`` helps you to pass an HTTP request and a response and optionally a container
+object for the framework.
+- ``FastRouteMiddleware`` takes care of routing (note that the ``$router`` variable was configured in the previous step) 
+- ``DispatcherMiddleware`` dispatches a controller class or callable which belongs to the current route
+- ``DiactorosResponderMiddleware`` sends the response to the ether via Zend Diactoros
 
 ```php
 use WoohooLabs\Harmony\Harmony;
@@ -183,8 +196,8 @@ implementations. When you'd like to go live, just call the ``live()`` method!
 
 #### Adding Custom Middlewares
 
-It's not a big deal to add a new middleware to your stack. For a basic scenario, there is a ``CallbackMiddleware`` that
-you can utilize. Let's say you would like to authenticate all the requests:
+It's not a big deal to add a new middleware to your stack. For a basic scenario, there is a ``CallbackMiddleware`` you
+can utilize. Let's say you would like to authenticate all the requests:
 
 ```php
 $harmony->addMiddleware(
@@ -198,11 +211,15 @@ $harmony->addMiddleware(
 );
 ```
 
-The first argument of the constructor is the ID of the middleware that must be unique, the second argument is an anonymous
-function which gets the reference of the full framework as its only parameter.
+The first argument of the middleware's constructor is the ID of the middleware that must be unique, the second argument
+is a callable which gets the reference of the full framework as its only parameter.
+
+The single most important thing any middleware can do is to call ``$harmony-next()`` to invoke the next middleware
+when its function was accomplished. Not calling this method means interrupting the framework's operation! That's why
+we only invoke ``$harmony->next`` in this example when authentication was successful. 
 
 It you need more sophistication, there is also possibility to create a custom middleware. Let's reimplement the previous
-authentication functionality:
+authentication functionality as a separate middleware:
 
 ```php
 use WoohooLabs\Harmony\Middleware\MiddlewareInterface;
@@ -250,15 +267,18 @@ $harmony->addMiddleware(new AuthenticationMiddleware("123"));
 ```
 
 As you can see, the constructor receives the API Key, while the ``execute()`` method is responsible for performing the
-authentication. It's interesting that you are even able to manipulate the other middlewares thanks to the framework's
-reference passed to the method!
+authentication.
+
+Again, the single most important thing any middleware can do is to call ``$harmony-next()`` to invoke the next middleware
+when its function was accomplished. Not calling this method means interrupting the framework's operation! That's why
+we only invoke ``$harmony->next`` in this example when authentication was successful.
 
 #### Redefining Default Components
 
 The motivation of creating Woohoo Labs. Harmony was to become able to change every single aspect
 of the framework. That's why you can customize almost everything with minimal effort.
 
-The following example shows how to swap the ``BasicContainer`` with PHP-DI:
+The following example shows how to swap the ``BasicContainer`` with the awesome [PHP-DI](http://php-di.org):
 
 ```php
 $container= new \DI\Container();
@@ -268,15 +288,8 @@ $harmony->setContainer($container);
 Maybe its more elegant to use the initializer middleware for this purpose:
 
 ```php
-$harmony->addMiddleware(new InitializerMiddleware(ServerRequestFactory::fromGlobals(), new Response(), $container));
-```
-
-This middleware is able to prepopulate the HTTP request and the response too. By default, we wrapped Symfony's HttpFoundation
-inside classes implementing the common HTTP interfaces, but you are free to provide your own implementations if you need
-something else.
-
-```php
-$harmony->addMiddleware(new InitializerMiddleware($yourRequest, $yourResponse, $yourContainer));
+$container= new \DI\Container();
+$harmony->addMiddleware(new InitializerMiddleware($yourRequest, $yourResponse, $container));
 ```
 
 And what if you would like to replace the default router? Just do it, We don't really care. OK, there is something:
