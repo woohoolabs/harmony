@@ -219,7 +219,7 @@ $harmony->addMiddleware(
 The first argument of the middleware's constructor is the ID of the middleware that must be unique, the second argument
 is a callable which gets the reference of the full framework as its only parameter.
 
-The single most important thing any middleware can do is to call ``$harmony-next()`` to invoke the next middleware
+The single most important thing any middleware can do is to call ``$harmony->next()`` to invoke the next middleware
 when its function was accomplished. Not calling this method means interrupting the framework's operation! That's why
 we only invoke ``$harmony->next`` in this example when authentication was successful. 
 
@@ -274,7 +274,7 @@ $harmony->addMiddleware(new AuthenticationMiddleware("123"));
 As you can see, the constructor receives the API Key, while the ``execute()`` method is responsible for performing the
 authentication.
 
-Again: the single most important thing any middleware can do is to call ``$harmony-next()`` to invoke the next middleware
+Again: the single most important thing any middleware can do is to call ``$harmony->next()`` to invoke the next middleware
 when its function was accomplished. Not calling this method means interrupting the framework's operation! That's why
 we only invoke ``$harmony->next`` in this example when authentication was successful.
 
