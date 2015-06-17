@@ -221,7 +221,7 @@ is a callable which gets the reference of the full framework as its only paramet
 
 The single most important thing any middleware can do is to call ``$harmony->next()`` to invoke the next middleware
 when its function was accomplished. Not calling this method means interrupting the framework's operation! That's why
-we only invoke ``$harmony->next`` in this example when authentication was successful. 
+we only invoke ``$harmony->next()`` in this example when authentication was successful. 
 
 It you need more sophistication, there is also possibility to create a custom middleware. Let's reimplement the previous
 authentication functionality as a separate middleware:
@@ -276,7 +276,7 @@ authentication.
 
 Again: the single most important thing any middleware can do is to call ``$harmony->next()`` to invoke the next middleware
 when its function was accomplished. Not calling this method means interrupting the framework's operation! That's why
-we only invoke ``$harmony->next`` in this example when authentication was successful.
+we only invoke ``$harmony->next()`` in this example when authentication was successful.
 
 #### Redefining Default Components
 
