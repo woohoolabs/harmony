@@ -40,7 +40,10 @@ class FastRouteMiddleware implements MiddlewareInterface
      */
     public function execute(Harmony $harmony)
     {
-        $routeInfo = $this->dispatcher->dispatch($harmony->getRequest()->getMethod(), $harmony->getRequest()->getUri());
+        $routeInfo = $this->dispatcher->dispatch(
+            $harmony->getRequest()->getMethod(),
+            $harmony->getRequest()->getUri()->getPath()
+        );
 
         switch ($routeInfo[0]) {
             case Dispatcher::NOT_FOUND:
