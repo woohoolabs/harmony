@@ -102,7 +102,7 @@ class FastRouteMiddlewareTest extends PHPUnit_Framework_TestCase
      */
     public function testExecuteCallbackDispatcher()
     {
-        $callback = function() {
+        $callback = function () {
         };
 
         $route = [Dispatcher::FOUND, $callback, []];
