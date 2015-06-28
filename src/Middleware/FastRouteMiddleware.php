@@ -65,8 +65,6 @@ class FastRouteMiddleware implements MiddlewareInterface
                     $harmony->setDispatcher(new CallbackDispatcher($routeInfo[1]));
                 }
                 break;
-            default:
-                throw new RouteNotFoundException();
         }
 
         $harmony->next();

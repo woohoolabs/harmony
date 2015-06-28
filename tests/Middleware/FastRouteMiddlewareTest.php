@@ -102,7 +102,7 @@ class FastRouteMiddlewareTest extends PHPUnit_Framework_TestCase
      */
     public function testExecuteCallbackDispatcher()
     {
-        $route = [Dispatcher::FOUND, [], []];
+        $route = [Dispatcher::FOUND, ["", ""], []];
         $middleware = new FastRouteMiddleware(new DummyDispatcher($route));
         $harmony = $this->createHarmony();
         $middleware->execute($harmony);
@@ -118,7 +118,7 @@ class FastRouteMiddlewareTest extends PHPUnit_Framework_TestCase
      */
     public function testExecuteAttributesPassed()
     {
-        $route = [Dispatcher::FOUND, [], ["arg1" => "val1", "arg2" => "val2"]];
+        $route = [Dispatcher::FOUND, ["", ""], ["arg1" => "val1", "arg2" => "val2"]];
         $middleware = new FastRouteMiddleware(new DummyDispatcher($route));
         $harmony = $this->createHarmony();
         $middleware->execute($harmony);
