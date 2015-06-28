@@ -21,10 +21,10 @@ class DummyEmitter implements EmitterInterface
      * response; e.g., if headers have already been sent.
      *
      * @param ResponseInterface $response
-     * @throws \WoohooLabsTest\Harmony\Utils\Exception\TestException
+     * @return bool
      */
     public function emit(ResponseInterface $response)
     {
-        throw new TestException();
+        return true;
     }
 }

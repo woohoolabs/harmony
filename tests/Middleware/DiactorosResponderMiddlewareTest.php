@@ -46,12 +46,12 @@ class DiactorosResponderMiddlewareTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers \WoohooLabs\Harmony\Middleware\DiactorosResponderMiddleware::execute()
-     * @expectedException \WoohooLabsTest\Harmony\Utils\Exception\TestException
      */
     public function testExecute()
     {
         $middleware = new DiactorosResponderMiddleware(new DummyEmitter());
-        $middleware->execute($this->createHarmony());
+
+        $this->assertEquals(true, $middleware->execute($this->createHarmony()));
     }
 
     /**
