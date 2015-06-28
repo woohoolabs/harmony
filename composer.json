@@ -1,19 +1,19 @@
 {
-    "name":"woohoolabs/harmony",
-    "description":"Woohoo Labs. Harmony",
-    "type":"library",
-    "keywords":["Woohoo Labs.", "Harmony", "Framework", "Container-Interop", "PSR-7"],
-    "homepage":"http://harmony.woohoolabs.com",
-    "license":"MIT",
-    "authors":[
+    "name": "woohoolabs/harmony",
+    "description": "Woohoo Labs. Harmony",
+    "type": "library",
+    "keywords": ["Woohoo Labs.", "Harmony", "Framework", "Container-Interop", "PSR-7"],
+    "homepage": "http://harmony.woohoolabs.com",
+    "license": "MIT",
+    "authors": [
         {
             "name":"Máté Kocsis",
             "email":"kocsismate@woohoolabs.com"
         }
     ],
     "support": {
-        "issues": "https://github.com/woohooalbs/harmony/issues",
-        "source": "https://github.com/woohooalbs/harmony"
+        "issues": "https://github.com/woohoolabs/harmony/issues",
+        "source": "https://github.com/woohoolabs/harmony"
     },
     "require":{
         "php":">=5.5.0",
@@ -21,12 +21,12 @@
         "psr/http-message": "~1.0"
     },
     "require-dev": {
-        "phpunit/PHPUnit": "^4.7.0",
-        "squizlabs/php_codesniffer": "^2.3.1"
+        "phpunit/PHPUnit": "^4.4.0",
+        "squizlabs/php_codesniffer": "^2.1.1"
     },
     "suggest":{
-        "nikic/fast-route": "Allows to use the default Router implementation",
-        "zendframework/zend-diactoros": "Allows to use the default Router implementation"
+        "nikic/fast-route": "Allows to use the default router",
+        "zendframework/zend-diactoros": "Allows to use PSR-7 HTTP messages"
     },
     "autoload": {
         "psr-4": {

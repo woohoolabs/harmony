@@ -30,7 +30,7 @@ of your preference so that they can be easily integrated into your application.
 
 In conclusion, requirements will always change. What seemed to be a good choice once, it is not enough next time.
 If things are impossible to change in your framework then it might lead to hard times when refactoring your
-application even though that it is decoupled from your project.
+application even though if you tried hard to decouple your business objects from the framework.
 
 We created Harmony to remedy this issue.
 
