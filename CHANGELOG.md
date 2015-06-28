@@ -1,6 +1,14 @@
 # Change Log
 
-### 1.0.0 - 2015.06.16.
+### 1.0.1 - 2015-06-28.
+
+#### Added
+- Improved unit tests coverage
+
+#### Fixed
+- FastRouteMiddleware now passes correct URI to FastRoute
+
+### 1.0.0 - 2015-06-16.
 
 #### Added
 - Support for PSR-7
