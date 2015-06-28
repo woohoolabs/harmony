@@ -16,9 +16,7 @@ matrix:
       env:
         - EXECUTE_COVERAGE=true
     - php: 7
-    - php: hhvm 
-  allow_failures:
-    - php: 7
+    - php: hhvm
 
 before_install:
   - if [[ $EXECUTE_COVERAGE != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
@@ -26,6 +24,7 @@ before_install:
 
 install:
   - travis_retry composer install --no-interaction --ignore-platform-reqs
+  - travis_retry composer require --no-interaction --ignore-platform-reqs nikic/fast-route zendframework/zend-diactoros
 
 script:
   - if [[ $EXECUTE_COVERAGE == 'true' ]]; then ./vendor/bin/phpunit --coverage-clover coverage.clover ; fi

@@ -8,6 +8,11 @@ use Psr\Http\Message\UriInterface;
 class DummyServerRequest implements ServerRequestInterface
 {
     /**
+     * @var array
+     */
+    private $attributes = [];
+
+    /**
      * Retrieves the HTTP protocol version as a string.
      *
      * The string MUST contain only the HTTP version number (e.g., "1.1", "1.0").
@@ -246,6 +251,7 @@ class DummyServerRequest implements ServerRequestInterface
      */
     public function getMethod()
     {
+        return "";
     }
 
     /**
@@ -278,6 +284,7 @@ class DummyServerRequest implements ServerRequestInterface
      */
     public function getUri()
     {
+        return new DummyUri();
     }
 
     /**
@@ -499,6 +506,7 @@ class DummyServerRequest implements ServerRequestInterface
      */
     public function getAttributes()
     {
+        return $this->attributes;
     }
 
     /**
@@ -518,6 +526,7 @@ class DummyServerRequest implements ServerRequestInterface
      */
     public function getAttribute($name, $default = null)
     {
+        return isset($this->attributes[$name]) ? $this->attributes[$name] : $default;
     }
 
     /**
@@ -537,6 +546,9 @@ class DummyServerRequest implements ServerRequestInterface
      */
     public function withAttribute($name, $value)
     {
+        $request = clone $this;
+
+        return $request;
     }
 
     /**

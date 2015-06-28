@@ -4,7 +4,6 @@ namespace WoohooLabsTest\Harmony\Middleware;
 use PHPUnit_Framework_TestCase;
 use WoohooLabs\Harmony\Harmony;
 use WoohooLabs\Harmony\Middleware\CallbackMiddleware;
-use WoohooLabsTest\Harmony\Utils\Exception\TestException;
 
 class CallbackMiddlewareTest extends PHPUnit_Framework_TestCase
 {
