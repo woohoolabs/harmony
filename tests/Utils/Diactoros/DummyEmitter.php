@@ -25,6 +25,6 @@ class DummyEmitter implements EmitterInterface
      */
     public function emit(ResponseInterface $response)
     {
-        return true;
+        echo "true";
     }
 }

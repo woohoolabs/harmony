@@ -51,7 +51,8 @@ class DiactorosResponderMiddlewareTest extends PHPUnit_Framework_TestCase
     {
         $middleware = new DiactorosResponderMiddleware(new DummyEmitter());
 
-        $this->assertEquals(true, $middleware->execute($this->createHarmony()));
+        $this->expectOutputString("true");
+        $middleware->execute($this->createHarmony());
     }
 
     /**
