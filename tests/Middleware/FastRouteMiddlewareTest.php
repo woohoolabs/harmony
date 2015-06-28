@@ -126,6 +126,7 @@ class FastRouteMiddlewareTest extends PHPUnit_Framework_TestCase
         $this->assertEquals("val1", $harmony->getRequest()->getAttribute("arg1"));
         $this->assertEquals("val2", $harmony->getRequest()->getAttribute("arg2"));
     }
+
     /**
      * @return \WoohooLabs\Harmony\Harmony
      */
@@ -138,4 +139,3 @@ class FastRouteMiddlewareTest extends PHPUnit_Framework_TestCase
         return $harmony;
     }
 }
-

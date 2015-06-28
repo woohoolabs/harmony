@@ -547,6 +547,7 @@ class DummyServerRequest implements ServerRequestInterface
     public function withAttribute($name, $value)
     {
         $request = clone $this;
+        $request->attributes[$name] = $value;
 
         return $request;
     }
