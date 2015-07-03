@@ -16,25 +16,25 @@ class FastRouteMiddlewareTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @covers \WoohooLabs\Harmony\Middleware\FastRouteMiddleware::__construct()
-     * @covers \WoohooLabs\Harmony\Middleware\FastRouteMiddleware::getDispatcher()
+     * @covers \WoohooLabs\Harmony\Middleware\FastRouteMiddleware::getFastRoute()
      */
     public function testConstruct()
     {
         $middleware = new FastRouteMiddleware(new DummyDispatcher());
 
-        $this->assertInstanceOf(DummyDispatcher::class, $middleware->getDispatcher());
+        $this->assertInstanceOf(DummyDispatcher::class, $middleware->getFastRoute());
     }
 
     /**
-     * @covers \WoohooLabs\Harmony\Middleware\FastRouteMiddleware::getDispatcher()
-     * @covers \WoohooLabs\Harmony\Middleware\FastRouteMiddleware::setDispatcher()
+     * @covers \WoohooLabs\Harmony\Middleware\FastRouteMiddleware::getFastRoute()
+     * @covers \WoohooLabs\Harmony\Middleware\FastRouteMiddleware::setFastRoute()
      */
     public function testSetDispatcher()
     {
         $middleware = new FastRouteMiddleware(null);
-        $middleware->setDispatcher(new DummyDispatcher());
+        $middleware->setFastRoute(new DummyDispatcher());
 
-        $this->assertInstanceOf(DummyDispatcher::class, $middleware->getDispatcher());
+        $this->assertInstanceOf(DummyDispatcher::class, $middleware->getFastRoute());
     }
 
     /**

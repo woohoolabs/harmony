@@ -1,11 +1,9 @@
 <?php
 namespace WoohooLabs\Harmony;
 
-use Interop\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use WoohooLabs\Harmony\Dispatcher\DispatcherInterface;
-use WoohooLabs\Harmony\Middleware\MiddlewareInterface;
+use WoohooLabs\Harmony\Exception\MiddlewareNotFound;
 
 class Harmony
 {
@@ -17,12 +15,7 @@ class Harmony
     /**
      * @var int
      */
-    private $currentMiddleware = -1;
-
-    /**
-     * @var \Interop\Container\ContainerInterface
-     */
-    protected $container;
+    protected $currentMiddleware = -1;
 
     /**
      * @var \Psr\Http\Message\ServerRequestInterface
@@ -35,77 +28,60 @@ class Harmony
     protected $response;
 
     /**
-     * @var \WoohooLabs\Harmony\Dispatcher\DispatcherInterface
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ResponseInterface $response
      */
-    protected $dispatcher;
-
-    /**
-     * @return $this
-     */
-    public static function build()
+    public function __invoke(ServerRequestInterface $request = null, ResponseInterface $response = null)
     {
-        return new Harmony();
-    }
-
-    /**
-     * Harmony constructor.
-     */
-    public function __construct()
-    {
-    }
-
-    /**
-     * Starts the framework.
-     */
-    public function live()
-    {
-        $this->currentMiddleware = 0;
-        if (isset($this->middlewares[0])) {
-            $this->middlewares[0]->execute($this);
+        if ($request !== null) {
+            $this->request = $request;
         }
-    }
 
-    /**
-     * Continues the execution with the next middleware.
-     */
-    public function next()
-    {
-        if (isset($this->middlewares[$this->currentMiddleware + 1])) {
-            $this->middlewares[++$this->currentMiddleware]->execute($this);
+        if ($response !== null) {
+            $this->response = $response;
         }
-    }
 
-    /**
-     * @return array
-     */
-    public function getMiddlewares()
-    {
-        return $this->middlewares;
+        $this->executeMiddleware(++$this->currentMiddleware);
     }
 
     /**
      * @param string $id
-     * @return \WoohooLabs\Harmony\Middleware\MiddlewareInterface|null
+     * @throws \WoohooLabs\Harmony\Exception\MiddlewareNotFound
      */
-    public function getMiddleware($id)
+    public function skipTo($id)
     {
-        foreach ($this->middlewares as $k => $middleware) {
-            /** @var \WoohooLabs\Harmony\Middleware\MiddlewareInterface $middleware */
-            if ($middleware->getId() === $id) {
-                return $this->middlewares[$k];
-            }
+        $position = $this->findMiddleware($id);
+
+        if ($position === null) {
+            throw new MiddlewareNotFound();
         }
 
-        return null;
+        $this->currentMiddleware = $position;
     }
 
     /**
-     * @param \WoohooLabs\Harmony\Middleware\MiddlewareInterface $middleware
+     * @param string $id
+     * @return callable|null
+     */
+    public function getMiddleware($id)
+    {
+        $position = $this->findMiddleware($id);
+
+        if ($position === null) {
+            return null;
+        }
+
+        return $this->middlewares[$position];
+    }
+
+    /**
+     * @param string $id
+     * @param callable $middleware
      * @return $this
      */
-    public function addMiddleware(MiddlewareInterface $middleware)
+    public function addMiddleware($id, callable $middleware)
     {
-        $this->middlewares[] = $middleware;
+        $this->middlewares[] = ["id" => $id, "callable" => $middleware];
 
         return $this;
     }
@@ -116,31 +92,13 @@ class Harmony
      */
     public function removeMiddleware($id)
     {
-        foreach ($this->middlewares as $k => $middleware) {
-            /** @var \WoohooLabs\Harmony\Middleware\MiddlewareInterface $middleware */
-            if ($middleware->getId() === $id) {
-                unset($this->middlewares[$k]);
-                break;
-            }
+        $position = $this->findMiddleware($id);
+
+        if ($position !== null) {
+            unset($this->middlewares[$position]);
         }
 
         return $this;
-    }
-
-    /**
-     * @return \Interop\Container\ContainerInterface
-     */
-    public function getContainer()
-    {
-        return $this->container;
-    }
-
-    /**
-     * @param \Interop\Container\ContainerInterface $container
-     */
-    public function setContainer(ContainerInterface $container)
-    {
-        $this->container = $container;
     }
 
     /**
@@ -152,14 +110,6 @@ class Harmony
     }
 
     /**
-     * @param \Psr\Http\Message\ServerRequestInterface $request
-     */
-    public function setRequest(ServerRequestInterface $request)
-    {
-        $this->request = $request;
-    }
-
-    /**
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function getResponse()
@@ -168,26 +118,25 @@ class Harmony
     }
 
     /**
-     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param int $position
      */
-    public function setResponse(ResponseInterface $response)
+    protected function executeMiddleware($position)
     {
-        $this->response = $response;
+        $this->middlewares[$position]["callable"]($this->getRequest(), $this->getResponse(), $this);
     }
 
     /**
-     * @return \WoohooLabs\Harmony\Dispatcher\DispatcherInterface
+     * @param string $id
+     * @return int|null
      */
-    public function getDispatcher()
+    protected function findMiddleware($id)
     {
-        return $this->dispatcher;
-    }
+        foreach ($this->middlewares as $k => $middleware) {
+            if ($middleware["id"] === $id) {
+                return $k;
+            }
+        }
 
-    /**
-     * @param \WoohooLabs\Harmony\Dispatcher\DispatcherInterface $dispatcher
-     */
-    public function setDispatcher(DispatcherInterface $dispatcher)
-    {
-        $this->dispatcher = $dispatcher;
+        return null;
     }
 }

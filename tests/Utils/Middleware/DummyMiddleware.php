@@ -11,7 +11,7 @@ class DummyMiddleware implements MiddlewareInterface
     /**
      * @param string $id
      */
-    public function __construct($id)
+    public function __construct($id = "dummy")
     {
         $this->id = $id;
     }

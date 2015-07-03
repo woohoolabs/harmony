@@ -13,14 +13,16 @@ use WoohooLabsTest\Harmony\Utils\Psr7\DummyServerRequest;
 class HarmonyTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @covers \WoohooLabs\Harmony\Harmony::build()
      * @covers \WoohooLabs\Harmony\Harmony::__construct()
      */
-    public function testBuild()
+    public function testConstruct()
     {
-        $harmony = Harmony::build();
+        $harmony = new Harmony(new DummyServerRequest(), new DummyResponse(), new BasicContainer());
 
         $this->assertInstanceOf(Harmony::class, $harmony);
+        $this->assertInstanceOf(DummyServerRequest::class, $harmony->getRequest());
+        $this->assertInstanceOf(DummyResponse::class, $harmony->getResponse());
+        $this->assertInstanceOf(BasicContainer::class, $harmony->getContainer());
         $this->assertTrue(is_array($harmony->getMiddlewares()));
     }
 
@@ -140,6 +142,20 @@ class HarmonyTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(3, count($harmony->getMiddlewares()));
         $this->assertInstanceOf(DummyMiddleware::class, $harmony->getMiddleware("dummy1"));
+    }
+
+    /**
+     * @covers \WoohooLabs\Harmony\Harmony::addMiddleware()
+     * @covers \WoohooLabs\Harmony\Harmony::getMiddlewares()
+     * @covers \WoohooLabs\Harmony\Harmony::getMiddleware()
+     */
+    public function testAddMiddlewaresFromContainer()
+    {
+        $harmony = new Harmony();
+        $harmony->addMiddlewareFromContainer(DummyMiddleware::class);
+
+        $this->assertEquals(1, count($harmony->getMiddlewares()));
+        $this->assertInstanceOf(DummyMiddleware::class, $harmony->getMiddleware("dummy"));
     }
 
     /**

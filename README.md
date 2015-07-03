@@ -70,10 +70,7 @@ for modelling the HTTP request and response.
 
 In order to faciliate the use of different IoC Containers when dispatching a controller, whe adapted the
 [Container-Interop standard interface](https://github.com/container-interop/container-interop/blob/master/docs/ContainerInterface.md)
-(which is supported by various containers off-the-shelf). These, in conjunction with the
-[dispatcher interface](https://github.com/woohoolabs/harmony/tree/master/src/Dispatcher/DispatcherInterface.php) fully separates the
-concerns of routing the HTTP request to the appropriate controller. And they make it so easy to band your favourite
-components together!
+(which is supported by various containers off-the-shelf). They make it so easy to band your favourite components together!
 
 ## Install
 
@@ -171,14 +168,12 @@ $router = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
 #### Finally, launch the framework:
 
 You have to register all the following middlewares in order for the framework to function properly:
-- ``InitializerMiddleware`` initializes the framework with an HTTP request, a response and a container
 - ``FastRouteMiddleware`` takes care of routing (``$router``  was configured in the previous step)
-- ``DispatcherMiddleware`` dispatches a controller class or callable which belongs to the current route
+- ``DispatcherMiddleware`` dispatches a controller which belongs to the request's current route
 - ``DiactorosResponderMiddleware`` sends the response to the ether via [Zend Diactoros](https://github.com/zendframework/zend-diactoros)
 
 ```php
 use WoohooLabs\Harmony\Harmony;
-use WoohooLabs\Harmony\Middleware\InitializerMiddleware;
 use WoohooLabs\Harmony\Middleware\FastRouteMiddleware;
 use WoohooLabs\Harmony\Middleware\DispatcherMiddleware;
 use WoohooLabs\Harmony\Middleware\DiactorosResponderMiddleware;
@@ -186,45 +181,64 @@ use Zend\Diactoros\ServerRequestFactory;
 use Zend\Diactoros\Response;
 use Zend\Diactoros\Response\SapiEmitter;
 
-Harmony::build()
-    ->addMiddleware(new InitializerMiddleware(ServerRequestFactory::fromGlobals(), new Response()))
-    ->addMiddleware(new FastRouteMiddleware($router))
-    ->addMiddleware(new DispatcherMiddleware())
-    ->addMiddleware(new DiactorosResponderMiddleware(new SapiEmitter()))
-    ->live();
+$harmony = (new Harmony())
+    ->addMiddleware("fast_route", new FastRouteMiddleware($router))
+    ->addMiddleware("dispatcher", new DispatcherMiddleware())
+    ->addMiddleware("diactoros", new DiactorosResponderMiddleware(new SapiEmitter()));
+
+$harmony(ServerRequestFactory::fromGlobals(), new Response());
 ```
 
 Of course, it is completely up to you how you add additional middlewares or how you replace them with your own
-implementations. When you'd like to go live, just call the ``live()`` method!
+implementations. When you'd like to go live, just call ``harmony()`` with a request and a response argument!
 
 ## Advanced Usage
 
-#### Adding Custom Middlewares
+#### Using Your Favourite DI Container with Harmony
 
-It's not a big deal to add a new middleware to your stack. For a basic scenario, there is a ``CallbackMiddleware`` you
-can utilize. Let's say you would like to authenticate all the requests:
+The motivation of creating Woohoo Labs. Harmony was to become able to change every single aspect
+of the framework. That's why you can also customize the DI Container used by Harmony. For this purpose, we chose
+the [Container-Interop standard](https://github.com/container-interop/container-interop/blob/master/docs/ContainerInterface.md)
+(it is PSR-11 now) to be the common interface for DI Containers.
+
+It's also important to know that Harmony uses a ``BasicContainer`` by default. It's nothing more than a very silly
+DIC which tries to create objects by their class name (so calling the ``BasicContainer::get(StdObject::class)`` would
+create a new ``StdObject``).
+
+But if you provide a third argument to Harmony's constructor, you can use your favourite Container-Interop compliant
+DIC too. Let's have a look at an example where one would like to swap the ``BasicContainer`` with the awesome
+[PHP-DI](http://php-di.org):
 
 ```php
-$harmony->addMiddleware(
-    new CallbackMiddleware("authentication",
-        function(Harmony $harmony) {
-            if ($harmony->getRequest()->getHeader("x-api-key") === "123") {
-                $harmony->next();
-            }
-        }
-    )
-);
+$container= new \DI\Container();
+$harmony = new Harmony($request, $response, $container);
 ```
 
-The first argument of the middleware's constructor is the ID of the middleware that must be unique, the second argument
-is a callable which gets the reference of the full framework as its only parameter.
+Note that initializing the ``$request`` and ``$response`` variables are not part of this example.
 
-The single most important thing any middleware can do is to call ``$harmony->next()`` to invoke the next middleware
-when its function was accomplished. Not calling this method means interrupting the framework's operation! That's why
-we only invoke ``$harmony->next()`` in this example when authentication was successful. 
+#### Adding Middlewares from the Container
 
-It you need more sophistication, there is also possibility to create a custom middleware. Let's reimplement the previous
-authentication functionality as a separate middleware:
+Sometimes you want a middleware to be created by your DI Container. This is really easy with Harmony! Just invoke
+``Harmony::addMiddlewareFromContainer($id)`` (where ``$id`` is an ID which your DIC can resolve to a middleware instance).
+
+For example if you use the ``BasicContainer`` as your DIC and you want to create and add a ``MyMiddleware`` middleware
+to Harmony, then call ``Harmony::addMiddlewareFromContainer(MyMiddleware::class)``.
+
+#### Adding Custom Middlewares
+
+It's not a big deal to add a new middleware to your stack. For a basic scenario, you can use callbacks. Let's say you
+would like to log all the requests:
+
+```php
+$middleware = function(ServerRequestInterace &$request, ResponseInterface &$response) {
+    // Logging
+}
+
+$harmony->addMiddleware("authentication", $middleware);
+```
+
+It you need more sophistication, there is also possibility to create a custom middleware class. Let's implement
+an authenticator middleware:
 
 ```php
 use WoohooLabs\Harmony\Middleware\MiddlewareInterface;
@@ -233,33 +247,34 @@ use WoohooLabs\Harmony\Harmony;
 class AuthenticationMiddleware implements MiddlewareInterface
 {
     /**
+     * @var \WoohooLabs\Harmony\Harmony
+     */
+    protected $harmony;
+
+    /**
      * @var string
      */
     protected $apiKey;
 
     /**
+     * @param \WoohooLabs\Harmony\Harmony $harmony
      * @param string $apiKey
      */
-    public function __construct($apiKey)
+    public function __construct(Harmony $harmony, $apiKey)
     {
+        $this->harmony = $harmony;
         $this->apiKey = $apiKey;
     }
 
     /**
-     * @return string
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ResponseInterface $response
      */
-    public function getId()
+    public function __invoke(ServerRequestInterface &$request, ResponseInterface &$response)
     {
-        return "authentication";
-    }
-
-    /**
-     * @param \WoohooLabs\Harmony\Harmony $harmony
-     */
-    public function execute(Harmony $harmony)
-    {
-        if ($harmony->getRequest()->getHeader("x-api-key") === $this->apiKey) {
-             $harmony->next();
+        if ($request->getHeader("x-api-key") !== $this->apiKey) {
+             $response = $response->withStatusCode(402);
+             $harmony->stop();
         }
     }
 }
@@ -268,7 +283,7 @@ class AuthenticationMiddleware implements MiddlewareInterface
 then
 
 ```php
-$harmony->addMiddleware(new AuthenticationMiddleware("123"));
+$harmony->addMiddleware("authentication", new AuthenticationMiddleware($harmony, "123"));
 ```
 
 As you can see, the constructor receives the API Key, while the ``execute()`` method is responsible for performing the
@@ -283,21 +298,7 @@ we only invoke ``$harmony->next()`` in this example when authentication was succ
 The motivation of creating Woohoo Labs. Harmony was to become able to change every single aspect
 of the framework. That's why you can customize almost everything with minimal effort.
 
-The following example shows how to swap the ``BasicContainer`` with the awesome [PHP-DI](http://php-di.org):
-
-```php
-$container= new \DI\Container();
-$harmony->setContainer($container);
-```
-
-Maybe its more elegant to use the initializer middleware for this purpose:
-
-```php
-$container= new \DI\Container();
-$harmony->addMiddleware(new InitializerMiddleware($yourRequest, $yourResponse, $container));
-```
-
-And what if you would like to replace the default router? Just do it, we don't really care. OK, there is something:
+What if you would like to replace the default router? Just do it, we don't really care. OK, there is something:
 please make sure that your new router plays nice with the ``DispatcherMiddleware``, or you have to implement its
 functionality by yourself (those two lines of code).
 

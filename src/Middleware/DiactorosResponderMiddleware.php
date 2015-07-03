@@ -1,13 +1,13 @@
 <?php
 namespace WoohooLabs\Harmony\Middleware;
 
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use WoohooLabs\Harmony\Harmony;
 use Zend\Diactoros\Response\EmitterInterface;
 
 class DiactorosResponderMiddleware implements MiddlewareInterface
 {
-    const ID = "diactoros_responder";
-
     /**
      * @var \Zend\Diactoros\Response\EmitterInterface
      */
@@ -22,20 +22,15 @@ class DiactorosResponderMiddleware implements MiddlewareInterface
     }
 
     /**
-     * @return string
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param \WoohooLabs\Harmony\Harmony $next
      */
-    public function getId()
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, Harmony $next)
     {
-        return self::ID;
-    }
+        $this->emitter->emit($response);
 
-    /**
-     * @param \WoohooLabs\Harmony\Harmony $harmony
-     */
-    public function execute(Harmony $harmony)
-    {
-        $this->emitter->emit($harmony->getResponse());
-        $harmony->next();
+        $next();
     }
 
     /**

@@ -1,12 +1,24 @@
 # Change Log
 
+### 2.0.0 - Unreleased
+
+### Changed
+- Middleware interface design is now based on Zend Stratigility
+- ``Harmony::__construct()`` requires a request and a response dependency
+- ``Harmony::addMiddleware()`` also needs the ID of the middleware
+
+### Removed
+- Removed ``Harmony::build()``, ``Harmony::next()`` and ``Harmony::live()``
+- Removed ``CallbackMiddleware``, ``InitializerMiddleware``
+- Removed all dispatchers
+
 ### 1.0.1 - 2015-06-28
 
-#### Added
+#### Changed
 - Improved unit tests coverage
 
 #### Fixed
-- FastRouteMiddleware now passes correct URI to FastRoute
+- ``FastRouteMiddleware`` now passes correct URI to FastRoute
 
 ### 1.0.0 - 2015-06-16
 
@@ -53,7 +65,7 @@
 - ``Request`` and ``Response`` objects got new capabilities
 
 #### Changed
-- Completely reworked serializers/deserializers
+- Completely reworked serializers and deserializers
 - ``Responder`` objects were removed, ``Response`` objects became responders too
 
 ### 0.2.1 - 2014-10-19
