@@ -1,21 +1,20 @@
 <?php
 namespace WoohooLabsTest\Harmony\Dispatcher;
 
-use WoohooLabs\Harmony\Dispatcher\CallbackDispatcher;
 use WoohooLabsTest\Harmony\Utils\Psr7\DummyResponse;
 use WoohooLabsTest\Harmony\Utils\Psr7\DummyServerRequest;
 use PHPUnit_Framework_TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-class CallbackDispatcherTest extends PHPUnit_Framework_TestCase
+class CallbackDispatcher extends PHPUnit_Framework_TestCase
 {
     /**
      * @covers \WoohooLabs\Harmony\Dispatcher\CallbackDispatcher::__construct()
      * @covers \WoohooLabs\Harmony\Dispatcher\CallbackDispatcher::dispatch()
      * @covers \WoohooLabs\Harmony\Dispatcher\CallbackDispatcher::getCallback()
      */
-    public function testAnonymousFunction()
+    public function AnonymousFunction()
     {
         $originalRequest = new DummyServerRequest();
         $originalResponse = new DummyResponse();

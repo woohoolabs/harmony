@@ -184,7 +184,7 @@ use Zend\Diactoros\Response\SapiEmitter;
 $harmony = (new Harmony())
     ->addMiddleware("fast_route", new FastRouteMiddleware($router))
     ->addMiddleware("dispatcher", new DispatcherMiddleware())
-    ->addMiddleware("diactoros", new DiactorosResponderMiddleware(new SapiEmitter()));
+    ->addMiddleware("diactoros_responder", new DiactorosResponderMiddleware(new SapiEmitter()));
 
 $harmony(ServerRequestFactory::fromGlobals(), new Response());
 ```
@@ -230,7 +230,7 @@ It's not a big deal to add a new middleware to your stack. For a basic scenario,
 would like to log all the requests:
 
 ```php
-$middleware = function(ServerRequestInterace &$request, ResponseInterface &$response) {
+$middleware = function(ServerRequestInterace $request, ResponseInterface $response, callable $next) {
     // Logging
 }
 
@@ -247,20 +247,14 @@ use WoohooLabs\Harmony\Harmony;
 class AuthenticationMiddleware implements MiddlewareInterface
 {
     /**
-     * @var \WoohooLabs\Harmony\Harmony
-     */
-    protected $harmony;
-
-    /**
      * @var string
      */
     protected $apiKey;
 
     /**
-     * @param \WoohooLabs\Harmony\Harmony $harmony
      * @param string $apiKey
      */
-    public function __construct(Harmony $harmony, $apiKey)
+    public function __construct($apiKey)
     {
         $this->harmony = $harmony;
         $this->apiKey = $apiKey;
@@ -269,12 +263,15 @@ class AuthenticationMiddleware implements MiddlewareInterface
     /**
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @param \Psr\Http\Message\ResponseInterface $response
+     * @param \WoohooLabs\Harmony\Harmony $next
      */
-    public function __invoke(ServerRequestInterface &$request, ResponseInterface &$response)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, Harmony $next)
     {
-        if ($request->getHeader("x-api-key") !== $this->apiKey) {
-             $response = $response->withStatusCode(402);
-             $harmony->stop();
+        if ($request->getHeader("x-api-key") === $this->apiKey) {
+            $response = $response->withStatusCode(402);
+            $next->skipTo("diactoros_responder");
+        } else {
+            $next();
         }
     }
 }
@@ -283,24 +280,15 @@ class AuthenticationMiddleware implements MiddlewareInterface
 then
 
 ```php
-$harmony->addMiddleware("authentication", new AuthenticationMiddleware($harmony, "123"));
+$harmony->addMiddleware("authentication", new AuthenticationMiddleware("123"));
 ```
 
-As you can see, the constructor receives the API Key, while the ``execute()`` method is responsible for performing the
+As you can see, the constructor receives the API Key, while the ``_invoke()`` method is responsible for performing the
 authentication.
 
-Again: the single most important thing any middleware can do is to call ``$harmony->next()`` to invoke the next middleware
+Again: the single most important thing any middleware can do is to call ``$next()`` to invoke the next middleware
 when its function was accomplished. Not calling this method means interrupting the framework's operation! That's why
 we only invoke ``$harmony->next()`` in this example when authentication was successful.
-
-#### Redefining Default Components
-
-The motivation of creating Woohoo Labs. Harmony was to become able to change every single aspect
-of the framework. That's why you can customize almost everything with minimal effort.
-
-What if you would like to replace the default router? Just do it, we don't really care. OK, there is something:
-please make sure that your new router plays nice with the ``DispatcherMiddleware``, or you have to implement its
-functionality by yourself (those two lines of code).
 
 ## License
 

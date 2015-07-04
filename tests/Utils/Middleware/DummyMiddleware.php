@@ -1,34 +1,38 @@
 <?php
 namespace WoohooLabsTest\Harmony\Utils\Middleware;
 
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use WoohooLabs\Harmony\Harmony;
 use WoohooLabs\Harmony\Middleware\MiddlewareInterface;
 
 class DummyMiddleware implements MiddlewareInterface
 {
-    protected $id;
+    protected $text;
 
     /**
-     * @param string $id
+     * @param string $text
      */
-    public function __construct($id = "dummy")
+    public function __construct($text = "dummy")
     {
-        $this->id = $id;
+        $this->text = $text;
     }
 
     /**
      * @return string
      */
-    public function getId()
+    public function getText()
     {
-        return $this->id;
+        return $this->text;
     }
 
     /**
-     * @param \WoohooLabs\Harmony\Harmony $harmony
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param \WoohooLabs\Harmony\Harmony $next
      */
-    public function execute(Harmony $harmony)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, Harmony $next)
     {
-        $harmony->next();
+        $next();
     }
 }

@@ -16,11 +16,11 @@ class FastRouteMiddleware implements MiddlewareInterface
     protected $fastRoute;
 
     /**
-     * @param \FastRoute\Dispatcher $dispatcher
+     * @param \FastRoute\Dispatcher $fastRoute
      */
-    public function __construct(Dispatcher $dispatcher = null)
+    public function __construct(Dispatcher $fastRoute = null)
     {
-        $this->fastRoute = $dispatcher;
+        $this->fastRoute = $fastRoute;
     }
 
     /**

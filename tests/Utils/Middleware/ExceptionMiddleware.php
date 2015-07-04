@@ -1,36 +1,40 @@
 <?php
 namespace WoohooLabsTest\Harmony\Utils\Middleware;
 
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use WoohooLabs\Harmony\Harmony;
 use WoohooLabs\Harmony\Middleware\MiddlewareInterface;
 use WoohooLabsTest\Harmony\Utils\Exception\TestException;
 
 class ExceptionMiddleware implements MiddlewareInterface
 {
-    protected $id;
+    protected $text;
 
     /**
-     * @param string $id
+     * @param string $text
      */
-    public function __construct($id)
+    public function __construct($text)
     {
-        $this->id = $id;
+        $this->text = $text;
     }
 
     /**
      * @return string
      */
-    public function getId()
+    public function getText()
     {
-        return $this->id;
+        return $this->text;
     }
 
     /**
-     * @param \WoohooLabs\Harmony\Harmony $harmony
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param \WoohooLabs\Harmony\Harmony $next
      * @throws \WoohooLabsTest\Harmony\Utils\Exception\TestException
      */
-    public function execute(Harmony $harmony)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, Harmony $next)
     {
-        throw new TestException($this->id);
+        throw new TestException($this->text);
     }
 }

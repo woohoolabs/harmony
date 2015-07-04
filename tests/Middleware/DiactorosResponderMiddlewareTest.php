@@ -8,6 +8,7 @@ use WoohooLabs\Harmony\Middleware\DiactorosResponderMiddleware;
 use WoohooLabsTest\Harmony\Utils\Container\DummyContainer;
 use WoohooLabsTest\Harmony\Utils\Diactoros\DummyEmitter;
 use WoohooLabsTest\Harmony\Utils\Psr7\DummyResponse;
+use WoohooLabsTest\Harmony\Utils\Psr7\DummyServerRequest;
 
 class DiactorosResponderMiddlewareTest extends PHPUnit_Framework_TestCase
 {
@@ -26,7 +27,7 @@ class DiactorosResponderMiddlewareTest extends PHPUnit_Framework_TestCase
      * @covers \WoohooLabs\Harmony\Middleware\DiactorosResponderMiddleware::getEmitter()
      * @covers \WoohooLabs\Harmony\Middleware\DiactorosResponderMiddleware::setEmitter()
      */
-    public function testSetDispatcher()
+    public function testSetEmitter()
     {
         $middleware = new DiactorosResponderMiddleware(null);
         $middleware->setEmitter(new DummyEmitter());
@@ -35,24 +36,15 @@ class DiactorosResponderMiddlewareTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \WoohooLabs\Harmony\Middleware\DiactorosResponderMiddleware::getId()
+     * @covers \WoohooLabs\Harmony\Middleware\DiactorosResponderMiddleware::__invoke()
      */
-    public function testGetId()
+    public function testInvoke()
     {
-        $middleware = new DiactorosResponderMiddleware(null);
-
-        $this->assertEquals("diactoros_responder", $middleware->getId());
-    }
-
-    /**
-     * @covers \WoohooLabs\Harmony\Middleware\DiactorosResponderMiddleware::execute()
-     */
-    public function testExecute()
-    {
+        $harmony = $this->createHarmony();
         $middleware = new DiactorosResponderMiddleware(new DummyEmitter());
 
         $this->expectOutputString("true");
-        $middleware->execute($this->createHarmony());
+        $middleware($harmony->getRequest(), $harmony->getResponse(), $harmony);
     }
 
     /**
@@ -60,10 +52,6 @@ class DiactorosResponderMiddlewareTest extends PHPUnit_Framework_TestCase
      */
     private function createHarmony()
     {
-        $harmony = new Harmony();
-        $harmony->setContainer(new DummyContainer());
-        $harmony->setResponse(new DummyResponse());
-
-        return $harmony;
+        return new Harmony(new DummyServerRequest(), new DummyResponse());
     }
 }

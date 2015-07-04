@@ -3,13 +3,11 @@ namespace WoohooLabsTest\Harmony\Middleware;
 
 use FastRoute\Dispatcher;
 use PHPUnit_Framework_TestCase;
-use WoohooLabs\Harmony\Dispatcher\CallbackDispatcher;
-use WoohooLabs\Harmony\Dispatcher\ClassDispatcher;
 use WoohooLabs\Harmony\Harmony;
 use WoohooLabs\Harmony\Middleware\FastRouteMiddleware;
-use WoohooLabsTest\Harmony\Utils\Container\DummyContainer;
 use WoohooLabsTest\Harmony\Utils\Controller\DummyController;
 use WoohooLabsTest\Harmony\Utils\FastRoute\DummyDispatcher;
+use WoohooLabsTest\Harmony\Utils\Psr7\DummyResponse;
 use WoohooLabsTest\Harmony\Utils\Psr7\DummyServerRequest;
 
 class FastRouteMiddlewareTest extends PHPUnit_Framework_TestCase
@@ -29,7 +27,7 @@ class FastRouteMiddlewareTest extends PHPUnit_Framework_TestCase
      * @covers \WoohooLabs\Harmony\Middleware\FastRouteMiddleware::getFastRoute()
      * @covers \WoohooLabs\Harmony\Middleware\FastRouteMiddleware::setFastRoute()
      */
-    public function testSetDispatcher()
+    public function testSetFastRoute()
     {
         $middleware = new FastRouteMiddleware(null);
         $middleware->setFastRoute(new DummyDispatcher());
@@ -38,93 +36,63 @@ class FastRouteMiddlewareTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \WoohooLabs\Harmony\Middleware\FastRouteMiddleware::getId()
+     * @covers \WoohooLabs\Harmony\Middleware\FastRouteMiddleware::__invoke()
+     * @expectedException \WoohooLabs\Harmony\Exception\RouteNotFoundException
      */
-    public function testGetId()
+    public function testInvokeRouteNotFound()
     {
-        $middleware = new FastRouteMiddleware(null);
-
-        $this->assertEquals("fast_route", $middleware->getId());
-    }
-
-    /**
-     * @covers \WoohooLabs\Harmony\Middleware\FastRouteMiddleware::execute()
-     * @expectedException \WoohooLabs\Harmony\Router\RouteNotFoundException
-     */
-    public function testExecuteRouteNotFound()
-    {
+        $harmony = $this->createHarmony();
         $route = [Dispatcher::NOT_FOUND];
         $middleware = new FastRouteMiddleware(new DummyDispatcher($route));
-        $middleware->execute($this->createHarmony());
+        $middleware($harmony->getRequest(), $harmony->getResponse(), $harmony);
     }
 
     /**
-     * @covers \WoohooLabs\Harmony\Middleware\FastRouteMiddleware::execute()
-     * @expectedException \WoohooLabs\Harmony\Router\MethodNotAllowedException
+     * @covers \WoohooLabs\Harmony\Middleware\FastRouteMiddleware::__invoke()
+     * @expectedException \WoohooLabs\Harmony\Exception\MethodNotAllowedException
      */
-    public function testExecuteMethodNotAllowed()
+    public function testInvokeMethodNotAllowed()
     {
+        $harmony = $this->createHarmony();
         $route = [Dispatcher::METHOD_NOT_ALLOWED];
         $middleware = new FastRouteMiddleware(new DummyDispatcher($route));
-        $middleware->execute($this->createHarmony());
+        $middleware($harmony->getRequest(), $harmony->getResponse(), $harmony);
     }
 
     /**
-     * @covers \WoohooLabs\Harmony\Middleware\FastRouteMiddleware::execute()
-     * @expectedException \WoohooLabs\Harmony\Router\RouteNotFoundException
+     * @covers \WoohooLabs\Harmony\Middleware\FastRouteMiddleware::__invoke()
+     * @expectedException \WoohooLabs\Harmony\Exception\RouteNotFoundException
      */
-    public function testExecuteGenericError()
+    public function testInvokeGenericError()
     {
+        $harmony = $this->createHarmony();
         $route = [""];
         $middleware = new FastRouteMiddleware(new DummyDispatcher($route));
-        $middleware->execute($this->createHarmony());
+        $middleware($harmony->getRequest(), $harmony->getResponse(), $harmony);
     }
 
     /**
-     * @covers \WoohooLabs\Harmony\Middleware\FastRouteMiddleware::execute()
+     * @covers \WoohooLabs\Harmony\Middleware\FastRouteMiddleware::__invoke()
      */
-    public function testExecuteClassDispatcher()
+    public function testInvoke()
     {
+        $harmony = $this->createHarmony();
         $route = [Dispatcher::FOUND, [DummyController::class, "dummyAction"], []];
         $middleware = new FastRouteMiddleware(new DummyDispatcher($route));
-        $harmony = $this->createHarmony();
-        $middleware->execute($harmony);
+        $middleware($harmony->getRequest(), $harmony->getResponse(), $harmony);
 
-        /** @var \WoohooLabs\Harmony\Dispatcher\ClassDispatcher $dispatcher */
-        $dispatcher = $harmony->getDispatcher();
-        $this->assertInstanceOf(ClassDispatcher::class, $dispatcher);
-        $this->assertEquals(DummyController::class, $dispatcher->getClassName());
-        $this->assertEquals("dummyAction", $dispatcher->getMethodName());
+        $this->assertEquals([DummyController::class, "dummyAction"], $harmony->getRequest()->getAttribute("__callable"));
     }
 
     /**
-     * @covers \WoohooLabs\Harmony\Middleware\FastRouteMiddleware::execute()
+     * @covers \WoohooLabs\Harmony\Middleware\FastRouteMiddleware::__invoke()
      */
-    public function testExecuteCallbackDispatcher()
+    public function testInvokeAttributesPassed()
     {
-        $callback = function () {
-        };
-
-        $route = [Dispatcher::FOUND, $callback, []];
-        $middleware = new FastRouteMiddleware(new DummyDispatcher($route));
         $harmony = $this->createHarmony();
-        $middleware->execute($harmony);
-
-        /** @var \WoohooLabs\Harmony\Dispatcher\CallbackDispatcher $dispatcher */
-        $dispatcher = $harmony->getDispatcher();
-        $this->assertInstanceOf(CallbackDispatcher::class, $dispatcher);
-        $this->assertInternalType("callable", $dispatcher->getCallback());
-    }
-
-    /**
-     * @covers \WoohooLabs\Harmony\Middleware\FastRouteMiddleware::execute()
-     */
-    public function testExecuteAttributesPassed()
-    {
         $route = [Dispatcher::FOUND, ["", ""], ["arg1" => "val1", "arg2" => "val2"]];
         $middleware = new FastRouteMiddleware(new DummyDispatcher($route));
-        $harmony = $this->createHarmony();
-        $middleware->execute($harmony);
+        $middleware($harmony->getRequest(), $harmony->getResponse(), $harmony);
 
         $this->assertEquals("val1", $harmony->getRequest()->getAttribute("arg1"));
         $this->assertEquals("val2", $harmony->getRequest()->getAttribute("arg2"));
@@ -135,10 +103,6 @@ class FastRouteMiddlewareTest extends PHPUnit_Framework_TestCase
      */
     private function createHarmony()
     {
-        $harmony = new Harmony();
-        $harmony->setContainer(new DummyContainer());
-        $harmony->setRequest(new DummyServerRequest());
-
-        return $harmony;
+        return new Harmony(new DummyServerRequest(), new DummyResponse());
     }
 }

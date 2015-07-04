@@ -31,6 +31,16 @@ class Harmony
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @param \Psr\Http\Message\ResponseInterface $response
      */
+    public function __construct(ServerRequestInterface $request, ResponseInterface $response)
+    {
+        $this->response = $response;
+        $this->request = $request;
+    }
+
+    /**
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ResponseInterface $response
+     */
     public function __invoke(ServerRequestInterface $request = null, ResponseInterface $response = null)
     {
         if ($request !== null) {
@@ -41,7 +51,9 @@ class Harmony
             $this->response = $response;
         }
 
-        $this->executeMiddleware(++$this->currentMiddleware);
+        if (isset($this->middlewares[$this->currentMiddleware+1])) {
+            $this->executeMiddleware(++$this->currentMiddleware);
+        }
     }
 
     /**
@@ -57,6 +69,7 @@ class Harmony
         }
 
         $this->currentMiddleware = $position;
+        $this->executeMiddleware($this->currentMiddleware);
     }
 
     /**
@@ -71,7 +84,7 @@ class Harmony
             return null;
         }
 
-        return $this->middlewares[$position];
+        return $this->middlewares[$position]["callable"];
     }
 
     /**

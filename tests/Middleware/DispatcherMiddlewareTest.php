@@ -4,7 +4,6 @@ namespace WoohooLabsTest\Harmony\Middleware;
 use PHPUnit_Framework_TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use WoohooLabs\Harmony\Dispatcher\CallbackDispatcher;
 use WoohooLabs\Harmony\Harmony;
 use WoohooLabs\Harmony\Middleware\DispatcherMiddleware;
 use WoohooLabsTest\Harmony\Utils\Middleware\ExceptionMiddleware;
@@ -14,17 +13,7 @@ use WoohooLabsTest\Harmony\Utils\Psr7\DummyServerRequest;
 class DispatcherMiddlewareTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @covers \WoohooLabs\Harmony\Middleware\DispatcherMiddleware::getId()
-     */
-    public function testGetId()
-    {
-        $middleware = new DispatcherMiddleware();
-
-        $this->assertEquals(DispatcherMiddleware::ID, $middleware->getId());
-    }
-
-    /**
-     * @covers \WoohooLabs\Harmony\Middleware\DispatcherMiddleware::execute()
+     * @covers \WoohooLabs\Harmony\Middleware\DispatcherMiddleware::__invoke()
      */
     public function testReturningResponse()
     {
@@ -35,13 +24,13 @@ class DispatcherMiddlewareTest extends PHPUnit_Framework_TestCase
         );
 
         $middleware = new DispatcherMiddleware();
-        $middleware->execute($harmony);
+        $middleware($harmony->getRequest(), $harmony->getResponse(), $harmony);
 
         $this->assertEquals(404, $harmony->getResponse()->getStatusCode());
     }
 
     /**
-     * @covers \WoohooLabs\Harmony\Middleware\DispatcherMiddleware::execute()
+     * @covers \WoohooLabs\Harmony\Middleware\DispatcherMiddleware::__invoke()
      * @expectedException \WoohooLabsTest\Harmony\Utils\Exception\TestException
      * @expectedExceptionMessage next
      */
@@ -52,23 +41,21 @@ class DispatcherMiddlewareTest extends PHPUnit_Framework_TestCase
                 return $response;
             }
         );
-        $harmony->addMiddleware(new ExceptionMiddleware("next"));
+        $harmony->addMiddleware("exception", new ExceptionMiddleware("next"));
 
         $middleware = new DispatcherMiddleware();
-        $middleware->execute($harmony);
+        $middleware($harmony->getRequest(), $harmony->getResponse(), $harmony);
     }
 
     /**
-     * @param \Closure $callback
+     * @param callable $callable
      * @return \WoohooLabs\Harmony\Harmony
      */
-    protected function createHarmony(\Closure $callback)
+    protected function createHarmony(callable $callable)
     {
-        $harmony = new Harmony();
-        $harmony->setRequest(new DummyServerRequest());
-        $harmony->setResponse(new DummyResponse());
-        $harmony->setDispatcher(new CallbackDispatcher($callback));
+        $request = new DummyServerRequest();
+        $request = $request->withAttribute("__callable", $callable);
 
-        return $harmony;
+        return new Harmony($request, new DummyResponse());
     }
 }
