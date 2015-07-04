@@ -81,7 +81,10 @@ class FastRouteMiddlewareTest extends PHPUnit_Framework_TestCase
         $middleware = new FastRouteMiddleware(new DummyDispatcher($route));
         $middleware($harmony->getRequest(), $harmony->getResponse(), $harmony);
 
-        $this->assertEquals([DummyController::class, "dummyAction"], $harmony->getRequest()->getAttribute("__callable"));
+        $this->assertEquals(
+            [DummyController::class, "dummyAction"],
+            $harmony->getRequest()->getAttribute("__callable")
+        );
     }
 
     /**

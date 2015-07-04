@@ -51,7 +51,7 @@ class Harmony
             $this->response = $response;
         }
 
-        if (isset($this->middlewares[$this->currentMiddleware+1])) {
+        if (isset($this->middlewares[$this->currentMiddleware + 1])) {
             $this->executeMiddleware(++$this->currentMiddleware);
         }
     }
@@ -135,7 +135,11 @@ class Harmony
      */
     protected function executeMiddleware($position)
     {
-        $this->middlewares[$position]["callable"]($this->getRequest(), $this->getResponse(), $this);
+        $response = $this->middlewares[$position]["callable"]($this->getRequest(), $this->getResponse(), $this);
+
+        if ($response) {
+            $this->response = $response;
+        }
     }
 
     /**

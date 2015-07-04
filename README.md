@@ -190,39 +190,33 @@ $harmony(ServerRequestFactory::fromGlobals(), new Response());
 ```
 
 Of course, it is completely up to you how you add additional middlewares or how you replace them with your own
-implementations. When you'd like to go live, just call ``harmony()`` with a request and a response argument!
+implementations. When you'd like to go live, just call ``$harmony()`` with a request and a response argument!
 
 ## Advanced Usage
 
 #### Using Your Favourite DI Container with Harmony
 
 The motivation of creating Woohoo Labs. Harmony was to become able to change every single aspect
-of the framework. That's why you can also customize the DI Container used by Harmony. For this purpose, we chose
+of the framework. That's why you can use such a DI Container you want.
+
+For this purpose, we chose
 the [Container-Interop standard](https://github.com/container-interop/container-interop/blob/master/docs/ContainerInterface.md)
-(it is PSR-11 now) to be the common interface for DI Containers.
+(it is PSR-11 now) to be the common interface for DI Containers in the built-in ``DispatcherMiddleware``.
 
-It's also important to know that Harmony uses a ``BasicContainer`` by default. It's nothing more than a very silly
-DIC which tries to create objects by their class name (so calling the ``BasicContainer::get(StdObject::class)`` would
-create a new ``StdObject``).
+It's also important to know that the ``DispatcherMiddleware`` uses a ``BasicContainer`` by default. It's nothing more
+than a very silly DIC which tries to create objects by their class name (so calling the
+``BasicContainer::get(StdObject::class)`` would create a new ``StdObject``).
 
-But if you provide a third argument to Harmony's constructor, you can use your favourite Container-Interop compliant
+But if you provide an argument to the middleware's constructor, you can use your favourite Container-Interop compliant
 DIC too. Let's have a look at an example where one would like to swap the ``BasicContainer`` with the awesome
 [PHP-DI](http://php-di.org):
 
 ```php
 $container= new \DI\Container();
-$harmony = new Harmony($request, $response, $container);
+$harmony->addMiddleware("dispatcher", new DispatcherMiddleware($container));
 ```
 
 Note that initializing the ``$request`` and ``$response`` variables are not part of this example.
-
-#### Adding Middlewares from the Container
-
-Sometimes you want a middleware to be created by your DI Container. This is really easy with Harmony! Just invoke
-``Harmony::addMiddlewareFromContainer($id)`` (where ``$id`` is an ID which your DIC can resolve to a middleware instance).
-
-For example if you use the ``BasicContainer`` as your DIC and you want to create and add a ``MyMiddleware`` middleware
-to Harmony, then call ``Harmony::addMiddlewareFromContainer(MyMiddleware::class)``.
 
 #### Adding Custom Middlewares
 

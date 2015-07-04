@@ -40,6 +40,7 @@ class HarmonyTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers \WoohooLabs\Harmony\Harmony::__invoke()
+     * @covers \WoohooLabs\Harmony\Harmony::skipTo()
      * @covers \WoohooLabs\Harmony\Harmony::addMiddleware()
      * @expectedException \WoohooLabsTest\Harmony\Utils\Exception\TestException
      * @expectedExceptionMessage dummy3
