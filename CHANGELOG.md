@@ -2,6 +2,9 @@
 
 ### 2.0.0 - Unreleased
 
+### Added
+- Added the possibility to set a final middleware which is always executed after the normal ones 
+
 ### Changed
 - Middleware interface design is now based on Zend Stratigility
 - ``Harmony::__construct()`` requires a request and a response dependency

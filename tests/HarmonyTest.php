@@ -39,23 +39,6 @@ class HarmonyTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \WoohooLabs\Harmony\Harmony::__invoke()
-     * @covers \WoohooLabs\Harmony\Harmony::skipTo()
-     * @covers \WoohooLabs\Harmony\Harmony::addMiddleware()
-     * @expectedException \WoohooLabsTest\Harmony\Utils\Exception\TestException
-     * @expectedExceptionMessage dummy3
-     */
-    public function testSkipTo()
-    {
-        $harmony = $this->createHarmony();
-        $harmony->addMiddleware("dummy1", new DummyMiddleware("dummy1"));
-        $harmony(new DummyServerRequest(), new DummyResponse());
-        $harmony->addMiddleware("dummy2", new DummyMiddleware("dummy2"));
-        $harmony->addMiddleware("dummy3", new ExceptionMiddleware("dummy3"));
-        $harmony->skipTo("dummy3");
-    }
-
-    /**
      * @covers \WoohooLabs\Harmony\Harmony::getRequest()
      */
     public function testRequest()

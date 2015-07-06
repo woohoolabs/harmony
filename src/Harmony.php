@@ -3,7 +3,6 @@ namespace WoohooLabs\Harmony;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use WoohooLabs\Harmony\Exception\MiddlewareNotFound;
 
 class Harmony
 {
@@ -11,6 +10,11 @@ class Harmony
      * @var array
      */
     protected $middlewares = [];
+
+    /**
+     * @var callable
+     */
+    protected $finalMiddleware;
 
     /**
      * @var int
@@ -38,6 +42,16 @@ class Harmony
     }
 
     /**
+     *  Executes the final middleware.
+     */
+    public function __destruct()
+    {
+        if ($this->finalMiddleware !== null) {
+            $this->executeMiddleware($this->finalMiddleware);
+        }
+    }
+
+    /**
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @param \Psr\Http\Message\ResponseInterface $response
      */
@@ -51,25 +65,10 @@ class Harmony
             $this->response = $response;
         }
 
+        // Executing the middlewares
         if (isset($this->middlewares[$this->currentMiddleware + 1])) {
-            $this->executeMiddleware(++$this->currentMiddleware);
+            $this->executeMiddleware($this->middlewares[++$this->currentMiddleware]["callable"]);
         }
-    }
-
-    /**
-     * @param string $id
-     * @throws \WoohooLabs\Harmony\Exception\MiddlewareNotFound
-     */
-    public function skipTo($id)
-    {
-        $position = $this->findMiddleware($id);
-
-        if ($position === null) {
-            throw new MiddlewareNotFound();
-        }
-
-        $this->currentMiddleware = $position;
-        $this->executeMiddleware($this->currentMiddleware);
     }
 
     /**
@@ -115,6 +114,25 @@ class Harmony
     }
 
     /**
+     * @return callable
+     */
+    public function getFinalMiddleware()
+    {
+        return $this->finalMiddleware;
+    }
+
+    /**
+     * @param callable $finalMiddleware
+     * @return $this
+     */
+    public function setFinalMiddleware($finalMiddleware)
+    {
+        $this->finalMiddleware = $finalMiddleware;
+
+        return $this;
+    }
+
+    /**
      * @return \Psr\Http\Message\ServerRequestInterface
      */
     public function getRequest()
@@ -131,11 +149,11 @@ class Harmony
     }
 
     /**
-     * @param int $position
+     * @param callable $middleware
      */
-    protected function executeMiddleware($position)
+    protected function executeMiddleware($middleware)
     {
-        $response = $this->middlewares[$position]["callable"]($this->getRequest(), $this->getResponse(), $this);
+        $response = $middleware($this->getRequest(), $this->getResponse(), $this);
 
         if ($response) {
             $this->response = $response;

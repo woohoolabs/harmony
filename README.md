@@ -58,7 +58,7 @@ Middlewares - that are [described in detail by Igor Wiedler](https://igor.io/201
 make it possible to take hands on the course of action of the request-response lifecycle: you can authenticate before
 routing, do some logging after the response has been sent, or you can even dispatch multiple routes in one
 request if you want. These can be achieved because everything in Harmony is a middleware, so the framework itself only
-consists of some getters and setters. And that's why there is no framework-wide configuration (only the middlewares can
+consists of cc. 200 lines of code. And that's why there is no framework-wide configuration (only the middlewares can
 be configured). Basically it only depends on your imagination and needs what you do with Harmony.
 
 But middlewares must work in cooperation (especially the router and the dispatcher are tightly coupled to each other,
@@ -105,7 +105,7 @@ require "vendor/autoload.php"
 
 There are two important things to notice here: first, each endpoint receives a ``Psr\Http\Message\ServerRequestInterface``
 and a ``Psr\Http\Message\ResponseInterface`` object and they are expected to manipulate and return the latter.
-Second, you are not forced to only use classes for the endpoints, it is possible to define anonymous functions too (see
+Second, you are not forced to only use classes for the endpoints, it is possible to define other ``callable``s too (see
 below in the routing section).
 
 ```php
@@ -150,7 +150,7 @@ The following example pertains only to the default router used by Woohoo Labs. H
 the [library](https://github.com/nikic/FastRoute) of Nikita Popov, because of its performance and elegance. You can read
 more about it [in his blog](http://nikic.github.io/2014/02/18/Fast-request-routing-using-regular-expressions.html).
 
-Let's add three routes to the router among which the first one is an anonymous function:
+Let's add three routes to FastRoute:
 
 ```php
 $router = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
@@ -172,6 +172,10 @@ You have to register all the following middlewares in order for the framework to
 - ``DispatcherMiddleware`` dispatches a controller which belongs to the request's current route
 - ``DiactorosResponderMiddleware`` sends the response to the ether via [Zend Diactoros](https://github.com/zendframework/zend-diactoros)
 
+Note that the ``Harmony::addMiddleware()`` method's first argument is the ID of the middleware (which should be unique)
+and the middleware attached via ``Harmony::setFinalMiddleware())`` will always be executed after the normal middlewares!
+In this case, we always want our response to be sent by ``DiactorosResponderMiddleware``. 
+
 ```php
 use WoohooLabs\Harmony\Harmony;
 use WoohooLabs\Harmony\Middleware\FastRouteMiddleware;
@@ -181,16 +185,17 @@ use Zend\Diactoros\ServerRequestFactory;
 use Zend\Diactoros\Response;
 use Zend\Diactoros\Response\SapiEmitter;
 
-$harmony = (new Harmony())
+$harmony = new Harmony(ServerRequestFactory::fromGlobals(), new Response());
+$harmony
     ->addMiddleware("fast_route", new FastRouteMiddleware($router))
     ->addMiddleware("dispatcher", new DispatcherMiddleware())
-    ->addMiddleware("diactoros_responder", new DiactorosResponderMiddleware(new SapiEmitter()));
+    ->setFinalMiddleware(new DiactorosResponderMiddleware(new SapiEmitter()));
 
-$harmony(ServerRequestFactory::fromGlobals(), new Response());
+$harmony();
 ```
 
 Of course, it is completely up to you how you add additional middlewares or how you replace them with your own
-implementations. When you'd like to go live, just call ``$harmony()`` with a request and a response argument!
+implementations. When you'd like to go live, just call ``$harmony()``!
 
 ## Advanced Usage
 
@@ -216,23 +221,36 @@ $container= new \DI\Container();
 $harmony->addMiddleware("dispatcher", new DispatcherMiddleware($container));
 ```
 
-Note that initializing the ``$request`` and ``$response`` variables are not part of this example.
+#### Creating Custom Middlewares
 
-#### Adding Custom Middlewares
-
-It's not a big deal to add a new middleware to your stack. For a basic scenario, you can use callbacks. Let's say you
-would like to log all the requests:
+It's not a big deal to add a new middleware to your stack. For a basic scenario, you can use anonymous functions.
+Let's say you would like to log all the requests:
 
 ```php
 $middleware = function(ServerRequestInterace $request, ResponseInterface $response, callable $next) {
     // Logging
+    
+    $next();
 }
-
-$harmony->addMiddleware("authentication", $middleware);
 ```
 
-It you need more sophistication, there is also possibility to create a custom middleware class. Let's implement
-an authenticator middleware:
+And then you have to attach the middleware to Harmony:
+
+```php
+$harmony->addMiddleware("logging", $middleware);
+```
+
+The single most important thing a middleware can do is to call ``$next()`` to invoke the next middleware
+when its function was accomplished. Failing to call this method means interrupting the framework's operation (of course
+the final middleware will still be executed)!
+
+But what to do if you want to pass a manipulated request or response to the next middleware? Then, you should call
+``$next($request, $response);``. This way, the following middleware will receive the modified request or response.
+Calling ``$next(null, $response);`` will pass the original request and the possibly changed response to the next
+middleware!
+
+If you need more sophistication, you can create an invokable class too. And you can even implement ``MiddlewareInterface``
+to gain access to all the capabilities of the framework! Let's implement an authentication middleware:
 
 ```php
 use WoohooLabs\Harmony\Middleware\MiddlewareInterface;
@@ -262,8 +280,7 @@ class AuthenticationMiddleware implements MiddlewareInterface
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, Harmony $next)
     {
         if ($request->getHeader("x-api-key") === $this->apiKey) {
-            $response = $response->withStatusCode(402);
-            $next->skipTo("diactoros_responder");
+            return $response->withStatusCode(402);
         } else {
             $next();
         }
@@ -280,9 +297,15 @@ $harmony->addMiddleware("authentication", new AuthenticationMiddleware("123"));
 As you can see, the constructor receives the API Key, while the ``_invoke()`` method is responsible for performing the
 authentication.
 
-Again: the single most important thing any middleware can do is to call ``$next()`` to invoke the next middleware
-when its function was accomplished. Not calling this method means interrupting the framework's operation! That's why
-we only invoke ``$harmony->next()`` in this example when authentication was successful.
+Again: the single most important thing a middleware can do is to call ``$next()`` to invoke the next middleware
+when its function was accomplished. Failing to call this method means interrupting the framework's operation (of course
+the final middleware will still be executed)! That's why we only invoke ``$harmony->next()`` in this example when
+authentication was successful.
+
+Very important to notice that when authentication is unsuccessful, no other middleware will be executed (as ``$next()``
+is not called), so only the final middleware will be invoked afterwards. As you want to pass a modified response with
+status code 412 to the final middleware, you must return the response (as seen in the prior example) in order to inform
+the framework from the changed response. Note that you can't do the same with requests, it is only possible with responses. 
 
 ## License
 
