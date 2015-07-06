@@ -105,7 +105,7 @@ require "vendor/autoload.php"
 
 There are two important things to notice here: first, each endpoint receives a ``Psr\Http\Message\ServerRequestInterface``
 and a ``Psr\Http\Message\ResponseInterface`` object and they are expected to manipulate and return the latter.
-Second, you are not forced to only use classes for the endpoints, it is possible to define other ``callable``s too (see
+Second, you are not forced to only use classes for the endpoints, it is possible to define other callables too (see
 below in the routing section).
 
 ```php
@@ -227,7 +227,7 @@ It's not a big deal to add a new middleware to your stack. For a basic scenario,
 Let's say you would like to log all the requests:
 
 ```php
-$middleware = function(ServerRequestInterace $request, ResponseInterface $response, callable $next) {
+$middleware = function(ServerRequestInterace $request, ResponseInterface $response, $next) {
     // Logging
     
     $next();
@@ -245,8 +245,8 @@ when its function was accomplished. Failing to call this method means interrupti
 the final middleware will still be executed)!
 
 But what to do if you want to pass a manipulated request or response to the next middleware? Then, you should call
-``$next($request, $response);``. This way, the following middleware will receive the modified request or response.
-Calling ``$next(null, $response);`` will pass the original request and the possibly changed response to the next
+``$next($request, $response)``. This way, the following middleware will receive the modified request or response.
+Calling ``$next(null, $response)`` will pass the original request and the possibly changed response to the next
 middleware!
 
 If you need more sophistication, you can create an invokable class too. And you can even implement ``MiddlewareInterface``
