@@ -300,7 +300,7 @@ authentication.
 
 Again: the single most important thing a middleware can do is to call ``$next()`` to invoke the next middleware
 when its function was accomplished. Failing to call this method means interrupting the framework's operation (of course
-the final middleware will still be executed)! That's why we only invoke ``$harmony->next()`` in this example when
+the final middleware will still be executed)! That's why we only invoke ``$next()`` in this example when
 authentication was successful.
 
 Very important to notice that when authentication is unsuccessful, no other middleware will be executed (as ``$next()``
