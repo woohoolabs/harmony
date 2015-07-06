@@ -295,7 +295,7 @@ then
 $harmony->addMiddleware("authentication", new AuthenticationMiddleware("123"));
 ```
 
-As you can see, the constructor receives the API Key, while the ``_invoke()`` method is responsible for performing the
+As you can see, the constructor receives the API Key, while the ``__invoke()`` method is responsible for performing the
 authentication.
 
 Again: the single most important thing a middleware can do is to call ``$next()`` to invoke the next middleware
