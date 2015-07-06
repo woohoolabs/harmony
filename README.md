@@ -251,7 +251,7 @@ middleware!
 
 If you need more sophistication, you can use an invokable class as a middleware too. And you can even implement
 ``MiddlewareInterface`` to gain access to all the capabilities of the framework! For example let's create an
-authentication middleware implementing the aformentioned ``MiddlewareInterface``:
+authentication middleware implementing the aforementioned ``MiddlewareInterface``:
 
 ```php
 use WoohooLabs\Harmony\Middleware\MiddlewareInterface;
