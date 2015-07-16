@@ -32,7 +32,7 @@ class DispatcherMiddleware implements MiddlewareInterface
     {
         $callable = $request->getAttribute("__callable");
 
-        if ($callable === null || is_callable($callable) === false) {
+        if ($callable === null) {
             throw new \Exception("No dispatchable callable is added to the request as an attribute!");
         }
 

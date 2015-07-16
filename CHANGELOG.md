@@ -1,6 +1,6 @@
 # Change Log
 
-### 2.0.0 - Unreleased
+### 2.0.0 - 2015-07-16
 
 ### Added
 - Added the possibility to set a final middleware which is always executed after the normal ones 
