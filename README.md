@@ -23,7 +23,7 @@ the best framework ever. But as soon as your requirements change (e.g. things ge
 maintain the application longer than you thought or you need more scaling), there is a good chance that you will
 face issues with your framework.
 
-As [Phil Sturgeon](https://twitter.com/philsturgeon) pointed out in his great [blog post](http://philsturgeon.uk/blog/2014/01/the-framework-is-dead-long-live-the-framework),
+However, as [Phil Sturgeon](https://twitter.com/philsturgeon) pointed out in his great [blog post](http://philsturgeon.uk/blog/2014/01/the-framework-is-dead-long-live-the-framework),
 in a complex enough situation, with a skilled enough development team, you don't need a framework at all in its
 original meaning thanks to the modern era of Composer. All you need is only a set of inter-pluggable components
 of your preference so that they can be easily integrated into your application.
@@ -103,8 +103,8 @@ require "vendor/autoload.php"
 
 #### Define your endpoints:
 
-There are two important things to notice here: first, each endpoint receives a ``Psr\Http\Message\ServerRequestInterface``
-and a ``Psr\Http\Message\ResponseInterface`` object and they are expected to manipulate and return the latter.
+There are two important things to notice here: first, each endpoint receives a `Psr\Http\Message\ServerRequestInterface`
+and a `Psr\Http\Message\ResponseInterface` object and they are expected to manipulate and return the latter.
 Second, you are not forced to only use classes for the endpoints, it is possible to define other callables too (see
 below in the routing section).
 
@@ -168,13 +168,13 @@ $router = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
 #### Finally, launch the framework:
 
 You have to register all the following middlewares in order for the framework to function properly:
-- ``FastRouteMiddleware`` takes care of routing (``$router``  was configured in the previous step)
-- ``DispatcherMiddleware`` dispatches a controller which belongs to the request's current route
-- ``DiactorosResponderMiddleware`` sends the response to the ether via [Zend Diactoros](https://github.com/zendframework/zend-diactoros)
+- `FastRouteMiddleware` takes care of routing (`$router`  was configured in the previous step)
+- `DispatcherMiddleware` dispatches a controller which belongs to the request's current route
+- `DiactorosResponderMiddleware` sends the response to the ether via [Zend Diactoros](https://github.com/zendframework/zend-diactoros)
 
-Note that the ``Harmony::addMiddleware()`` method's first argument is the ID of the middleware (which should be unique)
-and the middleware attached via ``Harmony::setFinalMiddleware())`` will always be executed after the normal middlewares!
-In this case, we always want our response to be sent by ``DiactorosResponderMiddleware``. 
+Note that the `Harmony::addMiddleware()` method's first argument is the ID of the middleware (which should be unique)
+and the middleware attached via `Harmony::setFinalMiddleware()` will always be executed after the normal middlewares!
+In this case, we always want our response to be sent by `DiactorosResponderMiddleware`. 
 
 ```php
 use WoohooLabs\Harmony\Harmony;
@@ -195,7 +195,7 @@ $harmony();
 ```
 
 Of course, it is completely up to you how you add additional middlewares or how you replace them with your own
-implementations. When you'd like to go live, just call ``$harmony()``!
+implementations. When you'd like to go live, just call `$harmony()`!
 
 ## Advanced Usage
 
@@ -206,15 +206,14 @@ of the framework. That's why you can use such a DI Container you want.
 
 For this purpose, we chose
 the [Container-Interop standard](https://github.com/container-interop/container-interop/blob/master/docs/ContainerInterface.md)
-(it is PSR-11 now) to be the common interface for DI Containers in the built-in ``DispatcherMiddleware``.
+(it is PSR-11 now) to be the common interface for DI Containers in the built-in `DispatcherMiddleware`.
 
-It's also important to know that the ``DispatcherMiddleware`` uses a ``BasicContainer`` by default. It's nothing more
-than a very silly DIC which tries to create objects by their class name (so calling the
-``BasicContainer::get(StdObject::class)`` would create a new ``StdObject``).
+It's also important to know that the `DispatcherMiddleware` uses the `BasicContainer` by default. It's nothing more
+than a very silly DIC which tries to create objects based on their class name (so calling 
+`$basicContainer->get(Foo::class)` would create a new `Foo` instance).
 
 But if you provide an argument to the middleware's constructor, you can use your favourite Container-Interop compliant
-DIC too. Let's have a look at an example where one would like to swap the ``BasicContainer`` with the awesome
-[PHP-DI](http://php-di.org):
+DIC too. Let's have a look at an example where one would like to swap `BasicContainer` with the awesome [PHP-DI](http://php-di.org):
 
 ```php
 $container= new \DI\Container();
@@ -240,18 +239,18 @@ And then you have to attach the middleware to Harmony:
 $harmony->addMiddleware("logging", $middleware);
 ```
 
-The single most important thing a middleware can do is to call ``$next()`` to invoke the next middleware
-when its function was accomplished. Failing to call this method means interrupting the framework's operation (of course
-the final middleware will still be executed)!
+The single most important thing a middleware can do is to call `$next()` to invoke the next middleware
+when its function was accomplished. Failing to call this method results in the interruption of the framework's
+operation (of course the final middleware will still be executed)!
 
 But what to do if you want to pass a manipulated request or response to the next middleware? Then, you should call
-``$next($request, $response)``. This way, the following middleware will receive the modified request or response.
-Calling ``$next(null, $response)`` will pass the original request and the possibly changed response to the next
+`$next($request, $response)`. This way, the following middleware will receive the modified request or response.
+Calling `$next(null, $response)` will pass the original request and the possibly changed response to the next
 middleware!
 
 If you need more sophistication, you can use an invokable class as a middleware too. And you can even implement
-``MiddlewareInterface`` to gain access to all the capabilities of the framework! For example let's create an
-authentication middleware implementing the aforementioned ``MiddlewareInterface``:
+`MiddlewareInterface` to gain access to all the capabilities of the framework! For example let's create an
+authentication middleware implementing the aforementioned `MiddlewareInterface`:
 
 ```php
 use WoohooLabs\Harmony\Middleware\MiddlewareInterface;
@@ -295,18 +294,19 @@ then
 $harmony->addMiddleware("authentication", new AuthenticationMiddleware("123"));
 ```
 
-As you can see, the constructor receives the API Key, while the ``__invoke()`` method is responsible for performing the
+As you can see, the constructor receives the API Key, while the `__invoke()` method is responsible for performing the
 authentication.
 
-Again: the single most important thing a middleware can do is to call ``$next()`` to invoke the next middleware
-when its function was accomplished. Failing to call this method means interrupting the framework's operation (of course
-the final middleware will still be executed)! That's why we only invoke ``$next()`` in this example when
-authentication was successful.
+Again: the single most important thing a middleware can do is to call `$next()` to invoke the next middleware
+when its function was accomplished. Failing to call this method results in the interruption of the framework's
+operation (of course the final middleware will still be executed)! That's why we only invoke `$next()` in this example
+when the authentication was successful.
 
-Very important to notice that when authentication is unsuccessful, no other middleware will be executed (as ``$next()``
+Very important to notice that when authentication is unsuccessful, no other middlewares will be executed (as `$next()`
 is not called), so only the final middleware will be invoked afterwards. As you want to pass a modified response with
 status code 412 to the final middleware, you must return the response (as seen in the prior example) in order to inform
-the framework from the changed response. Note that you can't do the same with requests, it is only possible with responses. 
+the framework from the changed response. Note that you can't do the same with requests, it is only possible with
+responses. 
 
 ## License
 
