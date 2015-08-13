@@ -226,7 +226,7 @@ It's not a big deal to add a new middleware to your stack. For a basic scenario,
 Let's say you would like to log all the requests:
 
 ```php
-$middleware = function(ServerRequestInterace $request, ResponseInterface $response, $next) {
+$middleware = function(ServerRequestInterace $request, ResponseInterface $response, callable $next) {
     // Logging
     
     $next();
@@ -279,11 +279,11 @@ class AuthenticationMiddleware implements MiddlewareInterface
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, Harmony $next)
     {
-        if ($request->getHeader("x-api-key") === $this->apiKey) {
+        if ($request->getHeader("x-api-key") !== [$this->apiKey]) {
             return $response->withStatusCode(402);
-        } else {
-            $next();
         }
+        
+         $next();
     }
 }
 ```
