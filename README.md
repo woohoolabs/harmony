@@ -1,9 +1,11 @@
 # Woohoo Labs. Harmony
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/woohoolabs/harmony/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/woohoolabs/harmony/?branch=master)
+[![SensioLabs Insight](https://img.shields.io/sensiolabs/i/1aa0881f-c185-4be8-b1e8-4b6378f4c5b2.svg)](https://insight.sensiolabs.com/projects/1aa0881f-c185-4be8-b1e8-4b6378f4c5b2)
 [![Build Status](https://img.shields.io/travis/woohoolabs/harmony.svg)](https://travis-ci.org/woohoolabs/harmony)
 [![Code Coverage](https://scrutinizer-ci.com/g/woohoolabs/harmony/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/woohoolabs/harmony/?branch=master)
 [![Stable Release](https://img.shields.io/packagist/v/woohoolabs/harmony.svg)](https://packagist.org/packages/woohoolabs/harmony)
+[![Downloads](https://img.shields.io/packagist/dt/woohoolabs/harmony.svg)](https://packagist.org/packages/woohoolabs/harmony)
 [![License](https://img.shields.io/packagist/l/woohoolabs/harmony.svg)](https://packagist.org/packages/woohoolabs/harmony)
 
 **Woohoo Labs. Harmony is a flexible micro-framework developed for PHP applications.**
