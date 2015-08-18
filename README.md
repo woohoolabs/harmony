@@ -5,7 +5,6 @@
 [![Build Status](https://img.shields.io/travis/woohoolabs/harmony.svg)](https://travis-ci.org/woohoolabs/harmony)
 [![Code Coverage](https://scrutinizer-ci.com/g/woohoolabs/harmony/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/woohoolabs/harmony/?branch=master)
 [![Stable Release](https://img.shields.io/packagist/v/woohoolabs/harmony.svg)](https://packagist.org/packages/woohoolabs/harmony)
-[![Downloads](https://img.shields.io/packagist/dt/woohoolabs/harmony.svg)](https://packagist.org/packages/woohoolabs/harmony)
 [![License](https://img.shields.io/packagist/l/woohoolabs/harmony.svg)](https://packagist.org/packages/woohoolabs/harmony)
 
 **Woohoo Labs. Harmony is a flexible micro-framework developed for PHP applications.**
