@@ -1,115 +1,134 @@
-# Change Log
+## 2.0.0 - 2015-07-16
 
-### 2.0.0 - 2015-07-16
+ADDED:
 
-### Added
 - Added the possibility to set a final middleware which is always executed after the normal ones 
 
-### Changed
+CHANGED:
+
 - Middleware interface design is now based on Zend Stratigility
-- ``Harmony::__construct()`` requires a request and a response dependency
-- ``Harmony::addMiddleware()`` also needs the ID of the middleware
+- `Harmony::__construct()` requires a request and a response dependency
+- `Harmony::addMiddleware()` also needs the ID of the middleware
 
-### Removed
-- Removed ``Harmony::build()``, ``Harmony::next()`` and ``Harmony::live()``
-- Removed ``CallbackMiddleware``, ``InitializerMiddleware``
-- Removed all dispatchers
+REMOVED:
 
-### 1.0.1 - 2015-06-28
+- `Harmony::build()`, `Harmony::next()` and ``Harmony::live()`
+- `CallbackMiddleware`, `InitializerMiddleware`
+- All dispatchers
 
-#### Changed
+## 1.0.1 - 2015-06-28
+
+CHANGED:
+
 - Improved unit tests coverage
 
-#### Fixed
-- ``FastRouteMiddleware`` now passes correct URI to FastRoute
+FIXED:
 
-### 1.0.0 - 2015-06-16
+- `FastRouteMiddleware` now passes correct URI to FastRoute
 
-#### Added
+## 1.0.0 - 2015-06-16
+
+ADDED:
+
 - Support for PSR-7
 - Improved middleware control
 - Unit tests
 
-#### Removed
+REMOVED:
+
 - Original request and response interfaces
 - Serialization capabilities
 - Hooks from handler classes
 
-### 0.7 - 2015-04-12
+## 0.7 - 2015-04-12
 
-#### Added
+ADDED:
+
 - Support for middlewares
 
-#### Changed
+CHANGED:
+
 - Workflow is now based on middlewares completely
 - Removed events and configuration class
 
-### 0.5.0 - 2015-04-11
+## 0.5.0 - 2015-04-11
 
-#### Added
+ADDED:
+
 - Possibility to define defaults for various request data
 
-#### Changed
+CHANGED:
+
 - Renamed project to Harmony
 - Renamed the framework's handler method to live()
 
-### 0.4.0 - 2014-12-04
+## 0.4.0 - 2014-12-04
 
-#### Added
+ADDED:
+
 - Session handling
 - Form data handling
 
-#### Changed
+CHANGED:
+
 - Handlers don't have to return the response
 
-### 0.3.0 - 2014-10-25
+## 0.3.0 - 2014-10-25
 
-#### Added
-- ``Request`` and ``Response`` objects got new capabilities
+ADDED:
 
-#### Changed
+- `Request` and `Response` objects got new capabilities
+
+CHANGED:
+
 - Completely reworked serializers and deserializers
-- ``Responder`` objects were removed, ``Response`` objects became responders too
+- `Responder` objects were removed, `Response` objects became responders too
 
-### 0.2.1 - 2014-10-19
+## 0.2.1 - 2014-10-19
 
-#### Fixed
+FIXED:
+
 - Issue with class event listeners
 
-### 0.2.0 - 2014-10-18
+## 0.2.0 - 2014-10-18
 
-#### Added
+ADDED:
+
 - Event dispatcher
-- Routes can be added with ``Config::setRoutes()`` to enable route caching
+- Routes can be added with `Config::setRoutes()` to enable route caching
 - Separated serializing and deserializing
 
-#### Changed
-- ``PHPSerializer`` became the default serializer implementation
-- ``PHPDeserializer`` became the default deserializer implementation
+CHANGED:
+
+- `PHPSerializer` became the default serializer implementation
+- `PHPDeserializer` became the default deserializer implementation
 - Removed Discoverers
 
-#### Fixed
-- ``FastRouter`` now works as expected!
+FIXED:
 
-### 0.1.2 - 2014-10-02
+- `FastRouter` now works as expected!
 
-#### Added
-- A simple ``PhpSerializer`` which only supports the JSON format
+## 0.1.2 - 2014-10-02
 
-#### Fixed
-- ``JmsSerializer`` deserializing error
+ADDED:
+
+- A simple `PhpSerializer` which only supports the JSON format
+
+FIXED:
+
+- `JmsSerializer` deserializing error
 - HTTP request errors
 
-#### Changed
-- ``Fastrouter`` doesn't need the ``Container`` as a dependency
+CHANGED:
 
-### 0.1.1 - 2014-10-01
+- `Fastrouter` doesn't need the `Container` as a dependency
 
-#### Changed
-- ``Fastrouter`` doesn't need the ``Container`` as a dependency
+## 0.1.1 - 2014-10-01
 
-### 0.1.0 - 2014-10-01
+CHANGED:
 
-#### Added
-- Enabled using callbacks as route handlers
-- Improved support for HTTP caching
+- `Fastrouter` doesn't need the `Container` as a dependency
+
+## 0.1.0 - 2014-10-01
+
+- Initial release
