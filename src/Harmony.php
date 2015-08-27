@@ -32,6 +32,11 @@ class Harmony
     protected $response;
 
     /**
+     * @var bool
+     */
+    protected $stopped;
+
+    /**
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @param \Psr\Http\Message\ResponseInterface $response
      */
@@ -47,6 +52,7 @@ class Harmony
     public function __destruct()
     {
         if ($this->finalMiddleware !== null) {
+            $this->stopped = true;
             $this->executeMiddleware($this->finalMiddleware);
         }
     }
@@ -66,7 +72,7 @@ class Harmony
         }
 
         // Executing the middlewares
-        if (isset($this->middlewares[$this->currentMiddleware + 1]) && $response === null) {
+        if (isset($this->middlewares[$this->currentMiddleware + 1]) && $this->stopped === false) {
             $this->executeMiddleware($this->middlewares[++$this->currentMiddleware]["callable"]);
         }
     }
