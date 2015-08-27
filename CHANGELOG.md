@@ -1,8 +1,14 @@
+## 2.0.1 - 2015-08-27
+
+FIXED:
+
+- Final middlewares could invoke all the remaining middlewares
+
 ## 2.0.0 - 2015-07-16
 
 ADDED:
 
-- Added the possibility to set a final middleware which is always executed after the normal ones 
+- Added the possibility to set a final middleware which is always executed after the normal ones
 
 CHANGED:
 
