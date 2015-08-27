@@ -77,17 +77,15 @@ In order to faciliate the use of different IoC Containers when dispatching a con
 
 Woohoo Labs. Harmony's middleware interface design is based on the style that is advocated
 by [Matthew Weier O'Phinney](https://github.com/weierophinney) (you can read more on the topic below), that's why
-Harmony's middlewares are compatible with:
-
-- Middlewares build for [Zend-Stratigility](https://github.com/zendframework/zend-stratigility)
-- Middlewares built for [Slim Framework 3](http://www.slimframework.com/docs/concepts/middleware.html)
+Harmony's middlewares are compatible with middlewares build for both
+[Zend-Stratigility](https://github.com/zendframework/zend-stratigility) and
+[Slim Framework 3](http://www.slimframework.com/docs/concepts/middleware.html).
 
 Furthermore, there are other middlewares available for Harmony:
 
 - [Woohoo Labs. Yin-Middlewares](https://github.com/): A bunch of middlewares to integrate
 [Woohoo Labs. Yin](https://github.com/woohoolabs/yin) - the elegant [JSON API](http://jsonapi.org) framework -
 into Harmony.
-
 - [MiniUrl](https://github.com/mtymek/MiniUrl): A simple URL shortener, which can be used as a free, open-source
 replacement for bit.ly's core functionality: creating short links and redirecting users.
 
