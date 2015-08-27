@@ -66,7 +66,7 @@ class Harmony
         }
 
         // Executing the middlewares
-        if (isset($this->middlewares[$this->currentMiddleware + 1])) {
+        if (isset($this->middlewares[$this->currentMiddleware + 1]) && $response === null) {
             $this->executeMiddleware($this->middlewares[++$this->currentMiddleware]["callable"]);
         }
     }
