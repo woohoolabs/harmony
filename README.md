@@ -1,9 +1,9 @@
 # Woohoo Labs. Harmony
 
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/woohoolabs/harmony/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/woohoolabs/harmony/?branch=master)
-[![SensioLabs Insight](https://img.shields.io/sensiolabs/i/1aa0881f-c185-4be8-b1e8-4b6378f4c5b2.svg)](https://insight.sensiolabs.com/projects/1aa0881f-c185-4be8-b1e8-4b6378f4c5b2)
 [![Build Status](https://img.shields.io/travis/woohoolabs/harmony.svg)](https://travis-ci.org/woohoolabs/harmony)
 [![Code Coverage](https://scrutinizer-ci.com/g/woohoolabs/harmony/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/woohoolabs/harmony/?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/woohoolabs/harmony/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/woohoolabs/harmony/?branch=master)
+[![SensioLabs Insight](https://img.shields.io/sensiolabs/i/1aa0881f-c185-4be8-b1e8-4b6378f4c5b2.svg)](https://insight.sensiolabs.com/projects/1aa0881f-c185-4be8-b1e8-4b6378f4c5b2)
 [![Stable Release](https://img.shields.io/packagist/v/woohoolabs/harmony.svg)](https://packagist.org/packages/woohoolabs/harmony)
 [![License](https://img.shields.io/packagist/l/woohoolabs/harmony.svg)](https://packagist.org/packages/woohoolabs/harmony)
 
@@ -72,6 +72,24 @@ for modelling the HTTP request and response.
 In order to faciliate the use of different IoC Containers when dispatching a controller, whe adapted the
 [Container-Interop standard interface](https://github.com/container-interop/container-interop/blob/master/docs/ContainerInterface.md)
 (which is supported by various containers off-the-shelf). They make it so easy to band your favourite components together!
+
+#### Available middlewares
+
+Woohoo Labs. Harmony's middleware interface design is based on the style that is advocated
+by [Matthew Weier O'Phinney](https://github.com/weierophinney) (you can read more on the topic below), that's why
+Harmony's middlewares are compatible with:
+
+- Middlewares build for [Zend-Stratigility](https://github.com/zendframework/zend-stratigility)
+- Middlewares built for [Slim Framework 3](http://www.slimframework.com/docs/concepts/middleware.html)
+
+Furthermore, there are other middlewares available for Harmony:
+
+- [Woohoo Labs. Yin-Middlewares](https://github.com/): A bunch of middlewares to integrate
+[Woohoo Labs. Yin](https://github.com/woohoolabs/yin) - the elegant [JSON API](http://jsonapi.org) framework -
+into Harmony.
+
+- [MiniUrl](https://github.com/mtymek/MiniUrl): A simple URL shortener, which can be used as a free, open-source
+replacement for bit.ly's core functionality: creating short links and redirecting users.
 
 ## Install
 
