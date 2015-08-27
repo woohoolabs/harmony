@@ -34,7 +34,7 @@ class Harmony
     /**
      * @var bool
      */
-    protected $stopped;
+    protected $stopped = false;
 
     /**
      * @param \Psr\Http\Message\ServerRequestInterface $request
