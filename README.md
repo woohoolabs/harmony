@@ -77,9 +77,9 @@ In order to faciliate the use of different IoC Containers when dispatching a con
 
 Woohoo Labs. Harmony's middleware interface design is based on the style that is advocated
 by [Matthew Weier O'Phinney](https://github.com/weierophinney) (you can read more on the topic below), that's why
-Harmony's middlewares are compatible with middlewares build for both
+Harmony's middlewares are compatible with middlewares built for both
 [Zend-Stratigility](https://github.com/zendframework/zend-stratigility) and
-[Slim Framework 3](http://www.slimframework.com/docs/concepts/middleware.html). Furthermore, there are other
+[Slim Framework 3](http://www.slimframework.com/docs/concepts/middleware.html). Furthermore, there are various other
 middlewares available for Harmony:
 
 - [Woohoo Labs. Yin-Middlewares](https://github.com/woohoolabs/yin-middlewares): A bunch of middlewares to integrate
