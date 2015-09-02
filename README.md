@@ -91,7 +91,7 @@ replacement for bit.ly's core functionality: creating short links and redirectin
 
 The steps of this process are quite straightforward. The only thing you need is [Composer](http://getcomposer.org).
 
-#### Add Harmony to your composer.json:
+##### Add Harmony to your composer.json:
 
 To install this library, run the command below and you will get the latest version:
 
@@ -106,12 +106,6 @@ If you want to use the default middlewares then you have to ask for the followin
 ```bash
 $ composer require nikic/fast-route
 $ composer require zendframework/zend-diactoros
-```
-
-#### Autoload in your bootstrap:
-
-```php
-require "vendor/autoload.php"
 ```
 
 ## Basic Usage
