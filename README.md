@@ -1,11 +1,11 @@
 # Woohoo Labs. Harmony
 
-[![Build Status](https://img.shields.io/travis/woohoolabs/harmony.svg)](https://travis-ci.org/woohoolabs/harmony)
-[![Code Coverage](https://scrutinizer-ci.com/g/woohoolabs/harmony/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/woohoolabs/harmony/?branch=master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/woohoolabs/harmony/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/woohoolabs/harmony/?branch=master)
-[![SensioLabs Insight](https://img.shields.io/sensiolabs/i/1aa0881f-c185-4be8-b1e8-4b6378f4c5b2.svg)](https://insight.sensiolabs.com/projects/1aa0881f-c185-4be8-b1e8-4b6378f4c5b2)
-[![Stable Release](https://img.shields.io/packagist/v/woohoolabs/harmony.svg)](https://packagist.org/packages/woohoolabs/harmony)
-[![License](https://img.shields.io/packagist/l/woohoolabs/harmony.svg)](https://packagist.org/packages/woohoolabs/harmony)
+[![Latest Version on Packagist][ico-version]][link-packagist]
+[![Software License][ico-license]](LICENSE.md)
+[![Build Status][ico-travis]][link-travis]
+[![Coverage Status][ico-scrutinizer]][link-scrutinizer]
+[![Quality Score][ico-code-quality]][link-code-quality]
+[![Total Downloads][ico-downloads]][link-downloads]
 
 **Woohoo Labs. Harmony is a flexible micro-framework developed for PHP applications.**
 
@@ -83,7 +83,7 @@ Harmony's middlewares are compatible with middlewares built for both
 middlewares available for Harmony:
 
 - [Woohoo Labs. Yin-Middlewares](https://github.com/woohoolabs/yin-middlewares): A bunch of middlewares to integrate
-[Woohoo Labs. Yin](https://github.com/woohoolabs/yin) - the elegant JSON API framework - into Harmony.
+[Woohoo Labs. Yin](https://github.com/woohoolabs/harmony) - the elegant JSON API framework - into Harmony.
 - [MiniUrl](https://github.com/mtymek/MiniUrl): A simple URL shortener, which can be used as a free, open-source
 replacement for bit.ly's core functionality: creating short links and redirecting users.
 
@@ -323,7 +323,38 @@ status code 412 to the final middleware, you must return the response (as seen i
 the framework from the changed response. Note that you can't do the same with requests, it is only possible with
 responses. 
 
+## Versioning
+
+This library follows [SemVer v2.0.0](http://semver.org/).
+
+## Change log
+
+Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
+
+## Contributing
+
+Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+
+## Credits
+
+- [Máté Kocsis][link-author]
+- [All Contributors][link-contributors]
+
 ## License
 
-The MIT License (MIT). Please see the [License File](https://github.com/woohoolabs/harmony/blob/master/LICENSE.md)
-for more information.
+The MIT License (MIT). Please see the [License File](LICENSE.md) for more information.
+
+[ico-version]: https://img.shields.io/packagist/v/woohoolabs/harmony.svg
+[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg
+[ico-travis]: https://img.shields.io/travis/woohoolabs/harmony/master.svg
+[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/woohoolabs/harmony.svg
+[ico-code-quality]: https://img.shields.io/scrutinizer/g/woohoolabs/harmony.svg
+[ico-downloads]: https://img.shields.io/packagist/dt/woohoolabs/harmony.svg
+
+[link-packagist]: https://packagist.org/packages/woohoolabs/harmony
+[link-travis]: https://travis-ci.org/woohoolabs/harmony
+[link-scrutinizer]: https://scrutinizer-ci.com/g/woohoolabs/harmony/code-structure
+[link-code-quality]: https://scrutinizer-ci.com/g/woohoolabs/harmony
+[link-downloads]: https://packagist.org/packages/woohoolabs/harmony
+[link-author]: https://github.com/kocsismate
+[link-contributors]: ../../contributors
