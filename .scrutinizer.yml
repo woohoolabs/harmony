@@ -6,7 +6,7 @@ before_commands:
 checks:
     php:
         code_rating: true
-        duplication: true
+        duplication: false
 tools:
     external_code_coverage: true
     php_mess_detector: true
@@ -14,6 +14,11 @@ tools:
     sensiolabs_security_checker: true
     php_pdepend: true
     php_loc:
+        enabled: true
+        excluded_dirs:
+            - tests
+            - vendor
+    php_cpd:
         enabled: true
         excluded_dirs:
             - tests
