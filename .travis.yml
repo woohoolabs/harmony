@@ -16,6 +16,7 @@ matrix:
       env:
         - EXECUTE_COVERAGE=true
     - php: 7
+  allow_failures:
     - php: hhvm
 
 before_install:
