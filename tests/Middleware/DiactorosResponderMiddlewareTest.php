@@ -12,10 +12,6 @@ use WoohooLabsTest\Harmony\Utils\Psr7\DummyServerRequest;
 
 class DiactorosResponderMiddlewareTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * @covers \WoohooLabs\Harmony\Middleware\DiactorosResponderMiddleware::__construct()
-     * @covers \WoohooLabs\Harmony\Middleware\DiactorosResponderMiddleware::getEmitter()
-     */
     public function testConstruct()
     {
         $middleware = new DiactorosResponderMiddleware(new DummyEmitter());
@@ -23,10 +19,6 @@ class DiactorosResponderMiddlewareTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(DummyEmitter::class, $middleware->getEmitter());
     }
 
-    /**
-     * @covers \WoohooLabs\Harmony\Middleware\DiactorosResponderMiddleware::getEmitter()
-     * @covers \WoohooLabs\Harmony\Middleware\DiactorosResponderMiddleware::setEmitter()
-     */
     public function testSetEmitter()
     {
         $middleware = new DiactorosResponderMiddleware(null);
@@ -35,9 +27,6 @@ class DiactorosResponderMiddlewareTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(DummyEmitter::class, $middleware->getEmitter());
     }
 
-    /**
-     * @covers \WoohooLabs\Harmony\Middleware\DiactorosResponderMiddleware::__invoke()
-     */
     public function testInvoke()
     {
         $harmony = $this->createHarmony();

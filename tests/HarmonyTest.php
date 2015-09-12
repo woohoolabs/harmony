@@ -10,11 +10,6 @@ use WoohooLabsTest\Harmony\Utils\Psr7\DummyServerRequest;
 
 class HarmonyTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * @covers \WoohooLabs\Harmony\Harmony::__construct()
-     * @covers \WoohooLabs\Harmony\Harmony::getRequest()
-     * @covers \WoohooLabs\Harmony\Harmony::getResponse()
-     */
     public function testConstruct()
     {
         $harmony = $this->createHarmony();
@@ -24,8 +19,6 @@ class HarmonyTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \WoohooLabs\Harmony\Harmony::__invoke()
-     * @covers \WoohooLabs\Harmony\Harmony::addMiddleware()
      * @expectedException \WoohooLabsTest\Harmony\Utils\Exception\TestException
      * @expectedExceptionMessage dummy2
      */
@@ -38,9 +31,6 @@ class HarmonyTest extends PHPUnit_Framework_TestCase
         $harmony();
     }
 
-    /**
-     * @covers \WoohooLabs\Harmony\Harmony::getRequest()
-     */
     public function testRequest()
     {
         $harmony = $this->createHarmony();
@@ -50,9 +40,6 @@ class HarmonyTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($request, $harmony->getRequest());
     }
 
-    /**
-     * @covers \WoohooLabs\Harmony\Harmony::getResponse()
-     */
     public function testResponse()
     {
         $harmony = $this->createHarmony();
@@ -62,10 +49,6 @@ class HarmonyTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($response, $harmony->getResponse());
     }
 
-    /**
-     * @covers \WoohooLabs\Harmony\Harmony::addMiddleware()
-     * @covers \WoohooLabs\Harmony\Harmony::getMiddleware()
-     */
     public function testAddMiddlewares()
     {
         $harmony = $this->createHarmony();
@@ -78,10 +61,6 @@ class HarmonyTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(DummyMiddleware::class, $harmony->getMiddleware("dummy3"));
     }
 
-    /**
-     * @covers \WoohooLabs\Harmony\Harmony::addMiddleware()
-     * @covers \WoohooLabs\Harmony\Harmony::getMiddleware()
-     */
     public function testGetNonExistentMiddleware()
     {
         $harmony = $this->createHarmony();
@@ -89,11 +68,6 @@ class HarmonyTest extends PHPUnit_Framework_TestCase
         $this->assertNull($harmony->getMiddleware("dummy"));
     }
 
-    /**
-     * @covers \WoohooLabs\Harmony\Harmony::addMiddleware()
-     * @covers \WoohooLabs\Harmony\Harmony::removeMiddleware()
-     * @covers \WoohooLabs\Harmony\Harmony::getMiddleware()
-     */
     public function testRemoveMiddleware()
     {
         $harmony = $this->createHarmony();

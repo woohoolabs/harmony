@@ -6,10 +6,6 @@ use WoohooLabsTest\Harmony\Utils\Controller\DummyController;
 
 class BasicContainerTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @covers \WoohooLabs\Harmony\Container\BasicContainer::has()
-     * @covers \WoohooLabs\Harmony\Container\BasicContainer::get()
-     */
     public function testController()
     {
         $container = new BasicContainer();
@@ -18,9 +14,6 @@ class BasicContainerTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(DummyController::class, $container->get(DummyController::class));
     }
 
-    /**
-     * @covers \WoohooLabs\Harmony\Container\BasicContainer::has()
-     */
     public function testHasNotExistingClass()
     {
         $container = new BasicContainer();
@@ -29,7 +22,6 @@ class BasicContainerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \WoohooLabs\Harmony\Container\BasicContainer::get()
      * @expectedException \WoohooLabs\Harmony\Container\ContainerNotFoundException
      */
     public function testGetNotExistingClass()

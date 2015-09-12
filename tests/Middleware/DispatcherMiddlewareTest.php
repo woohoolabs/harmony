@@ -12,9 +12,6 @@ use WoohooLabsTest\Harmony\Utils\Psr7\DummyServerRequest;
 
 class DispatcherMiddlewareTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * @covers \WoohooLabs\Harmony\Middleware\DispatcherMiddleware::__invoke()
-     */
     public function testReturningResponse()
     {
         $harmony = $this->createHarmony(
@@ -30,7 +27,6 @@ class DispatcherMiddlewareTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \WoohooLabs\Harmony\Middleware\DispatcherMiddleware::__invoke()
      * @expectedException \WoohooLabsTest\Harmony\Utils\Exception\TestException
      * @expectedExceptionMessage next
      */
