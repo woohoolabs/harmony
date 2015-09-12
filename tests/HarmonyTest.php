@@ -5,6 +5,7 @@ use PHPUnit_Framework_TestCase;
 use WoohooLabs\Harmony\Harmony;
 use WoohooLabsTest\Harmony\Utils\Middleware\DummyMiddleware;
 use WoohooLabsTest\Harmony\Utils\Middleware\ExceptionMiddleware;
+use WoohooLabsTest\Harmony\Utils\Middleware\InternalServerErrorMiddleware;
 use WoohooLabsTest\Harmony\Utils\Psr7\DummyResponse;
 use WoohooLabsTest\Harmony\Utils\Psr7\DummyServerRequest;
 
@@ -28,6 +29,41 @@ class HarmonyTest extends PHPUnit_Framework_TestCase
         $harmony->addMiddleware("dummy1", new DummyMiddleware("dummy1"));
         $harmony(new DummyServerRequest(), new DummyResponse());
         $harmony->addMiddleware("dummy2", new ExceptionMiddleware("dummy2"));
+        $harmony();
+    }
+
+    /**
+     * @expectedException \WoohooLabsTest\Harmony\Utils\Exception\TestException
+     * @expectedExceptionMessage dummy3
+     */
+    public function testInvokeThreeMiddlewaresWithSuccessfulCompletion()
+    {
+        $harmony = $this->createHarmony();
+        $harmony->addMiddleware("dummy1", new DummyMiddleware("dummy1"));
+        $harmony->addMiddleware("dummy2", new DummyMiddleware("dummy2"));
+        $harmony->addMiddleware("dummy3", new ExceptionMiddleware("dummy3"));
+        $harmony();
+    }
+
+    public function testInvokeMiddlewaresWithUnsuccessfulCompletion()
+    {
+        $harmony = $this->createHarmony();
+        $harmony->addMiddleware("dummy1", new DummyMiddleware("dummy1"));
+        $harmony->addMiddleware("dummy2", new InternalServerErrorMiddleware());
+        $harmony->addMiddleware("dummy3", new ExceptionMiddleware("dummy3"));
+        $harmony();
+
+        $this->assertEquals(500, $harmony->getResponse()->getStatusCode());
+    }
+
+    /**
+     * @expectedException \WoohooLabsTest\Harmony\Utils\Exception\TestException
+     * @expectedExceptionMessage dummy1
+     */
+    public function testInvokeFinalMiddleware()
+    {
+        $harmony = $this->createHarmony();
+        $harmony->setFinalMiddleware(new ExceptionMiddleware("dummy1"));
         $harmony();
     }
 
@@ -68,14 +104,34 @@ class HarmonyTest extends PHPUnit_Framework_TestCase
         $this->assertNull($harmony->getMiddleware("dummy"));
     }
 
+    public function testGetExistentMiddleware()
+    {
+        $middleware= new DummyMiddleware("dummy");
+
+        $harmony = $this->createHarmony();
+        $harmony->addMiddleware("dummy", $middleware);
+
+        $this->assertEquals($middleware, $harmony->getMiddleware("dummy"));
+    }
+
+    public function testGetFinalMiddleware()
+    {
+        $middleware= new DummyMiddleware("dummy");
+
+        $harmony = $this->createHarmony();
+        $harmony->setFinalMiddleware($middleware);
+
+        $this->assertEquals($middleware, $harmony->getFinalMiddleware());
+    }
+
     public function testRemoveMiddleware()
     {
         $harmony = $this->createHarmony();
-        $harmony->addMiddleware("dummy1", new DummyMiddleware());
-        $this->assertInstanceOf(DummyMiddleware::class, $harmony->getMiddleware("dummy1"));
+        $harmony->addMiddleware("dummy", new DummyMiddleware());
+        $this->assertInstanceOf(DummyMiddleware::class, $harmony->getMiddleware("dummy"));
 
-        $harmony->removeMiddleware("dummy1");
-        $this->assertNull($harmony->getMiddleware("dummy1"));
+        $harmony->removeMiddleware("dummy");
+        $this->assertNull($harmony->getMiddleware("dummy"));
     }
 
     protected function createHarmony()
