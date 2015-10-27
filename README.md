@@ -69,18 +69,18 @@ the distinct components of the framework.
 Naturally, we decided to use [PSR-7](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-7-http-message.md)
 for modelling the HTTP request and response.
 
-In order to faciliate the use of different IoC Containers when dispatching a controller, whe adapted the
+In order to facilitate the use of different IoC Containers when dispatching a controller, whe adapted the
 [Container-Interop standard interface](https://github.com/container-interop/container-interop/blob/master/docs/ContainerInterface.md)
 (which is supported by various containers off-the-shelf). They make it so easy to band your favourite components together!
 
 #### Available middlewares
 
-Woohoo Labs. Harmony's middleware interface design is based on the style that is advocated
-by [Matthew Weier O'Phinney](https://github.com/weierophinney) (you can read more on the topic below), that's why
-Harmony's middlewares are compatible with middlewares built for both
-[Zend-Stratigility](https://github.com/zendframework/zend-stratigility) and
-[Slim Framework 3](http://www.slimframework.com/docs/concepts/middleware.html). Furthermore, there are various other
-middlewares available for Harmony:
+Woohoo Labs. Harmony's middleware interface design is based on the "request, response, next" style advocated
+by such prominent developers as [Matthew Weier O'Phinney](https://mwop.net/) (you can read more on the topic [in his blog post](https://mwop.net/blog/2015-01-08-on-http-middleware-and-psr-7.html)). That's why
+Harmony's middlewares are compatible with middlewares built for [Zend-Stratigility](https://github.com/zendframework/zend-stratigility/), [Zend-Expressive](https://github.com/zendframework/zend-expressive/) or
+[Slim Framework 3](http://www.slimframework.com/docs/concepts/middleware.html).
+
+Furthermore, you can find various other middlewares available for Harmony:
 
 - [Woohoo Labs. Yin-Middlewares](https://github.com/woohoolabs/yin-middlewares): A bunch of middlewares to integrate
 [Woohoo Labs. Yin](https://github.com/woohoolabs/harmony) - the elegant JSON API framework - into Harmony.
@@ -112,7 +112,7 @@ $ composer require zendframework/zend-diactoros
 
 #### Define your endpoints:
 
-There are two important things to notice here: first, each endpoint receives a `Psr\Http\Message\ServerRequestInterface`
+The following example applies only if you use the [default dispatcher middleware](https://github.com/woohoolabs/harmony/blob/master/src/Middleware/DispatcherMiddleware.php). There are two important things to notice here: first, each endpoint receives a `Psr\Http\Message\ServerRequestInterface`
 and a `Psr\Http\Message\ResponseInterface` object and they are expected to manipulate and return the latter.
 Second, you are not forced to only use classes for the endpoints, it is possible to define other callables too (see
 below in the routing section).
@@ -155,9 +155,7 @@ class UserController
 
 #### Define your routes:
 
-The following example pertains only to the default router used by Woohoo Labs. Harmony. We chose FastRoute for this purpose,
-the [library](https://github.com/nikic/FastRoute) of Nikita Popov, because of its performance and elegance. You can read
-more about it [in his blog](http://nikic.github.io/2014/02/18/Fast-request-routing-using-regular-expressions.html).
+The following example applies only if you use the [default router middleware](https://github.com/woohoolabs/harmony/blob/master/src/Middleware/FastRouteMiddleware.php) which is based on [FastRoute](https://github.com/nikic/FastRoute), the library of Nikita Popov. We chose to use this library because of its performance and elegance. You can read more about it [in Nikita's blog](http://nikic.github.io/2014/02/18/Fast-request-routing-using-regular-expressions.html).
 
 Let's add three routes to FastRoute:
 
