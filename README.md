@@ -14,6 +14,28 @@ quality application. We wanted to give you total control via
 [PSR-7](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-7-http-message.md) and
 [Container-Interop](https://github.com/container-interop/container-interop/blob/master/docs/ContainerInterface.md).
 
+## Table of Contents
+
+* [Introduction](#introduction)
+    * ["Long live is the framework"](#long-live-is-the-framework)
+    * [Use Cases of Woohoo Labs. Harmony](#use-cases-of-woohoo-labs-harmony)
+    * [Features](#features)
+    * [Concepts](#concepts)
+    * [Available Middlewares](#available-middlewares)
+* [Install](#install)
+* [Basic Usage](#basic-usage)
+    * [Define Your Endpoints](#define-your-endpoints)
+    * [Define Your Routes](#define-your-routes)
+    * [Finally, Launch The Framework](#finally-launch-the-framework)
+* [Advanced Usage](#advanced-usage)
+    * [Using Your Favourite DI Container with Harmony](#using-your-favourite-di-container-with-harmony)
+    * [Creating Custom Middlewares](#creating-custom-middlewares)
+* [Versioning](#versioning)
+* [Change Log](#change-log)
+* [Contributing](#contributing)
+* [Credits](#credits)
+* [License](#license)
+
 ## Introduction
 
 #### "Long live is the framework"
@@ -73,7 +95,7 @@ In order to facilitate the use of different IoC Containers when dispatching a co
 [Container-Interop standard interface](https://github.com/container-interop/container-interop/blob/master/docs/ContainerInterface.md)
 (which is supported by various containers off-the-shelf). They make it so easy to band your favourite components together!
 
-#### Available middlewares
+#### Available Middlewares
 
 Woohoo Labs. Harmony's middleware interface design is based on the "request, response, next" style advocated
 by such prominent developers as [Matthew Weier O'Phinney](https://mwop.net/) (you can read more on the topic [in his blog post](https://mwop.net/blog/2015-01-08-on-http-middleware-and-psr-7.html)). That's why
@@ -110,7 +132,7 @@ $ composer require zendframework/zend-diactoros
 
 ## Basic Usage
 
-#### Define your endpoints:
+#### Define Your Endpoints:
 
 The following example applies only if you use the [default dispatcher middleware](https://github.com/woohoolabs/harmony/blob/master/src/Middleware/DispatcherMiddleware.php). There are two important things to notice here: first, each endpoint receives a `Psr\Http\Message\ServerRequestInterface`
 and a `Psr\Http\Message\ResponseInterface` object and they are expected to manipulate and return the latter.
@@ -153,7 +175,7 @@ class UserController
 }
 ```
 
-#### Define your routes:
+#### Define Your Routes:
 
 The following example applies only if you use the [default router middleware](https://github.com/woohoolabs/harmony/blob/master/src/Middleware/FastRouteMiddleware.php) which is based on [FastRoute](https://github.com/nikic/FastRoute), the library of Nikita Popov. We chose to use this library because of its performance and elegance. You can read more about it [in Nikita's blog](http://nikic.github.io/2014/02/18/Fast-request-routing-using-regular-expressions.html).
 
@@ -172,7 +194,7 @@ $router = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
 };
 ```
 
-#### Finally, launch the framework:
+#### Finally, Launch The Framework:
 
 You have to register all the following middlewares in order for the framework to function properly:
 - `FastRouteMiddleware` takes care of routing (`$router`  was configured in the previous step)
@@ -319,7 +341,7 @@ responses.
 
 This library follows [SemVer v2.0.0](http://semver.org/).
 
-## Change log
+## Change Log
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
 
