@@ -11,14 +11,21 @@ class DispatcherMiddleware
     /**
      * @var \Interop\Container\ContainerInterface
      */
-    private $container;
+    protected $container;
+
+    /**
+     * @var string
+     */
+    protected $handlerAttribute;
 
     /**
      * @param \Interop\Container\ContainerInterface $container
+     * @param string $handlerAttribute
      */
-    public function __construct(ContainerInterface $container = null)
+    public function __construct(ContainerInterface $container = null, $handlerAttribute = "__callable")
     {
         $this->container = $container === null ? new BasicContainer() : $container;
+        $this->handlerAttribute = $handlerAttribute;
     }
 
     /**
@@ -29,7 +36,7 @@ class DispatcherMiddleware
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
     {
-        $callable = $request->getAttribute("__callable");
+        $callable = $request->getAttribute($this->handlerAttribute);
 
         if ($callable === null) {
             throw new \Exception("No dispatchable callable is added to the request as an attribute!");
@@ -43,5 +50,37 @@ class DispatcherMiddleware
         }
 
         $next($request, $response);
+    }
+
+    /**
+     * @return ContainerInterface
+     */
+    public function getContainer()
+    {
+        return $this->container;
+    }
+
+    /**
+     * @param \Interop\Container\ContainerInterface $container
+     */
+    public function setContainer(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHandlerAttribute()
+    {
+        return $this->handlerAttribute;
+    }
+
+    /**
+     * @param string $handlerAttribute
+     */
+    public function setHandlerAttribute($handlerAttribute)
+    {
+        $this->handlerAttribute = $handlerAttribute;
     }
 }

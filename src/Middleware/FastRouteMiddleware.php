@@ -15,11 +15,18 @@ class FastRouteMiddleware
     protected $fastRoute;
 
     /**
-     * @param \FastRoute\Dispatcher $fastRoute
+     * @var string
      */
-    public function __construct(Dispatcher $fastRoute = null)
+    protected $handlerAttribute;
+
+    /**
+     * @param \FastRoute\Dispatcher $fastRoute
+     * @param string $handlerAttribute
+     */
+    public function __construct(Dispatcher $fastRoute = null, $handlerAttribute = "__callable")
     {
         $this->fastRoute = $fastRoute;
+        $this->handlerAttribute = $handlerAttribute;
     }
 
     /**
@@ -43,7 +50,7 @@ class FastRouteMiddleware
                     $request = $request->withAttribute($param, $value);
                 }
 
-                $request = $request->withAttribute("__callable", $routeInfo[1]);
+                $request = $request->withAttribute($this->handlerAttribute, $routeInfo[1]);
                 break;
         }
 

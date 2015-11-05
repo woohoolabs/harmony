@@ -2,11 +2,12 @@
 
 CHANGED:
 
+- Made the attribute name storing the request handler configurable
 - Improved and more extensive documentation
 
 FIXED:
 
-- Make default middlewares compatible with other frameworks
+- Made default middlewares compatible with other frameworks
 
 ## 2.0.1 - 2015-08-27
 
