@@ -294,9 +294,9 @@ class AuthenticationMiddleware implements MiddlewareInterface
     /**
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @param \Psr\Http\Message\ResponseInterface $response
-     * @param \WoohooLabs\Harmony\Harmony $next
+     * @param callable $next
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, Harmony $next)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
     {
         if ($request->getHeader("x-api-key") !== [$this->apiKey]) {
             return $response->withStatusCode(402);
@@ -315,6 +315,11 @@ $harmony->addMiddleware("authentication", new AuthenticationMiddleware("123"));
 
 As you can see, the constructor receives the API Key, while the `__invoke()` method is responsible for performing the
 authentication.
+
+Instead of `callable`, you could typehint the `$next` argument against `Harmony`, according to the
+[`MiddlewareInterface`](https://github.com/woohoolabs/harmony/blob/master/src/Middleware/MiddlewareInterface.php).
+This way you can use some specific features of Harmony (like `Harmony::getMiddleware`) but lose the ability to
+reuse your middleware in other frameworks.
 
 Again: the single most important thing a middleware can do is to call `$next()` to invoke the next middleware
 when its function was accomplished. Failing to call this method results in the interruption of the framework's

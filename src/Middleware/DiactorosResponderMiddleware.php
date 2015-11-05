@@ -3,10 +3,9 @@ namespace WoohooLabs\Harmony\Middleware;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use WoohooLabs\Harmony\Harmony;
 use Zend\Diactoros\Response\EmitterInterface;
 
-class DiactorosResponderMiddleware implements MiddlewareInterface
+class DiactorosResponderMiddleware
 {
     /**
      * @var \Zend\Diactoros\Response\EmitterInterface
@@ -24,9 +23,9 @@ class DiactorosResponderMiddleware implements MiddlewareInterface
     /**
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @param \Psr\Http\Message\ResponseInterface $response
-     * @param \WoohooLabs\Harmony\Harmony $next
+     * @param callable $next
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, Harmony $next)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
     {
         $this->emitter->emit($response);
 

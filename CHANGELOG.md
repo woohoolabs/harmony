@@ -1,3 +1,13 @@
+## 2.1.0 - unreleased
+
+CHANGED:
+
+- Improved and more extensive documentation
+
+FIXED:
+
+- Make default middlewares compatible with other frameworks
+
 ## 2.0.1 - 2015-08-27
 
 FIXED:

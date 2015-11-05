@@ -5,9 +5,8 @@ use Interop\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use WoohooLabs\Harmony\Container\BasicContainer;
-use WoohooLabs\Harmony\Harmony;
 
-class DispatcherMiddleware implements MiddlewareInterface
+class DispatcherMiddleware
 {
     /**
      * @var \Interop\Container\ContainerInterface
@@ -25,10 +24,10 @@ class DispatcherMiddleware implements MiddlewareInterface
     /**
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @param \Psr\Http\Message\ResponseInterface $response
-     * @param \WoohooLabs\Harmony\Harmony $next
+     * @param callable $next
      * @throws \Exception
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, Harmony $next)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
     {
         $callable = $request->getAttribute("__callable");
 

@@ -6,9 +6,8 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use WoohooLabs\Harmony\Exception\MethodNotAllowedException;
 use WoohooLabs\Harmony\Exception\RouteNotFoundException;
-use WoohooLabs\Harmony\Harmony;
 
-class FastRouteMiddleware implements MiddlewareInterface
+class FastRouteMiddleware
 {
     /**
      * @var \FastRoute\Dispatcher
@@ -26,11 +25,11 @@ class FastRouteMiddleware implements MiddlewareInterface
     /**
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @param \Psr\Http\Message\ResponseInterface $response
-     * @param \WoohooLabs\Harmony\Harmony $next
+     * @param callable $next
      * @throws \WoohooLabs\Harmony\Exception\MethodNotAllowedException
      * @throws \WoohooLabs\Harmony\Exception\RouteNotFoundException
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, Harmony $next)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
     {
         $routeInfo = $this->fastRoute->dispatch($request->getMethod(), $request->getUri()->getPath());
 
