@@ -1,9 +1,17 @@
-## 2.1.0 - unreleased
+## 2.2.0 - unreleased
+
+ADDED:
 
 CHANGED:
 
-- Made the attribute name storing the request handler configurable
-- Simplified router definition and dispatch of invokable controller classes
+FIXED:
+
+## 2.1.0 - 2015-11-06
+
+CHANGED:
+
+- Made the `ServerRequestInterface` attribute name storing the request handler configurable
+- Simplified router definition of invokable controller classes
 - Improved and more extensive documentation
 
 FIXED:

@@ -238,7 +238,7 @@ This feature is supported by the default router and dispatcher middlewares of Ha
 dispatcher, please make sure whether the feature is available for you.
 
 If you are interested in the reasons why invokable controllers can be advantageous, you can find an insightful
-description about the topic in [Paul M. Jones' blog post](http://paul-m-jones.com/archives/6006).
+description in [Paul M. Jones' blog post](http://paul-m-jones.com/archives/6006).
 
 #### Using Your Favourite DI Container with Harmony
 
