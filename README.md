@@ -226,19 +226,19 @@ section about the default router:
 $r->addRoute("GET", "/users/me", [\App\Controllers\UserController::class, "getMe"]);
 ```
 
-But because of the increasing popularity of such controllers which are themselves callables and (therefore only
-contain one action), Harmony tries to help you to simplify your route definitions. Instead of the example above, you
-can write:
+But because of the increasing popularity of such controllers which are themselves callables (and therefore only
+contain one action), Harmony tries to help you to simplify your route definitions. So you can change the example
+above to:
 
 ```php
 $r->addRoute("GET", "/users/me", \App\Controllers\GetMe::class);
 ```
 
 This feature is supported by the default router and dispatcher middlewares of Harmony. If you use other router or
-dispatcher, please make sure if the feature is available for you.
+dispatcher, please make sure whether the feature is available for you.
 
 If you are interested in the reasons why invokable controllers can be advantageous, you can find an insightful
-description about it in [Paul M. Jones' blog post](http://paul-m-jones.com/archives/6006).
+description about the topic in [Paul M. Jones' blog post](http://paul-m-jones.com/archives/6006).
 
 #### Using Your Favourite DI Container with Harmony
 
