@@ -40,7 +40,7 @@ class DispatcherMiddleware implements MiddlewareInterface
             $object = $this->container->get($callable[0]);
             $response = $object->{$callable[1]}($request, $response);
         } else {
-            if(!is_callable($callable)) {
+            if (!is_callable($callable)) {
                 $callable = $container->get($callable);
             }
             $response = call_user_func($callable, $request, $response);
