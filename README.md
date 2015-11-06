@@ -218,6 +218,28 @@ implementations. When you'd like to go live, just call `$harmony()`!
 
 ## Advanced Usage
 
+#### Defining controllers as callables
+
+Most of the time, you will define your route handlers (~controllers) as regular callables as it was seen in the
+section about the default router:
+```php
+$r->addRoute("GET", "/users/me", [\App\Controllers\UserController::class, "getMe"]);
+```
+
+But because of the increasing popularity of such controllers which are themselves callables and (therefore only
+contain one action), Harmony tries to help you to simplify your route definitions. Instead of the example above, you
+can write:
+
+```php
+$r->addRoute("GET", "/users/me", \App\Controllers\GetMe::class);
+```
+
+This feature is supported by the default router and dispatcher middlewares of Harmony. If you use other router or
+dispatcher, please make sure if the feature is available for you.
+
+If you are interested in the reasons why invokable controllers can be advantageous, you can find an insightful
+description about it in [Paul M. Jones' blog post](http://paul-m-jones.com/archives/6006).
+
 #### Using Your Favourite DI Container with Harmony
 
 The motivation of creating Woohoo Labs. Harmony was to become able to change every single aspect

@@ -3,6 +3,7 @@
 CHANGED:
 
 - Made the attribute name storing the request handler configurable
+- Simplified router definition and dispatch of invokable controller classes
 - Improved and more extensive documentation
 
 FIXED:
