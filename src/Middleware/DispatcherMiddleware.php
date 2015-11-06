@@ -46,6 +46,9 @@ class DispatcherMiddleware
             $object = $this->container->get($callable[0]);
             $response = $object->{$callable[1]}($request, $response);
         } else {
+            if (!is_callable($callable)) {
+                $callable = $this->container->get($callable);
+            }
             $response = call_user_func($callable, $request, $response);
         }
 
