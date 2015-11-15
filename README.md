@@ -340,7 +340,7 @@ authentication.
 
 Instead of `callable`, you could typehint the `$next` argument against `Harmony`, according to the
 [`MiddlewareInterface`](https://github.com/woohoolabs/harmony/blob/master/src/Middleware/MiddlewareInterface.php).
-This way you can use some specific features of Harmony (like `Harmony::getMiddleware`) but lose the ability to
+This way you can use some specific features of Harmony (like `Harmony::getMiddleware()`) but lose the ability to
 reuse your middleware in other frameworks.
 
 Again: the single most important thing a middleware can do is to call `$next()` to invoke the next middleware
