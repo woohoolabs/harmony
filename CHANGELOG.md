@@ -2,15 +2,22 @@
 
 ADDED:
 
+- Configuration option for `DiactorosResponderMiddleware` to not respond when headers have already been sent
+
 CHANGED:
 
 FIXED:
 
+- PHP version constraint in composer.json
+
 ## 2.1.0 - 2015-11-06
+
+ADDED:
+
+- Configuration option to define the request attribute name storing the route handler
 
 CHANGED:
 
-- Made the `ServerRequestInterface` attribute name storing the request handler configurable
 - Simplified router definition of invokable controller classes
 - Improved and more extensive documentation
 
