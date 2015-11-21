@@ -245,7 +245,7 @@ $r->addRoute("GET", "/users/me", \App\Controllers\GetMe::class);
 Note: If you use other router or dispatcher than the default ones, please make sure whether the feature is
 available for you.
 
-If you are interested in how you could benefit of invokable controllers in the context of the
+If you are interested in how you could benefit from invokable controllers in the context of the
 Action-Domain-Responder pattern, you can find an insightful description in
 [Paul M. Jones' blog post](http://paul-m-jones.com/archives/6006).
 
