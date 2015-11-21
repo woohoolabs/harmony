@@ -124,7 +124,8 @@ $ composer require zendframework/zend-diactoros
 
 #### Define Your Endpoints:
 
-The following example applies only if you use the [default dispatcher middleware](https://github.com/woohoolabs/harmony/blob/master/src/Middleware/DispatcherMiddleware.php). There are two important things to notice here: first, each endpoint receives a `Psr\Http\Message\ServerRequestInterface`
+The following example applies only if you use the [default dispatcher middleware](https://github.com/woohoolabs/harmony/blob/master/src/Middleware/DispatcherMiddleware.php).
+There are two important things to notice here: first, each endpoint receives a `Psr\Http\Message\ServerRequestInterface`
 and a `Psr\Http\Message\ResponseInterface` object and they are expected to manipulate and return the latter.
 Second, you are not forced to only use classes for the endpoints, it is possible to define other callables too (see
 below in the routing section).
@@ -218,27 +219,35 @@ implementations. When you'd like to go live, just call `$harmony()`!
 
 ## Advanced Usage
 
-#### Defining controllers as callables
+#### Using invokable controllers
 
-Most of the time, you will define your route handlers (~controllers) as regular callables as it was seen in the
-section about the default router:
+Most of the time, you will define your route handlers (~controller actions) as regular callables like it
+was seen in the section about the default router:
+
 ```php
 $r->addRoute("GET", "/users/me", [\App\Controllers\UserController::class, "getMe"]);
 ```
 
-But because of the increasing popularity of such controllers which are themselves callables (and therefore only
-contain one action), Harmony tries to help you to simplify your route definitions. So you can change the example
-above to:
+But nowadays, there is an increasing popularity of controllers containing only one action. To do so, it is a general
+practice to implement the `__invoke()` magic method. In former versions of Harmony, if you wanted to apply this pattern,
+you had to define the example route above the following way (at least if you used the default router and dispatcher):
+  
+```php
+r->addRoute("GET", "/users/me", [\App\Controllers\GetMe::class, "__invoke"]);
+```
+
+As of Harmony 2.1.0, your route definitions can be simplified to:
 
 ```php
 $r->addRoute("GET", "/users/me", \App\Controllers\GetMe::class);
 ```
 
-This feature is supported by the default router and dispatcher middlewares of Harmony. If you use other router or
-dispatcher, please make sure whether the feature is available for you.
+Note: If you use other router or dispatcher than the default ones, please make sure whether the feature is
+available for you.
 
-If you are interested in the reasons why invokable controllers can be advantageous, you can find an insightful
-description in [Paul M. Jones' blog post](http://paul-m-jones.com/archives/6006).
+If you are interested in how you could benefit of invokable controllers in the context of the
+Action-Domain-Responder pattern, you can find an insightful description in
+[Paul M. Jones' blog post](http://paul-m-jones.com/archives/6006).
 
 #### Using Your Favourite DI Container with Harmony
 
