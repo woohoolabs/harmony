@@ -64,26 +64,23 @@ eases gradual refactoring.
 
 #### Concepts
 
-Woohoo Labs. Harmony is build upon two main concepts: middlewares and common interfaces as they both promote
-separation of concerns. Why is that?
+Woohoo Labs. Harmony is built upon two main concepts: middlewares which promote separation of concerns and
+common interfaces allowing you to band your favourite tools together!
 
 Middlewares - that are [described in detail by Igor Wiedler](https://igor.io/2013/02/02/http-kernel-middlewares.html) -
 make it possible to take hands on the course of action of the request-response lifecycle: you can authenticate before
 routing, do some logging after the response has been sent, or you can even dispatch multiple routes in one
 request if you want. These can be achieved because everything in Harmony is a middleware, so the framework itself only
-consists of cc. 200 lines of code. And that's why there is no framework-wide configuration (only the middlewares can
+consists of cc. 200 lines of code. And that's why there is no framework-wide configuration (only middlewares can
 be configured). Basically it only depends on your imagination and needs what you do with Harmony.
 
-But middlewares must work in cooperation (especially the router and the dispatcher are tightly coupled to each other,
-or one can also mention the request and the router). That's why it is also important to provide common interfaces for
-the distinct components of the framework.
+But middlewares must work in cooperation (especially the router and the dispatcher are tightly coupled to each other).
+That's why it is also important to provide common interfaces for the distinct components of the framework.
 
 Naturally, we decided to use [PSR-7](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-7-http-message.md)
-for modelling the HTTP request and response.
-
-In order to facilitate the use of different IoC Containers when dispatching a controller, whe adapted the
-[Container-Interop standard interface](https://github.com/container-interop/container-interop/blob/master/docs/ContainerInterface.md)
-(which is supported by various containers off-the-shelf). They make it so easy to band your favourite components together!
+for modelling the HTTP request and response. In order to facilitate the usage of different IoC Containers, we
+adapted the [Container-Interop standard interface](https://github.com/container-interop/container-interop)
+(which is supported by various containers off-the-shelf).
 
 #### Available Middlewares
 
@@ -255,7 +252,7 @@ The motivation of creating Woohoo Labs. Harmony was to become able to change eve
 of the framework. That's why you can use such a DI Container you want.
 
 For this purpose, we chose
-the [Container-Interop standard](https://github.com/container-interop/container-interop/blob/master/docs/ContainerInterface.md)
+the [Container-Interop standard](https://github.com/container-interop/container-interop)
 (it is PSR-11 now) to be the common interface for DI Containers in the built-in `DispatcherMiddleware`.
 
 It's also important to know that the `DispatcherMiddleware` uses the `BasicContainer` by default. It's nothing more
