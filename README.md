@@ -230,7 +230,7 @@ practice to implement the `__invoke()` magic method. In former versions of Harmo
 you had to define the example route above the following way (at least if you used the default router and dispatcher):
   
 ```php
-r->addRoute("GET", "/users/me", [\App\Controllers\GetMe::class, "__invoke"]);
+$r->addRoute("GET", "/users/me", [\App\Controllers\GetMe::class, "__invoke"]);
 ```
 
 As of Harmony 2.1.0, your route definitions can be simplified to:
