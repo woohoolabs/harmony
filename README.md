@@ -364,7 +364,8 @@ responses.
 ## Examples
 
 Have a look at the [examples directory](https://github.com/woohoolabs/harmony/blob/master/examples/) for a really basic
-application structure.
+application structure. Don't forget to require the [necessary dependencies](#require-the-necessary-dependencies) if you
+want to try it out!
 
 ## Versioning
 
