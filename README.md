@@ -20,6 +20,7 @@ quality application. We wanted to give you total control via
 * [Install](#install)
 * [Basic Usage](#basic-usage)
 * [Advanced Usage](#advanced-usage)
+* [Examples](#examples)
 * [Versioning](#versioning)
 * [Change Log](#change-log)
 * [Contributing](#contributing)
@@ -358,7 +359,12 @@ Very important to notice that when authentication is unsuccessful, no other midd
 is not called), so only the final middleware will be invoked afterwards. As you want to pass a modified response with
 status code 412 to the final middleware, you must return the response (as seen in the prior example) in order to inform
 the framework from the changed response. Note that you can't do the same with requests, it is only possible with
-responses. 
+responses.
+
+## Examples
+
+Have a look at the [examples directory](https://github.com/woohoolabs/harmony/blob/master/examples/) for a really basic
+application structure.
 
 ## Versioning
 

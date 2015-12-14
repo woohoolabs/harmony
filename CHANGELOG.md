@@ -3,6 +3,7 @@
 ADDED:
 
 - Configuration option for `DiactorosResponderMiddleware` to not respond when headers have already been sent
+- Example application
 
 CHANGED:
 
