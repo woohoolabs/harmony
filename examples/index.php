@@ -35,7 +35,7 @@ $harmony = new Harmony(ServerRequestFactory::fromGlobals(), new Response());
 $harmony
     ->addMiddleware("fast_route", new FastRouteMiddleware($router))
     ->addMiddleware("dispatcher", new DispatcherMiddleware())
-    ->setFinalMiddleware(new DiactorosResponderMiddleware(new SapiEmitter()));
+    ->addFinalMiddleware("responder", new DiactorosResponderMiddleware(new SapiEmitter()));
 
 // Run!
 $harmony();

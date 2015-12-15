@@ -2,14 +2,17 @@
 
 ADDED:
 
+- Support for multiple final middlewares
 - Configuration option for `DiactorosResponderMiddleware` to not respond when headers have already been sent
 - Example application
 
 CHANGED:
 
+- Final middlewares are integrated with the normal ones
+
 FIXED:
 
-- PHP version constraint in composer.json
+- PHP version constraint in composer.json to correctly support PHP 7
 
 ## 2.1.0 - 2015-11-06
 

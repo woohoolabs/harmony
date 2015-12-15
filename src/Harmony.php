@@ -12,14 +12,14 @@ class Harmony
     protected $middlewares = [];
 
     /**
-     * @var callable
+     * @var int
      */
-    protected $finalMiddleware;
+    protected $currentMiddleware = -1;
 
     /**
      * @var int
      */
-    protected $currentMiddleware = -1;
+    protected $currentFinalMiddleware = -1;
 
     /**
      * @var \Psr\Http\Message\ServerRequestInterface
@@ -47,14 +47,12 @@ class Harmony
     }
 
     /**
-     *  Executes the final middleware.
+     *  Executes the final middlewares.
      */
     public function __destruct()
     {
-        if ($this->finalMiddleware !== null) {
-            $this->stopped = true;
-            $this->executeMiddleware($this->finalMiddleware);
-        }
+        $this->stopped = true;
+        $this->__invoke();
     }
 
     /**
@@ -71,10 +69,37 @@ class Harmony
             $this->response = $response;
         }
 
-        // Executing the middlewares
-        if (isset($this->middlewares[$this->currentMiddleware + 1]) && $this->stopped === false) {
-            $this->executeMiddleware($this->middlewares[++$this->currentMiddleware]["callable"]);
+        // Retrieving the key of the next middleware of the appropriate type
+        if ($this->stopped === true) {
+            $nextKey = &$this->currentFinalMiddleware;
+        } else {
+            $nextKey = &$this->currentMiddleware;
         }
+        $nextKey = $this->getNextMiddlewareKey($nextKey + 1, $this->stopped);
+
+        // Stopping if there aren't any executable middlewares remaining
+        if ($nextKey === null || $this->stopped !== $this->middlewares[$nextKey]["final"]) {
+            return;
+        }
+
+        // Executing the next middleware
+        $this->executeMiddleware($this->middlewares[$nextKey]["callable"]);
+    }
+
+    /**
+     * @return \Psr\Http\Message\ServerRequestInterface
+     */
+    public function getRequest()
+    {
+        return $this->request;
+    }
+
+    /**
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function getResponse()
+    {
+        return $this->response;
     }
 
     /**
@@ -99,7 +124,19 @@ class Harmony
      */
     public function addMiddleware($id, callable $middleware)
     {
-        $this->middlewares[] = ["id" => $id, "callable" => $middleware];
+        $this->middlewares[] = ["id" => $id, "callable" => $middleware, "final" => false];
+
+        return $this;
+    }
+
+    /**
+     * @param string $id
+     * @param callable $middleware
+     * @return $this
+     */
+    public function addFinalMiddleware($id, callable $middleware)
+    {
+        $this->middlewares[] = ["id" => $id, "callable" => $middleware, "final" => true];
 
         return $this;
     }
@@ -120,50 +157,19 @@ class Harmony
     }
 
     /**
-     * @return callable
+     * @param int $fromKey
+     * @param bool $isFinal
+     * @return int|null
      */
-    public function getFinalMiddleware()
+    protected function getNextMiddlewareKey($fromKey, $isFinal)
     {
-        return $this->finalMiddleware;
-    }
-
-    /**
-     * @param callable $finalMiddleware
-     * @return $this
-     */
-    public function setFinalMiddleware($finalMiddleware)
-    {
-        $this->finalMiddleware = $finalMiddleware;
-
-        return $this;
-    }
-
-    /**
-     * @return \Psr\Http\Message\ServerRequestInterface
-     */
-    public function getRequest()
-    {
-        return $this->request;
-    }
-
-    /**
-     * @return \Psr\Http\Message\ResponseInterface
-     */
-    public function getResponse()
-    {
-        return $this->response;
-    }
-
-    /**
-     * @param callable $middleware
-     */
-    protected function executeMiddleware($middleware)
-    {
-        $response = $middleware($this->getRequest(), $this->getResponse(), $this);
-
-        if ($response) {
-            $this->response = $response;
+        for (; isset($this->middlewares[$fromKey]); $fromKey++) {
+            if ($this->middlewares[$fromKey]["final"] === $isFinal) {
+                return $fromKey;
+            }
         }
+
+        return null;
     }
 
     /**
@@ -179,5 +185,17 @@ class Harmony
         }
 
         return null;
+    }
+
+    /**
+     * @param callable $middleware
+     */
+    protected function executeMiddleware(callable $middleware)
+    {
+        $response = $middleware($this->getRequest(), $this->getResponse(), $this);
+
+        if ($response) {
+            $this->response = $response;
+        }
     }
 }

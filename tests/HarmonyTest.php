@@ -63,7 +63,7 @@ class HarmonyTest extends PHPUnit_Framework_TestCase
     public function testInvokeFinalMiddleware()
     {
         $harmony = $this->createHarmony();
-        $harmony->setFinalMiddleware(new ExceptionMiddleware("dummy1"));
+        $harmony->addFinalMiddleware("dummy1", new ExceptionMiddleware("dummy1"));
         $harmony();
     }
 
@@ -112,16 +112,6 @@ class HarmonyTest extends PHPUnit_Framework_TestCase
         $harmony->addMiddleware("dummy", $middleware);
 
         $this->assertEquals($middleware, $harmony->getMiddleware("dummy"));
-    }
-
-    public function testGetFinalMiddleware()
-    {
-        $middleware= new DummyMiddleware("dummy");
-
-        $harmony = $this->createHarmony();
-        $harmony->setFinalMiddleware($middleware);
-
-        $this->assertEquals($middleware, $harmony->getFinalMiddleware());
     }
 
     public function testRemoveMiddleware()

@@ -190,9 +190,9 @@ You have to register all the following middlewares in order for the framework to
 - `DispatcherMiddleware` dispatches a controller which belongs to the request's current route
 - `DiactorosResponderMiddleware` sends the response to the ether via [Zend Diactoros](https://github.com/zendframework/zend-diactoros)
 
-Note that the `Harmony::addMiddleware()` method's first argument is the ID of the middleware (which should be unique)
-and the middleware attached via `Harmony::setFinalMiddleware()` will always be executed after the normal middlewares!
-In this case, we always want our response to be sent by `DiactorosResponderMiddleware`. 
+Note that the first argument of `Harmony::addMiddleware()` and `Harmony::addFinalMiddleware()` is the ID of the
+middleware (which should be unique) and the middlewares attached via `Harmony::addFinalMiddleware()` will always be
+executed after the normal ones! In this case, we always want our response to be sent by `DiactorosResponderMiddleware`. 
 
 ```php
 use WoohooLabs\Harmony\Harmony;
@@ -207,7 +207,7 @@ $harmony = new Harmony(ServerRequestFactory::fromGlobals(), new Response());
 $harmony
     ->addMiddleware("fast_route", new FastRouteMiddleware($router))
     ->addMiddleware("dispatcher", new DispatcherMiddleware())
-    ->setFinalMiddleware(new DiactorosResponderMiddleware(new SapiEmitter()));
+    ->addFinalMiddleware("responder", new DiactorosResponderMiddleware(new SapiEmitter()));
 
 $harmony();
 ```
@@ -289,7 +289,7 @@ $harmony->addMiddleware("logging", $middleware);
 
 The single most important thing a middleware can do is to call `$next()` to invoke the next middleware
 when its function was accomplished. Failing to call this method results in the interruption of the framework's
-operation (of course the final middleware will still be executed)!
+operation (of course the final middlewares will still be executed)!
 
 But what to do if you want to pass a manipulated request or response to the next middleware? Then, you should call
 `$next($request, $response)`. This way, the following middleware will receive the modified request or response.
@@ -352,14 +352,14 @@ reuse your middleware in other frameworks.
 
 Again: the single most important thing a middleware can do is to call `$next()` to invoke the next middleware
 when its function was accomplished. Failing to call this method results in the interruption of the framework's
-operation (of course the final middleware will still be executed)! That's why we only invoke `$next()` in this example
+operation (of course the final middlewares will still be executed)! That's why we only invoke `$next()` in this example
 when the authentication was successful.
 
 Very important to notice that when authentication is unsuccessful, no other middlewares will be executed (as `$next()`
-is not called), so only the final middleware will be invoked afterwards. As you want to pass a modified response with
-status code 412 to the final middleware, you must return the response (as seen in the prior example) in order to inform
-the framework from the changed response. Note that you can't do the same with requests, it is only possible with
-responses.
+is not called), so possibly only the final middlewares will be invoked afterwards. As you want to pass a modified
+response with status code 412 to the final middlewares, you must return the response (as seen in the prior example)
+in order to inform the framework from the changed response. Note that you can't do the same with requests, it is only
+possible with responses.
 
 ## Examples
 
