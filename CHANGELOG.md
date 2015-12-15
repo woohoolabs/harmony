@@ -4,6 +4,7 @@ ADDED:
 
 - Support for multiple final middlewares
 - Configuration option for `DiactorosResponderMiddleware` to not respond when headers have already been sent
+- Added middlewares to support output buffering
 - Example application
 
 CHANGED:
