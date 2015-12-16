@@ -7,6 +7,16 @@ use Psr\Http\Message\ResponseInterface;
 class Harmony
 {
     /**
+     * @var \Psr\Http\Message\ServerRequestInterface
+     */
+    protected $request;
+
+    /**
+     * @var \Psr\Http\Message\ResponseInterface
+     */
+    protected $response;
+
+    /**
      * @var array
      */
     protected $middlewares = [];
@@ -22,19 +32,14 @@ class Harmony
     protected $currentFinalMiddleware = -1;
 
     /**
-     * @var \Psr\Http\Message\ServerRequestInterface
+     * @var bool
      */
-    protected $request;
-
-    /**
-     * @var \Psr\Http\Message\ResponseInterface
-     */
-    protected $response;
+    protected $stopped = false;
 
     /**
      * @var bool
      */
-    protected $stopped = false;
+    protected $terminated = false;
 
     /**
      * @param \Psr\Http\Message\ServerRequestInterface $request
@@ -52,7 +57,9 @@ class Harmony
     public function __destruct()
     {
         $this->stopped = true;
-        $this->__invoke();
+        if ($this->terminated === false) {
+            $this->__invoke();
+        }
     }
 
     /**
@@ -195,6 +202,9 @@ class Harmony
         $response = $middleware($this->getRequest(), $this->getResponse(), $this);
 
         if ($response) {
+            if ($this->stopped) {
+                $this->terminated = true;
+            }
             $this->response = $response;
         }
     }
