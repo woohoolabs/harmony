@@ -14,7 +14,7 @@ class OutputBufferResponderMiddleware
     /**
      * @param bool $clearBuffer
      */
-    public function __construct($clearBuffer)
+    public function __construct($clearBuffer = false)
     {
         $this->onlyClearBuffer = $clearBuffer;
     }
