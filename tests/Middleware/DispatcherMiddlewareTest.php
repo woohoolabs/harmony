@@ -43,14 +43,27 @@ class DispatcherMiddlewareTest extends PHPUnit_Framework_TestCase
         $middleware($harmony->getRequest(), $harmony->getResponse(), $harmony);
     }
 
+    public function testNullCallable()
+    {
+        $middleware = new DispatcherMiddleware();
+        try {
+            $middleware(new DummyServerRequest(), new DummyResponse(), function () {});
+        } catch (\Exception $e) {
+            return;
+        }
+
+        $this->fail();
+    }
+
     /**
-     * @param callable $callable
+     * @param mixed $callable
+     * @param string $attributeName
      * @return \WoohooLabs\Harmony\Harmony
      */
-    protected function createHarmony(callable $callable)
+    protected function createHarmony($callable, $attributeName = "__callable")
     {
         $request = new DummyServerRequest();
-        $request = $request->withAttribute("__callable", $callable);
+        $request = $request->withAttribute($attributeName, $callable);
 
         return new Harmony($request, new DummyResponse());
     }

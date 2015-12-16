@@ -67,6 +67,14 @@ class HarmonyTest extends PHPUnit_Framework_TestCase
         $harmony();
     }
 
+    public function testStopFinalMiddleware()
+    {
+        $harmony = $this->createHarmony();
+        $harmony->addFinalMiddleware("dummy2", new InternalServerErrorMiddleware());
+        $harmony->addFinalMiddleware("dummy2", new ExceptionMiddleware("dummy2"));
+        $harmony->__destruct();
+    }
+
     public function testRequest()
     {
         $harmony = $this->createHarmony();

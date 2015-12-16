@@ -42,4 +42,12 @@ class OutputBufferResponderMiddleware
     {
         return $this->onlyClearBuffer;
     }
+
+    /**
+     * @param bool $onlyClearBuffer
+     */
+    public function setOnlyClearBuffer($onlyClearBuffer)
+    {
+        $this->onlyClearBuffer = $onlyClearBuffer;
+    }
 }

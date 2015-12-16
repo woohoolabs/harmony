@@ -37,6 +37,13 @@ class OutputBufferResponderMiddlewareTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($middleware->isOnlyClearBuffer());
     }
 
+    public function testSetOnlyClearBuffer()
+    {
+        $middleware = new OutputBufferResponderMiddleware(true);
+        $middleware->setOnlyClearBuffer(false);
+        $this->assertFalse($middleware->isOnlyClearBuffer());
+    }
+
     /**
      * @return \WoohooLabs\Harmony\Harmony
      */
