@@ -7,13 +7,31 @@ use Psr\Http\Message\ServerRequestInterface;
 class OutputBufferResponderMiddleware
 {
     /**
+     * @var bool
+     */
+    protected $onlyClearBuffer;
+
+    /**
+     * @param bool $clearBuffer
+     */
+    public function __construct($clearBuffer)
+    {
+        $this->onlyClearBuffer = $clearBuffer;
+    }
+
+    /**
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @param \Psr\Http\Message\ResponseInterface $response
      * @param callable $next
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
     {
-        ob_end_flush();
+        if ($this->onlyClearBuffer === true) {
+            ob_end_clean();
+        } else {
+            ob_end_flush();
+        }
+
         $next();
     }
 }
