@@ -47,7 +47,12 @@ class DispatcherMiddlewareTest extends PHPUnit_Framework_TestCase
     {
         $middleware = new DispatcherMiddleware();
         try {
-            $middleware(new DummyServerRequest(), new DummyResponse(), function () {});
+            $middleware(
+                new DummyServerRequest(),
+                new DummyResponse(),
+                function () {
+                }
+            );
         } catch (\Exception $e) {
             return;
         }
