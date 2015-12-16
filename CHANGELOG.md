@@ -1,5 +1,7 @@
 ## 2.2.0 - unreleased
 
+**The release contains breaking changes**
+
 ADDED:
 
 - Support for multiple final middlewares
