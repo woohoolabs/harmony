@@ -34,4 +34,12 @@ class OutputBufferResponderMiddleware
 
         $next();
     }
+
+    /**
+     * @return bool
+     */
+    public function isOnlyClearBuffer()
+    {
+        return $this->onlyClearBuffer;
+    }
 }
