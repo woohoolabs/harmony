@@ -1,4 +1,12 @@
-## 2.2.0 - unreleased
+## 2.3.0 - unreleased
+
+ADDED:
+
+CHANGED:
+
+FIXED:
+
+## 2.2.0 - 2015-12-16
 
 **The release contains breaking changes**
 
