@@ -78,7 +78,7 @@ class Harmony
         $nextKey = $this->getNextMiddlewareKey($nextKey + 1, $this->stopped);
 
         // Stopping if there aren't any executable middlewares remaining
-        if ($nextKey === null || $this->stopped !== $this->middlewares[$nextKey]["final"]) {
+        if ($nextKey === null) {
             return;
         }
 
