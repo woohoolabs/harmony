@@ -139,10 +139,11 @@ class UserController
     /**
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
+     * @return ResponseInterface
      */
     public function getUsers(ServerRequestInterface $request, ResponseInterface $response)
     {
-        $users= ["Steve", "Arnie", "Jason", "Bud"];
+        $users = ["Steve", "Arnie", "Jason", "Bud"];
         $response->getBody()->write(json_encode($users));
         
         return $response;
@@ -151,11 +152,12 @@ class UserController
     /**
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
+     * @return ResponseInterface
      */
      public function updateUser(ServerRequestInterface $request, ResponseInterface $response)
      {
-        $userId= $request->getAttribute("id");
-        $userData= $request->getParsedBody();
+        $userId = $request->getAttribute("id");
+        $userData = $request->getParsedBody();
 
         // Updating user...
         
@@ -264,7 +266,7 @@ But if you provide an argument to the middleware's constructor, you can use your
 DIC too. Let's have a look at an example where one would like to swap `BasicContainer` with the awesome [PHP-DI](http://php-di.org):
 
 ```php
-$container= new \DI\Container();
+$container = new \DI\Container();
 $harmony->addMiddleware("dispatcher", new DispatcherMiddleware($container));
 ```
 
