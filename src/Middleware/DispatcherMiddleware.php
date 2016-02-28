@@ -52,7 +52,7 @@ class DispatcherMiddleware
             $response = call_user_func($callable, $request, $response);
         }
 
-        $next($request, $response);
+        return $next($request, $response);
     }
 
     /**

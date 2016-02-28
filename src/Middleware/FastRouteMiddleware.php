@@ -54,7 +54,7 @@ class FastRouteMiddleware
                 break;
         }
 
-        $next($request, $response);
+        return $next($request, $response);
     }
 
     /**

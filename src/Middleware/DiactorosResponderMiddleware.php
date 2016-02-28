@@ -38,7 +38,7 @@ class DiactorosResponderMiddleware
             $this->emitter->emit($response);
         }
 
-        $next();
+        return $next();
     }
 
     /**

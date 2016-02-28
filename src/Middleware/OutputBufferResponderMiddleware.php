@@ -32,7 +32,7 @@ class OutputBufferResponderMiddleware
             ob_end_flush();
         }
 
-        $next();
+        return $next();
     }
 
     /**

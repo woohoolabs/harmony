@@ -14,6 +14,6 @@ class OutputBufferStarterMiddleware
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
     {
         ob_start();
-        $next();
+        return $next();
     }
 }
