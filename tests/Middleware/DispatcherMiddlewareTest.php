@@ -88,7 +88,7 @@ class DispatcherMiddlewareTest extends PHPUnit_Framework_TestCase
     public function testDispatchAnonymousFunction()
     {
         $request = new DummyServerRequest();
-        $callable = function(ServerRequestInterface $request, ResponseInterface $response) {
+        $callable = function (ServerRequestInterface $request, ResponseInterface $response) {
             throw new TestException();
         };
         $request = $request->withAttribute("__callable", $callable);
