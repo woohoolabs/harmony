@@ -13,7 +13,7 @@ CHANGED:
 - [#5](https://github.com/woohoolabs/harmony/issues/5): Return a Response object for all the middlewares
 - Deprecated middlewares returning null
 - Middlewares must return a `ResponseInterface` instance, otherwise an exception will be thrown
-- Running tests on PHP 5.6 (code style) and PHP 7 instead of PHP 5.5 and PHP 5.6
+- Running tests on PHP 5.6 (code style) and PHP 7 (PHPUnit) instead of PHP 5.5 and PHP 5.6
 - Improved test coverage
 
 ## 2.2.0 - 2015-12-16
