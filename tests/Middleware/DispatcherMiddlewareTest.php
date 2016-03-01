@@ -4,8 +4,12 @@ namespace WoohooLabsTest\Harmony\Middleware;
 use PHPUnit_Framework_TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use WoohooLabs\Harmony\Container\BasicContainer;
 use WoohooLabs\Harmony\Harmony;
 use WoohooLabs\Harmony\Middleware\DispatcherMiddleware;
+use WoohooLabsTest\Harmony\Utils\Controller\ExceptionController;
+use WoohooLabsTest\Harmony\Utils\Controller\InvokableExceptionController;
+use WoohooLabsTest\Harmony\Utils\Exception\TestException;
 use WoohooLabsTest\Harmony\Utils\Middleware\ExceptionMiddleware;
 use WoohooLabsTest\Harmony\Utils\Psr7\DummyResponse;
 use WoohooLabsTest\Harmony\Utils\Psr7\DummyServerRequest;
@@ -58,6 +62,90 @@ class DispatcherMiddlewareTest extends PHPUnit_Framework_TestCase
         }
 
         $this->fail();
+    }
+
+    /**
+     * @expectedException \WoohooLabsTest\Harmony\Utils\Exception\TestException
+     */
+    public function testDispatchArrayCallable()
+    {
+        $request = new DummyServerRequest();
+        $request = $request->withAttribute("__callable", [ExceptionController::class, "dummyAction"]);
+
+        $middleware = new DispatcherMiddleware();
+
+        $middleware(
+            $request,
+            new DummyResponse(),
+            function () {
+            }
+        );
+    }
+
+    /**
+     * @expectedException \WoohooLabsTest\Harmony\Utils\Exception\TestException
+     */
+    public function testDispatchAnonymousFunction()
+    {
+        $request = new DummyServerRequest();
+        $callable = function(ServerRequestInterface $request, ResponseInterface $response) {
+            throw new TestException();
+        };
+        $request = $request->withAttribute("__callable", $callable);
+
+        $middleware = new DispatcherMiddleware();
+
+        $middleware(
+            $request,
+            new DummyResponse(),
+            function () {
+            }
+        );
+    }
+
+    /**
+     * @expectedException \WoohooLabsTest\Harmony\Utils\Exception\TestException
+     */
+    public function testDispatchInvokableClass()
+    {
+        $request = new DummyServerRequest();
+        $request = $request->withAttribute("__callable", InvokableExceptionController::class);
+
+        $middleware = new DispatcherMiddleware();
+
+        $middleware(
+            $request,
+            new DummyResponse(),
+            function () {
+            }
+        );
+    }
+
+    public function testGetContainer()
+    {
+        $middleware = new DispatcherMiddleware(new BasicContainer());
+        $this->assertInstanceOf(BasicContainer::class, $middleware->getContainer());
+    }
+
+    public function testSetContainer()
+    {
+        $middleware = new DispatcherMiddleware();
+        $middleware->setContainer(new BasicContainer());
+        $this->assertInstanceOf(BasicContainer::class, $middleware->getContainer());
+    }
+
+    public function testGetDefaultHandlerAttribute()
+    {
+        $middleware = new DispatcherMiddleware();
+        $middleware->setContainer(new BasicContainer());
+        $this->assertEquals("__callable", $middleware->getHandlerAttribute());
+    }
+
+    public function testGetHandlerAttribute()
+    {
+        $middleware = new DispatcherMiddleware();
+        $middleware->setHandlerAttribute("action");
+        $this->assertEquals("action", $middleware->getHandlerAttribute());
     }
 
     /**

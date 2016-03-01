@@ -42,14 +42,14 @@ class DispatcherMiddleware
             throw new \Exception("No dispatchable callable is added to the request as an attribute!");
         }
 
-        if (is_array($callable) && is_string($callable[0])) {
+        if (is_array($callable) && is_string($callable[0]) && is_string($callable[1])) {
             $object = $this->container->get($callable[0]);
-            $response = $object->{$callable[1]}($request, $response);
+            $response = call_user_func_array([$object, $callable[1]], [$request, $response]);
         } else {
-            if (!is_callable($callable)) {
+            if (is_callable($callable) === false) {
                 $callable = $this->container->get($callable);
             }
-            $response = call_user_func($callable, $request, $response);
+            $response = call_user_func_array($callable, [$request, $response]);
         }
 
         return $next($request, $response);
