@@ -6,6 +6,7 @@ use WoohooLabs\Harmony\Harmony;
 use WoohooLabsTest\Harmony\Utils\Middleware\DummyMiddleware;
 use WoohooLabsTest\Harmony\Utils\Middleware\ExceptionMiddleware;
 use WoohooLabsTest\Harmony\Utils\Middleware\InternalServerErrorMiddleware;
+use WoohooLabsTest\Harmony\Utils\Middleware\ReturningMiddleware;
 use WoohooLabsTest\Harmony\Utils\Psr7\DummyResponse;
 use WoohooLabsTest\Harmony\Utils\Psr7\DummyServerRequest;
 
@@ -54,6 +55,30 @@ class HarmonyTest extends PHPUnit_Framework_TestCase
         $harmony();
 
         $this->assertEquals(500, $harmony->getResponse()->getStatusCode());
+    }
+
+    /**
+     * @expectedException \PHPUnit_Framework_Error_Deprecated
+     */
+    public function testDeprecatedMiddlewareReturnValue()
+    {
+        $harmony = $this->createHarmony();
+        $harmony->addMiddleware("dummy1", new DummyMiddleware(""));
+        $harmony->addMiddleware("dummy2", new ReturningMiddleware(null));
+        $harmony->addMiddleware("dummy3", new DummyMiddleware(""));
+        $harmony();
+    }
+
+    /**
+     * @expectedException \WoohooLabs\Harmony\Exception\MiddlewareReturnTypeException
+     */
+    public function testInappropriateMiddlewareReturnValue()
+    {
+        $harmony = $this->createHarmony();
+        $harmony->addMiddleware("dummy1", new DummyMiddleware(""));
+        $harmony->addMiddleware("dummy2", new ReturningMiddleware(new DummyServerRequest()));
+        $harmony->addMiddleware("dummy3", new DummyMiddleware(""));
+        $harmony();
     }
 
     /**

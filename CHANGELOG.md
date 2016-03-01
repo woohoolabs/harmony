@@ -5,6 +5,8 @@ ADDED:
 CHANGED:
 
 - [#5](https://github.com/woohoolabs/harmony/issues/5): Return a Response object for all the middlewares
+- Deprecated middlewares returning null
+- Middlewares must return a `ResponseInterface` instance, otherwise an exception will be thrown 
 
 FIXED:
 

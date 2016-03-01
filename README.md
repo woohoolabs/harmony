@@ -278,8 +278,8 @@ Let's say you would like to log all the requests:
 ```php
 $middleware = function(ServerRequestInterace $request, ResponseInterface $response, callable $next) {
     // Logging
-    
-    $next();
+
+    return $next();
 }
 ```
 
@@ -289,9 +289,9 @@ And then you have to attach the middleware to Harmony:
 $harmony->addMiddleware("logging", $middleware);
 ```
 
-The single most important thing a middleware can do is to call `$next()` to invoke the next middleware
-when its function was accomplished. Failing to call this method results in the interruption of the framework's
-operation (of course the final middlewares will still be executed)!
+A middleware must return a `ResponseInterface` instance in any cases, but the most important thing it can do is to
+call `$next()` to invoke the next middleware when its function was accomplished. Failing to call this method results
+in the interruption of the framework's operation (of course the final middlewares will still be executed)!
 
 But what to do if you want to pass a manipulated request or response to the next middleware? Then, you should call
 `$next($request, $response)`. This way, the following middleware will receive the modified request or response.
@@ -333,7 +333,7 @@ class AuthenticationMiddleware implements MiddlewareInterface
             return $response->withStatusCode(402);
         }
         
-         $next();
+         return $next();
     }
 }
 ```
@@ -352,16 +352,15 @@ Instead of `callable`, you could typehint the `$next` argument against `Harmony`
 This way you can use some specific features of Harmony (like `Harmony::getMiddleware()`) but lose the ability to
 reuse your middleware in other frameworks.
 
-Again: the single most important thing a middleware can do is to call `$next()` to invoke the next middleware
-when its function was accomplished. Failing to call this method results in the interruption of the framework's
-operation (of course the final middlewares will still be executed)! That's why we only invoke `$next()` in this example
-when the authentication was successful.
+Again: a middleware must return a `ResponseInterface` instance in any cases, but the most important thing it can do is to 
+call `$next()` to invoke the next middleware when its function was accomplished. Failing to call this method results in
+the interruption of the framework's operation (of course the final middlewares will still be executed)! That's why we
+only invoke `$next()` in this example when the authentication was successful.
 
 Very important to notice that when authentication is unsuccessful, no other middlewares will be executed (as `$next()`
 is not called), so possibly only the final middlewares will be invoked afterwards. As you want to pass a modified
 response with status code 412 to the final middlewares, you must return the response (as seen in the prior example)
-in order to inform the framework from the changed response. Note that you can't do the same with requests, it is only
-possible with responses.
+in order to inform the framework from the changed response.
 
 ## Examples
 

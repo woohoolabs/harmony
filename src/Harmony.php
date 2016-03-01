@@ -3,6 +3,7 @@ namespace WoohooLabs\Harmony;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use WoohooLabs\Harmony\Exception\MiddlewareReturnTypeException;
 
 class Harmony
 {
@@ -65,6 +66,7 @@ class Harmony
     /**
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @param \Psr\Http\Message\ResponseInterface $response
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function __invoke(ServerRequestInterface $request = null, ResponseInterface $response = null)
     {
@@ -198,16 +200,24 @@ class Harmony
 
     /**
      * @param callable $middleware
+     * @throws \WoohooLabs\Harmony\Exception\MiddlewareReturnTypeException
      */
     protected function executeMiddleware(callable $middleware)
     {
         $response = $middleware($this->getRequest(), $this->getResponse(), $this);
 
-        if ($response) {
+        if ($response instanceof ResponseInterface) {
             if ($this->stopped) {
                 $this->terminated = true;
             }
             $this->response = $response;
+        } elseif ($response === null) {
+            trigger_error(
+                "Middlewares must return a \\Psr\\Http\\Message\\ResponseInterface instance!",
+                E_USER_DEPRECATED
+            );
+        } else {
+            throw new MiddlewareReturnTypeException();
         }
     }
 }

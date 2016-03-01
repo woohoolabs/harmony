@@ -6,24 +6,16 @@ use Psr\Http\Message\ServerRequestInterface;
 use WoohooLabs\Harmony\Harmony;
 use WoohooLabs\Harmony\Middleware\MiddlewareInterface;
 
-class DummyMiddleware implements MiddlewareInterface
+class ReturningMiddleware implements MiddlewareInterface
 {
-    protected $text;
+    protected $returnValue;
 
     /**
-     * @param string $text
+     * @param mixed $returnValue
      */
-    public function __construct($text = "dummy")
+    public function __construct($returnValue)
     {
-        $this->text = $text;
-    }
-
-    /**
-     * @return string
-     */
-    public function getText()
-    {
-        return $this->text;
+        $this->returnValue = $returnValue;
     }
 
     /**
@@ -33,6 +25,6 @@ class DummyMiddleware implements MiddlewareInterface
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, Harmony $next)
     {
-        return $next();
+        return $this->returnValue;
     }
 }
