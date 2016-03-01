@@ -86,11 +86,13 @@ class Harmony
 
         // Stopping if there aren't any executable middlewares remaining
         if ($nextKey === null) {
-            return;
+            return $this->response;
         }
 
         // Executing the next middleware
         $this->executeMiddleware($this->middlewares[$nextKey]["callable"]);
+
+        return $this->response;
     }
 
     /**
