@@ -27,7 +27,7 @@ class HarmonyTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function invokeAllTheMiddlewares()
+    public function invokeAllMiddlewares()
     {
         $harmony = $this->createHarmony();
         $harmony->addMiddleware("dummy1", new HeaderMiddleware("dummy", "dummy"));
@@ -42,7 +42,7 @@ class HarmonyTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function returnAfterTheSecondMiddleware()
+    public function returnAfterSecondMiddleware()
     {
         $harmony = $this->createHarmony();
         $harmony->addMiddleware("dummy1", new DummyMiddleware("dummy1"));
@@ -94,7 +94,7 @@ class HarmonyTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function stopAfterTheFirstFinalMiddleware()
+    public function stopAfterFirstFinalMiddleware()
     {
         $harmony = $this->createHarmony();
         $harmony->addFinalMiddleware("dummy1", new InternalServerErrorMiddleware());
@@ -119,11 +119,14 @@ class HarmonyTest extends PHPUnit_Framework_TestCase
     public function invokeMultipleFinalMiddlewares()
     {
         $harmony = $this->createHarmony();
-        $harmony->addFinalMiddleware("dummy2", new HeaderMiddleware("dummy", "dummy"));
-        $harmony->addFinalMiddleware("dummy3", new InternalServerErrorMiddleware());
+        $harmony->addFinalMiddleware("dummy1", new HeaderMiddleware("dummy1", "dummy"));
+        $harmony->addFinalMiddleware("dummy2", new HeaderMiddleware("dummy2", "dummy"));
+        $harmony->addFinalMiddleware("dummy3", new DummyMiddleware());
+        $harmony->addFinalMiddleware("dummy4", new InternalServerErrorMiddleware());
         $harmony->__destruct();
 
-        $this->assertEquals(["dummy"], $harmony->getResponse()->getHeader("dummy"));
+        $this->assertEquals(["dummy"], $harmony->getResponse()->getHeader("dummy1"));
+        $this->assertEquals(["dummy"], $harmony->getResponse()->getHeader("dummy2"));
         $this->assertEquals(500, $harmony->getResponse()->getStatusCode());
     }
 
