@@ -36,6 +36,6 @@ class HeaderMiddleware implements MiddlewareInterface
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, Harmony $next)
     {
-        return $next($response->withHeader($this->name, $this->value));
+        return $next(null, $response->withHeader($this->name, $this->value));
     }
 }

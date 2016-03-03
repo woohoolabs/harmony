@@ -206,7 +206,6 @@ class Harmony
     protected function executeMiddleware(callable $middleware)
     {
         $response = $middleware($this->getRequest(), $this->getResponse(), $this);
-
         if ($response instanceof ResponseInterface) {
             $this->response = $response;
         } elseif ($response === null) {

@@ -17,6 +17,11 @@ class DummyResponse implements ResponseInterface
     private $statusCode = 200;
 
     /**
+     * @var array
+     */
+    private $headers = [];
+
+    /**
      * Retrieves the HTTP protocol version as a string.
      *
      * The string MUST contain only the HTTP version number (e.g., "1.1", "1.0").
@@ -71,6 +76,7 @@ class DummyResponse implements ResponseInterface
      */
     public function getHeaders()
     {
+        return $this->headers;
     }
 
     /**
@@ -83,6 +89,7 @@ class DummyResponse implements ResponseInterface
      */
     public function hasHeader($name)
     {
+        return isset($this->headers[$name]);
     }
 
     /**
@@ -101,6 +108,7 @@ class DummyResponse implements ResponseInterface
      */
     public function getHeader($name)
     {
+        return isset($this->headers[$name]) ? $this->headers[$name] : [];
     }
 
     /**
@@ -143,6 +151,10 @@ class DummyResponse implements ResponseInterface
      */
     public function withHeader($name, $value)
     {
+        $new = clone $this;
+        $new->headers[$name] = is_array($value) ? $value : [$value];
+
+        return $new;
     }
 
     /**
