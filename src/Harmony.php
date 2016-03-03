@@ -59,6 +59,7 @@ class Harmony
     {
         $this->stopped = true;
         if ($this->terminated === false) {
+            $this->terminated = true;
             $this->__invoke();
         }
     }
@@ -207,9 +208,6 @@ class Harmony
         $response = $middleware($this->getRequest(), $this->getResponse(), $this);
 
         if ($response instanceof ResponseInterface) {
-            if ($this->stopped) {
-                $this->terminated = true;
-            }
             $this->response = $response;
         } elseif ($response === null) {
             trigger_error(

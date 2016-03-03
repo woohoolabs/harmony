@@ -6,16 +6,26 @@ use Psr\Http\Message\ServerRequestInterface;
 use WoohooLabs\Harmony\Harmony;
 use WoohooLabs\Harmony\Middleware\MiddlewareInterface;
 
-class ReturningMiddleware implements MiddlewareInterface
+class HeaderMiddleware implements MiddlewareInterface
 {
-    protected $returnValue;
+    /**
+     * @var string
+     */
+    protected $name;
 
     /**
-     * @param mixed $returnValue
+     * @var string|string[]
      */
-    public function __construct($returnValue)
+    protected $value;
+
+    /**
+     * @param string $name
+     * @param string|string[] $value
+     */
+    public function __construct($name, $value)
     {
-        $this->returnValue = $returnValue;
+        $this->name = $name;
+        $this->value = $value;
     }
 
     /**
@@ -26,6 +36,6 @@ class ReturningMiddleware implements MiddlewareInterface
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, Harmony $next)
     {
-        return $this->returnValue;
+        return $next($response->withHeader($this->name, $this->value));
     }
 }
