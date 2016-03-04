@@ -38,11 +38,6 @@ class Harmony
     protected $stopped = false;
 
     /**
-     * @var bool
-     */
-    protected $terminated = false;
-
-    /**
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @param \Psr\Http\Message\ResponseInterface $response
      */
@@ -57,9 +52,8 @@ class Harmony
      */
     public function __destruct()
     {
-        $this->stopped = true;
-        if ($this->terminated === false) {
-            $this->terminated = true;
+        if ($this->stopped === false) {
+            $this->stopped = true;
             $this->__invoke();
         }
     }
