@@ -6,6 +6,13 @@ CHANGED:
 
 FIXED:
 
+## 2.3.1 - 2016-03-06
+
+CHANGED:
+
+- [#7](https://github.com/woohoolabs/harmony/issues/7): Removed unnecessary `terminated` property
+- Improved tests
+
 ## 2.3.0 - 2016-03-01
 
 CHANGED:
