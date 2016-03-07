@@ -300,13 +300,13 @@ middleware!
 
 If you need more sophistication, you can use an invokable class as a middleware too. And you can even implement
 `MiddlewareInterface` to gain access to all the capabilities of the framework! For example let's create an
-authentication middleware implementing the aforementioned `MiddlewareInterface`:
+authentication middleware:
 
 ```php
 use WoohooLabs\Harmony\Middleware\MiddlewareInterface;
 use WoohooLabs\Harmony\Harmony;
 
-class AuthenticationMiddleware implements MiddlewareInterface
+class AuthenticationMiddleware
 {
     /**
      * @var string
@@ -318,7 +318,6 @@ class AuthenticationMiddleware implements MiddlewareInterface
      */
     public function __construct($apiKey)
     {
-        $this->harmony = $harmony;
         $this->apiKey = $apiKey;
     }
 
@@ -333,7 +332,7 @@ class AuthenticationMiddleware implements MiddlewareInterface
             return $response->withStatusCode(402);
         }
         
-         return $next();
+        return $next();
     }
 }
 ```
@@ -349,8 +348,8 @@ authentication.
 
 Instead of `callable`, you could typehint the `$next` argument against `Harmony`, according to the
 [`MiddlewareInterface`](https://github.com/woohoolabs/harmony/blob/master/src/Middleware/MiddlewareInterface.php).
-This way you can use some specific features of Harmony (like `Harmony::getMiddleware()`) but lose the ability to
-reuse your middleware in other frameworks.
+You can use some specific features of Harmony (like `Harmony::getMiddleware()`) but lose the ability to
+reuse your middleware in other frameworks if you implement this interface.
 
 Again: a middleware must return a `ResponseInterface` instance in any cases, but the most important thing it can do is to 
 call `$next()` to invoke the next middleware when its function was accomplished. Failing to call this method results in
