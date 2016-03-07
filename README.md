@@ -298,8 +298,7 @@ But what to do if you want to pass a manipulated request or response to the next
 Calling `$next(null, $response)` will pass the original request and the possibly changed response to the next
 middleware!
 
-If you need more sophistication, you can use an invokable class as a middleware too. And you can even implement
-`MiddlewareInterface` to gain access to all the capabilities of the framework! For example let's create an
+If you need more sophistication, you can use an invokable class as a middleware too. For example let's create an
 authentication middleware:
 
 ```php
@@ -346,10 +345,9 @@ $harmony->addMiddleware("authentication", new AuthenticationMiddleware("123"));
 As you can see, the constructor receives the API Key, while the `__invoke()` method is responsible for performing the
 authentication.
 
-Instead of `callable`, you could typehint the `$next` argument against `Harmony`, according to the
+Instead of `callable`, you can also typehint the `$next` argument against `Harmony` according to the
 [`MiddlewareInterface`](https://github.com/woohoolabs/harmony/blob/master/src/Middleware/MiddlewareInterface.php).
-You can use some specific features of Harmony (like `Harmony::getMiddleware()`) but lose the ability to
-reuse your middleware in other frameworks if you implement this interface.
+By implementing this interface, you can use some specific features of Harmony (like `Harmony::getMiddleware()`) but lose the ability to reuse your middleware in other frameworks.
 
 Again: a middleware must return a `ResponseInterface` instance in any cases, but the most important thing it can do is to 
 call `$next()` to invoke the next middleware when its function was accomplished. Failing to call this method results in
