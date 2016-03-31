@@ -11,14 +11,20 @@ use WoohooLabsTest\Harmony\Utils\Psr7\DummyServerRequest;
 
 class DiactorosResponderMiddlewareTest extends PHPUnit_Framework_TestCase
 {
-    public function testConstruct()
+    /**
+     * @test
+     */
+    public function construct()
     {
         $middleware = new DiactorosResponderMiddleware(new DummyEmitter());
 
         $this->assertInstanceOf(DummyEmitter::class, $middleware->getEmitter());
     }
 
-    public function testSetEmitter()
+    /**
+     * @test
+     */
+    public function setEmitter()
     {
         $middleware = new DiactorosResponderMiddleware(null);
         $middleware->setEmitter(new DummyEmitter());
@@ -26,7 +32,10 @@ class DiactorosResponderMiddlewareTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(DummyEmitter::class, $middleware->getEmitter());
     }
 
-    public function testInvoke()
+    /**
+     * @test
+     */
+    public function invoke()
     {
         $harmony = $this->createHarmony();
         $middleware = new DiactorosResponderMiddleware(new DummyEmitter());
@@ -35,13 +44,19 @@ class DiactorosResponderMiddlewareTest extends PHPUnit_Framework_TestCase
         $middleware($harmony->getRequest(), $harmony->getResponse(), $harmony);
     }
 
-    public function testGetCheckOutputStart()
+    /**
+     * @test
+     */
+    public function getCheckOutputStart()
     {
         $middleware = new DiactorosResponderMiddleware(null, true);
         $this->assertTrue($middleware->getCheckOutputStart());
     }
 
-    public function testSetCheckOutputStart()
+    /**
+     * @test
+     */
+    public function setCheckOutputStart()
     {
         $middleware = new DiactorosResponderMiddleware(null, true);
         $middleware->setCheckOutputStart(false);

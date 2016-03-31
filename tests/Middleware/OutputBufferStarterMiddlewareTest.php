@@ -9,7 +9,10 @@ use WoohooLabsTest\Harmony\Utils\Psr7\DummyServerRequest;
 
 class OutputBufferStarterMiddlewareTest extends PHPUnit_Framework_TestCase
 {
-    public function testInvoke()
+    /**
+     * @test
+     */
+    public function invoke()
     {
         $harmony = $this->createHarmony();
         $middleware = new OutputBufferStarterMiddleware();

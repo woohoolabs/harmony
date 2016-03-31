@@ -9,7 +9,10 @@ use WoohooLabsTest\Harmony\Utils\Psr7\DummyServerRequest;
 
 class OutputBufferResponderMiddlewareTest extends PHPUnit_Framework_TestCase
 {
-    public function testFlushingInvoke()
+    /**
+     * @test
+     */
+    public function invokeWithFlush()
     {
         $harmony = $this->createHarmony();
         $middleware = new OutputBufferResponderMiddleware(false);
@@ -20,7 +23,10 @@ class OutputBufferResponderMiddlewareTest extends PHPUnit_Framework_TestCase
         $middleware($harmony->getRequest(), $harmony->getResponse(), $harmony);
     }
 
-    public function testClearingInvoke()
+    /**
+     * @test
+     */
+    public function InvokeWithClear()
     {
         $harmony = $this->createHarmony();
         $middleware = new OutputBufferResponderMiddleware(true);
@@ -31,13 +37,19 @@ class OutputBufferResponderMiddlewareTest extends PHPUnit_Framework_TestCase
         $middleware($harmony->getRequest(), $harmony->getResponse(), $harmony);
     }
 
-    public function testIsOnlyClearBuffer()
+    /**
+     * @test
+     */
+    public function isOnlyClearBuffer()
     {
         $middleware = new OutputBufferResponderMiddleware(true);
         $this->assertTrue($middleware->isOnlyClearBuffer());
     }
 
-    public function testSetOnlyClearBuffer()
+    /**
+     * @test
+     */
+    public function setOnlyClearBuffer()
     {
         $middleware = new OutputBufferResponderMiddleware(true);
         $middleware->setOnlyClearBuffer(false);
