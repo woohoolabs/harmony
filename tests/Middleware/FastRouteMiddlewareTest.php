@@ -88,7 +88,7 @@ class FastRouteMiddlewareTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function nvokeAttributesPassed()
+    public function invokeAttributesPassed()
     {
         $harmony = $this->createHarmony();
         $route = [Dispatcher::FOUND, ["", ""], ["arg1" => "val1", "arg2" => "val2"]];

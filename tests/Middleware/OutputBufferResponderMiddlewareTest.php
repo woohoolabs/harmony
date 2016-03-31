@@ -26,7 +26,7 @@ class OutputBufferResponderMiddlewareTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function InvokeWithClear()
+    public function invokeWithClear()
     {
         $harmony = $this->createHarmony();
         $middleware = new OutputBufferResponderMiddleware(true);
