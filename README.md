@@ -31,7 +31,7 @@ quality application. We wanted to give you total control via
 
 #### TL;DR
 
-This post summarizes my motivation the best why Harmony was born: http://www.catonmat.net/blog/frameworks-dont-make-sense/ 
+This post summarizes the best why Harmony was born: http://www.catonmat.net/blog/frameworks-dont-make-sense/ 
 
 #### "Long live is the framework"
 
