@@ -29,6 +29,10 @@ quality application. We wanted to give you total control via
 
 ## Introduction
 
+#### TL;DR
+
+This post summarizes my motivation the best why Harmony was born: http://www.catonmat.net/blog/frameworks-dont-make-sense/ 
+
 #### "Long live is the framework"
 
 The general problem with frameworks is that they suggest you using the set of tools they have. Initially,
