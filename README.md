@@ -6,6 +6,7 @@
 [![Coverage Status][ico-scrutinizer]][link-scrutinizer]
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
+[![Gitter][ico-gitter]][link-gitter]
 
 **Woohoo Labs. Harmony is a flexible micro-framework developed for PHP applications.**
 
@@ -396,11 +397,13 @@ The MIT License (MIT). Please see the [License File](LICENSE.md) for more inform
 [ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/woohoolabs/harmony.svg
 [ico-code-quality]: https://img.shields.io/scrutinizer/g/woohoolabs/harmony.svg
 [ico-downloads]: https://img.shields.io/packagist/dt/woohoolabs/harmony.svg
+[ico-gitter]: https://badges.gitter.im/woohoolabs/harmony.svg
 
 [link-packagist]: https://packagist.org/packages/woohoolabs/harmony
 [link-travis]: https://travis-ci.org/woohoolabs/harmony
 [link-scrutinizer]: https://scrutinizer-ci.com/g/woohoolabs/harmony/code-structure
 [link-code-quality]: https://scrutinizer-ci.com/g/woohoolabs/harmony
 [link-downloads]: https://packagist.org/packages/woohoolabs/harmony
+[link-gitter]: https://gitter.im/woohoolabs/harmony?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
 [link-author]: https://github.com/kocsismate
 [link-contributors]: ../../contributors
