@@ -33,6 +33,7 @@ class FastRouteMiddleware
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @param \Psr\Http\Message\ResponseInterface $response
      * @param callable $next
+     * @return \Psr\Http\Message\ResponseInterface
      * @throws \WoohooLabs\Harmony\Exception\MethodNotAllowedException
      * @throws \WoohooLabs\Harmony\Exception\RouteNotFoundException
      */

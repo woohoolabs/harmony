@@ -2,6 +2,8 @@
 
 ADDED:
 
+- `@return` PHPDoc comments for middlewares
+
 CHANGED:
 
 FIXED:
