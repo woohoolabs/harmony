@@ -294,7 +294,7 @@ And then you have to attach the middleware to Harmony:
 $harmony->addMiddleware("logging", $middleware);
 ```
 
-A middleware must return a `ResponseInterface` instance in any cases, but the most important thing it can do is to
+**A middleware must return a `ResponseInterface` instance in any cases**, but the most important thing it can do is to
 call `$next()` to invoke the next middleware when its function was accomplished. Failing to call this method results
 in the interruption of the framework's operation (of course the final middlewares will still be executed)!
 
@@ -329,6 +329,7 @@ class AuthenticationMiddleware
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @param \Psr\Http\Message\ResponseInterface $response
      * @param callable $next
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
     {
@@ -354,8 +355,7 @@ Instead of `callable`, you can also typehint the `$next` argument against `Harmo
 [`MiddlewareInterface`](https://github.com/woohoolabs/harmony/blob/master/src/Middleware/MiddlewareInterface.php).
 By implementing this interface, you can use some specific features of Harmony (like `Harmony::getMiddleware()`) but lose the ability to reuse your middleware in other frameworks.
 
-Again: a middleware must return a `ResponseInterface` instance in any cases, but the most important thing it can do is to 
-call `$next()` to invoke the next middleware when its function was accomplished. Failing to call this method results in
+Again: **a middleware must return a `ResponseInterface` instance in any cases**, but the most important thing it can do is to call `$next()` to invoke the next middleware when its function was accomplished. Failing to call this method results in
 the interruption of the framework's operation (of course the final middlewares will still be executed)! That's why we
 only invoke `$next()` in this example when the authentication was successful.
 
