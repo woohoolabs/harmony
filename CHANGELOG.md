@@ -2,6 +2,7 @@
 
 ADDED:
 
+- Support for PHPUnit 5.0
 - `@return` PHPDoc comments for middlewares
 
 CHANGED:
