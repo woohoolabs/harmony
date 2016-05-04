@@ -333,7 +333,7 @@ class AuthenticationMiddleware
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
     {
         if ($request->getHeader("x-api-key") !== [$this->apiKey]) {
-            return $response->withStatusCode(402);
+            return $response->withStatusCode(401);
         }
         
         return $next();
