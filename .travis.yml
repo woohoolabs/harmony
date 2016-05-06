@@ -28,7 +28,6 @@ notifications:
   email: true
 
 before_install:
-  - if [[ "$EXECUTE_COVERAGE" != "true" ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
   - composer self-update
   - if [[ "$EXECUTE_COVERAGE" == "true" ]]; then composer require --no-update satooshi/php-coveralls:dev-master ; fi
 
