@@ -30,6 +30,9 @@
         "nikic/fast-route": "Allows to use the default router",
         "zendframework/zend-diactoros": "Allows to use PSR-7 HTTP messages"
     },
+    "provide": {
+        "container-interop/container-interop-implementation": "1.0"
+    },
     "autoload": {
         "psr-4": {
             "WoohooLabs\\Harmony\\": "src/"
