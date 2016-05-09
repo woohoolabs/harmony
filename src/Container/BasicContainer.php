@@ -2,6 +2,7 @@
 namespace WoohooLabs\Harmony\Container;
 
 use Interop\Container\ContainerInterface;
+use Exception;
 
 class BasicContainer implements ContainerInterface
 {
@@ -23,7 +24,7 @@ class BasicContainer implements ContainerInterface
 
         try {
             $entry = new $id();
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             throw new ContainerException();
         }
 
