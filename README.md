@@ -119,8 +119,8 @@ $ composer require woohoolabs/harmony
 If you want to use the default middlewares then you have to ask for the following dependencies too:
 
 ```bash
-$ composer require nikic/fast-route
-$ composer require zendframework/zend-diactoros
+$ composer require nikic/fast-route:^1.0.0
+$ composer require zendframework/zend-diactoros:^2.3.0
 ```
 
 ## Basic Usage
@@ -367,8 +367,7 @@ in order to inform the framework from the changed response.
 ## Examples
 
 Have a look at the [examples directory](https://github.com/woohoolabs/harmony/blob/master/examples/) for a really basic
-application structure. Don't forget to require the [necessary dependencies](#require-the-necessary-dependencies) if you
-want to try it out!
+application structure. Don't forget to run `composer install` first in Harmony's root directory if you want to try it out!
 
 ## Versioning
 
