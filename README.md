@@ -63,24 +63,24 @@ eases gradual refactoring.
 
 #### Features
 
-- Extreme flexibility through middlewares
+- Extreme flexibility through middleware
 - Full control over HTTP requests and responses via PSR-7
 - Support for any IoC Containers via Container-Interop
 - Totally object-oriented workflow
 
 #### Concepts
 
-Woohoo Labs. Harmony is built upon two main concepts: middlewares which promote separation of concerns and
+Woohoo Labs. Harmony is built upon two main concepts: middleware which promote separation of concerns and
 common interfaces allowing you to band your favourite tools together!
 
-Middlewares - that are [described in detail by Igor Wiedler](https://igor.io/2013/02/02/http-kernel-middlewares.html) -
+Middleware - that are [described in detail by Igor Wiedler](https://igor.io/2013/02/02/http-kernel-middlewares.html) -
 make it possible to take hands on the course of action of the request-response lifecycle: you can authenticate before
 routing, do some logging after the response has been sent, or you can even dispatch multiple routes in one
 request if you want. These can be achieved because everything in Harmony is a middleware, so the framework itself only
-consists of cc. 200 lines of code. And that's why there is no framework-wide configuration (only middlewares can
+consists of cc. 200 lines of code. And that's why there is no framework-wide configuration (only middleware can
 be configured). Basically it only depends on your imagination and needs what you do with Harmony.
 
-But middlewares must work in cooperation (especially the router and the dispatcher are tightly coupled to each other).
+But middleware must work in cooperation (especially the router and the dispatcher are tightly coupled to each other).
 That's why it is also important to provide common interfaces for the distinct components of the framework.
 
 Naturally, we decided to use [PSR-7](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-7-http-message.md)
@@ -88,16 +88,16 @@ for modelling the HTTP request and response. In order to facilitate the usage of
 adapted the [Container-Interop standard interface](https://github.com/container-interop/container-interop)
 (which is supported by various containers off-the-shelf).
 
-#### Available Middlewares
+#### Available Middleware
 
 Woohoo Labs. Harmony's middleware interface design is based on the "request, response, next" style advocated
 by such prominent developers as [Matthew Weier O'Phinney](https://mwop.net/) (you can read more on the topic [in his blog post](https://mwop.net/blog/2015-01-08-on-http-middleware-and-psr-7.html)). That's why
-Harmony's middlewares are compatible with middlewares built for [Zend-Stratigility](https://github.com/zendframework/zend-stratigility/), [Zend-Expressive](https://github.com/zendframework/zend-expressive/) or
+Harmony's middleware are compatible with middleware built for [Zend-Stratigility](https://github.com/zendframework/zend-stratigility/), [Zend-Expressive](https://github.com/zendframework/zend-expressive/) or
 [Slim Framework 3](http://www.slimframework.com/docs/concepts/middleware.html).
 
-Furthermore, you can find various other middlewares available for Harmony:
+Furthermore, you can find various other middleware available for Harmony:
 
-- [Woohoo Labs. Yin-Middlewares](https://github.com/woohoolabs/yin-middlewares): A bunch of middlewares to integrate
+- [Woohoo Labs. Yin-Middleware](https://github.com/woohoolabs/yin-middleware): A bunch of middleware to integrate
 [Woohoo Labs. Yin](https://github.com/woohoolabs/harmony) - the elegant JSON API framework - into Harmony.
 - [MiniUrl](https://github.com/mtymek/MiniUrl): A simple URL shortener, which can be used as a free, open-source
 replacement for bit.ly's core functionality: creating short links and redirecting users.
@@ -116,7 +116,7 @@ $ composer require woohoolabs/harmony
 
 #### Require the necessary dependencies:
 
-If you want to use the default middlewares then you have to ask for the following dependencies too:
+If you want to use the default middleware then you have to ask for the following dependencies too:
 
 ```bash
 $ composer require nikic/fast-route:^1.0.0
@@ -192,13 +192,13 @@ $router = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
 
 #### Finally, Launch The Framework:
 
-You have to register all the following middlewares in order for the framework to function properly:
+You have to register all the following middleware in order for the framework to function properly:
 - `FastRouteMiddleware` takes care of routing (`$router`  was configured in the previous step)
 - `DispatcherMiddleware` dispatches a controller which belongs to the request's current route
 - `DiactorosResponderMiddleware` sends the response to the ether via [Zend Diactoros](https://github.com/zendframework/zend-diactoros)
 
 Note that the first argument of `Harmony::addMiddleware()` and `Harmony::addFinalMiddleware()` is the ID of the
-middleware (which should be unique) and the middlewares attached via `Harmony::addFinalMiddleware()` will always be
+middleware (which should be unique) and the middleware attached via `Harmony::addFinalMiddleware()` will always be
 executed after the normal ones! In this case, we always want our response to be sent by `DiactorosResponderMiddleware`. 
 
 ```php
@@ -219,7 +219,7 @@ $harmony
 $harmony();
 ```
 
-Of course, it is completely up to you how you add additional middlewares or how you replace them with your own
+Of course, it is completely up to you how you add additional middleware or how you replace them with your own
 implementations. When you'd like to go live, just call `$harmony()`!
 
 ## Advanced Usage
@@ -275,7 +275,7 @@ $container = new \DI\Container();
 $harmony->addMiddleware("dispatcher", new DispatcherMiddleware($container));
 ```
 
-#### Creating Custom Middlewares
+#### Creating Custom Middleware
 
 It's not a big deal to add a new middleware to your stack. For a basic scenario, you can use anonymous functions.
 Let's say you would like to log all the requests:
@@ -296,7 +296,7 @@ $harmony->addMiddleware("logging", $middleware);
 
 **A middleware must return a `ResponseInterface` instance in any cases**, but the most important thing it can do is to
 call `$next()` to invoke the next middleware when its function was accomplished. Failing to call this method results
-in the interruption of the framework's operation (of course the final middlewares will still be executed)!
+in the interruption of the framework's operation (of course the final middleware will still be executed)!
 
 But what to do if you want to pass a manipulated request or response to the next middleware? Then, you should call
 `$next($request, $response)`. This way, the following middleware will receive the modified request or response.
@@ -356,12 +356,12 @@ Instead of `callable`, you can also typehint the `$next` argument against `Harmo
 By implementing this interface, you can use some specific features of Harmony (like `Harmony::getMiddleware()`) but lose the ability to reuse your middleware in other frameworks.
 
 Again: **a middleware must return a `ResponseInterface` instance in any cases**, but the most important thing it can do is to call `$next()` to invoke the next middleware when its function was accomplished. Failing to call this method results in
-the interruption of the framework's operation (of course the final middlewares will still be executed)! That's why we
+the interruption of the framework's operation (of course the final middleware will still be executed)! That's why we
 only invoke `$next()` in this example when the authentication was successful.
 
-Very important to notice that when authentication is unsuccessful, no other middlewares will be executed (as `$next()`
-is not called), so possibly only the final middlewares will be invoked afterwards. As you want to pass a modified
-response with status code 412 to the final middlewares, you must return the response (as seen in the prior example)
+Very important to notice that when authentication is unsuccessful, no other middleware will be executed (as `$next()`
+is not called), so possibly only the final middleware will be invoked afterwards. As you want to pass a modified
+response with status code 412 to the final middleware, you must return the response (as seen in the prior example)
 in order to inform the framework from the changed response.
 
 ## Examples

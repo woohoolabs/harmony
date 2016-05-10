@@ -27,7 +27,7 @@ class HarmonyTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function invokeAllMiddlewares()
+    public function invokeAllMiddleware()
     {
         $harmony = $this->createHarmony();
         $harmony->addMiddleware("dummy1", new HeaderMiddleware("dummy", "dummy"));
@@ -116,7 +116,7 @@ class HarmonyTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function invokeMultipleFinalMiddlewares()
+    public function invokeMultipleFinalMiddleware()
     {
         $harmony = $this->createHarmony();
         $harmony->addFinalMiddleware("dummy1", new HeaderMiddleware("dummy1", "dummy"));
@@ -157,7 +157,7 @@ class HarmonyTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function addMiddlewares()
+    public function addMiddleware()
     {
         $harmony = $this->createHarmony();
         $harmony->addMiddleware("dummy1", new DummyMiddleware("dummy1"));
