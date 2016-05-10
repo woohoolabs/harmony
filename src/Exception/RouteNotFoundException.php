@@ -1,6 +1,8 @@
 <?php
 namespace WoohooLabs\Harmony\Exception;
 
-class RouteNotFoundException extends \Exception
+use Exception;
+
+class RouteNotFoundException extends Exception
 {
 }

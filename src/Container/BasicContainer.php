@@ -1,8 +1,8 @@
 <?php
 namespace WoohooLabs\Harmony\Container;
 
-use Interop\Container\ContainerInterface;
 use Exception;
+use Interop\Container\ContainerInterface;
 
 class BasicContainer implements ContainerInterface
 {
@@ -19,13 +19,13 @@ class BasicContainer implements ContainerInterface
     public function get($id)
     {
         if ($this->has($id) !== true) {
-            throw new ContainerNotFoundException();
+            throw new BasicContainerNotFoundException();
         }
 
         try {
             $entry = new $id();
         } catch (Exception $exception) {
-            throw new ContainerException();
+            throw new BasicContainerException();
         }
 
         return $entry;

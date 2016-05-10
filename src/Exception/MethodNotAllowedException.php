@@ -1,6 +1,8 @@
 <?php
 namespace WoohooLabs\Harmony\Exception;
 
-class MethodNotAllowedException extends \Exception
+use Exception;
+
+class MethodNotAllowedException extends Exception
 {
 }
