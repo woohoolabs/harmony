@@ -272,7 +272,7 @@ class Harmony
         }
 
         $harmony = new Harmony($this->request, $this->response);
-        call_user_func($callable, $harmony);
+        $callable($harmony);
         $harmony();
         $harmony->__destruct();
         $this->request = $harmony->request;
