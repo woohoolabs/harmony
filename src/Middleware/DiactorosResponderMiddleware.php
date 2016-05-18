@@ -4,6 +4,7 @@ namespace WoohooLabs\Harmony\Middleware;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response\EmitterInterface;
+use Zend\Diactoros\Response\SapiEmitter;
 
 class DiactorosResponderMiddleware
 {
@@ -23,7 +24,7 @@ class DiactorosResponderMiddleware
      */
     public function __construct(EmitterInterface $emitter = null, $checkOutputStart = false)
     {
-        $this->emitter = $emitter;
+        $this->emitter = $emitter ? $emitter : new SapiEmitter();
         $this->checkOutputStart = $checkOutputStart;
     }
 
