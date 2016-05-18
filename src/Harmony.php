@@ -3,7 +3,9 @@ namespace WoohooLabs\Harmony;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use WoohooLabs\Harmony\Exception\MiddlewareReturnTypeException;
+use WoohooLabs\Harmony\Condition\ConditionInterface;
+use WoohooLabs\Harmony\Exception\MiddlewareNotExists;
+use WoohooLabs\Harmony\Exception\MiddlewareWrongReturnType;
 
 class Harmony
 {
@@ -20,7 +22,7 @@ class Harmony
     /**
      * @var array
      */
-    protected $middlewares = [];
+    protected $middleware = [];
 
     /**
      * @var int
@@ -48,7 +50,7 @@ class Harmony
     }
 
     /**
-     *  Executes the final middlewares.
+     *  Executes final middleware.
      */
     public function __destruct()
     {
@@ -73,7 +75,7 @@ class Harmony
             $this->response = $response;
         }
 
-        // Retrieving the key of the next middleware of the appropriate type
+        // Retrieving the key of the next normal or final middleware
         if ($this->stopped === true) {
             $nextKey = &$this->currentFinalMiddleware;
         } else {
@@ -81,13 +83,17 @@ class Harmony
         }
         $nextKey = $this->getNextMiddlewareKey($nextKey + 1, $this->stopped);
 
-        // Stopping if there aren't any executable middlewares remaining
+        // Stopping if there aren't any executable middleware remaining
         if ($nextKey === null) {
             return $this->response;
         }
 
-        // Executing the next middleware
-        $this->executeMiddleware($this->middlewares[$nextKey]["callable"]);
+        // Executing the next middleware or condition
+        if (empty($this->middleware[$nextKey]["condition"])) {
+            $this->executeMiddleware($this->middleware[$nextKey]);
+        } else {
+            $this->executeCondition($this->middleware[$nextKey]);
+        }
 
         return $this->response;
     }
@@ -120,44 +126,59 @@ class Harmony
             return null;
         }
 
-        return $this->middlewares[$position]["callable"];
+        return $this->middleware[$position]["callable"];
     }
 
     /**
-     * @param string $id
      * @param callable $middleware
+     * @param string|null $id
      * @return $this
      */
-    public function addMiddleware($id, callable $middleware)
+    public function addMiddleware(callable $middleware, $id = null)
     {
-        $this->middlewares[] = ["id" => $id, "callable" => $middleware, "final" => false];
+        $this->middleware[] = $this->createMiddleware($id, $middleware, false);
+
+        return $this;
+    }
+
+    /**
+     * @param callable $middleware
+     * @param string|null $id
+     * @return $this
+     */
+    public function addFinalMiddleware(callable $middleware, $id = null)
+    {
+        $this->middleware[] = $this->createMiddleware($id, $middleware, true);
 
         return $this;
     }
 
     /**
      * @param string $id
-     * @param callable $middleware
      * @return $this
-     */
-    public function addFinalMiddleware($id, callable $middleware)
-    {
-        $this->middlewares[] = ["id" => $id, "callable" => $middleware, "final" => true];
-
-        return $this;
-    }
-
-    /**
-     * @param string $id
-     * @return $this
+     * @throws MiddlewareNotExists
      */
     public function removeMiddleware($id)
     {
         $position = $this->findMiddleware($id);
 
-        if ($position !== null) {
-            unset($this->middlewares[$position]);
+        if ($position === null) {
+            throw new MiddlewareNotExists($id);
         }
+
+        unset($this->middleware[$position]);
+
+        return $this;
+    }
+
+    /**
+     * @param ConditionInterface $condition
+     * @param callable $callableOnSuccess
+     * @return $this
+     */
+    public function addCondition(ConditionInterface $condition, callable $callableOnSuccess)
+    {
+        $this->middleware[] = $this->createConditionalMiddleware($condition, $callableOnSuccess);
 
         return $this;
     }
@@ -169,8 +190,8 @@ class Harmony
      */
     protected function getNextMiddlewareKey($fromKey, $isFinal)
     {
-        for (; isset($this->middlewares[$fromKey]); $fromKey++) {
-            if ($this->middlewares[$fromKey]["final"] === $isFinal) {
+        for (; isset($this->middleware[$fromKey]); $fromKey++) {
+            if ($this->middleware[$fromKey]["final"] === $isFinal) {
                 return $fromKey;
             }
         }
@@ -184,7 +205,7 @@ class Harmony
      */
     protected function findMiddleware($id)
     {
-        foreach ($this->middlewares as $k => $middleware) {
+        foreach ($this->middleware as $k => $middleware) {
             if ($middleware["id"] === $id) {
                 return $k;
             }
@@ -194,21 +215,67 @@ class Harmony
     }
 
     /**
-     * @param callable $middleware
-     * @throws \WoohooLabs\Harmony\Exception\MiddlewareReturnTypeException
+     * @param string|null $id
+     * @param callable $callable
+     * @param bool $isFinal
+     * @return array
      */
-    protected function executeMiddleware(callable $middleware)
+    protected function createMiddleware($id, callable $callable, $isFinal)
     {
+        return [
+            "id" => $id,
+            "callable" => $callable,
+            "final" => $isFinal
+        ];
+    }
+
+    /**
+     * @param ConditionInterface $condition
+     * @param callable $callableOnSuccess
+     * @return array
+     */
+    protected function createConditionalMiddleware(ConditionInterface $condition, callable $callableOnSuccess)
+    {
+        return [
+            "condition" => $condition,
+            "callable" => $callableOnSuccess
+        ];
+    }
+
+    /**
+     * @param array $middlewareArray
+     * @throws \WoohooLabs\Harmony\Exception\MiddlewareWrongReturnType
+     */
+    protected function executeMiddleware(array $middlewareArray)
+    {
+        $middleware = $middlewareArray["callable"];
+
         $response = $middleware($this->getRequest(), $this->getResponse(), $this);
         if ($response instanceof ResponseInterface) {
             $this->response = $response;
-        } elseif ($response === null) {
-            trigger_error(
-                "Middlewares must return a \\Psr\\Http\\Message\\ResponseInterface instance!",
-                E_USER_DEPRECATED
-            );
         } else {
-            throw new MiddlewareReturnTypeException();
+            throw new MiddlewareWrongReturnType();
         }
+    }
+
+    /**
+     * @param array $conditionArray
+     */
+    protected function executeCondition(array $conditionArray)
+    {
+        /** @var ConditionInterface $condition */
+        $condition = $conditionArray["condition"];
+        $callable = $conditionArray["callable"];
+
+        if ($condition->evaluate($this->request, $this->response) === false) {
+            return;
+        }
+
+        $harmony = new Harmony($this->request, $this->response);
+        call_user_func($callable, $harmony);
+        $harmony();
+        $harmony->__destruct();
+        $this->request = $harmony->getResponse();
+        $this->response = $harmony->getResponse();
     }
 }

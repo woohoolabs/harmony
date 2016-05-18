@@ -30,12 +30,12 @@ $router = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute("GET", "/books/{id}", GetBookAction::class);
 });
 
-// Stacking up the middlewares
+// Stacking up middleware
 $harmony = new Harmony(ServerRequestFactory::fromGlobals(), new Response());
 $harmony
-    ->addMiddleware("fast_route", new FastRouteMiddleware($router))
-    ->addMiddleware("dispatcher", new DispatcherMiddleware())
-    ->addFinalMiddleware("responder", new DiactorosResponderMiddleware(new SapiEmitter()));
+    ->addMiddleware(new FastRouteMiddleware($router))
+    ->addMiddleware(new DispatcherMiddleware())
+    ->addFinalMiddleware(new DiactorosResponderMiddleware(new SapiEmitter()));
 
 // Run!
 $harmony();

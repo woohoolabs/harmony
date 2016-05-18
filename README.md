@@ -77,7 +77,7 @@ Middleware - that are [described in detail by Igor Wiedler](https://igor.io/2013
 make it possible to take hands on the course of action of the request-response lifecycle: you can authenticate before
 routing, do some logging after the response has been sent, or you can even dispatch multiple routes in one
 request if you want. These can be achieved because everything in Harmony is a middleware, so the framework itself only
-consists of cc. 200 lines of code. And that's why there is no framework-wide configuration (only middleware can
+consists of cc. 300 lines of code. And that's why there is no framework-wide configuration (only middleware can
 be configured). Basically it only depends on your imagination and needs what you do with Harmony.
 
 But middleware must work in cooperation (especially the router and the dispatcher are tightly coupled to each other).
@@ -363,6 +363,8 @@ Very important to notice that when authentication is unsuccessful, no other midd
 is not called), so possibly only the final middleware will be invoked afterwards. As you want to pass a modified
 response with status code 412 to the final middleware, you must return the response (as seen in the prior example)
 in order to inform the framework from the changed response.
+
+### Defining conditions
 
 ## Examples
 
