@@ -275,7 +275,7 @@ class Harmony
         call_user_func($callable, $harmony);
         $harmony();
         $harmony->__destruct();
-        $this->request = $harmony->getResponse();
-        $this->response = $harmony->getResponse();
+        $this->request = $harmony->request;
+        $this->response = $harmony->response;
     }
 }
