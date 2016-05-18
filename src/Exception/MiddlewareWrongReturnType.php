@@ -3,7 +3,7 @@ namespace WoohooLabs\Harmony\Exception;
 
 use Exception;
 
-class MiddlewareReturnTypeException extends Exception
+class MiddlewareWrongReturnType extends Exception
 {
     public function __construct()
     {

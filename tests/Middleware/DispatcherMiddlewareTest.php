@@ -1,6 +1,7 @@
 <?php
 namespace WoohooLabsTest\Harmony\Middleware;
 
+use Exception;
 use PHPUnit_Framework_TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -45,7 +46,7 @@ class DispatcherMiddlewareTest extends PHPUnit_Framework_TestCase
                 return $response;
             }
         );
-        $harmony->addMiddleware("exception", new ExceptionMiddleware("next"));
+        $harmony->addMiddleware(new ExceptionMiddleware("next"), "exception");
 
         $middleware = new DispatcherMiddleware();
         $middleware($harmony->getRequest(), $harmony->getResponse(), $harmony);
@@ -64,7 +65,7 @@ class DispatcherMiddlewareTest extends PHPUnit_Framework_TestCase
                 function () {
                 }
             );
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return;
         }
 
@@ -78,7 +79,7 @@ class DispatcherMiddlewareTest extends PHPUnit_Framework_TestCase
     public function dispatchArrayCallable()
     {
         $request = new DummyServerRequest();
-        $request = $request->withAttribute("__callable", [ExceptionController::class, "dummyAction"]);
+        $request = $request->withAttribute("__action", [ExceptionController::class, "dummyAction"]);
 
         $middleware = new DispatcherMiddleware();
 
@@ -100,7 +101,7 @@ class DispatcherMiddlewareTest extends PHPUnit_Framework_TestCase
         $callable = function (ServerRequestInterface $request, ResponseInterface $response) {
             throw new TestException();
         };
-        $request = $request->withAttribute("__callable", $callable);
+        $request = $request->withAttribute("__action", $callable);
 
         $middleware = new DispatcherMiddleware();
 
@@ -119,7 +120,7 @@ class DispatcherMiddlewareTest extends PHPUnit_Framework_TestCase
     public function dispatchInvokableClass()
     {
         $request = new DummyServerRequest();
-        $request = $request->withAttribute("__callable", InvokableExceptionController::class);
+        $request = $request->withAttribute("__action", InvokableExceptionController::class);
 
         $middleware = new DispatcherMiddleware();
 
@@ -157,7 +158,7 @@ class DispatcherMiddlewareTest extends PHPUnit_Framework_TestCase
     {
         $middleware = new DispatcherMiddleware();
         $middleware->setContainer(new BasicContainer());
-        $this->assertEquals("__callable", $middleware->getHandlerAttribute());
+        $this->assertEquals("__action", $middleware->getActionAttributeName());
     }
 
     /**
@@ -166,8 +167,8 @@ class DispatcherMiddlewareTest extends PHPUnit_Framework_TestCase
     public function getHandlerAttribute()
     {
         $middleware = new DispatcherMiddleware();
-        $middleware->setHandlerAttribute("action");
-        $this->assertEquals("action", $middleware->getHandlerAttribute());
+        $middleware->setActionAttributeName("action");
+        $this->assertEquals("action", $middleware->getActionAttributeName());
     }
 
     /**
@@ -175,7 +176,7 @@ class DispatcherMiddlewareTest extends PHPUnit_Framework_TestCase
      * @param string $attributeName
      * @return \WoohooLabs\Harmony\Harmony
      */
-    protected function createHarmony($callable, $attributeName = "__callable")
+    protected function createHarmony($callable, $attributeName = "__action")
     {
         $request = new DummyServerRequest();
         $request = $request->withAttribute($attributeName, $callable);

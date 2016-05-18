@@ -5,6 +5,7 @@ use Interop\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use WoohooLabs\Harmony\Container\BasicContainer;
+use WoohooLabs\Harmony\Exception\DispatcherException;
 
 class DispatcherMiddleware
 {
@@ -16,16 +17,16 @@ class DispatcherMiddleware
     /**
      * @var string
      */
-    protected $handlerAttribute;
+    protected $actionAttributeName;
 
     /**
      * @param \Interop\Container\ContainerInterface $container
-     * @param string $handlerAttribute
+     * @param string $actionAttributeName
      */
-    public function __construct(ContainerInterface $container = null, $handlerAttribute = "__callable")
+    public function __construct(ContainerInterface $container = null, $actionAttributeName = "__action")
     {
         $this->container = $container === null ? new BasicContainer() : $container;
-        $this->handlerAttribute = $handlerAttribute;
+        $this->actionAttributeName = $actionAttributeName;
     }
 
     /**
@@ -37,20 +38,20 @@ class DispatcherMiddleware
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
     {
-        $callable = $request->getAttribute($this->handlerAttribute);
+        $action = $request->getAttribute($this->actionAttributeName);
 
-        if ($callable === null) {
-            throw new \Exception("No dispatchable callable is added to the request as an attribute!");
+        if ($action === null) {
+            throw new DispatcherException();
         }
 
-        if (is_array($callable) && is_string($callable[0]) && is_string($callable[1])) {
-            $object = $this->container->get($callable[0]);
-            $response = call_user_func_array([$object, $callable[1]], [$request, $response]);
+        if (is_array($action) && is_string($action[0]) && is_string($action[1])) {
+            $object = $this->container->get($action[0]);
+            $response = call_user_func_array([$object, $action[1]], [$request, $response]);
         } else {
-            if (is_callable($callable) === false) {
-                $callable = $this->container->get($callable);
+            if (is_callable($action) === false) {
+                $action = $this->container->get($action);
             }
-            $response = call_user_func_array($callable, [$request, $response]);
+            $response = call_user_func_array($action, [$request, $response]);
         }
 
         return $next($request, $response);
@@ -75,16 +76,16 @@ class DispatcherMiddleware
     /**
      * @return string
      */
-    public function getHandlerAttribute()
+    public function getActionAttributeName()
     {
-        return $this->handlerAttribute;
+        return $this->actionAttributeName;
     }
 
     /**
-     * @param string $handlerAttribute
+     * @param string $actionAttributeName
      */
-    public function setHandlerAttribute($handlerAttribute)
+    public function setActionAttributeName($actionAttributeName)
     {
-        $this->handlerAttribute = $handlerAttribute;
+        $this->actionAttributeName = $actionAttributeName;
     }
 }

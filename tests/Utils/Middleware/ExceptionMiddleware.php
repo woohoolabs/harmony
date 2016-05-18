@@ -14,7 +14,7 @@ class ExceptionMiddleware implements MiddlewareInterface
     /**
      * @param string $text
      */
-    public function __construct($text)
+    public function __construct($text = "Exception")
     {
         $this->text = $text;
     }
