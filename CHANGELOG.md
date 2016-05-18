@@ -1,13 +1,30 @@
-## 2.4.0 - unreleased
+## 3.1.0 - unreleased
 
 ADDED:
-
-- Support for PHPUnit 5.0
-- `@return` PHPDoc comments for middlewares
 
 CHANGED:
 
 FIXED:
+
+## 3.0.0 - unreleased
+
+ADDED:
+
+- Support for conditional middleware
+- Support for PHPUnit 5.0
+- `@return` PHPDoc comments for middleware
+
+CHANGED:
+
+- [#8](https://github.com/woohoolabs/harmony/issues/9) Improved Travis config
+- Middleware returning null will also throw `MiddlewareWrongReturnType`
+- Providing an ID for middleware became optional
+- Exception names became shorter
+- A `MiddlewareNotFound` exception will be thrown when removing a non-existent middleware with `Harmony::removeMiddleware()`
+
+FIXED:
+
+- `DiactorosResponderMiddleware` uses `SapiEmitter` by default
 
 ## 2.3.1 - 2016-03-06
 
@@ -20,9 +37,9 @@ CHANGED:
 
 CHANGED:
 
-- [#5](https://github.com/woohoolabs/harmony/issues/5): Return a Response object for all the middlewares
-- Deprecated middlewares returning null
-- Middlewares must return a `ResponseInterface` instance, otherwise an exception will be thrown
+- [#5](https://github.com/woohoolabs/harmony/issues/5): Return a Response object for all middleware
+- Deprecated middleware returning null
+- Middleware must return a `ResponseInterface` instance, otherwise an exception will be thrown
 - Running tests on PHP 5.6 (code style) and PHP 7 (PHPUnit) instead of PHP 5.5 and PHP 5.6
 - Improved test coverage
 
@@ -32,14 +49,14 @@ CHANGED:
 
 ADDED:
 
-- Support for multiple final middlewares
+- Support for multiple final middleware
 - Configuration option for `DiactorosResponderMiddleware` to not respond when headers have already been sent
-- Added middlewares to support output buffering
+- Added middleware to support output buffering
 - Example application
 
 CHANGED:
 
-- Final middlewares are integrated with the normal ones (**breaking change**)
+- Final middleware are integrated with the normal ones (**breaking change**)
 
 FIXED:
 
@@ -58,13 +75,13 @@ CHANGED:
 
 FIXED:
 
-- Made default middlewares compatible with other frameworks
+- Made default middleware compatible with other frameworks
 
 ## 2.0.1 - 2015-08-27
 
 FIXED:
 
-- Final middlewares could invoke all the remaining middlewares
+- Final middleware could invoke all the remaining middleware
 
 ## 2.0.0 - 2015-07-16
 
@@ -112,11 +129,11 @@ REMOVED:
 
 ADDED:
 
-- Support for middlewares
+- Support for middleware
 
 CHANGED:
 
-- Workflow is now based on middlewares completely
+- Workflow is now based on middleware completely
 - Removed events and configuration class
 
 ## 0.5.0 - 2015-04-11
