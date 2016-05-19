@@ -178,7 +178,7 @@ class Harmony
      */
     public function addCondition(ConditionInterface $condition, callable $callableOnSuccess)
     {
-        $this->middleware[] = $this->createConditionalMiddleware($condition, $callableOnSuccess);
+        $this->middleware[] = $this->createCondition($condition, $callableOnSuccess);
 
         return $this;
     }
@@ -234,11 +234,12 @@ class Harmony
      * @param callable $callableOnSuccess
      * @return array
      */
-    protected function createConditionalMiddleware(ConditionInterface $condition, callable $callableOnSuccess)
+    protected function createCondition(ConditionInterface $condition, callable $callableOnSuccess)
     {
         return [
             "condition" => $condition,
-            "callable" => $callableOnSuccess
+            "callable" => $callableOnSuccess,
+            "final" => false,
         ];
     }
 

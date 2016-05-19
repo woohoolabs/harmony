@@ -4,26 +4,25 @@ namespace WoohooLabsTest\Harmony\Utils\Middleware;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use WoohooLabs\Harmony\Harmony;
-use WoohooLabs\Harmony\Middleware\MiddlewareInterface;
 
-class DummyMiddleware implements MiddlewareInterface
+class SpyMiddleware
 {
-    protected $text;
-
     /**
-     * @param string $text
+     * @var bool
      */
-    public function __construct($text = "dummy")
+    protected $invoked;
+
+    public function __construct()
     {
-        $this->text = $text;
+        $this->invoked = false;
     }
 
     /**
-     * @return string
+     * @return bool
      */
-    public function getText()
+    public function isInvoked()
     {
-        return $this->text;
+        return $this->invoked;
     }
 
     /**
@@ -34,6 +33,8 @@ class DummyMiddleware implements MiddlewareInterface
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, Harmony $next)
     {
+        $this->invoked = true;
+
         return $next();
     }
 }

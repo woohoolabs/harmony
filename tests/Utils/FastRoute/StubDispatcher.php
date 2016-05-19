@@ -3,7 +3,7 @@ namespace WoohooLabsTest\Harmony\Utils\FastRoute;
 
 use FastRoute\Dispatcher;
 
-class DummyDispatcher implements Dispatcher
+class StubDispatcher implements Dispatcher
 {
     /**
      * @var array
