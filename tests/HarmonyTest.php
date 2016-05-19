@@ -239,6 +239,25 @@ class HarmonyTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function doNotInvokeMiddlewareWhenConditionIsFalse()
+    {
+        $middleware = new SpyMiddleware();
+
+        $harmony = $this->createHarmony();
+        $harmony->addCondition(
+            new StubCondition(false),
+            function (Harmony $harmony) use ($middleware) {
+                $harmony->addMiddleware($middleware);
+            }
+        );
+        $harmony();
+
+        $this->assertFalse($middleware->isInvoked());
+    }
+
+    /**
+     * @test
+     */
     public function invokeFinalMiddlewareConditionally()
     {
         $middleware = new SpyMiddleware();
