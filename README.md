@@ -43,7 +43,8 @@ This post summarizes the best why Harmony was born: http://www.catonmat.net/blog
 
 #### What's different?
 
-There are a lot very similar middleware dispatcher libraries out there. To name a few: [Zend-Stratigility](https://github.com/zendframework/zend-stratigility/),
+There are a lot very similar middleware dispatcher libraries out there. To name a few:
+[Zend-Stratigility](https://github.com/zendframework/zend-stratigility/),
 [Slim Framework 3](http://www.slimframework.com/docs/concepts/middleware.html) or [Relay](http://relayphp.com/).
 So what is the purpose of yet another library with the same functionality?
 
@@ -54,8 +55,8 @@ functionality which is minimally needed. It doesn't have capabilities which are 
 That's why Harmony fits in a single class and its implementation doesn't even took 300 lines.
 
 - Starting from version 3, Harmony natively supports the concept of [Conditions](#defining-conditions) which is a unique
-feature for middleware dispatchers. This eases a major weakness of the middleware-oriented approach which is being able to invoke middleware
-conditionally.
+feature for middleware dispatchers. This eases a major weakness of the middleware-oriented approach which is being able
+to invoke middleware conditionally.
 
 #### Use Cases of Woohoo Labs. Harmony
 
@@ -88,14 +89,17 @@ adapted the [Container-Interop standard interface](https://github.com/container-
 #### Available Middleware
 
 Woohoo Labs. Harmony's middleware interface design is based on the "request, response, next" style advocated
-by such prominent developers as [Matthew Weier O'Phinney](https://mwop.net/) (you can read more on the topic [in his blog post](https://mwop.net/blog/2015-01-08-on-http-middleware-and-psr-7.html)). That's why
-Harmony's middleware are compatible with middleware built for [Zend-Stratigility](https://github.com/zendframework/zend-stratigility/), [Zend-Expressive](https://github.com/zendframework/zend-expressive/) or
-[Slim Framework 3](http://www.slimframework.com/docs/concepts/middleware.html).
+by such prominent developers as [Matthew Weier O'Phinney](https://mwop.net/) (you can read more on the topic
+[in his blog post](https://mwop.net/blog/2015-01-08-on-http-middleware-and-psr-7.html)). That's why
+Harmony's middleware are compatible with middleware built for
+[Zend-Stratigility](https://github.com/zendframework/zend-stratigility/),
+[Slim Framework 3](http://www.slimframework.com/) or [Relay](http://relayphp.com/).
 
 Furthermore, you can find various other middleware available for Harmony:
 
 - [Woohoo Labs. Yin-Middleware](https://github.com/woohoolabs/yin-middleware): A bunch of middleware to integrate
 [Woohoo Labs. Yin](https://github.com/woohoolabs/harmony) - the elegant JSON API framework - into Harmony.
+- [PSR-7 Middlewares](https://github.com/oscarotero/psr7-middlewares): A collection of PSR-7 middleware
 - [MiniUrl](https://github.com/mtymek/MiniUrl): A simple URL shortener, which can be used as a free, open-source
 replacement for bit.ly's core functionality: creating short links and redirecting users.
 
@@ -124,7 +128,8 @@ $ composer require zendframework/zend-diactoros:^2.3.0
 
 #### Define Your Endpoints:
 
-The following example applies only if you use the [default dispatcher middleware](https://github.com/woohoolabs/harmony/blob/master/src/Middleware/DispatcherMiddleware.php).
+The following example applies only if you use the
+[default dispatcher middleware](https://github.com/woohoolabs/harmony/blob/master/src/Middleware/DispatcherMiddleware.php).
 There are two important things to notice here: first, each endpoint receives a `Psr\Http\Message\ServerRequestInterface`
 and a `Psr\Http\Message\ResponseInterface` object and they are expected to manipulate and return the latter.
 Second, you are not forced to only use classes for the endpoints, it is possible to define other callables too (see
@@ -170,7 +175,11 @@ class UserController
 
 #### Define Your Routes:
 
-The following example applies only if you use the [default router middleware](https://github.com/woohoolabs/harmony/blob/master/src/Middleware/FastRouteMiddleware.php) which is based on [FastRoute](https://github.com/nikic/FastRoute), the library of Nikita Popov. We chose to use this library because of its performance and elegance. You can read more about it [in Nikita's blog](http://nikic.github.io/2014/02/18/Fast-request-routing-using-regular-expressions.html).
+The following example applies only if you use the
+[default router middleware](https://github.com/woohoolabs/harmony/blob/master/src/Middleware/FastRouteMiddleware.php)
+which is based on [FastRoute](https://github.com/nikic/FastRoute), the library of Nikita Popov. We chose to use this
+library because of its performance and elegance. You can read more about it
+[in Nikita's blog](http://nikic.github.io/2014/02/18/Fast-request-routing-using-regular-expressions.html).
 
 Let's add three routes to FastRoute:
 
@@ -192,7 +201,8 @@ $router = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
 You have to register all the following middleware in order for the framework to function properly:
 - `FastRouteMiddleware` takes care of routing (`$router`  was configured in the previous step)
 - `DispatcherMiddleware` dispatches a controller which belongs to the request's current route
-- `DiactorosResponderMiddleware` sends the response to the ether via [Zend Diactoros](https://github.com/zendframework/zend-diactoros)
+- `DiactorosResponderMiddleware` sends the response to the ether via
+[Zend Diactoros](https://github.com/zendframework/zend-diactoros)
 
 Note that there is a second optional argument of `Harmony::addMiddleware()` and `Harmony::addFinalMiddleware()` with which
 you can define the ID of a middleware (doing so is necessary if you want to call `Harmony::getMiddleware()` somewhere
@@ -269,7 +279,8 @@ than a very silly DIC which tries to create objects based on their class name (s
 `$basicContainer->get(Foo::class)` would create a new `Foo` instance).
 
 But if you provide an argument to the middleware's constructor, you can use your favourite Container-Interop compliant
-DIC too. Let's have a look at an example where one would like to swap `BasicContainer` with the awesome [PHP-DI](http://php-di.org):
+DIC too. Let's have a look at an example where one would like to swap `BasicContainer` with the awesome
+[PHP-DI](http://php-di.org):
 
 ```php
 $container = new \DI\Container();
@@ -354,11 +365,13 @@ authentication.
 
 Instead of `callable`, you can also typehint the `$next` argument against `Harmony` according to the
 [`MiddlewareInterface`](https://github.com/woohoolabs/harmony/blob/master/src/Middleware/MiddlewareInterface.php).
-By implementing this interface, you can use some specific features of Harmony (like `Harmony::getMiddleware()`) but lose the ability to reuse your middleware in other frameworks.
+By implementing this interface, you can use some specific features of Harmony (like `Harmony::getMiddleware()`) but lose
+the ability to reuse your middleware in other frameworks.
 
-Again: **a middleware must return a `ResponseInterface` instance in any cases**, but the most important thing it can do is to call `$next()` to invoke the next middleware when its function was accomplished. Failing to call this method results in
-the interruption of the framework's operation (of course the final middleware will still be executed)! That's why we
-only invoke `$next()` in this example when the authentication was successful.
+Again: **a middleware must return a `ResponseInterface` instance in any cases**, but the most important thing it can do
+is to call `$next()` to invoke the next middleware when its function was accomplished. Failing to call this method
+results in the interruption of the framework's operation (of course the final middleware will still be executed)!
+That's why we only invoke `$next()` in this example when the authentication was successful.
 
 Very important to notice that when authentication is unsuccessful, no other middleware will be executed (as `$next()`
 is not called), so possibly only the final middleware will be invoked afterwards. As you want to pass a modified
