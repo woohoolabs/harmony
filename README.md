@@ -30,7 +30,7 @@ quality application. We wanted to give you total control via
 
 ## Introduction
 
-#### TL;DR
+#### Rationale
 
 This post summarizes the best why Harmony was born: http://www.catonmat.net/blog/frameworks-dont-make-sense/ 
 
