@@ -41,7 +41,7 @@ This post summarizes the best why Harmony was born: http://www.catonmat.net/blog
 - Support for any IoC Containers via Container-Interop
 - Totally object-oriented workflow
 
-#### What's different?
+#### Why Harmony?
 
 There are a lot very similar middleware dispatcher libraries out there. To name a few:
 [Zend-Stratigility](https://github.com/zendframework/zend-stratigility/),
@@ -226,7 +226,7 @@ Note that there is a second optional argument of `Harmony::addMiddleware()` and 
 you can define the ID of a middleware (doing so is necessary if you want to call `Harmony::getMiddleware()` somewhere
 in your code).
 
-Furthermore, the middleware attached via `Harmony::addFinalMiddleware()` will always be executed after the normal ones,
+Furthermore, middleware attached via `Harmony::addFinalMiddleware()` will always be executed after the normal ones,
 just before the `Harmony` object gets destructed. In the following example, we want to emit the HTTP response by
 `DiactorosResponderMiddleware` as the very last step.
 
@@ -384,7 +384,7 @@ Non-trivial applications often need some kind of branching during the execution 
 use-case is when they want to perform authentication only for some of their endpoints or when they want to check for a
 CSRF token if the request method is `POST`.
 
-With Harmony v2 too, these conditions were easy to handle:
+With Harmony 2 too, these conditions were easy to handle:
 
 ```php
 use Psr\Http\Message\ServerRequestInterface;
@@ -429,7 +429,7 @@ You only had to check the request method inside the middleware and the problem w
 that `CsrfMiddleware` and all its dependencies are instantiated for each request although the validation itself is not
 necessary at all (e.g. for `GET` requests)!
 
-In Harmony v3, you are able to use conditions in order to optimize the number of objects created. In this case you can
+In Harmony 3, you are able to use conditions in order to optimize the number of objects created. In this case you can
 utilize the built-in `HttpMethodCondition` which looks like the following:
 
 ```php
