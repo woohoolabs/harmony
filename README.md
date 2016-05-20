@@ -34,25 +34,6 @@ quality application. We wanted to give you total control via
 
 This post summarizes the best why Harmony was born: http://www.catonmat.net/blog/frameworks-dont-make-sense/ 
 
-#### "Long live is the framework"
-
-The general problem with frameworks is that they suggest you using the set of tools they have. Initially,
-everything seems to be OK, because either the scope of your project is too small or you are sure that you've found
-the best framework ever. But as soon as your requirements change (e.g. things get more complicated, you have to
-maintain the application longer than you thought or you need more scaling), there is a good chance that you will
-face issues with your framework.
-
-However, as [Phil Sturgeon](https://twitter.com/philsturgeon) pointed out in his great [blog post](http://philsturgeon.uk/blog/2014/01/the-framework-is-dead-long-live-the-framework),
-in a complex enough situation, with a skilled enough development team, you don't need a framework at all in its
-original meaning thanks to the modern era of Composer. All you need is only a set of inter-pluggable components
-of your preference so that they can be easily integrated into your application.
-
-In conclusion, requirements will always change. What seemed to be a good choice once, it is not enough next time.
-If things are impossible to change in your framework then it might lead to hard times when refactoring your
-application even though if you tried hard to decouple your business objects from the framework.
-
-We created Harmony to remedy this issue.
-
 #### Use Cases of Woohoo Labs. Harmony
 
 Certainly, Harmony won't suit the needs of all projects and teams. Firstly, this framework works best
@@ -67,6 +48,22 @@ eases gradual refactoring.
 - Full control over HTTP requests and responses via PSR-7
 - Support for any IoC Containers via Container-Interop
 - Totally object-oriented workflow
+
+#### What's different?
+
+There are a lot very similar middleware dispatcher libraries out there. To name a few: [Zend-Stratigility](https://github.com/zendframework/zend-stratigility/),
+[Slim Framework 3](http://www.slimframework.com/docs/concepts/middleware.html) or [Relay](http://relayphp.com/).
+So what is the purpose of yet another library with the same functionality?
+
+We believe Harmony is superior to the others in two key things:
+
+- It is the simplest of all. Although simplicity is subjective, one thing is for sure: Harmony offers the least
+functionality which is minimally needed. It doesn't have capabilities which are not required really.
+That's why Harmony fits in a single class and its implementation doesn't even took 300 lines.
+
+- Starting from version 3, Harmony natively supports the concept of [Conditions](#defining-conditions) which is a unique
+feature for middleware dispatchers. This eases a major weakness of the middleware-oriented approach which is being able to invoke middleware
+conditionally.
 
 #### Concepts
 
@@ -197,9 +194,13 @@ You have to register all the following middleware in order for the framework to 
 - `DispatcherMiddleware` dispatches a controller which belongs to the request's current route
 - `DiactorosResponderMiddleware` sends the response to the ether via [Zend Diactoros](https://github.com/zendframework/zend-diactoros)
 
-Note that the first argument of `Harmony::addMiddleware()` and `Harmony::addFinalMiddleware()` is the ID of the
-middleware (which should be unique) and the middleware attached via `Harmony::addFinalMiddleware()` will always be
-executed after the normal ones! In this case, we always want our response to be sent by `DiactorosResponderMiddleware`. 
+Note that there is a second optional argument of `Harmony::addMiddleware()` and `Harmony::addFinalMiddleware()` with which
+you can define the ID of a middleware (doing so is necessary if you want to call `Harmony::getMiddleware()` somewhere
+in your code).
+
+Furthermore, the middleware attached via `Harmony::addFinalMiddleware()` will always be executed after the normal ones,
+just before the `Harmony` object gets destructed. In the following example, we want to emit the HTTP response by
+`DiactorosResponderMiddleware` as the very last step.
 
 ```php
 use WoohooLabs\Harmony\Harmony;
@@ -212,9 +213,9 @@ use Zend\Diactoros\Response\SapiEmitter;
 
 $harmony = new Harmony(ServerRequestFactory::fromGlobals(), new Response());
 $harmony
-    ->addMiddleware("fast_route", new FastRouteMiddleware($router))
-    ->addMiddleware("dispatcher", new DispatcherMiddleware())
-    ->addFinalMiddleware("responder", new DiactorosResponderMiddleware(new SapiEmitter()));
+    ->addMiddleware(new FastRouteMiddleware($router))
+    ->addMiddleware(new DispatcherMiddleware())
+    ->addFinalMiddleware(new DiactorosResponderMiddleware(new SapiEmitter()));
 
 $harmony();
 ```
@@ -307,8 +308,8 @@ If you need more sophistication, you can use an invokable class as a middleware 
 authentication middleware:
 
 ```php
-use WoohooLabs\Harmony\Middleware\MiddlewareInterface;
-use WoohooLabs\Harmony\Harmony;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 class AuthenticationMiddleware
 {
@@ -326,10 +327,10 @@ class AuthenticationMiddleware
     }
 
     /**
-     * @param \Psr\Http\Message\ServerRequestInterface $request
-     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
      * @param callable $next
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
     {
@@ -342,7 +343,7 @@ class AuthenticationMiddleware
 }
 ```
 
-then
+Then 
 
 ```php
 $harmony->addMiddleware("authentication", new AuthenticationMiddleware("123"));
@@ -364,7 +365,102 @@ is not called), so possibly only the final middleware will be invoked afterwards
 response with status code 412 to the final middleware, you must return the response (as seen in the prior example)
 in order to inform the framework from the changed response.
 
-### Defining conditions
+### Defining Conditions
+
+Non-trivial applications often need some kind of branching during the execution of their middleware pipeline. A possible
+use-case is when they want to perform authentication only for some of the URL-s or when they want to check for a CSRF token
+if the request method is `POST`.
+
+With Harmony v2, these conditions were also easy to handle:
+
+```php
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
+
+class CsrfMiddleware
+{
+    /**
+     * @var MyFavoriteCsrfValidatorLibrary
+     */
+    protected $csrfValidator;
+    
+    public function __construct(MyFavoriteCsrfValidatorLibrary $csrfValidator)
+    {
+        $this->csrfValidator = $csrfValidator;
+    }
+
+    /**
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @param callable $next
+     * @return ResponseInterface
+     */
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
+    {
+        if ($request->getMethod() === "POST" && $this->csrfValidator->validate($request) === false) {
+            return $response->withStatusCode(400);
+        }
+        
+        return $next();
+    }
+}
+```
+
+And attach it to Harmony:
+
+```php
+$harmony->addMiddleware(new CsrfMiddleware(new MyFavoriteCsrfValidatorLibrary()));
+```
+
+You only had to check the request method inside the middleware and the problem was solved. The downside of doing this is
+that ˙CsrfMiddleware˙ and all its dependencies are instantiated for each request although the validation itself is not
+necessary at all (e.g. for `GET` requests)!
+
+In Harmony v3, you are able to use conditions in order to optimize the number of objects created. In this case you can
+utilize the built-in `HttpMethodCondition` which looks like the following:
+
+```php
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+
+class HttpMethodCondition implements ConditionInterface
+{
+    protected $methods = [];
+
+    /**
+     * @param array $methods
+     */
+    public function __construct(array $methods)
+    {
+        $this->methods = $methods;
+    }
+
+    /**
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @return bool
+     */
+    public function evaluate(ServerRequestInterface $request, ResponseInterface $response)
+    {
+        return in_array($request->getMethod(), $this->methods) === true;
+    }
+}
+```
+
+And add it to Harmony:
+
+```php
+$harmony->addCondition(
+    new HttpMethodCondition(["POST"]),
+    function (Harmony $harmony) {
+        $harmony->addMiddleware(new CsrfMiddleware(new MyFavoriteCsrfValidatorLibrary()));
+    }
+);
+```
+
+This way, `CsrfMiddleware` will only be instantiated when `HttpMethodCondition` evaluates to `true`. Furthermore,
+you are able to attach more middleware to Harmony (even final middleware) in the anonymous function. These
+middleware will be executed together, as if they were part of a containing middleware.
 
 ## Examples
 
