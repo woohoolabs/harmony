@@ -34,14 +34,6 @@ quality application. We wanted to give you total control via
 
 This post summarizes the best why Harmony was born: http://www.catonmat.net/blog/frameworks-dont-make-sense/ 
 
-#### Use Cases of Woohoo Labs. Harmony
-
-Certainly, Harmony won't suit the needs of all projects and teams. Firstly, this framework works best
-for advanced teams. So less experienced teams should probably choose a less lenient framework with more features
-in order to speed up development in its initial phase. Harmony's flexibility is the most advantageous if your
-software is a long-term, strategic project. That's why legacy applications can also profit from Harmony because it
-eases gradual refactoring.
-
 #### Features
 
 - Extreme flexibility through middleware
@@ -64,6 +56,14 @@ That's why Harmony fits in a single class and its implementation doesn't even to
 - Starting from version 3, Harmony natively supports the concept of [Conditions](#defining-conditions) which is a unique
 feature for middleware dispatchers. This eases a major weakness of the middleware-oriented approach which is being able to invoke middleware
 conditionally.
+
+#### Use Cases of Woohoo Labs. Harmony
+
+Harmony won't suit the needs of all projects and teams. Firstly, this framework works best
+for advanced teams. So less experienced teams should probably choose a less lenient framework with more features
+in order to speed up development in its initial phase. Harmony's flexibility is the most advantageous if your
+software is a long-term, strategic project. That's why legacy applications can also profit from Harmony because it
+eases gradual refactoring.
 
 #### Concepts
 
