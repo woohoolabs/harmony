@@ -198,20 +198,6 @@ $router = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
 
 #### Finally, Launch The Framework:
 
-You have to register all the following middleware in order for the framework to function properly:
-- `FastRouteMiddleware` takes care of routing (`$router`  was configured in the previous step)
-- `DispatcherMiddleware` dispatches a controller which belongs to the request's current route
-- `DiactorosResponderMiddleware` sends the response to the ether via
-[Zend Diactoros](https://github.com/zendframework/zend-diactoros)
-
-Note that there is a second optional argument of `Harmony::addMiddleware()` and `Harmony::addFinalMiddleware()` with which
-you can define the ID of a middleware (doing so is necessary if you want to call `Harmony::getMiddleware()` somewhere
-in your code).
-
-Furthermore, the middleware attached via `Harmony::addFinalMiddleware()` will always be executed after the normal ones,
-just before the `Harmony` object gets destructed. In the following example, we want to emit the HTTP response by
-`DiactorosResponderMiddleware` as the very last step.
-
 ```php
 use WoohooLabs\Harmony\Harmony;
 use WoohooLabs\Harmony\Middleware\FastRouteMiddleware;
@@ -229,6 +215,20 @@ $harmony
 
 $harmony();
 ```
+
+You have to register all the following middleware in order for the framework to function properly:
+- `FastRouteMiddleware` takes care of routing (`$router`  was configured in the previous step)
+- `DispatcherMiddleware` dispatches a controller which belongs to the request's current route
+- `DiactorosResponderMiddleware` sends the response to the ether via
+[Zend Diactoros](https://github.com/zendframework/zend-diactoros)
+
+Note that there is a second optional argument of `Harmony::addMiddleware()` and `Harmony::addFinalMiddleware()` with which
+you can define the ID of a middleware (doing so is necessary if you want to call `Harmony::getMiddleware()` somewhere
+in your code).
+
+Furthermore, the middleware attached via `Harmony::addFinalMiddleware()` will always be executed after the normal ones,
+just before the `Harmony` object gets destructed. In the following example, we want to emit the HTTP response by
+`DiactorosResponderMiddleware` as the very last step.
 
 Of course, it is completely up to you how you add additional middleware or how you replace them with your own
 implementations. When you'd like to go live, just call `$harmony()`!
@@ -381,10 +381,10 @@ in order to inform the framework from the changed response.
 ### Defining Conditions
 
 Non-trivial applications often need some kind of branching during the execution of their middleware pipeline. A possible
-use-case is when they want to perform authentication only for some of the URL-s or when they want to check for a CSRF token
-if the request method is `POST`.
+use-case is when they want to perform authentication only for some of their endpoints or when they want to check for a
+CSRF token if the request method is `POST`.
 
-With Harmony v2, these conditions were also easy to handle:
+With Harmony v2 too, these conditions were easy to handle:
 
 ```php
 use Psr\Http\Message\ServerRequestInterface;
@@ -426,7 +426,7 @@ $harmony->addMiddleware(new CsrfMiddleware(new MyFavoriteCsrfValidatorLibrary())
 ```
 
 You only had to check the request method inside the middleware and the problem was solved. The downside of doing this is
-that ˙CsrfMiddleware˙ and all its dependencies are instantiated for each request although the validation itself is not
+that `CsrfMiddleware` and all its dependencies are instantiated for each request although the validation itself is not
 necessary at all (e.g. for `GET` requests)!
 
 In Harmony v3, you are able to use conditions in order to optimize the number of objects created. In this case you can
