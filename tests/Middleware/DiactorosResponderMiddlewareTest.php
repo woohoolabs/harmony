@@ -47,10 +47,10 @@ class DiactorosResponderMiddlewareTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function getCheckOutputStart()
+    public function isOutputStartChecked()
     {
         $middleware = new DiactorosResponderMiddleware(null, true);
-        $this->assertTrue($middleware->getCheckOutputStart());
+        $this->assertTrue($middleware->isOutputStartChecked());
     }
 
     /**
@@ -60,7 +60,7 @@ class DiactorosResponderMiddlewareTest extends PHPUnit_Framework_TestCase
     {
         $middleware = new DiactorosResponderMiddleware(null, true);
         $middleware->setCheckOutputStart(false);
-        $this->assertFalse($middleware->getCheckOutputStart());
+        $this->assertFalse($middleware->isOutputStartChecked());
     }
 
     /**

@@ -29,35 +29,10 @@ class Harmony
      */
     protected $currentMiddleware = -1;
 
-    /**
-     * @var int
-     */
-    protected $currentFinalMiddleware = -1;
-
-    /**
-     * @var bool
-     */
-    protected $stopped = false;
-
-    /**
-     * @param \Psr\Http\Message\ServerRequestInterface $request
-     * @param \Psr\Http\Message\ResponseInterface $response
-     */
     public function __construct(ServerRequestInterface $request, ResponseInterface $response)
     {
         $this->response = $response;
         $this->request = $request;
-    }
-
-    /**
-     *  Executes final middleware.
-     */
-    public function __destruct()
-    {
-        if ($this->stopped === false) {
-            $this->stopped = true;
-            $this->__invoke();
-        }
     }
 
     /**
@@ -76,12 +51,7 @@ class Harmony
         }
 
         // Retrieving the key of the next normal or final middleware
-        if ($this->stopped === true) {
-            $nextKey = &$this->currentFinalMiddleware;
-        } else {
-            $nextKey = &$this->currentMiddleware;
-        }
-        $nextKey = $this->getNextMiddlewareKey($nextKey + 1, $this->stopped);
+        $nextKey = $this->getNextMiddlewareKey(++$this->currentMiddleware);
 
         // Stopping if there aren't any executable middleware remaining
         if ($nextKey === null) {
@@ -136,19 +106,10 @@ class Harmony
      */
     public function addMiddleware(callable $middleware, $id = null)
     {
-        $this->middleware[] = $this->createMiddleware($id, $middleware, false);
-
-        return $this;
-    }
-
-    /**
-     * @param callable $middleware
-     * @param string|null $id
-     * @return $this
-     */
-    public function addFinalMiddleware(callable $middleware, $id = null)
-    {
-        $this->middleware[] = $this->createMiddleware($id, $middleware, true);
+        $this->middleware[] = [
+            "id" => $id,
+            "callable" => $middleware
+        ];
 
         return $this;
     }
@@ -178,22 +139,22 @@ class Harmony
      */
     public function addCondition(ConditionInterface $condition, callable $callableOnSuccess)
     {
-        $this->middleware[] = $this->createCondition($condition, $callableOnSuccess);
+        $this->middleware[] = [
+            "condition" => $condition,
+            "callable" => $callableOnSuccess
+        ];
 
         return $this;
     }
 
     /**
      * @param int $fromKey
-     * @param bool $isFinal
      * @return int|null
      */
-    protected function getNextMiddlewareKey($fromKey, $isFinal)
+    protected function getNextMiddlewareKey($fromKey)
     {
         for (; isset($this->middleware[$fromKey]); $fromKey++) {
-            if ($this->middleware[$fromKey]["final"] === $isFinal) {
-                return $fromKey;
-            }
+            return $fromKey;
         }
 
         return null;
@@ -215,35 +176,6 @@ class Harmony
     }
 
     /**
-     * @param string|null $id
-     * @param callable $callable
-     * @param bool $isFinal
-     * @return array
-     */
-    protected function createMiddleware($id, callable $callable, $isFinal)
-    {
-        return [
-            "id" => $id,
-            "callable" => $callable,
-            "final" => $isFinal
-        ];
-    }
-
-    /**
-     * @param ConditionInterface $condition
-     * @param callable $callableOnSuccess
-     * @return array
-     */
-    protected function createCondition(ConditionInterface $condition, callable $callableOnSuccess)
-    {
-        return [
-            "condition" => $condition,
-            "callable" => $callableOnSuccess,
-            "final" => false,
-        ];
-    }
-
-    /**
      * @param array $middlewareArray
      * @throws \WoohooLabs\Harmony\Exception\MiddlewareWrongReturnType
      */
@@ -259,9 +191,6 @@ class Harmony
         }
     }
 
-    /**
-     * @param array $conditionArray
-     */
     protected function executeCondition(array $conditionArray)
     {
         /** @var ConditionInterface $condition */
@@ -275,7 +204,6 @@ class Harmony
         $harmony = new Harmony($this->request, $this->response);
         $callable($harmony);
         $harmony();
-        $harmony->__destruct();
         $this->request = $harmony->request;
         $this->response = $harmony->response;
     }

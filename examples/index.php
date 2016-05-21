@@ -33,9 +33,9 @@ $router = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
 // Stacking up middleware
 $harmony = new Harmony(ServerRequestFactory::fromGlobals(), new Response());
 $harmony
+    ->addMiddleware(new DiactorosResponderMiddleware(new SapiEmitter()))
     ->addMiddleware(new FastRouteMiddleware($router))
-    ->addMiddleware(new DispatcherMiddleware())
-    ->addFinalMiddleware(new DiactorosResponderMiddleware(new SapiEmitter()));
+    ->addMiddleware(new DispatcherMiddleware());
 
 // Run!
 $harmony();

@@ -84,57 +84,6 @@ class HarmonyTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function invokeOneFinalMiddleware()
-    {
-        $harmony = $this->createHarmony();
-        $harmony->addFinalMiddleware(new HeaderMiddleware("dummy", "dummy"));
-        $harmony->__destruct();
-
-        $this->assertEquals(["dummy"], $harmony->getResponse()->getHeader("dummy"));
-    }
-
-    /**
-     * @test
-     */
-    public function stopAfterFirstFinalMiddleware()
-    {
-        $harmony = $this->createHarmony();
-        $harmony->addFinalMiddleware(new InternalServerErrorMiddleware());
-        $harmony->addFinalMiddleware(new ExceptionMiddleware());
-        $harmony->__destruct();
-    }
-
-    /**
-     * @test
-     */
-    public function invokeOnlyFinalMiddleware()
-    {
-        $harmony = $this->createHarmony();
-        $harmony->addMiddleware(new ExceptionMiddleware());
-        $harmony->addFinalMiddleware(new FakeMiddleware());
-        $harmony->__destruct();
-    }
-
-    /**
-     * @test
-     */
-    public function invokeMultipleFinalMiddleware()
-    {
-        $harmony = $this->createHarmony();
-        $harmony->addFinalMiddleware(new HeaderMiddleware("dummy1", "dummy"));
-        $harmony->addFinalMiddleware(new HeaderMiddleware("dummy2", "dummy"));
-        $harmony->addFinalMiddleware(new FakeMiddleware());
-        $harmony->addFinalMiddleware(new InternalServerErrorMiddleware());
-        $harmony->__destruct();
-
-        $this->assertEquals(["dummy"], $harmony->getResponse()->getHeader("dummy1"));
-        $this->assertEquals(["dummy"], $harmony->getResponse()->getHeader("dummy2"));
-        $this->assertEquals(500, $harmony->getResponse()->getStatusCode());
-    }
-
-    /**
-     * @test
-     */
     public function getRequest()
     {
         $harmony = $this->createHarmony();
@@ -253,28 +202,6 @@ class HarmonyTest extends PHPUnit_Framework_TestCase
         $harmony();
 
         $this->assertFalse($middleware->isInvoked());
-    }
-
-    /**
-     * @test
-     */
-    public function invokeFinalMiddlewareConditionally()
-    {
-        $middleware = new SpyMiddleware();
-        $finalMiddleware = new SpyMiddleware();
-
-        $harmony = $this->createHarmony();
-        $harmony->addCondition(
-            new StubCondition(true),
-            function (Harmony $harmony) use ($middleware, $finalMiddleware) {
-                $harmony->addMiddleware($middleware);
-                $harmony->addFinalMiddleware($finalMiddleware);
-            }
-        );
-        $harmony();
-
-        $this->assertTrue($middleware->isInvoked());
-        $this->assertTrue($finalMiddleware->isInvoked());
     }
 
     protected function createHarmony()

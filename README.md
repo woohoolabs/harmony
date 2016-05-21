@@ -52,7 +52,7 @@ We believe Harmony is superior to the others in two key things:
 
 - It is the simplest of all. Although simplicity is subjective, one thing is for sure: Harmony offers the least
 functionality which is minimally needed. It doesn't have capabilities which are not required really.
-That's why Harmony fits in a single class and its implementation doesn't even took 300 lines.
+That's why Harmony fits in a single class of 200 lines.
 
 - Starting from version 3, Harmony natively supports the concept of [Conditions](#defining-conditions) which is a unique
 feature for middleware dispatchers. This eases a major weakness of the middleware-oriented approach which is being able
@@ -75,7 +75,7 @@ Middleware - that are [described in detail by Igor Wiedler](https://igor.io/2013
 make it possible to take hands on the course of action of the request-response lifecycle: you can authenticate before
 routing, do some logging after the response has been sent, or you can even dispatch multiple routes in one
 request if you want. These can be achieved because everything in Harmony is a middleware, so the framework itself only
-consists of cc. 300 lines of code. And that's why there is no framework-wide configuration (only middleware can
+consists of cc. 200 lines of code. And that's why there is no framework-wide configuration (only middleware can
 be configured). Basically it only depends on your imagination and needs what you do with Harmony.
 
 But middleware must work in cooperation (especially the router and the dispatcher are tightly coupled to each other).
@@ -196,7 +196,7 @@ $router = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
 };
 ```
 
-#### Finally, Launch The Framework:
+#### Finally, Launch The App:
 
 ```php
 use WoohooLabs\Harmony\Harmony;
@@ -209,26 +209,21 @@ use Zend\Diactoros\Response\SapiEmitter;
 
 $harmony = new Harmony(ServerRequestFactory::fromGlobals(), new Response());
 $harmony
+    ->addMiddleware(new DiactorosResponderMiddleware(new SapiEmitter()))
     ->addMiddleware(new FastRouteMiddleware($router))
-    ->addMiddleware(new DispatcherMiddleware())
-    ->addFinalMiddleware(new DiactorosResponderMiddleware(new SapiEmitter()));
+    ->addMiddleware(new DispatcherMiddleware());
 
 $harmony();
 ```
 
 You have to register all the following middleware in order for the framework to function properly:
-- `FastRouteMiddleware` takes care of routing (`$router`  was configured in the previous step)
-- `DispatcherMiddleware` dispatches a controller which belongs to the request's current route
 - `DiactorosResponderMiddleware` sends the response to the ether via
 [Zend Diactoros](https://github.com/zendframework/zend-diactoros)
+- `FastRouteMiddleware` takes care of routing (`$router`  was configured in the previous step)
+- `DispatcherMiddleware` dispatches a controller which belongs to the request's current route
 
-Note that there is a second optional argument of `Harmony::addMiddleware()` and `Harmony::addFinalMiddleware()` with which
-you can define the ID of a middleware (doing so is necessary if you want to call `Harmony::getMiddleware()` somewhere
-in your code).
-
-Furthermore, middleware attached via `Harmony::addFinalMiddleware()` will always be executed after the normal ones,
-just before the `Harmony` object gets destructed. In the following example, we want to emit the HTTP response by
-`DiactorosResponderMiddleware` as the very last step.
+Note that there is a second optional argument of `Harmony::addMiddleware()` with which you can define the ID of a
+middleware (doing so is necessary if you want to call `Harmony::getMiddleware()` somewhere in your code).
 
 Of course, it is completely up to you how you add additional middleware or how you replace them with your own
 implementations. When you'd like to go live, just call `$harmony()`!
@@ -308,7 +303,7 @@ $harmony->addMiddleware("logging", $middleware);
 
 **A middleware must return a `ResponseInterface` instance in any cases**, but the most important thing it can do is to
 call `$next()` to invoke the next middleware when its function was accomplished. Failing to call this method results
-in the interruption of the framework's operation (of course the final middleware will still be executed)!
+in the interruption of the framework's operation!
 
 But what to do if you want to pass a manipulated request or response to the next middleware? Then, you should call
 `$next($request, $response)`. This way, the following middleware will receive the modified request or response.
@@ -370,13 +365,8 @@ the ability to reuse your middleware in other frameworks.
 
 Again: **a middleware must return a `ResponseInterface` instance in any cases**, but the most important thing it can do
 is to call `$next()` to invoke the next middleware when its function was accomplished. Failing to call this method
-results in the interruption of the framework's operation (of course the final middleware will still be executed)!
-That's why we only invoke `$next()` in this example when the authentication was successful.
-
-Very important to notice that when authentication is unsuccessful, no other middleware will be executed (as `$next()`
-is not called), so possibly only the final middleware will be invoked afterwards. As you want to pass a modified
-response with status code 412 to the final middleware, you must return the response (as seen in the prior example)
-in order to inform the framework from the changed response.
+results in the interruption of the framework's operation! That's why we only invoke `$next()` in this example when
+the authentication was successful.
 
 ### Defining Conditions
 
@@ -472,8 +462,8 @@ $harmony->addCondition(
 ```
 
 This way, `CsrfMiddleware` will only be instantiated when `HttpMethodCondition` evaluates to `true`. Furthermore,
-you are able to attach more middleware to Harmony (even final middleware) in the anonymous function. These
-middleware will be executed together, as if they were part of a containing middleware.
+you are able to attach more middleware to Harmony in the anonymous function. They will be executed together, as if
+they were part of a containing middleware.
 
 ## Examples
 

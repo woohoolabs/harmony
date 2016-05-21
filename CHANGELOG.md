@@ -26,6 +26,10 @@ FIXED:
 
 - `DiactorosResponderMiddleware` uses `SapiEmitter` by default
 
+REMOVED:
+
+- The concept of "final middleware"
+
 ## 2.3.1 - 2016-03-06
 
 CHANGED:

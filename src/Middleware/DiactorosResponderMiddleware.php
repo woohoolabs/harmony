@@ -36,11 +36,13 @@ class DiactorosResponderMiddleware
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
     {
+        $response = $next();
+
         if (headers_sent() === false || $this->checkOutputStart === false) {
             $this->emitter->emit($response);
         }
 
-        return $next();
+        return $response;
     }
 
     /**
@@ -54,7 +56,7 @@ class DiactorosResponderMiddleware
     /**
      * @param \Zend\Diactoros\Response\EmitterInterface $emitter
      */
-    public function setEmitter($emitter)
+    public function setEmitter(EmitterInterface $emitter)
     {
         $this->emitter = $emitter;
     }
@@ -62,7 +64,7 @@ class DiactorosResponderMiddleware
     /**
      * @return bool
      */
-    public function getCheckOutputStart()
+    public function isOutputStartChecked()
     {
         return $this->checkOutputStart;
     }
