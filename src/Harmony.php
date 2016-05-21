@@ -50,19 +50,18 @@ class Harmony
             $this->response = $response;
         }
 
-        // Retrieving the key of the next normal or final middleware
-        $nextKey = $this->getNextMiddlewareKey(++$this->currentMiddleware);
+        $this->currentMiddleware++;
 
-        // Stopping if there aren't any executable middleware remaining
-        if ($nextKey === null) {
+        // Stop if there aren't any executable middleware remaining
+        if (isset($this->middleware[$this->currentMiddleware]) === false) {
             return $this->response;
         }
 
-        // Executing the next middleware or condition
-        if (empty($this->middleware[$nextKey]["condition"])) {
-            $this->executeMiddleware($this->middleware[$nextKey]);
+        // Execute the next middleware or condition
+        if (empty($this->middleware[$this->currentMiddleware]["condition"])) {
+            $this->executeMiddleware($this->middleware[$this->currentMiddleware]);
         } else {
-            $this->executeCondition($this->middleware[$nextKey]);
+            $this->executeCondition($this->middleware[$this->currentMiddleware]);
         }
 
         return $this->response;
@@ -145,19 +144,6 @@ class Harmony
         ];
 
         return $this;
-    }
-
-    /**
-     * @param int $fromKey
-     * @return int|null
-     */
-    protected function getNextMiddlewareKey($fromKey)
-    {
-        for (; isset($this->middleware[$fromKey]); $fromKey++) {
-            return $fromKey;
-        }
-
-        return null;
     }
 
     /**
