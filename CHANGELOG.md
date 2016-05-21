@@ -29,6 +29,7 @@ FIXED:
 REMOVED:
 
 - The concept of "final middleware"
+- Output buffering middleware
 
 ## 2.3.1 - 2016-03-06
 
