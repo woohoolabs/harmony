@@ -21,12 +21,13 @@ CHANGED:
 - Providing an ID for middleware became optional
 - Exception names became shorter
 - A `MiddlewareNotFound` exception will be thrown when removing a non-existent middleware with `Harmony::removeMiddleware()`
+- Renamed `MiddlewareInterface` to `HarmonyMiddlewareInterface`
 
 FIXED:
 
 - `@return` PHPDoc comments for middleware were missing
 - `DiactorosResponderMiddleware` uses `SapiEmitter` by default
-- `DiactorosResponderMiddleware` was only usable as a final middleware
+- `DiactorosResponderMiddleware` used to be only usable as a final middleware
 
 REMOVED:
 

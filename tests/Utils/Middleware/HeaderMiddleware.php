@@ -3,10 +3,8 @@ namespace WoohooLabsTest\Harmony\Utils\Middleware;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use WoohooLabs\Harmony\Harmony;
-use WoohooLabs\Harmony\Middleware\MiddlewareInterface;
 
-class HeaderMiddleware implements MiddlewareInterface
+class HeaderMiddleware
 {
     /**
      * @var string
@@ -31,10 +29,10 @@ class HeaderMiddleware implements MiddlewareInterface
     /**
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @param \Psr\Http\Message\ResponseInterface $response
-     * @param \WoohooLabs\Harmony\Harmony $next
+     * @param callable $next
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, Harmony $next)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
     {
         return $next(null, $response->withHeader($this->name, $this->value));
     }

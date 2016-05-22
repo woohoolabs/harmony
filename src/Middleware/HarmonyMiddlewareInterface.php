@@ -5,7 +5,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use WoohooLabs\Harmony\Harmony;
 
-interface MiddlewareInterface
+interface HarmonyMiddlewareInterface
 {
     /**
      * @param \Psr\Http\Message\ServerRequestInterface $request
