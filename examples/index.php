@@ -2,17 +2,17 @@
 
 include_once "../vendor/autoload.php";
 
-use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use WoohooLabs\Harmony\Examples\Controller\GetBookAction;
 use WoohooLabs\Harmony\Examples\Controller\UserController;
 use WoohooLabs\Harmony\Harmony;
-use WoohooLabs\Harmony\Middleware\FastRouteMiddleware;
-use WoohooLabs\Harmony\Middleware\DispatcherMiddleware;
 use WoohooLabs\Harmony\Middleware\DiactorosResponderMiddleware;
-use Zend\Diactoros\ServerRequestFactory;
+use WoohooLabs\Harmony\Middleware\DispatcherMiddleware;
+use WoohooLabs\Harmony\Middleware\FastRouteMiddleware;
 use Zend\Diactoros\Response;
 use Zend\Diactoros\Response\SapiEmitter;
+use Zend\Diactoros\ServerRequestFactory;
 
 // Initializing the request and the response objects
 $request = ServerRequestFactory::fromGlobals();

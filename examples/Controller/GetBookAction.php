@@ -1,8 +1,8 @@
 <?php
 namespace WoohooLabs\Harmony\Examples\Controller;
 
-use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 class GetBookAction
 {
