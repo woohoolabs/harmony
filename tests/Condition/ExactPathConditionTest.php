@@ -4,16 +4,15 @@ namespace WoohooLabsTest\Harmony\Container;
 use PHPUnit_Framework_TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
-use WoohooLabs\Harmony\Condition\HttpMethodCondition;
-use WoohooLabs\Harmony\Condition\PathCondition;
+use WoohooLabs\Harmony\Condition\ExactPathCondition;
 use WoohooLabsTest\Harmony\Utils\Psr7\DummyResponse;
 
-class PathConditionTest extends PHPUnit_Framework_TestCase
+class ExactPathConditionTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @test
      */
-    public function evaluateTrue()
+    public function evaluateToTrue()
     {
         /** @var UriInterface $uri */
         $uri = $this->getMockBuilder(UriInterface::class)->getMock();
@@ -23,7 +22,7 @@ class PathConditionTest extends PHPUnit_Framework_TestCase
         $request = $this->getMockBuilder(ServerRequestInterface::class)->getMock();
         $request->method("getUri")->willReturn($uri);
 
-        $condition = new PathCondition(["/api"]);
+        $condition = new ExactPathCondition(["/api"]);
 
         $this->assertTrue($condition->evaluate($request, new DummyResponse()));
     }
@@ -31,7 +30,7 @@ class PathConditionTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function evaluateFalse()
+    public function evaluateToFalse()
     {
         /** @var UriInterface $uri */
         $uri = $this->getMockBuilder(UriInterface::class)->getMock();
@@ -41,7 +40,7 @@ class PathConditionTest extends PHPUnit_Framework_TestCase
         $request = $this->getMockBuilder(ServerRequestInterface::class)->getMock();
         $request->method("getUri")->willReturn($uri);
 
-        $condition = new PathCondition(["/not-api"]);
+        $condition = new ExactPathCondition(["/not-api"]);
 
         $this->assertFalse($condition->evaluate($request, new DummyResponse()));
     }

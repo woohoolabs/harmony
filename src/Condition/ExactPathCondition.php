@@ -4,7 +4,7 @@ namespace WoohooLabs\Harmony\Condition;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-class PathCondition implements ConditionInterface
+class ExactPathCondition implements ConditionInterface
 {
     protected $paths = [];
 

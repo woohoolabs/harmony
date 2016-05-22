@@ -11,8 +11,8 @@ FIXED:
 ADDED:
 
 - Support for conditional middleware
+- Some basic built-in conditions (e.g.: `ExactPathCondition`)
 - Support for PHPUnit 5.0
-- `@return` PHPDoc comments for middleware
 
 CHANGED:
 
@@ -24,7 +24,9 @@ CHANGED:
 
 FIXED:
 
+- `@return` PHPDoc comments for middleware were missing
 - `DiactorosResponderMiddleware` uses `SapiEmitter` by default
+- `DiactorosResponderMiddleware` was only usable as a final middleware
 
 REMOVED:
 
