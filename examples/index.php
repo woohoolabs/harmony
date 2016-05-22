@@ -19,7 +19,7 @@ $request = ServerRequestFactory::fromGlobals();
 $response = new Response();
 
 // Initializing the router
-$router = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
+$router = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
     $r->addRoute("GET", "/me", function (ServerRequestInterface $request, ResponseInterface $response) {
         $response->getBody()->write("I am me!");
 
