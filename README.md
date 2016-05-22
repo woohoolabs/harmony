@@ -303,10 +303,10 @@ $middleware = function (ServerRequestInterace $request, ResponseInterface $respo
     // Perform logging before handling the request
     $logger->logInfo("Request needs to be handled");
     
-    // Invoking the other middleware
+    // Invoking the remaining middleware
     $response = $next();
     
-    // Perform logging after handling
+    // Perform logging after the request has been handled
     $logger->logInfo("Request was successfuly handled");
 
     // Return to the previous middleware
@@ -325,8 +325,8 @@ What to do if you want to pass a manipulated request or response to the next mid
 Calling `$next(null, $response)` will pass the original request and the possibly changed response to the next
 middleware!
 
-If you need more sophistication, you can use a `Closure` as a middleware too. For example let's create authentication
-middleware:
+If you need more sophistication, you can use a `Closure` as a middleware too. Let's create an authentication
+middleware to demonstrate this feature:
 
 ```php
 use Psr\Http\Message\ServerRequestInterface;
@@ -466,14 +466,14 @@ function. They will be executed together, as if they were part of a containing m
 
 Here is a complete list of the built-in conditions:
 
-- `[ExactPathCondition](https://github.com/woohoolabs/harmony/blob/master/src/Condition/ExactPathCondition.php)`: It
-evaluates to true if the current URI path exactly matches any of the allowed paths.
+- [`ExactPathCondition`](https://github.com/woohoolabs/harmony/blob/master/src/Condition/ExactPathCondition.php):
+Evaluates to true if the current URI path exactly matches any of the allowed paths.
 
-- `[PathPrefixCondition](https://github.com/woohoolabs/harmony/blob/master/src/Condition/PathPrefixCondition.php)`: It
-evaluates to true if the current URI path starts with any of the allowed path prefixes.
+- [`PathPrefixCondition`](https://github.com/woohoolabs/harmony/blob/master/src/Condition/PathPrefixCondition.php):
+Evaluates to true if the current URI path starts with any of the allowed path prefixes.
 
-- `[HttpMethodCondition](https://github.com/woohoolabs/harmony/blob/master/src/Condition/HttpMethodCondition.php)`: It
-evaluates to true if the current HTTP method matches any of the allowed HTTP methods.
+- [`HttpMethodCondition`](https://github.com/woohoolabs/harmony/blob/master/src/Condition/HttpMethodCondition.php):
+Evaluates to true if the current HTTP method matches any of the allowed HTTP methods.
 
 ## Examples
 
