@@ -32,7 +32,6 @@ install:
 
 script:
   - $TEST_COMMAND
-  - if [[ "$EXECUTE_CS_CHECK" == "true" ]]; then ./vendor/bin/phpcs ; fi
 
 after_success:
   - if [[ "$EXECUTE_COVERAGE" == "true" ]]; then wget https://scrutinizer-ci.com/ocular.phar ; fi
