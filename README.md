@@ -60,11 +60,10 @@ to invoke middleware conditionally.
 
 #### Use Cases of Woohoo Labs. Harmony
 
-Harmony won't suit the needs of all projects and teams. Firstly, this framework works best
-for advanced teams. So less experienced teams should probably choose a less lenient framework with more features
-in order to speed up development in its initial phase. Harmony's flexibility is the most advantageous if your
-software is a long-term, strategic project. That's why legacy applications can also profit from Harmony because it
-eases gradual refactoring.
+Harmony won't suit the needs of all projects and teams: this framework works best for advanced teams. So less
+experienced teams should probably choose a less lenient framework with more features in order to speed up development in
+its initial phase. Harmony's flexibility is the most advantageous if your software is a long-term, strategic project.
+That's why legacy applications can also profit from Harmony because it eases gradual refactoring.
 
 #### Concepts
 
@@ -89,10 +88,9 @@ adapted the [Container-Interop standard interface](https://github.com/container-
 
 Woohoo Labs. Harmony's middleware interface design is based on the "request, response, next" style advocated
 by such prominent developers as [Matthew Weier O'Phinney](https://mwop.net/) (you can read more on the topic
-[in his blog post](https://mwop.net/blog/2015-01-08-on-http-middleware-and-psr-7.html)).
-
-This style (which is often called "double pass" or "functional" style) is the current de-facto standard among PHP
-middleware dispatchers, also supported by e.g. [Zend-Stratigility](https://github.com/zendframework/zend-stratigility/),
+[in his blog post](https://mwop.net/blog/2015-01-08-on-http-middleware-and-psr-7.html)). This style (which is often
+called "double pass" or "functional" style) is the current de-facto standard among PHP middleware dispatchers, also
+supported by e.g. [Zend-Stratigility](https://github.com/zendframework/zend-stratigility/),
 [Slim Framework 3](http://www.slimframework.com/) and [Relay](http://relayphp.com/).
 
 If you want to learn about the specifics of this style, please refer the following introductions which describe the
@@ -288,7 +286,7 @@ DIC too. Let's have a look at an example where one would like to swap `BasicCont
 
 ```php
 $container = new \DI\Container();
-$harmony->addMiddleware("dispatcher", new DispatcherMiddleware($container));
+$harmony->addMiddleware(new DispatcherMiddleware($container));
 ```
 
 #### Creating Custom Middleware
@@ -311,7 +309,7 @@ $middleware = function (ServerRequestInterace $request, ResponseInterface $respo
 And then you have to attach the middleware to Harmony:
 
 ```php
-$harmony->addMiddleware("logging", $middleware);
+$harmony->addMiddleware($middleware);
 ```
 
 **A middleware must return a `ResponseInterface` instance in any cases**, but the most important thing it can do is to
@@ -365,7 +363,7 @@ class AuthenticationMiddleware
 Then 
 
 ```php
-$harmony->addMiddleware("authentication", new AuthenticationMiddleware("123"));
+$harmony->addMiddleware(new AuthenticationMiddleware("123"));
 ```
 
 As you can see, the constructor receives the API Key, while the `__invoke()` method is responsible for performing the
@@ -385,24 +383,36 @@ the authentication was successful.
 
 Non-trivial applications often need some kind of branching during the execution of their middleware pipeline. A possible
 use-case is when they want to perform authentication only for some of their endpoints or when they want to check for a
-CSRF token if the request method is `POST`.
+CSRF token if the request method is `POST`. With Harmony 2 branching was also easy to handle, but Harmony 3 helps you to
+optimize the performance of conditional logic in your middleware.
 
-With Harmony 2 too, these conditions were easy to handle:
+Let's revisit our authentication middleware example from the last section! This time, we only want to authenticate
+endpoints below the `/user` path. In Harmony 2, we would have to achieve it with something like this:
 
 ```php
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-class CsrfMiddleware
+class AuthenticationMiddleware
 {
     /**
-     * @var MyFavoriteCsrfValidatorLibrary
+     * @var string
      */
-    protected $csrfValidator;
-    
-    public function __construct(MyFavoriteCsrfValidatorLibrary $csrfValidator)
+    protected $securedPath;
+
+    /**
+     * @var MyAuthenticatorInterface
+     */
+    protected $authenticator;
+
+    /**
+     * @param string $securedPath
+     * @param MyAuthenticatorInterface $authenticator
+     */
+    public function __construct($securedPath, MyAuthenticatorInterface $authenticator)
     {
-        $this->csrfValidator = $csrfValidator;
+        $this->securedPath = $securedPath;
+        $this->authenticator = $authenticator;
     }
 
     /**
@@ -413,70 +423,58 @@ class CsrfMiddleware
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
     {
-        if ($request->getMethod() === "POST" && $this->csrfValidator->validate($request) === false) {
-            return $response->withStatusCode(400);
+         // Invoke the next middleware if the current URL is for a public endpoint
+        if (substr($request->getUri()->getPath(), 0, strlen($this->securedPath)) !== $this->securedPath) {
+            return $next();
+        }
+    
+        // Return Error 401 if authentication fails
+        if ($this->authenticator->authenticate() === false) {
+            return $response->withStatusCode(401);
         }
         
+        // Invoke the next middleware otherwise
         return $next();
     }
 }
 ```
 
-And attach it to Harmony:
+And finally attach it to Harmony:
 
 ```php
-$harmony->addMiddleware(new CsrfMiddleware(new MyFavoriteCsrfValidatorLibrary()));
+$harmony->addMiddleware(new AuthenticationMiddleware("/user", new ApiKeyAuthenticator("123")));
 ```
 
-You only had to check the request method inside the middleware and the problem was solved. The downside of doing this is
-that `CsrfMiddleware` and all its dependencies are instantiated for each request although the validation itself is not
-necessary at all (e.g. for `GET` requests)!
+You only had to check the current URI inside the middleware and the problem was solved. The downside of doing this is
+that `AuthenticationMiddleware` and all its dependencies are instantiated for each request although the authentication
+itself is not needed at all! This can be a major inconvenience if you depend on a big object graph.
 
-In Harmony 3, you are able to use conditions in order to optimize the number of objects created. In this case you can
-utilize the built-in `HttpMethodCondition` which looks like the following:
-
-```php
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-
-class HttpMethodCondition implements ConditionInterface
-{
-    protected $methods = [];
-
-    /**
-     * @param array $methods
-     */
-    public function __construct(array $methods)
-    {
-        $this->methods = $methods;
-    }
-
-    /**
-     * @param ServerRequestInterface $request
-     * @param ResponseInterface $response
-     * @return bool
-     */
-    public function evaluate(ServerRequestInterface $request, ResponseInterface $response)
-    {
-        return in_array($request->getMethod(), $this->methods) === true;
-    }
-}
-```
-
-And add it to Harmony:
+In Harmony 3, however, you are able to use conditions in order to optimize the number of objects created. In this case
+you can utilize the built-in `PathPrefixCondition`. You only have to attach it to Harmony:
 
 ```php
 $harmony->addCondition(
-    new HttpMethodCondition(["POST"]),
+    new PathPrefixCondition(["/users"]),
     function (Harmony $harmony) {
-        $harmony->addMiddleware(new CsrfMiddleware(new MyFavoriteCsrfValidatorLibrary()));
+        $harmony->addMiddleware(new AuthenticationMiddleware("/user", new ApiKeyAuthenticator("123")));
     }
 );
 ```
 
-This way, `CsrfMiddleware` will only be instantiated when `HttpMethodCondition` evaluates to `true`. Furthermore,
-you are able to attach more middleware to Harmony in the anonymous function. They will be executed together, as if
-they were part of a containing middleware.
+This way, `AuthenticationMiddleware` will only be instantiated when `PathPrefixCondition` evaluates to `true` (when the
+current URI path starts with `/users`). Furthermore, you are able to attach more middleware to Harmony in the anonymous
+function. They will be executed together, as if they were part of a containing middleware.
+
+Here is a complete list of the built-in conditions:
+
+- `[ExactPathCondition](https://github.com/woohoolabs/harmony/blob/master/src/Condition/ExactPathCondition.php)`: It
+evaluates to true if the current URI path exactly matches any of the allowed paths.
+
+- `[PathPrefixCondition](https://github.com/woohoolabs/harmony/blob/master/src/Condition/PathPrefixCondition.php)`: It
+evaluates to true if the current URI path starts with any of the allowed path prefixes.
+
+- `[HttpMethodCondition](https://github.com/woohoolabs/harmony/blob/master/src/Condition/HttpMethodCondition.php)`: It
+evaluates to true if the current HTTP method matches any of the allowed HTTP methods.
 
 ## Examples
 
