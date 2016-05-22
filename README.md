@@ -71,11 +71,10 @@ eases gradual refactoring.
 Woohoo Labs. Harmony is built upon two main concepts: middleware which promote separation of concerns and
 common interfaces allowing you to band your favourite tools together!
 
-Middleware - that are [described in detail by Igor Wiedler](https://igor.io/2013/02/02/http-kernel-middlewares.html) -
-make it possible to take hands on the course of action of the request-response lifecycle: you can authenticate before
-routing, do some logging after the response has been sent, or you can even dispatch multiple routes in one
-request if you want. These can be achieved because everything in Harmony is a middleware, so the framework itself only
-consists of cc. 200 lines of code. And that's why there is no framework-wide configuration (only middleware can
+Middleware make it possible to take hands on the course of action of the request-response lifecycle: you can
+authenticate before routing, do some logging after the response has been sent, or you can even dispatch multiple routes
+in one request if you want. These can be achieved because everything in Harmony is a middleware, so the framework itself
+only consists of cc. 200 lines of code. And that's why there is no framework-wide configuration (only middleware can
 be configured). Basically it only depends on your imagination and needs what you do with Harmony.
 
 But middleware must work in cooperation (especially the router and the dispatcher are tightly coupled to each other).
@@ -86,20 +85,30 @@ for modelling the HTTP request and response. In order to facilitate the usage of
 adapted the [Container-Interop standard interface](https://github.com/container-interop/container-interop)
 (which is supported by various containers off-the-shelf).
 
-#### Available Middleware
+#### Middleware Interface Design
 
 Woohoo Labs. Harmony's middleware interface design is based on the "request, response, next" style advocated
 by such prominent developers as [Matthew Weier O'Phinney](https://mwop.net/) (you can read more on the topic
-[in his blog post](https://mwop.net/blog/2015-01-08-on-http-middleware-and-psr-7.html)). That's why
-Harmony's middleware are compatible with middleware built for
-[Zend-Stratigility](https://github.com/zendframework/zend-stratigility/),
-[Slim Framework 3](http://www.slimframework.com/) or [Relay](http://relayphp.com/).
+[in his blog post](https://mwop.net/blog/2015-01-08-on-http-middleware-and-psr-7.html)).
 
-Furthermore, you can find various other middleware available for Harmony:
+This style (which is often called "double pass" or "functional" style) is the current de-facto standard among PHP
+middleware dispatchers, also supported by e.g. [Zend-Stratigility](https://github.com/zendframework/zend-stratigility/),
+[Slim Framework 3](http://www.slimframework.com/) and [Relay](http://relayphp.com/).
+
+If you want to learn about the specifics of this style, please refer the following introductions which describe the
+concept very clearly:
+
+- [Middleware logic in Relay PHP](http://relayphp.com/#middleware-logic) 
+- [How does middleware work in Slim 3?](http://www.slimframework.com/docs/concepts/middleware.html#how-does-middleware-work)
+
+#### Additional Middleware
+
+Besides the built-in middleware and the ones for the compatible middleware dispatcher libraries, you can find
+various other third party middleware available for Harmony:
 
 - [Woohoo Labs. Yin-Middleware](https://github.com/woohoolabs/yin-middleware): A bunch of middleware to integrate
 [Woohoo Labs. Yin](https://github.com/woohoolabs/harmony) - the elegant JSON API framework - into Harmony.
-- [PSR-7 Middlewares](https://github.com/oscarotero/psr7-middlewares): A collection of PSR-7 middleware
+- [PSR-7 Middlewares](https://github.com/oscarotero/psr7-middlewares): A collection of PSR-7 middleware from Oscar Otero
 - [MiniUrl](https://github.com/mtymek/MiniUrl): A simple URL shortener, which can be used as a free, open-source
 replacement for bit.ly's core functionality: creating short links and redirecting users.
 
@@ -178,7 +187,7 @@ class UserController
 The following example applies only if you use the
 [default router middleware](https://github.com/woohoolabs/harmony/blob/master/src/Middleware/FastRouteMiddleware.php)
 which is based on [FastRoute](https://github.com/nikic/FastRoute), the library of Nikita Popov. We chose to use this
-library because of its performance and elegance. You can read more about it
+library by default because of its performance and elegance. You can read more about it
 [in Nikita's blog](http://nikic.github.io/2014/02/18/Fast-request-routing-using-regular-expressions.html).
 
 Let's add three routes to FastRoute:
@@ -284,12 +293,16 @@ $harmony->addMiddleware("dispatcher", new DispatcherMiddleware($container));
 
 #### Creating Custom Middleware
 
+In order to avoid some initial confusion, please ensure that you know the basics and gotchas of the "request, response,
+next" middleware interface design before creating your first own middleware. You can have a look at
+[the section about this topic](#middleware-interface-design).
+
 It's not a big deal to add a new middleware to your stack. For a basic scenario, you can use anonymous functions.
 Let's say you would like to log all the requests:
 
 ```php
-$middleware = function(ServerRequestInterace $request, ResponseInterface $response, callable $next) {
-    // Logging
+$middleware = function (ServerRequestInterace $request, ResponseInterface $response, callable $next) {
+    // Perform logging
 
     return $next();
 }

@@ -17,7 +17,7 @@ ADDED:
 CHANGED:
 
 - [#8](https://github.com/woohoolabs/harmony/issues/9) Improved Travis config
-- Middleware returning null will also throw `MiddlewareWrongReturnType`
+- Middleware returning null will throw `MiddlewareWrongReturnType`
 - Providing an ID for middleware became optional
 - Exception names became shorter
 - A `MiddlewareNotFound` exception will be thrown when removing a non-existent middleware with `Harmony::removeMiddleware()`
