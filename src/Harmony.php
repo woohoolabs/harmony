@@ -1,8 +1,8 @@
 <?php
 namespace WoohooLabs\Harmony;
 
-use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use WoohooLabs\Harmony\Condition\ConditionInterface;
 use WoohooLabs\Harmony\Exception\MiddlewareNotExists;
 use WoohooLabs\Harmony\Exception\MiddlewareWrongReturnType;

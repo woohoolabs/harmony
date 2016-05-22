@@ -4,8 +4,8 @@ namespace WoohooLabsTest\Harmony;
 use PHPUnit_Framework_TestCase;
 use WoohooLabs\Harmony\Harmony;
 use WoohooLabsTest\Harmony\Utils\Condition\StubCondition;
-use WoohooLabsTest\Harmony\Utils\Middleware\FakeMiddleware;
 use WoohooLabsTest\Harmony\Utils\Middleware\ExceptionMiddleware;
+use WoohooLabsTest\Harmony\Utils\Middleware\FakeMiddleware;
 use WoohooLabsTest\Harmony\Utils\Middleware\HeaderMiddleware;
 use WoohooLabsTest\Harmony\Utils\Middleware\InternalServerErrorMiddleware;
 use WoohooLabsTest\Harmony\Utils\Middleware\ReturningMiddleware;
@@ -135,7 +135,7 @@ class HarmonyTest extends PHPUnit_Framework_TestCase
      */
     public function getExistentMiddleware()
     {
-        $middleware= new FakeMiddleware();
+        $middleware = new FakeMiddleware();
 
         $harmony = $this->createHarmony();
         $harmony->addMiddleware($middleware, "dummy");
