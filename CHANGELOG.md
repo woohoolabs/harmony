@@ -10,11 +10,8 @@ FIXED:
 
 ADDED:
 
-- Added getters for `MethodNotAllowed`, `MiddlewareNotExists` and `RouteNotFound` exceptions
-
-CHANGED:
-
-- Improved exception message for `MethodNotAllowed` and `RouteNotFound` exceptions
+- Getters for `MethodNotAllowed`, `MiddlewareNotExists` and `RouteNotFound` exceptions
+- Exception message for `MethodNotAllowed` and `RouteNotFound` exceptions
 
 ## 3.0.0 - 2016-05-22
 
