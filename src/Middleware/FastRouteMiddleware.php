@@ -42,11 +42,11 @@ class FastRouteMiddleware
         $route = $this->fastRoute->dispatch($request->getMethod(), $request->getUri()->getPath());
 
         if ($route[0] === Dispatcher::NOT_FOUND) {
-            throw new RouteNotFound();
+            throw new RouteNotFound($request->getUri()->getPath());
         }
 
         if ($route[0] === Dispatcher::METHOD_NOT_ALLOWED) {
-            throw new MethodNotAllowed();
+            throw new MethodNotAllowed($request->getMethod());
         }
 
         foreach ($route[2] as $name => $value) {

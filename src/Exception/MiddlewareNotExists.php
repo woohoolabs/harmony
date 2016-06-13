@@ -5,6 +5,9 @@ use Exception;
 
 class MiddlewareNotExists extends Exception
 {
+    /**
+     * @var string
+     */
     protected $name;
 
     /**
@@ -12,6 +15,15 @@ class MiddlewareNotExists extends Exception
      */
     public function __construct($name)
     {
-        parent::__construct("A middleware with '" . $this->name . "' ID does not exist!");
+        $this->name = $name;
+        parent::__construct("A middleware with '" . $name . "' ID does not exist!");
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 }
