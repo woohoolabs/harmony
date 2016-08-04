@@ -114,6 +114,14 @@ replacement for bit.ly's core functionality: creating short links and redirectin
 
 The steps of this process are quite straightforward. The only thing you need is [Composer](http://getcomposer.org).
 
+#### Require a PSR-7 implementation:
+
+As Harmony requires a PSR-7 implementation (a package which provides the `http-message-implementation` virtual package), you must install one first. You may use Zend Diactoros or your preferred library:
+
+```bash
+$ composer require zendframework/zend-diactoros
+```
+
 #### Add Harmony to your composer.json:
 
 To install this library, run the command below and you will get the latest version:
