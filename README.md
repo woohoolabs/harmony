@@ -52,7 +52,7 @@ We believe Harmony is superior to the others in two key things:
 
 - It is the simplest of all. Although simplicity is subjective, one thing is for sure: Harmony offers the least
 functionality which is minimally needed. It doesn't have capabilities which are not truly required. That's why Harmony
-fits in a single class of 200 lines.
+fits into a single class of 200 lines.
 
 - Starting from version 3, Harmony natively supports the concept of [Conditions](#defining-conditions) which is a unique
 feature for middleware dispatchers. This eases a major weakness of the middleware-oriented approach which is being able
