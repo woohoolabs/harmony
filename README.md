@@ -43,7 +43,7 @@ This post summarizes the best why Harmony was born: http://www.catonmat.net/blog
 
 #### Why Harmony?
 
-There are a lot very similar middleware dispatcher libraries out there. To name a few:
+There are a lot of very similar middleware dispatcher libraries out there, like
 [Zend-Stratigility](https://github.com/zendframework/zend-stratigility/),
 [Slim Framework 3](http://www.slimframework.com/docs/concepts/middleware.html) or [Relay](http://relayphp.com/).
 So what is the purpose of yet another library with the same functionality?
@@ -55,28 +55,28 @@ functionality which is minimally needed. It doesn't have capabilities which are 
 fits into a single class of 200 lines.
 
 - Starting from version 3, Harmony natively supports the concept of [Conditions](#defining-conditions) which is a unique
-feature for middleware dispatchers. This eases a major weakness of the middleware-oriented approach which is being able
-to invoke middleware conditionally.
+feature for middleware dispatchers. This eases dealing with a major weakness of the middleware-oriented approach, which 
+is being able to invoke middleware conditionally.
 
 #### Use Cases of Woohoo Labs. Harmony
 
-Certainly, Harmony won't suit the needs of all projects and teams: this framework works best for advanced teams. So less
-experienced teams should probably choose a less lenient framework with more features in order to speed up development in
-its initial phase. Harmony's flexibility is the most advantageous if your software is a long-term, strategic project.
-That's why legacy applications can also profit from Harmony because it eases gradual refactoring.
+Certainly, Harmony won't suit the needs of all projects and teams: this framework works best for advanced teams. Less
+experienced teams should probably choose a less lenient framework, with more features, in order to speed up development in
+its initial phase. Harmony's flexibility is the most advantageous when your software is a long-term, strategic project.
+That's why legacy applications can also benefit from Harmony, because it eases gradual refactoring.
 
 #### Concepts
 
 Woohoo Labs. Harmony is built upon two main concepts: middleware which promote separation of concerns and
-common interfaces allowing you to band your favourite tools together!
+common interfaces allowing you to band your favourite tools together.
 
-Middleware make it possible to take hands on the course of action of the request-response lifecycle: you can
+Middleware makes it possible to take hands on the course of action of the request-response lifecycle: you can
 authenticate before routing, do some logging after the response has been sent, or you can even dispatch multiple routes
-in one request if you want. These can be achieved because everything in Harmony is a middleware, so the framework itself
-only consists of cc. 200 lines of code. And that's why there is no framework-wide configuration (only middleware can
-be configured). Basically it only depends on your imagination and needs what you do with Harmony.
+in one request. These can be achieved because everything in Harmony is a middleware, so the framework itself
+only consists of cc. 200 lines of code. That's why there is no framework-wide configuration, only middleware can
+be configured. What you do with Harmony depends only on your imagination and needs.
 
-But middleware must work in cooperation (especially the router and the dispatcher are tightly coupled to each other).
+But middleware must work in cooperation (the router and the dispatcher are particularly tightly coupled to each other).
 That's why it is also important to provide common interfaces for the distinct components of the framework.
 
 Naturally, we decided to use [PSR-7](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-7-http-message.md)
