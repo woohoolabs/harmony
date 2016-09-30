@@ -87,13 +87,13 @@ various containers off-the-shelf.
 #### Middleware Interface Design
 
 Woohoo Labs. Harmony's middleware interface design is based on the "request, response, next" style advocated
-by such prominent developers as [Matthew Weier O'Phinney](https://mwop.net/) (you can read more on the topic
+by prominent developers as [Matthew Weier O'Phinney](https://mwop.net/) (you can read more on the topic
 [in his blog post](https://mwop.net/blog/2015-01-08-on-http-middleware-and-psr-7.html)). This style - often
-called "double pass" or "functional" style - is the current de-facto standard among PHP middleware dispatchers, and also
+called "double pass" or "functional" style - is the current de-facto standard among PHP middleware dispatchers, also
 supported by major vendors like [Zend-Stratigility](https://github.com/zendframework/zend-stratigility/),
 [Slim Framework 3](http://www.slimframework.com/) and [Relay](http://relayphp.com/).
 
-If you want to learn about the specifics of this style, please refer to the following introductions which describe the
+If you want to learn about the specifics of this style, please refer to the following introductions which describe this
 very concept:
 
 - [Middleware logic in Relay PHP](http://relayphp.com/#middleware-logic) 
@@ -101,11 +101,11 @@ very concept:
 
 #### Additional Middleware
 
-Besides the built-in middleware and the ones for the compatible middleware dispatcher libraries, you can find
-various other third party middleware available for Harmony:
+Besides the built-in middleware and the ones for the compatible middleware dispatcher libraries, there are
+several other third party middleware available for Harmony:
 
-- [Woohoo Labs. Yin-Middleware](https://github.com/woohoolabs/yin-middleware): A bunch of middleware to integrate
-[Woohoo Labs. Yin](https://github.com/woohoolabs/harmony) - the elegant JSON API framework - into Harmony.
+- [Woohoo Labs. Yin-Middleware](https://github.com/woohoolabs/yin-middleware): A bunch of middleware for integratation
+[Woohoo Labs. Yin](https://github.com/woohoolabs/harmony) - An elegant JSON API framework - into Harmony.
 - [PSR-7 Middlewares](https://github.com/oscarotero/psr7-middlewares): A collection of PSR-7 middleware from Oscar Otero
 - [MiniUrl](https://github.com/mtymek/MiniUrl): A simple URL shortener, which can be used as a free, open-source
 replacement for bit.ly's core functionality: creating short links and redirecting users.
@@ -146,9 +146,8 @@ $ composer require zendframework/zend-diactoros:^2.3.0
 The following example applies only if you use the
 [default dispatcher middleware](https://github.com/woohoolabs/harmony/blob/master/src/Middleware/DispatcherMiddleware.php).
 There are two important things to note here: first, each endpoint receives a `Psr\Http\Message\ServerRequestInterface`
-and a `Psr\Http\Message\ResponseInterface` object and they are expected to manipulate and return the latter.
-Second, you are not forced to only use classes for the endpoints, it is possible to define other callables too (see
-below in the routing section).
+and a `Psr\Http\Message\ResponseInterface` object and they are expected to manipulate and return the latter,
+second, you are not forced to only use classes for the endpoints, it is possible to define other callables too (see in the routing section below).
 
 ```php
 namespace App\Controllers;
