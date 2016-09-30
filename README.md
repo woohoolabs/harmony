@@ -10,7 +10,7 @@
 
 **Woohoo Labs. Harmony is a flexible micro-framework developed for PHP applications.**
 
-Our aim was to create an invisible, easily extensible, but first of all, extremely flexible framework for your
+Our aim was to create an invisible, easily extensible, and most importantly,an extremely flexible framework for your
 quality application. We wanted to give you total control via
 [PSR-7](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-7-http-message.md) and
 [Container-Interop](https://github.com/container-interop/container-interop).
@@ -32,7 +32,7 @@ quality application. We wanted to give you total control via
 
 #### Rationale
 
-This post summarizes the best why Harmony was born: http://www.catonmat.net/blog/frameworks-dont-make-sense/ 
+This post summarizes the reasons behind Harmony's birth: http://www.catonmat.net/blog/frameworks-dont-make-sense/ 
 
 #### Features
 
@@ -62,7 +62,7 @@ is being able to invoke middleware conditionally.
 
 Certainly, Harmony won't suit the needs of all projects and teams: this framework works best for advanced teams. Less
 experienced teams should probably choose a less lenient framework, with more features, in order to speed up development in
-its initial phase. Harmony's flexibility is the most advantageous when your software is a long-term, strategic project.
+the initial phase. Harmony's flexibility is most advantageous when your software is a long-term, strategic project.
 That's why legacy applications can also benefit from Harmony, because it eases gradual refactoring.
 
 #### Concepts
@@ -70,11 +70,11 @@ That's why legacy applications can also benefit from Harmony, because it eases g
 Woohoo Labs. Harmony is built upon two main concepts: middleware which promote separation of concerns and
 common interfaces allowing you to band your favourite tools together.
 
-Middleware makes it possible to take hands on the course of action of the request-response lifecycle: you can
+Middleware makes it possible to modify the course of action of the request-response lifecycle: you can
 authenticate before routing, do some logging after the response has been sent, or you can even dispatch multiple routes
 in one request. These can be achieved because everything in Harmony is a middleware, so the framework itself
-only consists of cc. 200 lines of code. That's why there is no framework-wide configuration, only middleware can
-be configured. What you do with Harmony depends only on your imagination and needs.
+only consists of 200 lines of code. That's why there is no framework-wide configuration, only middleware can
+be configured. What you do with Harmony depends on your imagination and needs.
 
 But middleware must work in cooperation (the router and the dispatcher are particularly tightly coupled to each other).
 That's why it is also important to provide common interfaces for the distinct components of the framework.
@@ -87,13 +87,13 @@ various containers off-the-shelf.
 #### Middleware Interface Design
 
 Woohoo Labs. Harmony's middleware interface design is based on the "request, response, next" style advocated
-by such prominent developers as [Matthew Weier O'Phinney](https://mwop.net/) (you can read more on the topic
+by prominent developers such as [Matthew Weier O'Phinney](https://mwop.net/) (you can read more on the topic
 [in his blog post](https://mwop.net/blog/2015-01-08-on-http-middleware-and-psr-7.html)). This style - often
 called "double pass" or "functional" style - is the current de-facto standard among PHP middleware dispatchers, and also
 supported by major vendors like [Zend-Stratigility](https://github.com/zendframework/zend-stratigility/),
 [Slim Framework 3](http://www.slimframework.com/) and [Relay](http://relayphp.com/).
 
-If you want to learn about the specifics of this style, please refer to the following introductions which describe the
+If you want to learn about the specifics of this style, please refer to the following introductions which describe this
 very concept:
 
 - [Middleware logic in Relay PHP](http://relayphp.com/#middleware-logic) 
@@ -124,7 +124,7 @@ $ composer require zendframework/zend-diactoros
 
 #### Add Harmony to your composer.json:
 
-To install this library, run the command below and you will get the latest version:
+To install this library, run the command below and to get the latest version:
 
 ```bash
 $ composer require woohoolabs/harmony
@@ -278,7 +278,7 @@ Action-Domain-Responder pattern, you can find an insightful description in
 #### Using Your Favourite DI Container with Harmony
 
 The motivation of creating Woohoo Labs. Harmony was to become able to change every single aspect
-of the framework. That's why you can use such a DI Container you want.
+of the framework. That's why you can whatever DI Container you want.
 
 For this purpose, we chose
 the [Container-Interop standard](https://github.com/container-interop/container-interop)
@@ -328,13 +328,13 @@ And then you have to attach the middleware to Harmony:
 $harmony->addMiddleware($middleware);
 ```
 
-What to do if you want to pass a manipulated request or response to the next middleware? Then, you should call
+If you want to pass a manipulated request or response to the next middleware, you should call
 `$next($request, $response)`. This way, the following middleware will receive the modified request or response.
 Calling `$next(null, $response)` will pass the original request and the possibly changed response to the next
 middleware!
 
-If you need more sophistication, you can use a `Closure` as a middleware too. Let's create an authentication
-middleware to demonstrate this feature:
+If you need more sophistication, you can use a `Closure` as a middleware too. 
+Let's create an authentication middleware to demonstrate this feature:
 
 ```php
 use Psr\Http\Message\ServerRequestInterface;
