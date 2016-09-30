@@ -87,7 +87,7 @@ various containers off-the-shelf.
 #### Middleware Interface Design
 
 Woohoo Labs. Harmony's middleware interface design is based on the "request, response, next" style advocated
-by prominent developers as [Matthew Weier O'Phinney](https://mwop.net/) (you can read more on the topic
+by prominent developers like [Matthew Weier O'Phinney](https://mwop.net/) (you can read more on the topic
 [in his blog post](https://mwop.net/blog/2015-01-08-on-http-middleware-and-psr-7.html)). This style - often
 called "double pass" or "functional" style - is the current de-facto standard among PHP middleware dispatchers, also
 supported by major vendors like [Zend-Stratigility](https://github.com/zendframework/zend-stratigility/),
