@@ -62,19 +62,19 @@ to invoke middleware conditionally.
 
 Certainly, Harmony won't suit the needs of all projects and teams: this framework works best for advanced teams. So less
 experienced teams should probably choose a less lenient framework with more features in order to speed up development in
-its initial phase. Harmony's flexibility is the most advantageous if your software is a long-term, strategic project.
+their initial phase. Harmony's flexibility is advantageous if your software is a long-term, strategic project.
 That's why legacy applications can also profit from Harmony because it eases gradual refactoring.
 
 #### Concepts
 
-Woohoo Labs. Harmony is built upon two main concepts: middleware which promote separation of concerns and
+Harmony is built upon two main concepts: middleware which promote separation of concerns and
 common interfaces allowing you to band your favourite tools together!
 
-Middleware make it possible to take hands on the course of action of the request-response lifecycle: you can
+Middleware make it possible to modify the course of action of the request-response lifecycle: you can
 authenticate before routing, do some logging after the response has been sent, or you can even dispatch multiple routes
-in one request if you want. These can be achieved because everything in Harmony is a middleware, so the framework itself
-only consists of cc. 200 lines of code. And that's why there is no framework-wide configuration (only middleware can
-be configured). Basically it only depends on your imagination and needs what you do with Harmony.
+in one request if you want. These can be achieved because everything in Harmony is middleware, so the framework itself
+only consists of 200 lines of code. And that's why there is no framework-wide configuration (only middleware can
+be configured). What you do with Harmony is limited only by your imagination and needs.
 
 But middleware must work in cooperation (especially the router and the dispatcher are tightly coupled to each other).
 That's why it is also important to provide common interfaces for the distinct components of the framework.
@@ -124,7 +124,7 @@ $ composer require zendframework/zend-diactoros
 
 #### Add Harmony to your composer.json:
 
-To install this library, run the command below and you will get the latest version:
+To install this library, run the command below to get the latest version:
 
 ```bash
 $ composer require woohoolabs/harmony
@@ -256,7 +256,7 @@ $r->addRoute("GET", "/users/me", [\App\Controllers\UserController::class, "getMe
 
 But nowadays, there is an increasing popularity of controllers containing only one action. To do so, it is a general
 practice to implement the `__invoke()` magic method. In former versions of Harmony, if you wanted to apply this pattern,
-you had to define the example route above the following way (at least if you used the default router and dispatcher):
+you had to define the above example route the following way (at least if you used the default router and dispatcher):
   
 ```php
 $r->addRoute("GET", "/users/me", [\App\Controllers\GetMe::class, "__invoke"]);
@@ -456,7 +456,7 @@ You only had to check the current URI inside the middleware and the problem was 
 that `AuthenticationMiddleware` and all its dependencies are instantiated for each request although authentication
 is not needed at all! This can be a major inconvenience if you depend on a big object graph.
 
-In Harmony 3, however, you are able to use conditions in order to optimize the number of objects created. In this case
+In Harmony 3, however, you can use conditions in order to optimize the number of objects created. In this case
 you can utilize the built-in `PathPrefixCondition`. You only have to attach it to Harmony:
 
 ```php
