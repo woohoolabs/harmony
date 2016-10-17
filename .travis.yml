@@ -18,7 +18,6 @@ matrix:
         - EXECUTE_COVERAGE=true
         - TEST_COMMAND="./vendor/bin/phpunit --coverage-clover coverage.clover"
     - php: 7.1
-    - php: hhvm
 
 notifications:
   email: true
