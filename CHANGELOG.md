@@ -4,6 +4,8 @@ ADDED:
 
 CHANGED:
 
+- Updated minimum PHP version requirement to 5.6
+
 FIXED:
 
 ## 3.0.1 - 2016-06-13
