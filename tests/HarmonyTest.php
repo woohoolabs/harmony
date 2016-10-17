@@ -1,7 +1,7 @@
 <?php
 namespace WoohooLabsTest\Harmony;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use WoohooLabs\Harmony\Harmony;
 use WoohooLabsTest\Harmony\Utils\Condition\StubCondition;
 use WoohooLabsTest\Harmony\Utils\Middleware\ExceptionMiddleware;
@@ -13,7 +13,7 @@ use WoohooLabsTest\Harmony\Utils\Middleware\SpyMiddleware;
 use WoohooLabsTest\Harmony\Utils\Psr7\DummyResponse;
 use WoohooLabsTest\Harmony\Utils\Psr7\DummyServerRequest;
 
-class HarmonyTest extends PHPUnit_Framework_TestCase
+class HarmonyTest extends TestCase
 {
     /**
      * @test

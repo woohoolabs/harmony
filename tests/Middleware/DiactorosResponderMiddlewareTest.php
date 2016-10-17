@@ -1,15 +1,14 @@
 <?php
 namespace WoohooLabsTest\Harmony\Middleware;
 
-use FastRoute\Dispatcher;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use WoohooLabs\Harmony\Harmony;
 use WoohooLabs\Harmony\Middleware\DiactorosResponderMiddleware;
 use WoohooLabsTest\Harmony\Utils\Diactoros\DummyEmitter;
 use WoohooLabsTest\Harmony\Utils\Psr7\DummyResponse;
 use WoohooLabsTest\Harmony\Utils\Psr7\DummyServerRequest;
 
-class DiactorosResponderMiddlewareTest extends PHPUnit_Framework_TestCase
+class DiactorosResponderMiddlewareTest extends TestCase
 {
     /**
      * @test

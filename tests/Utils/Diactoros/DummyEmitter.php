@@ -2,7 +2,6 @@
 namespace WoohooLabsTest\Harmony\Utils\Diactoros;
 
 use Psr\Http\Message\ResponseInterface;
-use WoohooLabsTest\Harmony\Utils\Exception\TestException;
 use Zend\Diactoros\Response\EmitterInterface;
 
 class DummyEmitter implements EmitterInterface

@@ -2,7 +2,7 @@
 namespace WoohooLabsTest\Harmony\Middleware;
 
 use FastRoute\Dispatcher;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use WoohooLabs\Harmony\Harmony;
 use WoohooLabs\Harmony\Middleware\FastRouteMiddleware;
 use WoohooLabsTest\Harmony\Utils\Controller\DummyController;
@@ -10,7 +10,7 @@ use WoohooLabsTest\Harmony\Utils\FastRoute\StubDispatcher;
 use WoohooLabsTest\Harmony\Utils\Psr7\DummyResponse;
 use WoohooLabsTest\Harmony\Utils\Psr7\DummyServerRequest;
 
-class FastRouteMiddlewareTest extends PHPUnit_Framework_TestCase
+class FastRouteMiddlewareTest extends TestCase
 {
     /**
      * @test

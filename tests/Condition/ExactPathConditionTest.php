@@ -1,13 +1,13 @@
 <?php
 namespace WoohooLabsTest\Harmony\Container;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
 use WoohooLabs\Harmony\Condition\ExactPathCondition;
 use WoohooLabsTest\Harmony\Utils\Psr7\DummyResponse;
 
-class ExactPathConditionTest extends PHPUnit_Framework_TestCase
+class ExactPathConditionTest extends TestCase
 {
     /**
      * @test

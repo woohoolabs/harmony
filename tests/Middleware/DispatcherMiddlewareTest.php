@@ -2,7 +2,7 @@
 namespace WoohooLabsTest\Harmony\Middleware;
 
 use Exception;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use WoohooLabs\Harmony\Container\BasicContainer;
@@ -15,7 +15,7 @@ use WoohooLabsTest\Harmony\Utils\Middleware\ExceptionMiddleware;
 use WoohooLabsTest\Harmony\Utils\Psr7\DummyResponse;
 use WoohooLabsTest\Harmony\Utils\Psr7\DummyServerRequest;
 
-class DispatcherMiddlewareTest extends PHPUnit_Framework_TestCase
+class DispatcherMiddlewareTest extends TestCase
 {
     /**
      * @test

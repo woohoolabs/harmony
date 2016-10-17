@@ -1,11 +1,11 @@
 <?php
 namespace WoohooLabsTest\Harmony\Container;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use WoohooLabs\Harmony\Container\BasicContainer;
 use WoohooLabsTest\Harmony\Utils\Controller\DummyController;
 
-class BasicContainerTest extends PHPUnit_Framework_TestCase
+class BasicContainerTest extends TestCase
 {
     /**
      * @test

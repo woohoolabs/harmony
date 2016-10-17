@@ -1,12 +1,12 @@
 <?php
 namespace WoohooLabsTest\Harmony\Container;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 use WoohooLabs\Harmony\Condition\HttpMethodCondition;
 use WoohooLabsTest\Harmony\Utils\Psr7\DummyResponse;
 
-class HttpMethodConditionTest extends PHPUnit_Framework_TestCase
+class HttpMethodConditionTest extends TestCase
 {
     /**
      * @test
