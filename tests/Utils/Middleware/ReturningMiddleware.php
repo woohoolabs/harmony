@@ -18,11 +18,8 @@ class ReturningMiddleware
         $this->returnValue = $returnValue;
     }
 
-    public function __invoke(
-        ServerRequestInterface $request,
-        ResponseInterface $response,
-        callable $next
-    ): ResponseInterface {
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
+    {
         return $this->returnValue;
     }
 }
