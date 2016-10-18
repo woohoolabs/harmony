@@ -4,9 +4,17 @@ ADDED:
 
 CHANGED:
 
-- Updated minimum PHP version requirement to 7.0
+REMOVED:
 
 FIXED:
+
+## 3.1.0 - 2016-10-18
+
+CHANGED:
+
+- Updated minimum PHP version requirement to 7.0
+- Fixed stylistic errors in the documentation
+- Added Docker Compose file to run tests more easily
 
 ## 3.0.1 - 2016-06-13
 
