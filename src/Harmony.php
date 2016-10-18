@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace WoohooLabs\Harmony;
 
 use Psr\Http\Message\ResponseInterface;
@@ -67,27 +69,20 @@ class Harmony
         return $this->response;
     }
 
-    /**
-     * @return \Psr\Http\Message\ServerRequestInterface
-     */
-    public function getRequest()
+    public function getRequest(): ServerRequestInterface
     {
         return $this->request;
     }
 
-    /**
-     * @return \Psr\Http\Message\ResponseInterface
-     */
-    public function getResponse()
+    public function getResponse(): ResponseInterface
     {
         return $this->response;
     }
 
     /**
-     * @param string $id
      * @return callable|null
      */
-    public function getMiddleware($id)
+    public function getMiddleware(string $id)
     {
         $position = $this->findMiddleware($id);
 
@@ -98,12 +93,7 @@ class Harmony
         return $this->middleware[$position]["callable"];
     }
 
-    /**
-     * @param callable $middleware
-     * @param string|null $id
-     * @return $this
-     */
-    public function addMiddleware(callable $middleware, $id = null)
+    public function addMiddleware(callable $middleware, string $id = null): Harmony
     {
         $this->middleware[] = [
             "id" => $id,
@@ -114,11 +104,9 @@ class Harmony
     }
 
     /**
-     * @param string $id
-     * @return $this
      * @throws MiddlewareNotExists
      */
-    public function removeMiddleware($id)
+    public function removeMiddleware(string $id): Harmony
     {
         $position = $this->findMiddleware($id);
 
@@ -131,12 +119,7 @@ class Harmony
         return $this;
     }
 
-    /**
-     * @param ConditionInterface $condition
-     * @param callable $callableOnSuccess
-     * @return $this
-     */
-    public function addCondition(ConditionInterface $condition, callable $callableOnSuccess)
+    public function addCondition(ConditionInterface $condition, callable $callableOnSuccess): Harmony
     {
         $this->middleware[] = [
             "condition" => $condition,
@@ -147,10 +130,9 @@ class Harmony
     }
 
     /**
-     * @param string $id
      * @return int|null
      */
-    protected function findMiddleware($id)
+    protected function findMiddleware(string $id)
     {
         foreach ($this->middleware as $k => $middleware) {
             if ($middleware["id"] === $id) {
@@ -162,7 +144,6 @@ class Harmony
     }
 
     /**
-     * @param array $middlewareArray
      * @throws \WoohooLabs\Harmony\Exception\MiddlewareWrongReturnType
      */
     protected function executeMiddleware(array $middlewareArray)

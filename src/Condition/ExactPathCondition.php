@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace WoohooLabs\Harmony\Condition;
 
 use Psr\Http\Message\ResponseInterface;
@@ -8,15 +10,12 @@ class ExactPathCondition implements ConditionInterface
 {
     protected $paths = [];
 
-    /**
-     * @param array $paths
-     */
     public function __construct(array $paths)
     {
         $this->paths = $paths;
     }
 
-    public function evaluate(ServerRequestInterface $request, ResponseInterface $response)
+    public function evaluate(ServerRequestInterface $request, ResponseInterface $response): bool
     {
         return in_array($request->getUri()->getPath(), $this->paths) === true;
     }

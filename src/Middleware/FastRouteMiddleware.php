@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace WoohooLabs\Harmony\Middleware;
 
 use FastRoute\Dispatcher;
@@ -19,26 +21,21 @@ class FastRouteMiddleware
      */
     protected $actionAttributeName;
 
-    /**
-     * @param \FastRoute\Dispatcher $fastRoute
-     * @param string $actionAttributeName
-     */
-    public function __construct(Dispatcher $fastRoute = null, $actionAttributeName = "__action")
+    public function __construct(Dispatcher $fastRoute = null, string $actionAttributeName = "__action")
     {
         $this->fastRoute = $fastRoute;
         $this->actionAttributeName = $actionAttributeName;
     }
 
     /**
-     * @param \Psr\Http\Message\ServerRequestInterface $request
-     * @param \Psr\Http\Message\ResponseInterface $response
-     * @param callable $next
-     * @return \Psr\Http\Message\ResponseInterface
      * @throws \WoohooLabs\Harmony\Exception\MethodNotAllowed
      * @throws \WoohooLabs\Harmony\Exception\RouteNotFound
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
-    {
+    public function __invoke(
+        ServerRequestInterface $request,
+        ResponseInterface $response,
+        callable $next
+    ): ResponseInterface {
         $route = $this->fastRoute->dispatch($request->getMethod(), $request->getUri()->getPath());
 
         if ($route[0] === Dispatcher::NOT_FOUND) {
@@ -57,34 +54,22 @@ class FastRouteMiddleware
         return $next($request, $response);
     }
 
-    /**
-     * @return \FastRoute\Dispatcher
-     */
-    public function getFastRoute()
+    public function getFastRoute(): Dispatcher
     {
         return $this->fastRoute;
     }
 
-    /**
-     * @param \FastRoute\Dispatcher $fastRoute
-     */
     public function setFastRoute(Dispatcher $fastRoute)
     {
         $this->fastRoute = $fastRoute;
     }
 
-    /**
-     * @return string
-     */
-    public function getActionAttributeName()
+    public function getActionAttributeName(): string
     {
         return $this->actionAttributeName;
     }
 
-    /**
-     * @param string $actionAttributeName
-     */
-    public function setActionAttributeName($actionAttributeName)
+    public function setActionAttributeName(string $actionAttributeName)
     {
         $this->actionAttributeName = $actionAttributeName;
     }

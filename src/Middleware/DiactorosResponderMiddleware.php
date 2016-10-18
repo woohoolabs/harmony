@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace WoohooLabs\Harmony\Middleware;
 
 use Psr\Http\Message\ResponseInterface;
@@ -18,24 +20,17 @@ class DiactorosResponderMiddleware
      */
     protected $checkOutputStart;
 
-    /**
-     * @param \Zend\Diactoros\Response\EmitterInterface $emitter
-     * @param bool $checkOutputStart
-     */
-    public function __construct(EmitterInterface $emitter = null, $checkOutputStart = false)
+    public function __construct(EmitterInterface $emitter = null, bool $checkOutputStart = false)
     {
         $this->emitter = $emitter ? $emitter : new SapiEmitter();
         $this->checkOutputStart = $checkOutputStart;
     }
 
-    /**
-     * @param \Psr\Http\Message\ServerRequestInterface $request
-     * @param \Psr\Http\Message\ResponseInterface $response
-     * @param callable $next
-     * @return \Psr\Http\Message\ResponseInterface
-     */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
-    {
+    public function __invoke(
+        ServerRequestInterface $request,
+        ResponseInterface $response,
+        callable $next
+    ): ResponseInterface {
         $response = $next();
 
         if (headers_sent() === false || $this->checkOutputStart === false) {
@@ -45,34 +40,22 @@ class DiactorosResponderMiddleware
         return $response;
     }
 
-    /**
-     * @return \Zend\Diactoros\Response\EmitterInterface
-     */
-    public function getEmitter()
+    public function getEmitter(): EmitterInterface
     {
         return $this->emitter;
     }
 
-    /**
-     * @param \Zend\Diactoros\Response\EmitterInterface $emitter
-     */
     public function setEmitter(EmitterInterface $emitter)
     {
         $this->emitter = $emitter;
     }
 
-    /**
-     * @return bool
-     */
-    public function isOutputStartChecked()
+    public function isOutputStartChecked(): bool
     {
         return $this->checkOutputStart;
     }
 
-    /**
-     * @param bool $checkOutputStart
-     */
-    public function setCheckOutputStart($checkOutputStart)
+    public function setCheckOutputStart(bool $checkOutputStart)
     {
         $this->checkOutputStart = $checkOutputStart;
     }

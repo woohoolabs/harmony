@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace WoohooLabsTest\Harmony\Utils\Psr7;
 
 use Psr\Http\Message\UriInterface;

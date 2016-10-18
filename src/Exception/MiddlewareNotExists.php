@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace WoohooLabs\Harmony\Exception;
 
 use Exception;
@@ -10,19 +12,13 @@ class MiddlewareNotExists extends Exception
      */
     protected $name;
 
-    /**
-     * @param string $name
-     */
-    public function __construct($name)
+    public function __construct(string $name)
     {
         $this->name = $name;
         parent::__construct("A middleware with '" . $name . "' ID does not exist!");
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }

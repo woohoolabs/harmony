@@ -4,7 +4,7 @@ ADDED:
 
 CHANGED:
 
-- Updated minimum PHP version requirement to 5.6
+- Updated minimum PHP version requirement to 7.0
 
 FIXED:
 

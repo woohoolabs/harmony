@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace WoohooLabs\Harmony\Condition;
 
 use Psr\Http\Message\ResponseInterface;
@@ -8,20 +10,12 @@ class HttpMethodCondition implements ConditionInterface
 {
     protected $methods = [];
 
-    /**
-     * @param array $methods
-     */
     public function __construct(array $methods)
     {
         $this->methods = $methods;
     }
 
-    /**
-     * @param ServerRequestInterface $request
-     * @param ResponseInterface $response
-     * @return bool
-     */
-    public function evaluate(ServerRequestInterface $request, ResponseInterface $response)
+    public function evaluate(ServerRequestInterface $request, ResponseInterface $response): bool
     {
         return in_array($request->getMethod(), $this->methods) === true;
     }

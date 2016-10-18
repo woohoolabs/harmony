@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace WoohooLabsTest\Harmony\Utils\Diactoros;
 
 use Psr\Http\Message\ResponseInterface;
@@ -20,7 +22,6 @@ class DummyEmitter implements EmitterInterface
      * response; e.g., if headers have already been sent.
      *
      * @param ResponseInterface $response
-     * @return bool
      */
     public function emit(ResponseInterface $response)
     {

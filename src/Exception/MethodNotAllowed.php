@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace WoohooLabs\Harmony\Exception;
 
 use Exception;
@@ -10,19 +12,13 @@ class MethodNotAllowed extends Exception
      */
     protected $method;
 
-    /**
-     * @param string $method
-     */
-    public function __construct($method)
+    public function __construct(string $method)
     {
         $this->method = $method;
         parent::__construct("Method '" . $method . "' is not allowed!");
     }
 
-    /**
-     * @return string
-     */
-    public function getMethod()
+    public function getMethod(): string
     {
         return $this->method;
     }

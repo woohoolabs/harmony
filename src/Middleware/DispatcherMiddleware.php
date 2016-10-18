@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace WoohooLabs\Harmony\Middleware;
 
 use Interop\Container\ContainerInterface;
@@ -23,21 +25,20 @@ class DispatcherMiddleware
      * @param \Interop\Container\ContainerInterface $container
      * @param string $actionAttributeName
      */
-    public function __construct(ContainerInterface $container = null, $actionAttributeName = "__action")
+    public function __construct(ContainerInterface $container = null, string $actionAttributeName = "__action")
     {
         $this->container = $container === null ? new BasicContainer() : $container;
         $this->actionAttributeName = $actionAttributeName;
     }
 
     /**
-     * @param \Psr\Http\Message\ServerRequestInterface $request
-     * @param \Psr\Http\Message\ResponseInterface $response
-     * @param callable $next
-     * @return \Psr\Http\Message\ResponseInterface
      * @throws \Exception
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
-    {
+    public function __invoke(
+        ServerRequestInterface $request,
+        ResponseInterface $response,
+        callable $next
+    ): ResponseInterface {
         $action = $request->getAttribute($this->actionAttributeName);
 
         if ($action === null) {
@@ -57,34 +58,22 @@ class DispatcherMiddleware
         return $next($request, $response);
     }
 
-    /**
-     * @return ContainerInterface
-     */
-    public function getContainer()
+    public function getContainer(): ContainerInterface
     {
         return $this->container;
     }
 
-    /**
-     * @param \Interop\Container\ContainerInterface $container
-     */
     public function setContainer(ContainerInterface $container)
     {
         $this->container = $container;
     }
 
-    /**
-     * @return string
-     */
-    public function getActionAttributeName()
+    public function getActionAttributeName(): string
     {
         return $this->actionAttributeName;
     }
 
-    /**
-     * @param string $actionAttributeName
-     */
-    public function setActionAttributeName($actionAttributeName)
+    public function setActionAttributeName(string $actionAttributeName)
     {
         $this->actionAttributeName = $actionAttributeName;
     }

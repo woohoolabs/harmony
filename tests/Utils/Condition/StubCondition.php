@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace WoohooLabsTest\Harmony\Utils\Condition;
 
 use Psr\Http\Message\ResponseInterface;
@@ -12,15 +14,12 @@ class StubCondition implements ConditionInterface
      */
     protected $result;
 
-    /**
-     * @param bool $result
-     */
-    public function __construct($result)
+    public function __construct(bool $result)
     {
         $this->result = $result;
     }
 
-    public function evaluate(ServerRequestInterface $request, ResponseInterface $response)
+    public function evaluate(ServerRequestInterface $request, ResponseInterface $response): bool
     {
         return $this->result;
     }

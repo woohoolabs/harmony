@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace WoohooLabsTest\Harmony\Utils\Controller;
 
 use Psr\Http\Message\ResponseInterface;
@@ -8,12 +10,9 @@ use WoohooLabsTest\Harmony\Utils\Exception\TestException;
 class InvokableExceptionController
 {
     /**
-     * @param \Psr\Http\Message\ServerRequestInterface $request
-     * @param \Psr\Http\Message\ResponseInterface $response
-     * @return \Psr\Http\Message\ResponseInterface
      * @throws \WoohooLabsTest\Harmony\Utils\Exception\TestException
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         throw new TestException();
     }

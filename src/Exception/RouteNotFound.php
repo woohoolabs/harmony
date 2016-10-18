@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace WoohooLabs\Harmony\Exception;
 
 use Exception;
@@ -10,16 +12,13 @@ class RouteNotFound extends Exception
      */
     protected $route;
 
-    public function __construct($route)
+    public function __construct(string $route)
     {
         $this->route = $route;
         parent::__construct("Route '" . $route . "' can not be found!");
     }
 
-    /**
-     * @return string
-     */
-    public function getRoute()
+    public function getRoute(): string
     {
         return $this->route;
     }

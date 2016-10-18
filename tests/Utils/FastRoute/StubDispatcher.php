@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace WoohooLabsTest\Harmony\Utils\FastRoute;
 
 use FastRoute\Dispatcher;
@@ -10,9 +12,6 @@ class StubDispatcher implements Dispatcher
      */
     private $routeInfo;
 
-    /**
-     * @param array $routeInfo
-     */
     public function __construct(array $routeInfo = [])
     {
         $this->routeInfo = $routeInfo;
