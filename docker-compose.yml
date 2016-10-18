@@ -6,4 +6,4 @@ services:
     image: php:7.0-cli
     volumes:
       - .:/var/www
-    command: /bin/bash -c "cd /var/www; composer test"
+    command: /bin/bash -c "cd /var/www; php vendor/bin/phpunit"
