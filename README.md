@@ -21,6 +21,7 @@ Our aim was to create an invisible, easily extensible, but most important of all
 * [Examples](#examples)
 * [Versioning](#versioning)
 * [Change Log](#change-log)
+* [Testing](#testing)
 * [Contributing](#contributing)
 * [Credits](#credits)
 * [License](#license)
@@ -419,6 +420,17 @@ This library follows [SemVer v2.0.0](http://semver.org/).
 ## Change Log
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
+
+## Testing
+
+Harmony has a PHPUnit test suite. To run the tests, run the following command from the project folder
+after you have copied phpunit.xml.dist to phpunit.xml:
+
+``` bash
+$ phpunit
+```
+
+Additionally, you may run `docker-compose up` to execute the tests.
 
 ## Contributing
 
