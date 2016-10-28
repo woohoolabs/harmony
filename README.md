@@ -15,7 +15,7 @@ Our aim was to create an invisible, easily extensible, but most important of all
 ## Table of Contents
 
 * [Introduction](#introduction)
-* [Installation](#installalation)
+* [Install](#install)
 * [Basic Usage](#basic-usage)
 * [Advanced Usage](#advanced-usage)
 * [Examples](#examples)
@@ -28,18 +28,18 @@ Our aim was to create an invisible, easily extensible, but most important of all
 
 ## Introduction
 
-#### Rationale
+### Rationale
 
 This blog post accurately summarizes why Harmony was born: http://www.catonmat.net/blog/frameworks-dont-make-sense/ 
 
-#### Features
+### Features
 
 - Extreme flexibility through middleware
 - High performance due to a simple and clean design
 - Full control over HTTP messages via PSR-7
 - Support for all IoC Containers via Container-Interop
 
-#### Why Harmony?
+### Why Harmony?
 
 There are a lot of very similar middleware dispatcher libraries out there, like [Zend-Stratigility](https://github.com/zendframework/zend-stratigility/), [Slim Framework 3](http://www.slimframework.com/docs/concepts/middleware.html) or [Relay](http://relayphp.com/). You might ask yourself, what is the purpose of yet another library with the same functionality?
 
@@ -49,11 +49,11 @@ We believe Harmony stands above its peers because of these two key features:
 
 - As of version 3, Harmony natively supports the concept of [Conditions](#defining-conditions) which is a unique feature for middleware dispatchers. This eases dealing with a major weakness of the middleware-oriented approach, which is the ability to invoke middleware conditionally.
 
-#### Use Cases of Woohoo Labs. Harmony
+### Use cases
 
 Certainly, Harmony won't suit the needs of all projects and teams: this framework works best for advanced teams. Less experienced teams should probably choose a less lenient framework, with more features, in order to speed up development in its initial phase. Harmony's flexibility is the most advantageous when your software is a long-term, strategic project. That's why legacy applications can also benefit from Harmony, because it makes gradual refactoring easier.
 
-#### Concepts
+### Concepts
 
 Woohoo Labs. Harmony is built upon two main concepts: middleware which promote separation of concerns and common interfaces allowing you to band your favourite tools together.
 
@@ -63,7 +63,7 @@ But middleware must work in cooperation (the router and the dispatcher are parti
 
 Naturally, we decided to use [PSR-7](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-7-http-message.md) for modelling the HTTP request and response. In order to facilitate the usage of different IoC Containers, we adapted the [Container-Interop standard interface](https://github.com/container-interop/container-interop) which is supported by various containers out of the box.
 
-#### Middleware Interface Design
+### Middleware interface design
 
 Woohoo Labs. Harmony's middleware interface design is based on the "request, response, next" style advocated by such prominent developers as [Matthew Weier O'Phinney](https://mwop.net/) (you can read more on the topic [in his blog post](https://mwop.net/blog/2015-01-08-on-http-middleware-and-psr-7.html)). This style - often called "double pass" or "functional" style - is the current de-facto standard among PHP middleware dispatchers, and is also supported by major vendors like [Zend-Stratigility](https://github.com/zendframework/zend-stratigility/), [Slim Framework 3](http://www.slimframework.com/) and [Relay](http://relayphp.com/).
 
@@ -72,7 +72,7 @@ If you want to learn about the specifics of this style, please refer to the foll
 - [Middleware logic in Relay PHP](http://relayphp.com/#middleware-logic) 
 - [How does middleware work in Slim 3?](http://www.slimframework.com/docs/concepts/middleware.html#how-does-middleware-work)
 
-#### Additional Middleware
+### Additional middleware
 
 Besides the built-in middleware and the ones for the compatible middleware dispatcher libraries, you can find various other third party middleware available for Harmony:
 
@@ -80,11 +80,11 @@ Besides the built-in middleware and the ones for the compatible middleware dispa
 - [PSR-7 Middlewares](https://github.com/oscarotero/psr7-middlewares): A collection of PSR-7 middleware from Oscar Otero
 - [MiniUrl](https://github.com/mtymek/MiniUrl): A simple URL shortener, which can be used as a free, open-source replacement for bit.ly's core functionality: creating short links and redirecting users.
 
-## Installation
+## Install
 
 The steps of this process are quite straightforward. The only thing you need is [Composer](http://getcomposer.org).
 
-#### Require a PSR-7 implementation:
+### Require a PSR-7 implementation:
 
 Because Harmony requires a PSR-7 implementation (a package which provides the `http-message-implementation` virtual package), you must install one first. You may use Zend Diactoros or any other library of preference:
 
@@ -92,7 +92,7 @@ Because Harmony requires a PSR-7 implementation (a package which provides the `h
 $ composer require zendframework/zend-diactoros
 ```
 
-#### Add Harmony to your composer.json:
+### Add Harmony to your composer.json:
 
 To install the latest version of this library, run the command below:
 
@@ -102,7 +102,7 @@ $ composer require woohoolabs/harmony
 
 Harmony 3.1+ needs PHP 7.0 at least, but you may use Harmony 3.0.1 for PHP 5.5 and 5.6.
 
-#### Require the necessary dependencies:
+### Require the necessary dependencies:
 
 If you want to use the default middleware then you have to require the following dependencies too:
 
@@ -113,7 +113,7 @@ $ composer require zendframework/zend-diactoros:^2.3.0
 
 ## Basic Usage
 
-#### Define Your Endpoints:
+### Define your endpoints:
 
 The following example applies only if you use the [default dispatcher middleware](https://github.com/woohoolabs/harmony/blob/master/src/Middleware/DispatcherMiddleware.php). There are two important things to note here: first, each endpoint receives a `Psr\Http\Message\ServerRequestInterface` and a `Psr\Http\Message\ResponseInterface` object and they are expected to manipulate and return the latter. Secondly, you are not forced to only use classes for the endpoints, it is possible to define other callables too (see below in the routing section).
 
@@ -155,7 +155,7 @@ class UserController
 }
 ```
 
-#### Define Your Routes:
+### Define your routes:
 
 The following example applies only if you use the [default router middleware](https://github.com/woohoolabs/harmony/blob/master/src/Middleware/FastRouteMiddleware.php) which is based on [FastRoute](https://github.com/nikic/FastRoute), the library of Nikita Popov. We chose to use this library by default because of its performance and elegance. You can read more about it [in Nikita's blog](http://nikic.github.io/2014/02/18/Fast-request-routing-using-regular-expressions.html).
 
@@ -174,7 +174,7 @@ $router = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
 };
 ```
 
-#### Finally, Launch The App:
+### Finally, launch the app:
 
 ```php
 use WoohooLabs\Harmony\Harmony;
@@ -205,7 +205,7 @@ Of course, it is completely up to you how you add additional middleware or how y
 
 ## Advanced Usage
 
-#### Using invokable controllers
+### Using invokable controllers
 
 Most of the time, you will define your route handlers (~controller actions) as regular callables as was shown in the section about the default router:
 
@@ -231,7 +231,7 @@ Note: If you use a different router or dispatcher than the default ones, please 
 
 If you are interested in how you could benefit from invokable controllers in the context of the Action-Domain-Responder pattern, you can find an insightful description in [Paul M. Jones' blog post](http://paul-m-jones.com/archives/6006).
 
-#### Using Your Favourite DI Container with Harmony
+### Using your favourite DI Container with Harmony
 
 The motivation of creating Woohoo Labs. Harmony was to become able to change every single aspect of the framework. That's why you can use any DI Container you want.
 
@@ -246,7 +246,7 @@ $container = new \DI\Container();
 $harmony->addMiddleware(new DispatcherMiddleware($container));
 ```
 
-#### Creating Custom Middleware
+### Creating custom middleware
 
 In order to avoid some initial confusion, please ensure that you know the basics and gotchas of the "request, response, next" middleware interface design before creating your first own middleware. You can have a look at [the section about this topic](#middleware-interface-design).
 
@@ -324,7 +324,7 @@ As you can see, the constructor receives the API Key, while the `__invoke()` met
 
 Instead of `callable`, you can also typehint the `$next` argument against `Harmony` according to [`HarmonyMiddlewareInterface`](https://github.com/woohoolabs/harmony/blob/master/src/Middleware/HarmonyMiddlewareInterface.php). By implementing this interface, you can use some specific features of Harmony (like `Harmony::getMiddleware()`) but lose the ability to reuse your middleware in other frameworks.
 
-### Defining Conditions
+### Defining conditions
 
 Non-trivial applications often need some kind of branching during the execution of their middleware pipeline. A possible use-case is when they want to perform authentication only for some of their endpoints or when they want to check for a CSRF token if the request method is `POST`. With Harmony 2 branching was also easy to handle, but Harmony 3 helps you to optimize the performance of conditional logic in your middleware.
 
