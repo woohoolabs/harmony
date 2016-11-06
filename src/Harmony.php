@@ -151,11 +151,11 @@ class Harmony
         $middleware = $middlewareArray["callable"];
 
         $response = $middleware($this->getRequest(), $this->getResponse(), $this);
-        if ($response instanceof ResponseInterface) {
-            $this->response = $response;
-        } else {
+        if ($response instanceof ResponseInterface === false) {
             throw new MiddlewareWrongReturnType();
         }
+        
+        $this->response = $response;
     }
 
     protected function executeCondition(array $conditionArray)
