@@ -2,9 +2,16 @@
 
 ADDED:
 
+- Support for PSR-11
+
 CHANGED:
 
+- Better exception message for `DispatcherException`
+- Tests namespace became `WoohooLabs\Harmony\Tests`
+
 REMOVED:
+
+- Support for Container-Interop
 
 FIXED:
 
