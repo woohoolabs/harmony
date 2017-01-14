@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace WoohooLabs\Harmony\Container;
 
 use Exception;
-use Interop\Container\Exception\ContainerException;
+use Psr\Container\ContainerExceptionInterface;
 
-class BasicContainerException extends Exception implements ContainerException
+class BasicContainerException extends Exception implements ContainerExceptionInterface
 {
 }

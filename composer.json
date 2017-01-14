@@ -2,7 +2,7 @@
     "name": "woohoolabs/harmony",
     "description": "Woohoo Labs. Harmony",
     "type": "library",
-    "keywords": ["Woohoo Labs.", "Harmony", "Framework", "Container-Interop", "PSR-7"],
+    "keywords": ["Woohoo Labs.", "Harmony", "Framework", "PSR-7", "PSR-11"],
     "homepage": "http://harmony.woohoolabs.com",
     "license": "MIT",
     "authors": [
@@ -17,7 +17,7 @@
     },
     "require": {
         "php":"^7.0.0",
-        "container-interop/container-interop": "^1.0.0",
+        "psr/container": "^1.0.0@dev",
         "psr/http-message-implementation": "^1.0.0"
     },
     "require-dev": {
@@ -27,11 +27,10 @@
         "zendframework/zend-diactoros": "^1.3.0"
     },
     "suggest": {
-        "nikic/fast-route": "Allows to use the default router",
-        "zendframework/zend-diactoros": "Allows to use PSR-7 HTTP messages"
+        "nikic/fast-route": "Allows to use the default router"
     },
     "provide": {
-        "container-interop/container-interop-implementation": "1.0"
+        "psr/container-implementation": "1.0"
     },
     "autoload": {
         "psr-4": {

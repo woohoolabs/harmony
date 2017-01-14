@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace WoohooLabs\Harmony\Middleware;
 
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use WoohooLabs\Harmony\Container\BasicContainer;
@@ -12,7 +12,7 @@ use WoohooLabs\Harmony\Exception\DispatcherException;
 class DispatcherMiddleware
 {
     /**
-     * @var \Interop\Container\ContainerInterface
+     * @var ContainerInterface
      */
     protected $container;
 
@@ -22,7 +22,7 @@ class DispatcherMiddleware
     protected $actionAttributeName;
 
     /**
-     * @param \Interop\Container\ContainerInterface $container
+     * @param ContainerInterface $container
      * @param string $actionAttributeName
      */
     public function __construct(ContainerInterface $container = null, string $actionAttributeName = "__action")
@@ -32,7 +32,7 @@ class DispatcherMiddleware
     }
 
     /**
-     * @throws \Exception
+     * @throws DispatcherException
      */
     public function __invoke(
         ServerRequestInterface $request,
@@ -42,7 +42,10 @@ class DispatcherMiddleware
         $action = $request->getAttribute($this->actionAttributeName);
 
         if ($action === null) {
-            throw new DispatcherException();
+            throw new DispatcherException(
+                "Please provide the '{$this->actionAttributeName}' attribute as a callable for the request object in " .
+                "order to be able dispatch it!"
+            );
         }
 
         if (is_array($action) && is_string($action[0]) && is_string($action[1])) {

@@ -3,8 +3,10 @@ declare(strict_types=1);
 
 namespace WoohooLabs\Harmony\Container;
 
-use Exception;
-use Interop\Container\ContainerInterface;
+use Throwable;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class BasicContainer implements ContainerInterface
 {
@@ -13,10 +15,10 @@ class BasicContainer implements ContainerInterface
      *
      * @param string $id Identifier of the entry to look for.
      *
-     * @throws \Interop\Container\Exception\NotFoundException  No entry was found for this identifier.
-     * @throws \Interop\Container\Exception\ContainerException Error while retrieving the entry.
+     * @throws NotFoundExceptionInterface  No entry was found for this identifier.
+     * @throws ContainerExceptionInterface Error while retrieving the entry.
      *
-     * @return mixed Entry
+     * @return mixed Entry.
      */
     public function get($id)
     {
@@ -26,8 +28,8 @@ class BasicContainer implements ContainerInterface
 
         try {
             $entry = new $id();
-        } catch (Exception $exception) {
-            throw new BasicContainerException();
+        } catch (Throwable $e) {
+            throw new BasicContainerException($e->getMessage());
         }
 
         return $entry;
@@ -37,9 +39,12 @@ class BasicContainer implements ContainerInterface
      * Returns true if the container can return an entry for the given identifier.
      * Returns false otherwise.
      *
+     * `has($id)` returning true does not mean that `get($id)` will not throw an exception.
+     * It does however mean that `get($id)` will not throw a `NotFoundExceptionInterface`.
+     *
      * @param string $id Identifier of the entry to look for.
      *
-     * @return bool
+     * @return boolean
      */
     public function has($id)
     {

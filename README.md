@@ -10,10 +10,9 @@
 
 **Woohoo Labs. Harmony is a flexible micro-framework developed for PHP applications.**
 
-Our aim was to create an invisible, easily extensible, but most important of all, extremely flexible framework for your
-long-term, strategic applications. We wanted to give you total control via
-[PSR-7](http://www.php-fig.org/psr/psr-7/) and
-[PSR-11 (former Container-Interop)](https://github.com/container-interop/fig-standards/blob/master/proposed/container.md).
+Our aim was to create an invisible and extremely flexible framework for your long-term, strategic applications.
+We wanted to give you total control via [PSR-7](http://www.php-fig.org/psr/psr-7/) and
+[PSR-11](https://github.com/container-interop/fig-standards/blob/master/proposed/container.md).
 
 ## Table of Contents
 
@@ -282,7 +281,8 @@ pattern, you can find an insightful description in [Paul M. Jones' blog post](ht
 The motivation of creating Woohoo Labs. Harmony was to become able to change every single aspect of the framework.
 That's why you can use any DI Container you want.
 
-For this purpose, we chose to build upon [PSR-11](https://github.com/container-interop/fig-standards/blob/master/proposed/container.md) - the most widespread common interface for DI Containers - in the built-in `DispatcherMiddleware`.
+For this purpose, we chose to build upon [PSR-11](https://github.com/container-interop/fig-standards/blob/master/proposed/container.md)
+- the most widespread common interface for DI Containers - in the built-in `DispatcherMiddleware`.
 
 It's also important to know that the `DispatcherMiddleware` uses the `BasicContainer` by default. It's nothing more
 than a very silly DIC which tries to create objects based on their class name (so calling
