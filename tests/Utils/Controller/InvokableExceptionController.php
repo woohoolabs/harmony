@@ -1,16 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace WoohooLabsTest\Harmony\Utils\Controller;
+namespace WoohooLabs\Harmony\Tests\Utils\Controller;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use WoohooLabsTest\Harmony\Utils\Exception\TestException;
+use WoohooLabs\Harmony\Tests\Utils\Exception\TestException;
 
 class InvokableExceptionController
 {
     /**
-     * @throws \WoohooLabsTest\Harmony\Utils\Exception\TestException
+     * @throws \WoohooLabs\Harmony\Tests\Utils\Exception\TestException
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {

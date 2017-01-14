@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace WoohooLabsTest\Harmony\Middleware;
+namespace WoohooLabs\Harmony\Tests\Middleware;
 
 use Exception;
 use PHPUnit\Framework\TestCase;
@@ -10,12 +10,12 @@ use Psr\Http\Message\ServerRequestInterface;
 use WoohooLabs\Harmony\Container\BasicContainer;
 use WoohooLabs\Harmony\Harmony;
 use WoohooLabs\Harmony\Middleware\DispatcherMiddleware;
-use WoohooLabsTest\Harmony\Utils\Controller\ExceptionController;
-use WoohooLabsTest\Harmony\Utils\Controller\InvokableExceptionController;
-use WoohooLabsTest\Harmony\Utils\Exception\TestException;
-use WoohooLabsTest\Harmony\Utils\Middleware\ExceptionMiddleware;
-use WoohooLabsTest\Harmony\Utils\Psr7\DummyResponse;
-use WoohooLabsTest\Harmony\Utils\Psr7\DummyServerRequest;
+use WoohooLabs\Harmony\Tests\Utils\Controller\ExceptionController;
+use WoohooLabs\Harmony\Tests\Utils\Controller\InvokableExceptionController;
+use WoohooLabs\Harmony\Tests\Utils\Exception\TestException;
+use WoohooLabs\Harmony\Tests\Utils\Middleware\ExceptionMiddleware;
+use WoohooLabs\Harmony\Tests\Utils\Psr7\DummyResponse;
+use WoohooLabs\Harmony\Tests\Utils\Psr7\DummyServerRequest;
 
 class DispatcherMiddlewareTest extends TestCase
 {
@@ -38,7 +38,7 @@ class DispatcherMiddlewareTest extends TestCase
 
     /**
      * @test
-     * @expectedException \WoohooLabsTest\Harmony\Utils\Exception\TestException
+     * @expectedException \WoohooLabs\Harmony\Tests\Utils\Exception\TestException
      * @expectedExceptionMessage next
      */
     public function callNextMiddleware()
@@ -76,7 +76,7 @@ class DispatcherMiddlewareTest extends TestCase
 
     /**
      * @test
-     * @expectedException \WoohooLabsTest\Harmony\Utils\Exception\TestException
+     * @expectedException \WoohooLabs\Harmony\Tests\Utils\Exception\TestException
      */
     public function dispatchArrayCallable()
     {
@@ -95,7 +95,7 @@ class DispatcherMiddlewareTest extends TestCase
 
     /**
      * @test
-     * @expectedException \WoohooLabsTest\Harmony\Utils\Exception\TestException
+     * @expectedException \WoohooLabs\Harmony\Tests\Utils\Exception\TestException
      */
     public function dispatchAnonymousFunction()
     {
@@ -117,7 +117,7 @@ class DispatcherMiddlewareTest extends TestCase
 
     /**
      * @test
-     * @expectedException \WoohooLabsTest\Harmony\Utils\Exception\TestException
+     * @expectedException \WoohooLabs\Harmony\Tests\Utils\Exception\TestException
      */
     public function dispatchInvokableClass()
     {

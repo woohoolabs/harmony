@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace WoohooLabsTest\Harmony\Utils\Exception;
+namespace WoohooLabs\Harmony\Tests\Utils\Exception;
 
 use Exception;
 

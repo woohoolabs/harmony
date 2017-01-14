@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace WoohooLabsTest\Harmony\Middleware;
+namespace WoohooLabs\Harmony\Tests\Middleware;
 
 use PHPUnit\Framework\TestCase;
 use WoohooLabs\Harmony\Harmony;
 use WoohooLabs\Harmony\Middleware\DiactorosResponderMiddleware;
-use WoohooLabsTest\Harmony\Utils\Diactoros\DummyEmitter;
-use WoohooLabsTest\Harmony\Utils\Psr7\DummyResponse;
-use WoohooLabsTest\Harmony\Utils\Psr7\DummyServerRequest;
+use WoohooLabs\Harmony\Tests\Utils\Diactoros\DummyEmitter;
+use WoohooLabs\Harmony\Tests\Utils\Psr7\DummyResponse;
+use WoohooLabs\Harmony\Tests\Utils\Psr7\DummyServerRequest;
 
 class DiactorosResponderMiddlewareTest extends TestCase
 {

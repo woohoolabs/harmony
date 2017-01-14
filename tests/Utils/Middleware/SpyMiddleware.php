@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace WoohooLabsTest\Harmony\Utils\Middleware;
+namespace WoohooLabs\Harmony\Tests\Utils\Middleware;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

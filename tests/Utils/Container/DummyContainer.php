@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace WoohooLabsTest\Harmony\Utils\Container;
+namespace WoohooLabs\Harmony\Tests\Utils\Container;
 
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 class DummyContainer implements ContainerInterface
 {

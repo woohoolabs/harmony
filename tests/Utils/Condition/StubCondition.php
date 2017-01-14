@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace WoohooLabsTest\Harmony\Utils\Condition;
+namespace WoohooLabs\Harmony\Tests\Utils\Condition;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

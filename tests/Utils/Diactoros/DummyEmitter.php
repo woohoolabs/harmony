@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace WoohooLabsTest\Harmony\Utils\Diactoros;
+namespace WoohooLabs\Harmony\Tests\Utils\Diactoros;
 
 use Psr\Http\Message\ResponseInterface;
 use Zend\Diactoros\Response\EmitterInterface;

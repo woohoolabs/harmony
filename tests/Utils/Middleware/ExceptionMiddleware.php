@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace WoohooLabsTest\Harmony\Utils\Middleware;
+namespace WoohooLabs\Harmony\Tests\Utils\Middleware;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use WoohooLabsTest\Harmony\Utils\Exception\TestException;
+use WoohooLabs\Harmony\Tests\Utils\Exception\TestException;
 
 class ExceptionMiddleware
 {
@@ -22,7 +22,7 @@ class ExceptionMiddleware
     }
 
     /**
-     * @throws \WoohooLabsTest\Harmony\Utils\Exception\TestException
+     * @throws \WoohooLabs\Harmony\Tests\Utils\Exception\TestException
      */
     public function __invoke(
         ServerRequestInterface $request,

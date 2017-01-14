@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace WoohooLabsTest\Harmony\Utils\FastRoute;
+namespace WoohooLabs\Harmony\Tests\Utils\FastRoute;
 
 use FastRoute\Dispatcher;
 

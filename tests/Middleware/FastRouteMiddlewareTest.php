@@ -1,16 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace WoohooLabsTest\Harmony\Middleware;
+namespace WoohooLabs\Harmony\Tests\Middleware;
 
 use FastRoute\Dispatcher;
 use PHPUnit\Framework\TestCase;
 use WoohooLabs\Harmony\Harmony;
 use WoohooLabs\Harmony\Middleware\FastRouteMiddleware;
-use WoohooLabsTest\Harmony\Utils\Controller\DummyController;
-use WoohooLabsTest\Harmony\Utils\FastRoute\StubDispatcher;
-use WoohooLabsTest\Harmony\Utils\Psr7\DummyResponse;
-use WoohooLabsTest\Harmony\Utils\Psr7\DummyServerRequest;
+use WoohooLabs\Harmony\Tests\Utils\Controller\DummyController;
+use WoohooLabs\Harmony\Tests\Utils\FastRoute\StubDispatcher;
+use WoohooLabs\Harmony\Tests\Utils\Psr7\DummyResponse;
+use WoohooLabs\Harmony\Tests\Utils\Psr7\DummyServerRequest;
 
 class FastRouteMiddlewareTest extends TestCase
 {

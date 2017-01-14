@@ -1,5 +1,5 @@
 <?php
-namespace WoohooLabsTest\Harmony\Utils\Controller;
+namespace WoohooLabs\Harmony\Tests\Utils\Controller;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

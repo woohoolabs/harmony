@@ -39,7 +39,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "WoohooLabsTest\\Harmony\\": "tests/",
+            "WoohooLabs\\Harmony\\Tests\\": "tests/",
             "WoohooLabs\\Harmony\\Examples\\": "examples/"
         }
     },

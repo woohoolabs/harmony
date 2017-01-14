@@ -5,15 +5,15 @@ namespace WoohooLabsTest\Harmony;
 
 use PHPUnit\Framework\TestCase;
 use WoohooLabs\Harmony\Harmony;
-use WoohooLabsTest\Harmony\Utils\Condition\StubCondition;
-use WoohooLabsTest\Harmony\Utils\Middleware\ExceptionMiddleware;
-use WoohooLabsTest\Harmony\Utils\Middleware\FakeMiddleware;
-use WoohooLabsTest\Harmony\Utils\Middleware\HeaderMiddleware;
-use WoohooLabsTest\Harmony\Utils\Middleware\InternalServerErrorMiddleware;
-use WoohooLabsTest\Harmony\Utils\Middleware\ReturningMiddleware;
-use WoohooLabsTest\Harmony\Utils\Middleware\SpyMiddleware;
-use WoohooLabsTest\Harmony\Utils\Psr7\DummyResponse;
-use WoohooLabsTest\Harmony\Utils\Psr7\DummyServerRequest;
+use WoohooLabs\Harmony\Tests\Utils\Condition\StubCondition;
+use WoohooLabs\Harmony\Tests\Utils\Middleware\ExceptionMiddleware;
+use WoohooLabs\Harmony\Tests\Utils\Middleware\FakeMiddleware;
+use WoohooLabs\Harmony\Tests\Utils\Middleware\HeaderMiddleware;
+use WoohooLabs\Harmony\Tests\Utils\Middleware\InternalServerErrorMiddleware;
+use WoohooLabs\Harmony\Tests\Utils\Middleware\ReturningMiddleware;
+use WoohooLabs\Harmony\Tests\Utils\Middleware\SpyMiddleware;
+use WoohooLabs\Harmony\Tests\Utils\Psr7\DummyResponse;
+use WoohooLabs\Harmony\Tests\Utils\Psr7\DummyServerRequest;
 
 class HarmonyTest extends TestCase
 {
