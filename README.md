@@ -11,9 +11,9 @@
 **Woohoo Labs. Harmony is a flexible micro-framework developed for PHP applications.**
 
 Our aim was to create an invisible, easily extensible, but most important of all, extremely flexible framework for your
-quality applications. We wanted to give you total control via
-[PSR-7](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-7-http-message.md) and
-[Container-Interop](https://github.com/container-interop/container-interop).
+long-term, strategic applications. We wanted to give you total control via
+[PSR-7](http://www.php-fig.org/psr/psr-7/) and
+[PSR-11 (former Container-Interop)](https://github.com/container-interop/fig-standards/blob/master/proposed/container.md).
 
 ## Table of Contents
 
@@ -33,14 +33,14 @@ quality applications. We wanted to give you total control via
 
 ### Rationale
 
-This blog post accurately summarizes why Harmony was born: http://www.catonmat.net/blog/frameworks-dont-make-sense/ 
+This blog post explains the idea best why Harmony was born: http://www.catonmat.net/blog/frameworks-dont-make-sense/ 
 
 ### Features
 
 - Extreme flexibility through middleware
 - High performance due to a simple and clean design
 - Full control over HTTP messages via PSR-7
-- Support for all IoC Containers via Container-Interop
+- Support for many DI Containers via PSR-11 (formerly known as Container-Interop)
 
 ### Why Harmony?
 
@@ -50,11 +50,10 @@ There are a lot of very similar middleware dispatcher libraries out there, like
 [Relay](http://relayphp.com/). You might ask yourself, what is the purpose of yet another library with the same
 functionality?
 
-We believe Harmony stands above its peers because of these two key features:
+We believe Harmony offers two key features which justify its existence:
 
 - It is the most simple library of all. Although simplicity is subjective, one thing is certain: Harmony offers the
-bare minimum functionality of what a library like this would need. It doesn't have capabilities which are not truly
-required. That's why Harmony fits into a single class of 200 lines.
+bare minimum functionality of what a library like this would need. That's why Harmony itself fits into a single class of 200 lines.
 
 - As of version 3, Harmony natively supports the concept of [Conditions](#defining-conditions) which is a unique
 feature for middleware dispatchers. This eases dealing with a major weakness of the middleware-oriented approach,
@@ -63,28 +62,28 @@ which is the ability to invoke middleware conditionally.
 ### Use cases
 
 Certainly, Harmony won't suit the needs of all projects and teams: this framework works best for advanced teams.
-Less experienced teams should probably choose a less lenient framework, with more features, in order to speed up
+Less experienced teams should probably choose a less lenient framework with more features, in order to speed up
 development in its initial phase. Harmony's flexibility is the most advantageous when your software is a long-term,
 strategic project. That's why legacy applications can also benefit from Harmony, because it makes gradual refactoring
 easier.
 
 ### Concepts
 
-Woohoo Labs. Harmony is built upon two main concepts: middleware which promote separation of concerns and common
-interfaces allowing you to band your favourite tools together.
+Woohoo Labs. Harmony is built upon two main concepts: middleware, which promote separation of concerns, and common
+interfaces, making it possible to rely on loosely coupled components.
 
-Middleware makes it possible to take hands on the course of action of the request-response lifecycle: you can
+By using middleware, you can easily take hands on the course of action of the request-response lifecycle: you can
 authenticate before routing, do some logging after the response has been sent, or you can even dispatch multiple
 routes in one request. This all can be achieved because everything in Harmony is a middleware, so the framework
-itself only consists of cc. 200 lines of code. This is why there is no framework-wide configuration, only the
-middleware can be configured. What you do with Harmony depends only on your imagination and needs.
+itself only consists of cc. 200 lines of code. This is why there is no framework-wide configuration, only middleware
+can be configured. What you do with Harmony depends only on your imagination and needs.
 
 But middleware must work in cooperation (the router and the dispatcher are particularly tightly coupled to each other).
 That's why it is also important to provide common interfaces for the distinct components of the framework.
 
-Naturally, we decided to use [PSR-7](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-7-http-message.md)
-for modelling the HTTP request and response. In order to facilitate the usage of different IoC Containers, we adapted
-the [Container-Interop standard interface](https://github.com/container-interop/container-interop) which is supported
+Naturally, we decided to use [PSR-7](http://www.php-fig.org/psr/psr-7/) for modelling the HTTP request and response.
+In order to facilitate the usage of different DI Containers, we adapted
+[PSR-11 (former Container-Interop)](https://github.com/container-interop/fig-standards/blob/master/proposed/container.md) which is supported
 by various containers out of the box.
 
 ### Middleware interface design
@@ -123,7 +122,7 @@ Because Harmony requires a PSR-7 implementation (a package which provides the `h
 package), you must install one first. You may use Zend Diactoros or any other library of preference:
 
 ```bash
-$ composer require zendframework/zend-diactoros
+$ composer require zendframework/zend-diactoros:^2.3.0
 ```
 
 ### Add Harmony to your composer.json:
@@ -138,11 +137,10 @@ Harmony 3.1+ needs PHP 7.0 at least, but you may use Harmony 3.0.1 for PHP 5.5 a
 
 ### Require the necessary dependencies:
 
-If you want to use the default middleware then you have to require the following dependencies too:
+If you want to use the default middleware stack then you have to require the following dependencies too:
 
 ```bash
 $ composer require nikic/fast-route:^1.0.0
-$ composer require zendframework/zend-diactoros:^2.3.0
 ```
 
 ## Basic Usage
@@ -198,8 +196,8 @@ class UserController
 
 The following example applies only if you use the
 [default router middleware](https://github.com/woohoolabs/harmony/blob/master/src/Middleware/FastRouteMiddleware.php)
-which is based on [FastRoute](https://github.com/nikic/FastRoute), the library of Nikita Popov. We chose to use this
-library by default because of its performance and elegance. You can read more about it
+which is based on [FastRoute](https://github.com/nikic/FastRoute), the library of Nikita Popov. We chose to use it by
+default because of its performance and simplicity. You can read more about it
 [in Nikita's blog](http://nikic.github.io/2014/02/18/Fast-request-routing-using-regular-expressions.html).
 
 Let's add three routes to FastRoute:
@@ -284,15 +282,14 @@ pattern, you can find an insightful description in [Paul M. Jones' blog post](ht
 The motivation of creating Woohoo Labs. Harmony was to become able to change every single aspect of the framework.
 That's why you can use any DI Container you want.
 
-For this purpose, we chose the [Container-Interop standard](https://github.com/container-interop/container-interop)
-(it is PSR-11 now) to be the common interface for DI Containers in the built-in `DispatcherMiddleware`.
+For this purpose, we chose to build upon [PSR-11](https://github.com/container-interop/fig-standards/blob/master/proposed/container.md) - the most widespread common interface for DI Containers - in the built-in `DispatcherMiddleware`.
 
 It's also important to know that the `DispatcherMiddleware` uses the `BasicContainer` by default. It's nothing more
 than a very silly DIC which tries to create objects based on their class name (so calling
 `$basicContainer->get(Foo::class)` would create a new `Foo` instance).
 
-But if you provide an argument to the middleware's constructor, you can use your favourite Container-Interop compliant
-DIC too. Let's have a look at an example where one would like to swap `BasicContainer` with
+But if you provide an argument to the middleware's constructor, you can use your favourite PSR-11 compliant
+DI Container too. Let's have a look at an example where one would like to swap `BasicContainer` with
 [Zen](https://github.com/woohoolabs/zen):
 
 ```php
@@ -381,7 +378,7 @@ Then
 $harmony->addMiddleware(new AuthenticationMiddleware("123"));
 ```
 
-As you can see, the constructor receives the API Key, while the `__invoke()` method is responsible for performing the
+As you can see, the constructor receives the API Key, while the `__invoke()` method is responsible for performing
 authentication.
 
 Instead of `callable`, you can also typehint the `$next` argument against `Harmony` according to
