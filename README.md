@@ -113,18 +113,19 @@ replacement for bit.ly's core functionality: creating short links and redirectin
 
 ## Install
 
-The steps of this process are quite straightforward. The only thing you need is [Composer](http://getcomposer.org).
+The only thing you need before getting started is [Composer](http://getcomposer.org).
 
-### Require a PSR-7 implementation:
+### Install a PSR-7 implementation:
 
-Because Harmony requires a PSR-7 implementation (a package which provides the `http-message-implementation` virtual
-package), you must install one first. You may use Zend Diactoros or any other library of preference:
+Because Harmony requires a PSR-7 implementation (a package which provides the `psr/http-message-implementation` virtual
+package), you must install one first. You may use [Zend Diactoros](https://github.com/zendframework/zend-diactoros) or
+any other library of your preference:
 
 ```bash
 $ composer require zendframework/zend-diactoros:^2.3.0
 ```
 
-### Add Harmony to your composer.json:
+### Install Harmony:
 
 To install the latest version of this library, run the command below:
 
@@ -132,11 +133,11 @@ To install the latest version of this library, run the command below:
 $ composer require woohoolabs/harmony
 ```
 
-Harmony 3.1+ needs PHP 7.0 at least, but you may use Harmony 3.0.1 for PHP 5.5 and 5.6.
+Harmony 3.1+ requires PHP 7.0 at least, but you may use Harmony 3.0.1 for PHP 5.5 and 5.6.
 
-### Require the necessary dependencies:
+### Install the optional dependencies:
 
-If you want to use the default middleware stack then you have to require the following dependencies too:
+If you want to use the default middleware stack then you have to require the following dependency too:
 
 ```bash
 $ composer require nikic/fast-route:^1.0.0
