@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace WoohooLabs\Harmony\Container;
 
-use Throwable;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use Throwable;
 
 class BasicContainer implements ContainerInterface
 {
