@@ -2,8 +2,7 @@
     "name": "woohoolabs/harmony",
     "description": "Woohoo Labs. Harmony",
     "type": "library",
-    "keywords": ["Woohoo Labs.", "Harmony", "Framework", "PSR-7", "PSR-11"],
-    "homepage": "http://harmony.woohoolabs.com",
+    "keywords": ["Woohoo Labs.", "Harmony", "Framework", "Middleware Dispatcher", "PSR-7", "PSR-11"],
     "license": "MIT",
     "authors": [
         {
@@ -16,7 +15,7 @@
         "source": "https://github.com/woohoolabs/harmony"
     },
     "require": {
-        "php":"^7.0.0",
+        "php": "^7.0.0",
         "psr/container": "^1.0.0@dev",
         "psr/http-message-implementation": "^1.0.0"
     },
