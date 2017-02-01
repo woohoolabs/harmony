@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace WoohooLabs\Harmony\Tests\Container;
 
 use PHPUnit\Framework\TestCase;
+use PHPUnit_Framework_MockObject_MockObject;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
 use WoohooLabs\Harmony\Condition\PathPrefixCondition;
@@ -16,11 +17,11 @@ class PathPrefixConditionTest extends TestCase
      */
     public function evaluateExactPathToTrue()
     {
-        /** @var UriInterface $uri */
+        /** @var UriInterface|PHPUnit_Framework_MockObject_MockObject $uri */
         $uri = $this->getMockBuilder(UriInterface::class)->getMock();
         $uri->method("getPath")->willReturn("/api");
 
-        /** @var ServerRequestInterface $request */
+        /** @var ServerRequestInterface|PHPUnit_Framework_MockObject_MockObject $request */
         $request = $this->getMockBuilder(ServerRequestInterface::class)->getMock();
         $request->method("getUri")->willReturn($uri);
 
@@ -34,11 +35,11 @@ class PathPrefixConditionTest extends TestCase
      */
     public function evaluateSubPathToTrue()
     {
-        /** @var UriInterface $uri */
+        /** @var UriInterface|PHPUnit_Framework_MockObject_MockObject $uri */
         $uri = $this->getMockBuilder(UriInterface::class)->getMock();
         $uri->method("getPath")->willReturn("/api/users");
 
-        /** @var ServerRequestInterface $request */
+        /** @var ServerRequestInterface|PHPUnit_Framework_MockObject_MockObject $request */
         $request = $this->getMockBuilder(ServerRequestInterface::class)->getMock();
         $request->method("getUri")->willReturn($uri);
 
@@ -52,11 +53,11 @@ class PathPrefixConditionTest extends TestCase
      */
     public function evaluateDifferentPathToFalse()
     {
-        /** @var UriInterface $uri */
+        /** @var UriInterface|PHPUnit_Framework_MockObject_MockObject $uri */
         $uri = $this->getMockBuilder(UriInterface::class)->getMock();
         $uri->method("getPath")->willReturn("/app");
 
-        /** @var ServerRequestInterface $request */
+        /** @var ServerRequestInterface|PHPUnit_Framework_MockObject_MockObject $request */
         $request = $this->getMockBuilder(ServerRequestInterface::class)->getMock();
         $request->method("getUri")->willReturn($uri);
 

@@ -100,7 +100,7 @@ class DispatcherMiddlewareTest extends TestCase
     public function dispatchAnonymousFunction()
     {
         $request = new DummyServerRequest();
-        $callable = function (ServerRequestInterface $request, ResponseInterface $response) {
+        $callable = function () {
             throw new TestException();
         };
         $request = $request->withAttribute("__action", $callable);
