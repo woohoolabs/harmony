@@ -15,6 +15,8 @@ REMOVED:
 
 FIXED:
 
+- `DiactorosResponderMiddleware` passes the request and response to the next middleware
+
 ## 3.1.0 - 2016-10-18
 
 ADDED:
