@@ -31,9 +31,9 @@ class DiactorosResponderMiddleware
         ResponseInterface $response,
         callable $next
     ): ResponseInterface {
-        $response = $next();
+        $response = $next($request, $response);
 
-        if (headers_sent() === false || $this->checkOutputStart === false) {
+        if ($this->checkOutputStart === false || headers_sent() === false) {
             $this->emitter->emit($response);
         }
 
