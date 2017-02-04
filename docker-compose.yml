@@ -1,9 +1,9 @@
 version: '2'
 
 services:
-  harmony-php:
-    container_name: harmony-php
-    image: php:7.0-cli
-    volumes:
-      - .:/var/www
-    command: /bin/bash -c "cd /var/www; php vendor/bin/phpunit"
+    php:
+        container_name: harmony-php
+        image: php:7.0-cli
+        volumes:
+            - .:/var/www
+        command: /bin/bash -c "cd /var/www; php vendor/bin/phpunit"
