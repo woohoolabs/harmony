@@ -12,7 +12,7 @@
 
 Our aim was to create an invisible and extremely flexible framework for your long-term, strategic applications.
 We wanted to give you total control via [PSR-7](http://www.php-fig.org/psr/psr-7/) and
-[PSR-11](https://github.com/container-interop/fig-standards/blob/master/proposed/container.md).
+[PSR-11](http://www.php-fig.org/psr/psr-11/).
 
 ## Table of Contents
 
@@ -82,8 +82,8 @@ That's why it is also important to provide common interfaces for the distinct co
 
 Naturally, we decided to use [PSR-7](http://www.php-fig.org/psr/psr-7/) for modelling the HTTP request and response.
 In order to facilitate the usage of different DI Containers, we adapted
-[PSR-11 (former Container-Interop)](https://github.com/container-interop/fig-standards/blob/master/proposed/container.md) which is supported
-by various containers out of the box.
+[PSR-11 (former Container-Interop)](http://www.php-fig.org/psr/psr-11/) which is supported by various containers out
+of the box.
 
 ### Middleware interface design
 
@@ -282,7 +282,7 @@ pattern, you can find an insightful description in [Paul M. Jones' blog post](ht
 The motivation of creating Woohoo Labs. Harmony was to become able to change every single aspect of the framework.
 That's why you can use any DI Container you want.
 
-For this purpose, we chose to build upon [PSR-11](https://github.com/container-interop/fig-standards/blob/master/proposed/container.md)
+For this purpose, we chose to build upon [PSR-11](http://www.php-fig.org/psr/psr-11/)
 - the most widespread common interface for DI Containers - in the built-in `DispatcherMiddleware`.
 
 It's also important to know that the `DispatcherMiddleware` uses the `BasicContainer` by default. It's nothing more
