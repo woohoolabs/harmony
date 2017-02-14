@@ -1,4 +1,24 @@
-## 3.2.0 - unreleased
+## 4.1.0 - unreleased
+
+ADDED:
+
+- Support for PSR-11
+
+CHANGED:
+
+- Better exception message for `DispatcherException`
+- Tests namespace became `WoohooLabs\Harmony\Tests`
+
+REMOVED:
+
+- Support for Container-Interop
+
+FIXED:
+
+- `DiactorosResponderMiddleware` passes the request and response to the next middleware
+
+
+## 4.0.0 - 2017-02-14
 
 ADDED:
 
