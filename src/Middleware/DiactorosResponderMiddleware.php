@@ -11,7 +11,7 @@ use Zend\Diactoros\Response\SapiEmitter;
 class DiactorosResponderMiddleware
 {
     /**
-     * @var \Zend\Diactoros\Response\EmitterInterface
+     * @var EmitterInterface
      */
     protected $emitter;
 
@@ -22,7 +22,7 @@ class DiactorosResponderMiddleware
 
     public function __construct(EmitterInterface $emitter = null, bool $checkOutputStart = false)
     {
-        $this->emitter = $emitter ? $emitter : new SapiEmitter();
+        $this->emitter = $emitter ?? new SapiEmitter();
         $this->checkOutputStart = $checkOutputStart;
     }
 

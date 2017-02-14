@@ -15,24 +15,22 @@ class BasicContainer implements ContainerInterface
      *
      * @param string $id Identifier of the entry to look for.
      *
-     * @throws NotFoundExceptionInterface  No entry was found for this identifier.
+     * @throws NotFoundExceptionInterface  No entry was found for **this** identifier.
      * @throws ContainerExceptionInterface Error while retrieving the entry.
      *
      * @return mixed Entry.
      */
     public function get($id)
     {
-        if ($this->has($id) !== true) {
+        if ($this->has($id) === false) {
             throw new BasicContainerNotFoundException();
         }
 
         try {
-            $entry = new $id();
+            return new $id();
         } catch (Throwable $e) {
             throw new BasicContainerException($e->getMessage());
         }
-
-        return $entry;
     }
 
     /**
@@ -44,7 +42,7 @@ class BasicContainer implements ContainerInterface
      *
      * @param string $id Identifier of the entry to look for.
      *
-     * @return boolean
+     * @return bool
      */
     public function has($id)
     {

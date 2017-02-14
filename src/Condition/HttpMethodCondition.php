@@ -17,6 +17,6 @@ class HttpMethodCondition implements ConditionInterface
 
     public function evaluate(ServerRequestInterface $request, ResponseInterface $response): bool
     {
-        return in_array($request->getMethod(), $this->methods) === true;
+        return in_array($request->getMethod(), $this->methods, true);
     }
 }

@@ -18,7 +18,7 @@ class PathPrefixCondition implements ConditionInterface
     public function evaluate(ServerRequestInterface $request, ResponseInterface $response): bool
     {
         foreach ($this->pathPrefixes as $pathPrefix) {
-            if (substr($request->getUri()->getPath(), 0, strlen($pathPrefix)) === $pathPrefix) {
+            if (strpos($request->getUri()->getPath(), $pathPrefix) === 0) {
                 return true;
             }
         }

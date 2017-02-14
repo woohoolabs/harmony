@@ -12,7 +12,7 @@ use WoohooLabs\Harmony\Exception\RouteNotFound;
 class FastRouteMiddleware
 {
     /**
-     * @var \FastRoute\Dispatcher
+     * @var Dispatcher
      */
     protected $fastRoute;
 
@@ -28,8 +28,8 @@ class FastRouteMiddleware
     }
 
     /**
-     * @throws \WoohooLabs\Harmony\Exception\MethodNotAllowed
-     * @throws \WoohooLabs\Harmony\Exception\RouteNotFound
+     * @throws MethodNotAllowed
+     * @throws RouteNotFound
      */
     public function __invoke(
         ServerRequestInterface $request,

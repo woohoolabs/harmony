@@ -1,6 +1,5 @@
 filter:
     paths:
-        - examples/*
         - src/*
 before_commands:
     - 'composer install'

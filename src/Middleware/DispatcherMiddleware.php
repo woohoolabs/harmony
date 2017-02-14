@@ -21,10 +21,6 @@ class DispatcherMiddleware
      */
     protected $actionAttributeName;
 
-    /**
-     * @param ContainerInterface $container
-     * @param string $actionAttributeName
-     */
     public function __construct(ContainerInterface $container = null, string $actionAttributeName = "__action")
     {
         $this->container = $container === null ? new BasicContainer() : $container;
@@ -50,12 +46,12 @@ class DispatcherMiddleware
 
         if (is_array($action) && is_string($action[0]) && is_string($action[1])) {
             $object = $this->container->get($action[0]);
-            $response = call_user_func_array([$object, $action[1]], [$request, $response]);
+            $response = $object->{$action[1]}($request, $response);
         } else {
             if (is_callable($action) === false) {
                 $action = $this->container->get($action);
             }
-            $response = call_user_func_array($action, [$request, $response]);
+            $response = $action($request, $response);
         }
 
         return $next($request, $response);

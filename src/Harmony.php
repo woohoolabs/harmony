@@ -12,12 +12,12 @@ use WoohooLabs\Harmony\Exception\MiddlewareWrongReturnType;
 class Harmony
 {
     /**
-     * @var \Psr\Http\Message\ServerRequestInterface
+     * @var ServerRequestInterface
      */
     protected $request;
 
     /**
-     * @var \Psr\Http\Message\ResponseInterface
+     * @var ResponseInterface
      */
     protected $response;
 
@@ -37,13 +37,10 @@ class Harmony
         $this->request = $request;
     }
 
-    /**
-     * @param \Psr\Http\Message\ServerRequestInterface $request
-     * @param \Psr\Http\Message\ResponseInterface $response
-     * @return \Psr\Http\Message\ResponseInterface
-     */
-    public function __invoke(ServerRequestInterface $request = null, ResponseInterface $response = null)
-    {
+    public function __invoke(
+        ServerRequestInterface $request = null,
+        ResponseInterface $response = null
+    ): ResponseInterface {
         if ($request !== null) {
             $this->request = $request;
         }
@@ -144,7 +141,7 @@ class Harmony
     }
 
     /**
-     * @throws \WoohooLabs\Harmony\Exception\MiddlewareWrongReturnType
+     * @throws MiddlewareWrongReturnType
      */
     protected function executeMiddleware(array $middlewareArray)
     {
@@ -154,10 +151,13 @@ class Harmony
         if ($response instanceof ResponseInterface === false) {
             throw new MiddlewareWrongReturnType();
         }
-        
+
         $this->response = $response;
     }
 
+    /**
+     * @return void
+     */
     protected function executeCondition(array $conditionArray)
     {
         /** @var ConditionInterface $condition */

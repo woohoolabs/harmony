@@ -17,6 +17,6 @@ class ExactPathCondition implements ConditionInterface
 
     public function evaluate(ServerRequestInterface $request, ResponseInterface $response): bool
     {
-        return in_array($request->getUri()->getPath(), $this->paths) === true;
+        return in_array($request->getUri()->getPath(), $this->paths, true);
     }
 }
