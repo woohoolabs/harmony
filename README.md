@@ -8,7 +8,7 @@
 [![Total Downloads][ico-downloads]][link-downloads]
 [![Gitter][ico-gitter]][link-gitter]
 
-**Woohoo Labs. Harmony is a flexible micro-framework developed for PHP applications.**
+**Woohoo Labs. Harmony is a flexible middleware dispatcher developed for PHP applications.**
 
 Our aim was to create an invisible and extremely flexible framework for your long-term, strategic applications.
 We wanted to give you total control via [PSR-7](http://www.php-fig.org/psr/psr-7/) and
