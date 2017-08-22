@@ -25,6 +25,7 @@ We wanted to give you total control via [PSR-7](http://www.php-fig.org/psr/psr-7
 * [Change Log](#change-log)
 * [Testing](#testing)
 * [Contributing](#contributing)
+* [Support](#support)
 * [Credits](#credits)
 * [License](#license)
 
@@ -512,6 +513,10 @@ Additionally, you may run `docker-compose up` to execute the tests.
 ## Contributing
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+
+## Support
+
+Please see [SUPPORT](SUPPORT.md) for details.
 
 ## Credits
 
