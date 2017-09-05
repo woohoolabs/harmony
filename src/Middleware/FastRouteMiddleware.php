@@ -59,7 +59,7 @@ class FastRouteMiddleware
         return $this->fastRoute;
     }
 
-    public function setFastRoute(Dispatcher $fastRoute)
+    public function setFastRoute(Dispatcher $fastRoute): void
     {
         $this->fastRoute = $fastRoute;
     }
@@ -69,7 +69,7 @@ class FastRouteMiddleware
         return $this->actionAttributeName;
     }
 
-    public function setActionAttributeName(string $actionAttributeName)
+    public function setActionAttributeName(string $actionAttributeName): void
     {
         $this->actionAttributeName = $actionAttributeName;
     }

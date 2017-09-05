@@ -163,12 +163,7 @@ use Psr\Http\Message\ResponseInterface;
 
 class UserController
 {
-    /**
-     * @param ServerRequestInterface $request
-     * @param ResponseInterface $response
-     * @return ResponseInterface
-     */
-    public function getUsers(ServerRequestInterface $request, ResponseInterface $response)
+    public function getUsers(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $users = ["Steve", "Arnie", "Jason", "Bud"];
         $response->getBody()->write(json_encode($users));
@@ -176,20 +171,15 @@ class UserController
         return $response;
     }
 
-    /**
-     * @param ServerRequestInterface $request
-     * @param ResponseInterface $response
-     * @return ResponseInterface
-     */
-     public function updateUser(ServerRequestInterface $request, ResponseInterface $response)
-     {
+    public function updateUser(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    {
         $userId = $request->getAttribute("id");
         $userData = $request->getParsedBody();
 
         // Updating user...
         
         return $response;
-     }
+    }
 }
 ```
 
@@ -349,21 +339,12 @@ class AuthenticationMiddleware
      */
     protected $apiKey;
 
-    /**
-     * @param string $apiKey
-     */
-    public function __construct($apiKey)
+    public function __construct(string $apiKey)
     {
         $this->apiKey = $apiKey;
     }
 
-    /**
-     * @param ServerRequestInterface $request
-     * @param ResponseInterface $response
-     * @param callable $next
-     * @return ResponseInterface
-     */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next): ResponseInterface
     {
         if ($request->getHeader("x-api-key") !== [$this->apiKey]) {
             return $response->withStatusCode(401);
@@ -414,23 +395,14 @@ class AuthenticationMiddleware
      */
     protected $authenticator;
 
-    /**
-     * @param string $securedPath
-     * @param MyAuthenticatorInterface $authenticator
      */
-    public function __construct($securedPath, MyAuthenticatorInterface $authenticator)
+    public function __construct(string $securedPath, MyAuthenticatorInterface $authenticator)
     {
         $this->securedPath = $securedPath;
         $this->authenticator = $authenticator;
     }
 
-    /**
-     * @param ServerRequestInterface $request
-     * @param ResponseInterface $response
-     * @param callable $next
-     * @return ResponseInterface
-     */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next): ResponseInterface
     {
          // Invoke the next middleware and cancel authentication if the current URL is for a public endpoint
         if (substr($request->getUri()->getPath(), 0, strlen($this->securedPath)) !== $this->securedPath) {

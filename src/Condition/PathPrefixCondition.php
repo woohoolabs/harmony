@@ -8,6 +8,9 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class PathPrefixCondition implements ConditionInterface
 {
+    /**
+     * @var array
+     */
     protected $pathPrefixes = [];
 
     public function __construct(array $pathPrefixes)

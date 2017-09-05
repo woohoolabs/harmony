@@ -8,6 +8,9 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class HttpMethodCondition implements ConditionInterface
 {
+    /**
+     * @var array
+     */
     protected $methods = [];
 
     public function __construct(array $methods)

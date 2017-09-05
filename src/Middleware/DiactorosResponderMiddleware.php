@@ -45,7 +45,7 @@ class DiactorosResponderMiddleware
         return $this->emitter;
     }
 
-    public function setEmitter(EmitterInterface $emitter)
+    public function setEmitter(EmitterInterface $emitter): void
     {
         $this->emitter = $emitter;
     }
@@ -55,7 +55,7 @@ class DiactorosResponderMiddleware
         return $this->checkOutputStart;
     }
 
-    public function setCheckOutputStart(bool $checkOutputStart)
+    public function setCheckOutputStart(bool $checkOutputStart): void
     {
         $this->checkOutputStart = $checkOutputStart;
     }

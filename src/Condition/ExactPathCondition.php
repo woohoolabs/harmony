@@ -8,6 +8,9 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class ExactPathCondition implements ConditionInterface
 {
+    /**
+     * @var array
+     */
     protected $paths = [];
 
     public function __construct(array $paths)

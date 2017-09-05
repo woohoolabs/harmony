@@ -175,10 +175,8 @@ class DispatcherMiddlewareTest extends TestCase
 
     /**
      * @param mixed $callable
-     * @param string $attributeName
-     * @return \WoohooLabs\Harmony\Harmony
      */
-    protected function createHarmony($callable, $attributeName = "__action")
+    protected function createHarmony($callable, string $attributeName = "__action"): Harmony
     {
         $request = new DummyServerRequest();
         $request = $request->withAttribute($attributeName, $callable);

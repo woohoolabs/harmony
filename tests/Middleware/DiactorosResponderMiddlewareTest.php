@@ -64,10 +64,7 @@ class DiactorosResponderMiddlewareTest extends TestCase
         $this->assertFalse($middleware->isOutputStartChecked());
     }
 
-    /**
-     * @return \WoohooLabs\Harmony\Harmony
-     */
-    private function createHarmony()
+    private function createHarmony(): Harmony
     {
         return new Harmony(new DummyServerRequest(), new DummyResponse());
     }

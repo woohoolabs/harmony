@@ -62,7 +62,7 @@ class DispatcherMiddleware
         return $this->container;
     }
 
-    public function setContainer(ContainerInterface $container)
+    public function setContainer(ContainerInterface $container): void
     {
         $this->container = $container;
     }
@@ -72,7 +72,7 @@ class DispatcherMiddleware
         return $this->actionAttributeName;
     }
 
-    public function setActionAttributeName(string $actionAttributeName)
+    public function setActionAttributeName(string $actionAttributeName): void
     {
         $this->actionAttributeName = $actionAttributeName;
     }

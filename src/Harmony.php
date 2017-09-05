@@ -38,8 +38,8 @@ class Harmony
     }
 
     public function __invoke(
-        ServerRequestInterface $request = null,
-        ResponseInterface $response = null
+        ?ServerRequestInterface $request = null,
+        ?ResponseInterface $response = null
     ): ResponseInterface {
         if ($request !== null) {
             $this->request = $request;
@@ -76,10 +76,7 @@ class Harmony
         return $this->response;
     }
 
-    /**
-     * @return callable|null
-     */
-    public function getMiddleware(string $id)
+    public function getMiddleware(string $id): ?callable
     {
         $position = $this->findMiddleware($id);
 
@@ -90,7 +87,7 @@ class Harmony
         return $this->middleware[$position]["callable"];
     }
 
-    public function addMiddleware(callable $middleware, string $id = null): Harmony
+    public function addMiddleware(callable $middleware, ?string $id = null): Harmony
     {
         $this->middleware[] = [
             "id" => $id,
@@ -126,10 +123,7 @@ class Harmony
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
-    protected function findMiddleware(string $id)
+    protected function findMiddleware(string $id): ?int
     {
         foreach ($this->middleware as $k => $middleware) {
             if ($middleware["id"] === $id) {
@@ -143,7 +137,7 @@ class Harmony
     /**
      * @throws MiddlewareWrongReturnType
      */
-    protected function executeMiddleware(array $middlewareArray)
+    protected function executeMiddleware(array $middlewareArray): void
     {
         $middleware = $middlewareArray["callable"];
 
@@ -155,10 +149,7 @@ class Harmony
         $this->response = $response;
     }
 
-    /**
-     * @return void
-     */
-    protected function executeCondition(array $conditionArray)
+    protected function executeCondition(array $conditionArray): void
     {
         /** @var ConditionInterface $condition */
         $condition = $conditionArray["condition"];
