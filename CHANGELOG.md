@@ -8,11 +8,12 @@ REMOVED:
 
 FIXED:
 
-## 4.1.0 - unreleased
+## 4.1.0 - 2017-09-05
 
 CHANGED:
 
 - Increased minimum PHP version requirement to 7.1
+- Added more type declarations
 
 ## 4.0.0 - 2017-02-14
 
