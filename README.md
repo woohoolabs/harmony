@@ -134,7 +134,7 @@ To install the latest version of this library, run the command below:
 $ composer require woohoolabs/harmony
 ```
 
-Harmony 3.1+ requires PHP 7.0 at least, but you may use Harmony 3.0.1 for PHP 5.5 and 5.6.
+Harmony 4.1+ requires PHP 7.1 at least, but you may use Harmony 4.0 for PHP 7.0 and Harmony 3.0.1 for PHP 5.5 and 5.6.
 
 ### Install the optional dependencies:
 

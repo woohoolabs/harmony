@@ -1,4 +1,4 @@
-## 4.1.0 - unreleased
+## 4.2.0 - unreleased
 
 ADDED:
 
@@ -7,6 +7,12 @@ CHANGED:
 REMOVED:
 
 FIXED:
+
+## 4.1.0 - unreleased
+
+CHANGED:
+
+- Increased minimum PHP version requirement to 7.1
 
 ## 4.0.0 - 2017-02-14
 
@@ -35,7 +41,7 @@ ADDED:
 
 CHANGED:
 
-- Updated minimum PHP version requirement to 7.0
+- Increased minimum PHP version requirement to 7.0
 - Fixed stylistic errors in the documentation
 
 ## 3.0.1 - 2016-06-13
