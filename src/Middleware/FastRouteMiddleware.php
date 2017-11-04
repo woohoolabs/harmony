@@ -36,20 +36,7 @@ class FastRouteMiddleware
         ResponseInterface $response,
         callable $next
     ): ResponseInterface {
-        $route = $this->fastRoute->dispatch($request->getMethod(), $request->getUri()->getPath());
-
-        if ($route[0] === Dispatcher::NOT_FOUND) {
-            throw new RouteNotFound($request->getUri()->getPath());
-        }
-
-        if ($route[0] === Dispatcher::METHOD_NOT_ALLOWED) {
-            throw new MethodNotAllowed($request->getMethod());
-        }
-
-        foreach ($route[2] as $name => $value) {
-            $request = $request->withAttribute($name, $value);
-        }
-        $request = $request->withAttribute($this->actionAttributeName, $route[1]);
+        $request = $this->routeRequest($request);
 
         return $next($request, $response);
     }
@@ -72,5 +59,25 @@ class FastRouteMiddleware
     public function setActionAttributeName(string $actionAttributeName): void
     {
         $this->actionAttributeName = $actionAttributeName;
+    }
+
+    private function routeRequest(ServerRequestInterface $request): ServerRequestInterface
+    {
+        $route = $this->fastRoute->dispatch($request->getMethod(), $request->getUri()->getPath());
+
+        if ($route[0] === Dispatcher::NOT_FOUND) {
+            throw new RouteNotFound($request->getUri()->getPath());
+        }
+
+        if ($route[0] === Dispatcher::METHOD_NOT_ALLOWED) {
+            throw new MethodNotAllowed($request->getMethod());
+        }
+
+        foreach ($route[2] as $name => $value) {
+            $request = $request->withAttribute($name, $value);
+        }
+        $request = $request->withAttribute($this->actionAttributeName, $route[1]);
+
+        return $request;
     }
 }
