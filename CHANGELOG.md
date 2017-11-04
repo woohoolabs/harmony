@@ -8,6 +8,16 @@ REMOVED:
 
 FIXED:
 
+## 4.1.1 - 2017-11-04
+
+CHANGED:
+
+- Routing logic was put into `FastRouteMiddleware::routeRequest()` template method
+
+FIXED
+
+- Included Docker image now has PHP 7.1
+
 ## 4.1.0 - 2017-09-05
 
 CHANGED:
