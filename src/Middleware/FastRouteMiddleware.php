@@ -61,7 +61,7 @@ class FastRouteMiddleware
         $this->actionAttributeName = $actionAttributeName;
     }
 
-    private function routeRequest(ServerRequestInterface $request): ServerRequestInterface
+    protected function routeRequest(ServerRequestInterface $request): ServerRequestInterface
     {
         $route = $this->fastRoute->dispatch($request->getMethod(), $request->getUri()->getPath());
 
