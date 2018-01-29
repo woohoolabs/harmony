@@ -120,7 +120,7 @@ To install the latest version of this library, run the command below:
 $ composer require woohoolabs/harmony
 ```
 
-Harmony currently requires PHP 7.1 at least, but you may use Harmony 4.0.0 for PHP 7.0 and Harmony 3.0.1 for PHP 5.5 and 5.6.
+Harmony 5 requires PHP 7.1 at least, but you may use Harmony 4.0.0 for PHP 7.0.
 
 ### Install the optional dependencies:
 
@@ -302,13 +302,13 @@ class LoggerMiddleware implements MiddlewareInterface
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         // Perform logging before handling the request
-        $logger->logInfo("Request needs to be handled");
+        $logger->info("Request needs to be handled");
         
         // Invoking the remaining middleware
         $response = $handler->handle($request);
         
         // Perform logging after the request has been handled
-        $logger->logInfo("Request was successfuly handled");
+        $logger->info("Request was successfuly handled");
     
         // Return the response
         return $response;
