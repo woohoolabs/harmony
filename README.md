@@ -137,7 +137,7 @@ $ composer require nikic/fast-route:^1.0.0
 The following example applies only if you use the
 [default dispatcher middleware](https://github.com/woohoolabs/harmony/blob/master/src/Middleware/DispatcherMiddleware.php).
 There are two important things to note here: first, each dispatchable endpoint receives a `Psr\Http\Message\ServerRequestInterface`
-and a `Psr\Http\Message\ResponseInterface` object and they are expected to manipulate and return the latter. Secondly,
+and a `Psr\Http\Message\ResponseInterface` object as parameters and they are expected to manipulate and return the latter. Secondly,
 you can not only use classes as endpoints, it is possible to define other callables too (see below in the routing section).
 
 ```php
@@ -176,7 +176,7 @@ which is based on [FastRoute](https://github.com/nikic/FastRoute), the library o
 default because of its performance and simplicity. You can read more about it
 [in Nikita's blog](http://nikic.github.io/2014/02/18/Fast-request-routing-using-regular-expressions.html).
 
-Let's add three routes to FastRoute:
+Let's add the routes for the aforementioned endpoints to FastRoute:
 
 ```php
 $router = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
@@ -258,8 +258,9 @@ pattern, you can find an insightful description in [Paul M. Jones' blog post](ht
 The motivation of creating Woohoo Labs. Harmony was to become able to change every single aspect of the framework.
 That's why you can use any DI Container you want.
 
-For this purpose, we chose to build upon [PSR-11](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-11-container.md)
-- the most widespread common interface for DI Containers - in the built-in `DispatcherMiddleware`.
+For this purpose, we chose to build upon
+[PSR-11](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-11-container.md) - the most widespread common
+interface for DI Containers - in the built-in `DispatcherMiddleware`.
 
 It's also important to know that the `DispatcherMiddleware` uses the `BasicContainer` by default. It's nothing more
 than a very silly DIC which tries to create objects based on their class name (so calling
@@ -284,7 +285,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Psr\Logger\LoggerInterface;
+use Psr\Log\LoggerInterface;
 
 class LoggerMiddleware implements MiddlewareInterface
 {
