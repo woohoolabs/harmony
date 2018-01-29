@@ -5,11 +5,11 @@ namespace WoohooLabs\Harmony;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use WoohooLabs\Harmony\Condition\ConditionInterface;
-use WoohooLabs\Harmony\Exception\MiddlewareNotExists;
-use WoohooLabs\Harmony\Exception\MiddlewareWrongReturnType;
 
-class Harmony
+class Harmony implements RequestHandlerInterface
 {
     /**
      * @var ServerRequestInterface
@@ -33,25 +33,21 @@ class Harmony
 
     public function __construct(ServerRequestInterface $request, ResponseInterface $response)
     {
-        $this->response = $response;
         $this->request = $request;
+        $this->response = $response;
     }
 
-    public function __invoke(
-        ?ServerRequestInterface $request = null,
-        ?ResponseInterface $response = null
-    ): ResponseInterface {
-        if ($request !== null) {
-            $this->request = $request;
-        }
+    public function __invoke(): ResponseInterface
+    {
+        return $this->handle($this->request);
+    }
 
-        if ($response !== null) {
-            $this->response = $response;
-        }
-
+    public function handle(ServerRequestInterface $request): ResponseInterface
+    {
+        $this->request = $request;
         $this->currentMiddleware++;
 
-        // Stop if there aren't any executable middleware remaining
+        // Stop if there isn't any executable middleware remaining
         if (isset($this->middleware[$this->currentMiddleware]) === false) {
             return $this->response;
         }
@@ -71,12 +67,7 @@ class Harmony
         return $this->request;
     }
 
-    public function getResponse(): ResponseInterface
-    {
-        return $this->response;
-    }
-
-    public function getMiddleware(string $id): ?callable
+    public function getMiddleware(string $id): ?MiddlewareInterface
     {
         $position = $this->findMiddleware($id);
 
@@ -84,31 +75,15 @@ class Harmony
             return null;
         }
 
-        return $this->middleware[$position]["callable"];
+        return $this->middleware[$position]["middleware"];
     }
 
-    public function addMiddleware(callable $middleware, ?string $id = null): Harmony
+    public function addMiddleware(MiddlewareInterface $middleware, ?string $id = null): Harmony
     {
         $this->middleware[] = [
             "id" => $id,
-            "callable" => $middleware
+            "middleware" => $middleware
         ];
-
-        return $this;
-    }
-
-    /**
-     * @throws MiddlewareNotExists
-     */
-    public function removeMiddleware(string $id): Harmony
-    {
-        $position = $this->findMiddleware($id);
-
-        if ($position === null) {
-            throw new MiddlewareNotExists($id);
-        }
-
-        unset($this->middleware[$position]);
 
         return $this;
     }
@@ -117,7 +92,7 @@ class Harmony
     {
         $this->middleware[] = [
             "condition" => $condition,
-            "callable" => $callableOnSuccess
+            "middleware" => $callableOnSuccess
         ];
 
         return $this;
@@ -134,34 +109,29 @@ class Harmony
         return null;
     }
 
-    /**
-     * @throws MiddlewareWrongReturnType
-     */
     protected function executeMiddleware(array $middlewareArray): void
     {
-        $middleware = $middlewareArray["callable"];
+        /** @var MiddlewareInterface $middleware */
+        $middleware = $middlewareArray["middleware"];
 
-        $response = $middleware($this->getRequest(), $this->getResponse(), $this);
-        if ($response instanceof ResponseInterface === false) {
-            throw new MiddlewareWrongReturnType();
-        }
-
-        $this->response = $response;
+        $this->response = $middleware->process($this->request, $this);
     }
 
     protected function executeCondition(array $conditionArray): void
     {
         /** @var ConditionInterface $condition */
         $condition = $conditionArray["condition"];
-        $callable = $conditionArray["callable"];
+        /** @var callable $callable */
+        $callable = $conditionArray["middleware"];
 
         if ($condition->evaluate($this->request, $this->response) === false) {
             return;
         }
 
         $harmony = new Harmony($this->request, $this->response);
-        $callable($harmony);
+        $callable($harmony, $this->request);
         $harmony();
+
         $this->request = $harmony->request;
         $this->response = $harmony->response;
     }

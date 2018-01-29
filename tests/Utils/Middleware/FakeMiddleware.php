@@ -5,8 +5,10 @@ namespace WoohooLabs\Harmony\Tests\Utils\Middleware;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-class FakeMiddleware
+class FakeMiddleware implements MiddlewareInterface
 {
     protected $text;
 
@@ -20,11 +22,8 @@ class FakeMiddleware
         return $this->text;
     }
 
-    public function __invoke(
-        ServerRequestInterface $request,
-        ResponseInterface $response,
-        callable $next
-    ): ResponseInterface {
-        return $next();
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    {
+        return $handler->handle($request);
     }
 }

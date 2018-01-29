@@ -42,7 +42,7 @@ class DiactorosResponderMiddlewareTest extends TestCase
         $middleware = new DiactorosResponderMiddleware(new DummyEmitter());
 
         $this->expectOutputString("true");
-        $middleware($harmony->getRequest(), $harmony->getResponse(), $harmony);
+        $middleware->process($harmony->getRequest(), $harmony);
     }
 
     /**

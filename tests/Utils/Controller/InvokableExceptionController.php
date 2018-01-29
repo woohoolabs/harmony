@@ -10,7 +10,7 @@ use WoohooLabs\Harmony\Tests\Utils\Exception\TestException;
 class InvokableExceptionController
 {
     /**
-     * @throws \WoohooLabs\Harmony\Tests\Utils\Exception\TestException
+     * @throws TestException
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {

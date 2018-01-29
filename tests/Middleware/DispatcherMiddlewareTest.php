@@ -3,11 +3,12 @@ declare(strict_types=1);
 
 namespace WoohooLabs\Harmony\Tests\Middleware;
 
-use Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use WoohooLabs\Harmony\Container\BasicContainer;
+use WoohooLabs\Harmony\Exception\DispatcherException;
 use WoohooLabs\Harmony\Harmony;
 use WoohooLabs\Harmony\Middleware\DispatcherMiddleware;
 use WoohooLabs\Harmony\Tests\Utils\Controller\ExceptionController;
@@ -31,15 +32,13 @@ class DispatcherMiddlewareTest extends TestCase
         );
 
         $middleware = new DispatcherMiddleware();
-        $middleware($harmony->getRequest(), $harmony->getResponse(), $harmony);
+        $response = $middleware->process($harmony->getRequest(), $harmony);
 
-        $this->assertEquals(404, $harmony->getResponse()->getStatusCode());
+        $this->assertEquals(404, $response->getStatusCode());
     }
 
     /**
      * @test
-     * @expectedException \WoohooLabs\Harmony\Tests\Utils\Exception\TestException
-     * @expectedExceptionMessage next
      */
     public function callNextMiddleware()
     {
@@ -51,32 +50,32 @@ class DispatcherMiddlewareTest extends TestCase
         $harmony->addMiddleware(new ExceptionMiddleware("next"), "exception");
 
         $middleware = new DispatcherMiddleware();
-        $middleware($harmony->getRequest(), $harmony->getResponse(), $harmony);
+
+        $this->expectException(TestException::class);
+        $middleware->process($harmony->getRequest(), $harmony);
     }
 
     /**
      * @test
      */
-    public function invokeNextCallable()
+    public function exceptionWhenNoAction()
     {
         $middleware = new DispatcherMiddleware();
-        try {
-            $middleware(
-                new DummyServerRequest(),
-                new DummyResponse(),
-                function () {
-                }
-            );
-        } catch (Exception $e) {
-            return;
-        }
 
-        $this->fail();
+        $this->expectException(DispatcherException::class);
+        $middleware->process(
+            new DummyServerRequest(),
+            new class implements RequestHandlerInterface {
+                public function handle(ServerRequestInterface $request): ResponseInterface
+                {
+                    return new DummyResponse();
+                }
+            }
+        );
     }
 
     /**
      * @test
-     * @expectedException \WoohooLabs\Harmony\Tests\Utils\Exception\TestException
      */
     public function dispatchArrayCallable()
     {
@@ -85,17 +84,12 @@ class DispatcherMiddlewareTest extends TestCase
 
         $middleware = new DispatcherMiddleware();
 
-        $middleware(
-            $request,
-            new DummyResponse(),
-            function () {
-            }
-        );
+        $this->expectException(TestException::class);
+        $middleware->process($request, new Harmony($request, new DummyResponse()));
     }
 
     /**
      * @test
-     * @expectedException \WoohooLabs\Harmony\Tests\Utils\Exception\TestException
      */
     public function dispatchAnonymousFunction()
     {
@@ -107,17 +101,12 @@ class DispatcherMiddlewareTest extends TestCase
 
         $middleware = new DispatcherMiddleware();
 
-        $middleware(
-            $request,
-            new DummyResponse(),
-            function () {
-            }
-        );
+        $this->expectException(TestException::class);
+        $middleware->process($request, new Harmony($request, new DummyResponse()));
     }
 
     /**
      * @test
-     * @expectedException \WoohooLabs\Harmony\Tests\Utils\Exception\TestException
      */
     public function dispatchInvokableClass()
     {
@@ -126,12 +115,8 @@ class DispatcherMiddlewareTest extends TestCase
 
         $middleware = new DispatcherMiddleware();
 
-        $middleware(
-            $request,
-            new DummyResponse(),
-            function () {
-            }
-        );
+        $this->expectException(TestException::class);
+        $middleware->process($request, new Harmony($request, new DummyResponse()));
     }
 
     /**

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace WoohooLabs\Harmony\Tests\Container;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
 use Psr\Http\Message\ServerRequestInterface;
@@ -16,7 +17,7 @@ class HttpMethodConditionTest extends TestCase
      */
     public function evaluateTrue()
     {
-        /** @var ServerRequestInterface|PHPUnit_Framework_MockObject_MockObject $request */
+        /** @var ServerRequestInterface|MockObject $request */
         $request = $this->getMockBuilder(ServerRequestInterface::class)->getMock();
         $request->method("getMethod")->willReturn("POST");
 
@@ -30,7 +31,7 @@ class HttpMethodConditionTest extends TestCase
      */
     public function evaluateFalse()
     {
-        /** @var ServerRequestInterface|PHPUnit_Framework_MockObject_MockObject $request */
+        /** @var ServerRequestInterface|MockObject $request */
         $request = $this->getMockBuilder(ServerRequestInterface::class)->getMock();
         $request->method("getMethod")->willReturn("GET");
 

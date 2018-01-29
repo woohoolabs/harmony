@@ -8,11 +8,11 @@
 [![Total Downloads][ico-downloads]][link-downloads]
 [![Gitter][ico-gitter]][link-gitter]
 
-**Woohoo Labs. Harmony is a flexible middleware dispatcher developed for PHP applications.**
+**Woohoo Labs. Harmony is a PSR-15 compatible middleware dispatcher.**
 
 Our aim was to create an invisible and extremely flexible framework for your long-term, strategic applications.
-We wanted to give you total control via [PSR-7](http://www.php-fig.org/psr/psr-7/) and
-[PSR-11](http://www.php-fig.org/psr/psr-11/).
+That's why Harmony supports the [PSR-7](http://www.php-fig.org/psr/psr-7/),
+[PSR-11](http://www.php-fig.org/psr/psr-11/) and [PSR-15](http://www.php-fig.org/psr/psr-15/) standards.
 
 ## Table of Contents
 
@@ -33,11 +33,11 @@ We wanted to give you total control via [PSR-7](http://www.php-fig.org/psr/psr-7
 
 ### Rationale
 
-This blog post explains the idea best why Harmony was born: http://www.catonmat.net/blog/frameworks-dont-make-sense/ 
+This blog post explains the idea best why Harmony was born back in 2014: http://www.catonmat.net/blog/frameworks-dont-make-sense/ 
 
 ### Features
 
-- Extreme flexibility through middleware
+- Extreme flexibility through middleware via PSR-15
 - High performance due to a simple and clean design
 - Full control over HTTP messages via PSR-7
 - Support for many DI Containers via PSR-11 (formerly known as Container-Interop)
@@ -53,11 +53,11 @@ functionality?
 We believe Harmony offers two key features which justify its existence:
 
 - It is the most simple library of all. Although simplicity is subjective, one thing is certain: Harmony offers the
-bare minimum functionality of what a library like this would need. That's why Harmony itself fits into a single class of 200 lines.
+bare minimum functionality of what a library like this would need. That's why Harmony itself fits into a single class of ~140 lines.
 
-- As of version 3, Harmony natively supports the concept of [Conditions](#defining-conditions) which is a unique
+- As of version 3, Harmony natively supports the concept of [Conditions](#defining-conditions) which is a rare
 feature for middleware dispatchers. This eases dealing with a major weakness of the middleware-oriented approach,
-which is the ability to invoke middleware conditionally.
+namely, the ability to invoke middleware conditionally.
 
 ### Use cases
 
@@ -88,29 +88,14 @@ of the box.
 
 ### Middleware interface design
 
-Woohoo Labs. Harmony's middleware interface design is based on the "request, response, next" style advocated by such
-prominent developers as [Matthew Weier O'Phinney](https://mwop.net/) (you can read more on the topic
-[in his blog post](https://mwop.net/blog/2015-01-08-on-http-middleware-and-psr-7.html)). This style - often called
-"double pass" or "functional" style - is the current de-facto standard among PHP middleware dispatchers, and is also
-supported by major vendors like [Zend-Stratigility](https://github.com/zendframework/zend-stratigility/),
-[Slim Framework 3](http://www.slimframework.com/) and [Relay](http://relayphp.com/).
+Woohoo Labs. Harmony's middleware interface design is based on the the [PSR-15](http://www.php-fig.org/psr/psr-15/) de-facto
+standard.
 
-If you want to learn about the specifics of this style, please refer to the following introductions which describe the
+If you want to learn about the specifics of this style, please refer to the following article which describe the
 very concept:
 
-- [Middleware logic in Relay PHP](http://relayphp.com/#middleware-logic) 
-- [How does middleware work in Slim 3?](http://www.slimframework.com/docs/concepts/middleware.html#how-does-middleware-work)
-
-### Additional middleware
-
-Besides the built-in middleware and the ones for the compatible middleware dispatcher libraries, you can find various
-other third party middleware available for Harmony:
-
-- [Woohoo Labs. Yin-Middleware](https://github.com/woohoolabs/yin-middleware): A bunch of middleware to integrate
-[Woohoo Labs. Yin](https://github.com/woohoolabs/harmony) - the elegant JSON API framework - into Harmony.
-- [PSR-7 Middlewares](https://github.com/oscarotero/psr7-middlewares): A collection of PSR-7 middleware from Oscar Otero
-- [MiniUrl](https://github.com/mtymek/MiniUrl): A simple URL shortener, which can be used as a free, open-source
-replacement for bit.ly's core functionality: creating short links and redirecting users.
+- [PSR-15 Meta Document](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-15-request-handlers-meta.md) 
+- [PSR-15](https://mwop.net/blog/2018-01-23-psr-15.html) 
 
 ## Install
 
@@ -123,7 +108,7 @@ package), you must install one first. You may use [Zend Diactoros](https://githu
 any other library of your preference:
 
 ```bash
-$ composer require zendframework/zend-diactoros:^1.3.0
+$ composer require zendframework/zend-diactoros:^1.7.0
 ```
 
 ### Install Harmony:
@@ -134,7 +119,7 @@ To install the latest version of this library, run the command below:
 $ composer require woohoolabs/harmony
 ```
 
-Harmony 4.1+ requires PHP 7.1 at least, but you may use Harmony 4.0 for PHP 7.0 and Harmony 3.0.1 for PHP 5.5 and 5.6.
+Harmony currently requires PHP 7.1 at least, but you may use Harmony 4.0.0 for PHP 7.0 and Harmony 3.0.1 for PHP 5.5 and 5.6.
 
 ### Install the optional dependencies:
 
@@ -150,10 +135,9 @@ $ composer require nikic/fast-route:^1.0.0
 
 The following example applies only if you use the
 [default dispatcher middleware](https://github.com/woohoolabs/harmony/blob/master/src/Middleware/DispatcherMiddleware.php).
-There are two important things to note here: first, each endpoint receives a `Psr\Http\Message\ServerRequestInterface`
+There are two important things to note here: first, each dispatchable endpoint receives a `Psr\Http\Message\ServerRequestInterface`
 and a `Psr\Http\Message\ResponseInterface` object and they are expected to manipulate and return the latter. Secondly,
-you are not forced to only use classes for the endpoints, it is possible to define other callables too (see below in
-the routing section).
+you can not only use classes as endpoints, it is possible to define other callables too (see below in the routing section).
 
 ```php
 namespace App\Controllers;
@@ -241,7 +225,7 @@ implementations. When you'd like to go live, just call `$harmony()`!
 
 ### Using invokable controllers
 
-Most of the time, you will define your route handlers (~controller actions) as regular callables as was shown in the
+Most of the time, you will define your endpoints (~controller actions) as regular callables as was shown in the
 section about the default router:
 
 ```php
@@ -291,66 +275,88 @@ $harmony->addMiddleware(new DispatcherMiddleware($container));
 
 ### Creating custom middleware
 
-In order to avoid some initial confusion, please ensure that you know the basics and gotchas of the "request, response,
-next" middleware interface design before creating your first own middleware. You can have a look at
-[the section about this topic](#middleware-interface-design).
-
-It's not a big deal to add a new middleware to your stack. For a basic scenario, you can use anonymous functions. Let's
-say you would like to log all the requests:
+It's very easy to add a new middleware to your stack. For a basic scenario, you can use anonymous functions. Let's
+see an example:
 
 ```php
-$middleware = function (ServerRequestInterace $request, ResponseInterface $response, callable $next) use ($logger) {
-    // Perform logging before handling the request
-    $logger->logInfo("Request needs to be handled");
-    
-    // Invoking the remaining middleware
-    $response = $next();
-    
-    // Perform logging after the request has been handled
-    $logger->logInfo("Request was successfuly handled");
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+use Psr\Logger\LoggerInterface;
 
-    // Return to the previous middleware
-    return $response;
+class LoggerMiddleware implements MiddlewareInterface
+{
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+    
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    {
+        // Perform logging before handling the request
+        $logger->logInfo("Request needs to be handled");
+        
+        // Invoking the remaining middleware
+        $response = $handler->handle($request);
+        
+        // Perform logging after the request has been handled
+        $logger->logInfo("Request was successfuly handled");
+    
+        // Return the response
+        return $response;
+    }
 }
 ```
 
 And then you have to attach the middleware to Harmony:
 
 ```php
-$harmony->addMiddleware($middleware);
+$harmony->addMiddleware(new LoggerMiddleware(new Logger()));
 ```
 
-What to do if you want to pass a manipulated request or response to the next middleware? Then, you should call
-`$next($request, $response)`. This way, the following middleware will receive the modified request or response.
-Calling `$next(null, $response)` will pass the original request and the possibly changed response to the next
-middleware!
-
-If you need more sophistication, you can use a `Closure` as a middleware too. Let's create an authentication middleware
-to demonstrate this feature:
+What to do if you do not want to invoke the remaining middleware (possibly because of an error)? Then you can simply
+manipulate and return a response whose "prototype" was passed to the middleware in its constructor. You can see it
+in action in the following example:
 
 ```php
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-class AuthenticationMiddleware
+class AuthenticationMiddleware implements MiddlewareInterface
 {
     /**
      * @var string
      */
     protected $apiKey;
+    
+    /**
+     * @var ResponseInterface
+     */
+    protected $errorResponsePrototype;
 
-    public function __construct(string $apiKey)
+    public function __construct(string $apiKey, ResponseInterface $errorResponsePrototype)
     {
         $this->apiKey = $apiKey;
+        $this->errorResponsePrototype = $errorResponsePrototype;
     }
 
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next): ResponseInterface
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
+        // Return Error 401 "Unauthorized" if the provided API key doesn't match the needed one
         if ($request->getHeader("x-api-key") !== [$this->apiKey]) {
-            return $response->withStatusCode(401);
+            return $this->errorResponsePrototype->withStatusCode(401);
         }
         
-        return $next();
+        // Invoke the remaining middleware if authentication was successful
+        return $handler->handle($request);
     }
 }
 ```
@@ -361,19 +367,11 @@ Then
 $harmony->addMiddleware(new AuthenticationMiddleware("123"));
 ```
 
-As you can see, the constructor receives the API Key, while the `__invoke()` method is responsible for performing
-authentication.
-
-Instead of `callable`, you can also typehint the `$next` argument against `Harmony` according to
-[`HarmonyMiddlewareInterface`](https://github.com/woohoolabs/harmony/blob/master/src/Middleware/HarmonyMiddlewareInterface.php).
-By implementing this interface, you can use some specific features of Harmony (like `Harmony::getMiddleware()`) but lose
-the ability to reuse your middleware in other frameworks.
-
 ### Defining conditions
 
 Non-trivial applications often need some kind of branching during the execution of their middleware pipeline. A possible
 use-case is when they want to perform authentication only for some of their endpoints or when they want to check for a
-CSRF token if the request method is `POST`. With Harmony 2 branching was also easy to handle, but Harmony 3 helps you to
+CSRF token if the request method is `POST`. With Harmony 2 branching was also easy to handle, but Harmony 3+ helps you to
 optimize the performance of conditional logic in your middleware.
 
 Let's revisit our authentication middleware example from the last section! This time, we only want to authenticate
@@ -382,8 +380,10 @@ endpoints below the `/user` path. In Harmony 2, we had to achieve it with someth
 ```php
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-class AuthenticationMiddleware
+class AuthenticationMiddleware implements MiddlewareInterface
 {
     /**
      * @var string
@@ -394,28 +394,33 @@ class AuthenticationMiddleware
      * @var MyAuthenticatorInterface
      */
     protected $authenticator;
-
+    
+    /**
+     * @var ResponseInterface
      */
-    public function __construct(string $securedPath, MyAuthenticatorInterface $authenticator)
+    protected $errorResponsePrototype;
+
+    public function __construct(string $securedPath, MyAuthenticatorInterface $authenticator, ResponseInterface $errorResponsePrototype)
     {
         $this->securedPath = $securedPath;
         $this->authenticator = $authenticator;
+        $this->errorResponsePrototype = $errorResponsePrototype;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next): ResponseInterface
     {
-         // Invoke the next middleware and cancel authentication if the current URL is for a public endpoint
+        // Invoke the remaining middleware and cancel authentication if the current URL is for a public endpoint
         if (substr($request->getUri()->getPath(), 0, strlen($this->securedPath)) !== $this->securedPath) {
-            return $next();
+            return $handler->handle($request);
         }
     
-        // Return Error 401 if authentication fails
+        // Return Error 401 "Unauthorized" if authentication fails
         if ($this->authenticator->authenticate($request) === false) {
-            return $response->withStatusCode(401);
+            return $this->errorResponsePrototype->withStatusCode(401);
         }
         
-        // Invoke the next middleware otherwise
-        return $next();
+        // Invoke the remaining middleware otherwise
+        return $handler->handle($request);
     }
 }
 ```

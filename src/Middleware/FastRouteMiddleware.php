@@ -6,10 +6,12 @@ namespace WoohooLabs\Harmony\Middleware;
 use FastRoute\Dispatcher;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use WoohooLabs\Harmony\Exception\MethodNotAllowed;
 use WoohooLabs\Harmony\Exception\RouteNotFound;
 
-class FastRouteMiddleware
+class FastRouteMiddleware implements MiddlewareInterface
 {
     /**
      * @var Dispatcher
@@ -31,14 +33,11 @@ class FastRouteMiddleware
      * @throws MethodNotAllowed
      * @throws RouteNotFound
      */
-    public function __invoke(
-        ServerRequestInterface $request,
-        ResponseInterface $response,
-        callable $next
-    ): ResponseInterface {
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    {
         $request = $this->routeRequest($request);
 
-        return $next($request, $response);
+        return $handler->handle($request);
     }
 
     public function getFastRoute(): Dispatcher

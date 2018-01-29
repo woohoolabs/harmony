@@ -1,4 +1,4 @@
-## 4.2.0 - unreleased
+## 5.1.0 - unreleased
 
 ADDED:
 
@@ -7,6 +7,24 @@ CHANGED:
 REMOVED:
 
 FIXED:
+
+## 5.0.0 - unreleased
+
+ADDED:
+
+- Support for PSR-15 (**breaking change**)
+
+CHANGED:
+
+- Adapted the PSR-15 `MiddlewareInterface`
+- `Harmony::__invoke()` accepts no arguments
+- Condition callables receive the request (`ServerRequestInterface`) as a second parameter
+
+REMOVED:
+
+- `HarmonyMiddlewareInterface`
+- `Harmony::getResponse()`
+- `Harmony::removeMiddleware()`
 
 ## 4.1.1 - 2017-11-04
 

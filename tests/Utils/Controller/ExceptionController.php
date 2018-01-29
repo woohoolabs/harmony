@@ -10,7 +10,7 @@ use WoohooLabs\Harmony\Tests\Utils\Exception\TestException;
 class ExceptionController
 {
     /**
-     * @throws \WoohooLabs\Harmony\Tests\Utils\Exception\TestException
+     * @throws TestException
      */
     public function dummyAction(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {

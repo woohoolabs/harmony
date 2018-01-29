@@ -10,7 +10,6 @@ use WoohooLabs\Harmony\Tests\Utils\Middleware\ExceptionMiddleware;
 use WoohooLabs\Harmony\Tests\Utils\Middleware\FakeMiddleware;
 use WoohooLabs\Harmony\Tests\Utils\Middleware\HeaderMiddleware;
 use WoohooLabs\Harmony\Tests\Utils\Middleware\InternalServerErrorMiddleware;
-use WoohooLabs\Harmony\Tests\Utils\Middleware\ReturningMiddleware;
 use WoohooLabs\Harmony\Tests\Utils\Middleware\SpyMiddleware;
 use WoohooLabs\Harmony\Tests\Utils\Psr7\DummyResponse;
 use WoohooLabs\Harmony\Tests\Utils\Psr7\DummyServerRequest;
@@ -25,7 +24,6 @@ class HarmonyTest extends TestCase
         $harmony = $this->createHarmony();
 
         $this->assertInstanceOf(DummyServerRequest::class, $harmony->getRequest());
-        $this->assertInstanceOf(DummyResponse::class, $harmony->getResponse());
     }
 
     /**
@@ -36,11 +34,12 @@ class HarmonyTest extends TestCase
         $harmony = $this->createHarmony();
         $harmony->addMiddleware(new HeaderMiddleware("dummy", "dummy"));
         $harmony->addMiddleware(new FakeMiddleware());
-        $harmony->addMiddleware(new InternalServerErrorMiddleware());
-        $harmony();
+        $harmony->addMiddleware(new InternalServerErrorMiddleware(new DummyResponse()));
 
-        $this->assertEquals(["dummy"], $harmony->getResponse()->getHeader("dummy"));
-        $this->assertEquals(500, $harmony->getResponse()->getStatusCode());
+        $response = $harmony();
+
+        $this->assertEquals(["dummy"], $response->getHeader("dummy"));
+        $this->assertEquals(500, $response->getStatusCode());
     }
 
     /**
@@ -50,37 +49,12 @@ class HarmonyTest extends TestCase
     {
         $harmony = $this->createHarmony();
         $harmony->addMiddleware(new FakeMiddleware());
-        $harmony->addMiddleware(new InternalServerErrorMiddleware());
+        $harmony->addMiddleware(new InternalServerErrorMiddleware(new DummyResponse()));
         $harmony->addMiddleware(new ExceptionMiddleware());
-        $harmony();
 
-        $this->assertEquals(500, $harmony->getResponse()->getStatusCode());
-    }
+        $response = $harmony();
 
-    /**
-     * @test
-     * @expectedException \WoohooLabs\Harmony\Exception\MiddlewareWrongReturnType
-     */
-    public function nullMiddlewareReturnValue()
-    {
-        $harmony = $this->createHarmony();
-        $harmony->addMiddleware(new FakeMiddleware(""));
-        $harmony->addMiddleware(new ReturningMiddleware(null));
-        $harmony->addMiddleware(new FakeMiddleware(""));
-        $harmony();
-    }
-
-    /**
-     * @test
-     * @expectedException \WoohooLabs\Harmony\Exception\MiddlewareWrongReturnType
-     */
-    public function inappropriateMiddlewareReturnValue()
-    {
-        $harmony = $this->createHarmony();
-        $harmony->addMiddleware(new FakeMiddleware(""));
-        $harmony->addMiddleware(new ReturningMiddleware(new DummyServerRequest()));
-        $harmony->addMiddleware(new FakeMiddleware(""));
-        $harmony();
+        $this->assertEquals(500, $response->getStatusCode());
     }
 
     /**
@@ -90,7 +64,8 @@ class HarmonyTest extends TestCase
     {
         $harmony = $this->createHarmony();
         $request = new DummyServerRequest();
-        $harmony($request);
+
+        $harmony();
 
         $this->assertEquals($request, $harmony->getRequest());
     }
@@ -102,9 +77,10 @@ class HarmonyTest extends TestCase
     {
         $harmony = $this->createHarmony();
         $response = new DummyResponse();
-        $harmony(new DummyServerRequest(), $response);
 
-        $this->assertEquals($response, $harmony->getResponse());
+        $result = $harmony();
+
+        $this->assertEquals($response, $result);
     }
 
     /**
@@ -148,29 +124,6 @@ class HarmonyTest extends TestCase
     /**
      * @test
      */
-    public function removeMiddleware()
-    {
-        $harmony = $this->createHarmony();
-        $harmony->addMiddleware(new FakeMiddleware(), "dummy");
-
-        $harmony->removeMiddleware("dummy");
-        $this->assertNull($harmony->getMiddleware("dummy"));
-    }
-
-    /**
-     * @test
-     * @expectedException \WoohooLabs\Harmony\Exception\MiddlewareNotExists
-     */
-    public function removeNonExistentMiddleware()
-    {
-        $harmony = $this->createHarmony();
-
-        $harmony->removeMiddleware("dummy");
-    }
-
-    /**
-     * @test
-     */
     public function invokeMiddlewareConditionally()
     {
         $middleware = new SpyMiddleware();
@@ -201,6 +154,7 @@ class HarmonyTest extends TestCase
                 $harmony->addMiddleware($middleware);
             }
         );
+
         $harmony();
 
         $this->assertFalse($middleware->isInvoked());

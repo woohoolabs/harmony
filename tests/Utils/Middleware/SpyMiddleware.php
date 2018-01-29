@@ -5,8 +5,10 @@ namespace WoohooLabs\Harmony\Tests\Utils\Middleware;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-class SpyMiddleware
+class SpyMiddleware implements MiddlewareInterface
 {
     /**
      * @var bool
@@ -23,13 +25,10 @@ class SpyMiddleware
         return $this->invoked;
     }
 
-    public function __invoke(
-        ServerRequestInterface $request,
-        ResponseInterface $response,
-        callable $next
-    ): ResponseInterface {
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    {
         $this->invoked = true;
 
-        return $next();
+        return $handler->handle($request);
     }
 }

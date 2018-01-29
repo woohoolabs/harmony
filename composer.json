@@ -17,7 +17,9 @@
     "require": {
         "php": "^7.1.0",
         "psr/container": "^1.0.0",
-        "psr/http-message-implementation": "^1.0.0"
+        "psr/http-message-implementation": "^1.0.0",
+        "psr/http-server-handler": "^1.0.0",
+        "psr/http-server-middleware": "^1.0.0"
     },
     "require-dev": {
         "nikic/fast-route": "^1.0.0",
@@ -29,7 +31,8 @@
         "nikic/fast-route": "Allows to use the default router"
     },
     "provide": {
-        "psr/container-implementation": "^1.0"
+        "psr/container-implementation": "^1.0",
+        "psr/http-server-handler": "^1.0"
     },
     "autoload": {
         "psr-4": {

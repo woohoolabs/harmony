@@ -5,10 +5,12 @@ namespace WoohooLabs\Harmony\Middleware;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Zend\Diactoros\Response\EmitterInterface;
 use Zend\Diactoros\Response\SapiEmitter;
 
-class DiactorosResponderMiddleware
+class DiactorosResponderMiddleware implements MiddlewareInterface
 {
     /**
      * @var EmitterInterface
@@ -26,12 +28,9 @@ class DiactorosResponderMiddleware
         $this->checkOutputStart = $checkOutputStart;
     }
 
-    public function __invoke(
-        ServerRequestInterface $request,
-        ResponseInterface $response,
-        callable $next
-    ): ResponseInterface {
-        $response = $next($request, $response);
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    {
+        $response = $handler->handle($request);
 
         if ($this->checkOutputStart === false || headers_sent() === false) {
             $this->emitter->emit($response);
