@@ -23,9 +23,9 @@ CHANGED:
 
 REMOVED:
 
-- `HarmonyMiddlewareInterface`
-- `Harmony::getResponse()`
-- `Harmony::removeMiddleware()`
+- `HarmonyMiddlewareInterface`  (**breaking change**)
+- `Harmony::getResponse()`  (**breaking change**)
+- `Harmony::removeMiddleware()`  (**breaking change**)
 
 ## 4.1.1 - 2017-11-04
 
