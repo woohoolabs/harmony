@@ -2,7 +2,7 @@
     "name": "woohoolabs/harmony",
     "description": "Woohoo Labs. Harmony",
     "type": "library",
-    "keywords": ["Woohoo Labs.", "Harmony", "Framework", "Middleware Dispatcher", "PSR-7", "PSR-11"],
+    "keywords": ["Woohoo Labs.", "Harmony", "Framework", "Middleware Dispatcher", "PSR-7", "PSR-11", "PSR-15"],
     "license": "MIT",
     "authors": [
         {
