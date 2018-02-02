@@ -23,7 +23,7 @@
     },
     "require-dev": {
         "nikic/fast-route": "^1.0.0",
-        "phpunit/phpunit": "^6.0.0",
+        "phpunit/phpunit": "^7.0.0",
         "squizlabs/php_codesniffer": "^2.8.0",
         "zendframework/zend-diactoros": "^1.3.0"
     },

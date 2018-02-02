@@ -92,7 +92,7 @@ which is supported by various containers out of the box.
 Woohoo Labs. Harmony's middleware interface design is based on the the
 [PSR-15](https://www.php-fig.org/psr/psr-15/) de-facto standard.
 
-If you want to learn about the specifics of this style, please refer to the following article which describe the
+If you want to learn about the specifics of this style, please refer to the following articles which describe the
 very concept:
 
 - [PSR-15 Meta Document](https://www.php-fig.org/psr/psr-15/meta/) 
