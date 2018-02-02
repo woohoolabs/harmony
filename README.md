@@ -11,9 +11,9 @@
 **Woohoo Labs. Harmony is a PSR-15 compatible middleware dispatcher.**
 
 Our aim was to create an invisible and extremely flexible framework for your long-term, strategic applications.
-That's why Harmony supports the [PSR-7](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-7-http-message.md),
-[PSR-11](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-11-container.md) and
-[PSR-15](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-15-request-handlers.md) standards.
+That's why Harmony supports the [PSR-7](https://www.php-fig.org/psr/psr-7/),
+[PSR-11](https://www.php-fig.org/psr/psr-11/) and
+[PSR-15](https://www.php-fig.org/psr/psr-15/) standards.
 
 ## Table of Contents
 
@@ -82,20 +82,20 @@ can be configured. What you do with Harmony depends only on your imagination and
 But middleware must work in cooperation (the router and the dispatcher are particularly tightly coupled to each other).
 That's why it is also important to provide common interfaces for the distinct components of the framework.
 
-Naturally, we decided to use [PSR-7](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-7-http-message.md)
+Naturally, we decided to use [PSR-7](https://www.php-fig.org/psr/psr-7/)
 for modelling the HTTP request and response. In order to facilitate the usage of different DI Containers, we adapted
-[PSR-11 (former Container-Interop)](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-11-container.md)
+[PSR-11 (former Container-Interop)](https://www.php-fig.org/psr/psr-11/)
 which is supported by various containers out of the box.
 
 ### Middleware interface design
 
 Woohoo Labs. Harmony's middleware interface design is based on the the
-[PSR-15](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-15-request-handlers.md) de-facto standard.
+[PSR-15](https://www.php-fig.org/psr/psr-15/) de-facto standard.
 
 If you want to learn about the specifics of this style, please refer to the following article which describe the
 very concept:
 
-- [PSR-15 Meta Document](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-15-request-handlers-meta.md) 
+- [PSR-15 Meta Document](https://www.php-fig.org/psr/psr-15/meta/) 
 - [PSR-15](https://mwop.net/blog/2018-01-23-psr-15.html) 
 
 ## Install
@@ -258,8 +258,7 @@ pattern, you can find an insightful description in [Paul M. Jones' blog post](ht
 The motivation of creating Woohoo Labs. Harmony was to become able to change every single aspect of the framework.
 That's why you can use any DI Container you want.
 
-For this purpose, we chose to build upon
-[PSR-11](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-11-container.md) - the most widespread common
+For this purpose, we chose to build upon [PSR-11](https://www.php-fig.org/psr/psr-11/) - the most widespread common
 interface for DI Containers - in the built-in `DispatcherMiddleware`.
 
 It's also important to know that the `DispatcherMiddleware` uses the `BasicContainer` by default. It's nothing more
