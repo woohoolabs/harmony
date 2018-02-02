@@ -436,7 +436,7 @@ You only had to check the current URI inside the middleware and the problem was 
 that `AuthenticationMiddleware` and all its dependencies are instantiated for each request even though authentication
 is not needed at all! This can be a major inconvenience if you depend on a big object graph.
 
-In Harmony 3, however, you are able to use conditions in order to optimize the number of objects created. In this case
+In Harmony 3+, however, you are able to use conditions in order to optimize the number of objects created. In this case
 you can utilize the built-in `PathPrefixCondition`. You only have to attach it to Harmony:
 
 ```php

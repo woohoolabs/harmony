@@ -8,7 +8,7 @@ REMOVED:
 
 FIXED:
 
-## 5.0.0 - unreleased
+## 5.0.0 - 2018-02-02
 
 ADDED:
 
@@ -19,6 +19,7 @@ CHANGED:
 - Adapted the PSR-15 `MiddlewareInterface`
 - `Harmony::__invoke()` accepts no arguments
 - Condition callables receive the request (`ServerRequestInterface`) as a second parameter
+- PHPUnit 7 is minimally required to run tests
 
 REMOVED:
 
