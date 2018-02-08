@@ -12,12 +12,12 @@ FIXED:
 
 ADDED:
 
-- Support for PSR-15 (**breaking change**)
+- Support for PSR-15
 
 CHANGED:
 
-- Adapted the PSR-15 `MiddlewareInterface`
-- `Harmony::__invoke()` accepts no arguments
+- Adapted the PSR-15 `MiddlewareInterface` (**breaking change**)
+- `Harmony::__invoke()` accepts no arguments (**breaking change**)
 - Condition callables receive the request (`ServerRequestInterface`) as a second parameter
 - PHPUnit 7 is minimally required to run tests
 
