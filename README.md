@@ -137,8 +137,8 @@ $ composer require nikic/fast-route:^1.0.0
 The following example applies only if you use the
 [default dispatcher middleware](https://github.com/woohoolabs/harmony/blob/master/src/Middleware/DispatcherMiddleware.php).
 There are two important things to note here: first, each dispatchable endpoint receives a `Psr\Http\Message\ServerRequestInterface`
-and a `Psr\Http\Message\ResponseInterface` object as parameters and they are expected to manipulate and return the latter. Secondly,
-you can not only use classes as endpoints, it is possible to define other callables too (see below in the routing section).
+and a `Psr\Http\Message\ResponseInterface` object as parameter and the latter is expected to be manipulated and returned. Secondly,
+you can not only use class methods as endpoints, it is possible to define other callables too (see below in the routing section).
 
 ```php
 namespace App\Controllers;
@@ -376,7 +376,7 @@ CSRF token if the request method is `POST`. With Harmony 2 branching was also ea
 optimize the performance of conditional logic in your middleware.
 
 Let's revisit our authentication middleware example from the last section! This time, we only want to authenticate
-endpoints below the `/user` path. In Harmony 2, we had to achieve it with something like this:
+endpoints below the `/users` path. In Harmony 2, we had to achieve it with something like this:
 
 ```php
 use Psr\Http\Message\ServerRequestInterface;
@@ -429,7 +429,7 @@ class AuthenticationMiddleware implements MiddlewareInterface
 And finally attach the middleware to Harmony:
 
 ```php
-$harmony->addMiddleware(new AuthenticationMiddleware("/user", new ApiKeyAuthenticator("123")));
+$harmony->addMiddleware(new AuthenticationMiddleware("/users", new ApiKeyAuthenticator("123")));
 ```
 
 You only had to check the current URI inside the middleware and the problem was solved. The downside of doing this is
@@ -443,7 +443,7 @@ you can utilize the built-in `PathPrefixCondition`. You only have to attach it t
 $harmony->addCondition(
     new PathPrefixCondition(["/users"]),
     function (Harmony $harmony) {
-        $harmony->addMiddleware(new AuthenticationMiddleware("/user", new ApiKeyAuthenticator("123")));
+        $harmony->addMiddleware(new AuthenticationMiddleware(new ApiKeyAuthenticator("123")));
     }
 );
 ```
