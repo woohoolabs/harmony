@@ -188,7 +188,7 @@ $router = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     
     $r->addRoute("GET", "/users", [\App\Controllers\UserController::class, "getUsers"]);
     $r->addRoute("POST", "/users/{id}", [\App\Controllers\UserController::class, "updateUser"]);
-};
+});
 ```
 
 ### Finally, launch the app:
