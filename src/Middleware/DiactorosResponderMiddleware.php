@@ -10,6 +10,9 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Zend\Diactoros\Response\EmitterInterface;
 use Zend\Diactoros\Response\SapiEmitter;
 
+/**
+ * @deprecated since 5.1.0. Use HttpHandlerRunnerMiddleware along with the zendframework/zend-httphandlerrunner package
+ */
 class DiactorosResponderMiddleware implements MiddlewareInterface
 {
     /**
