@@ -130,7 +130,8 @@ Harmony 5 requires PHP 7.1 at least, but you may use Harmony 4.0.0 for PHP 7.0.
 If you want to use the default middleware stack then you have to require the following dependency too:
 
 ```bash
-$ composer require nikic/fast-route:^1.0.0
+$ composer require nikic/fast-route:^1.0.0 # FastRouteMiddleware needs it
+$ composer require zendframework/zend-httphandlerrunner:^1.0.0 # HttpHandlerRunnerMiddleware needs it
 ```
 
 ## Basic Usage
@@ -200,14 +201,14 @@ $router = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
 use WoohooLabs\Harmony\Harmony;
 use WoohooLabs\Harmony\Middleware\FastRouteMiddleware;
 use WoohooLabs\Harmony\Middleware\DispatcherMiddleware;
-use WoohooLabs\Harmony\Middleware\DiactorosResponderMiddleware;
+use WoohooLabs\Harmony\Middleware\HttpHandlerRunnerMiddleware;
 use Zend\Diactoros\ServerRequestFactory;
 use Zend\Diactoros\Response;
-use Zend\Diactoros\Response\SapiEmitter;
+use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
 
 $harmony = new Harmony(ServerRequestFactory::fromGlobals(), new Response());
 $harmony
-    ->addMiddleware(new DiactorosResponderMiddleware(new SapiEmitter()))
+    ->addMiddleware(new HttpHandlerRunnerMiddleware(new SapiEmitter()))
     ->addMiddleware(new FastRouteMiddleware($router))
     ->addMiddleware(new DispatcherMiddleware());
 
@@ -215,7 +216,7 @@ $harmony();
 ```
 
 You have to register all the prior middleware in order for the framework to function properly:
-- `DiactorosResponderMiddleware` sends the response to the ether via [Zend Diactoros](https://github.com/zendframework/zend-diactoros)
+- `HttpHandlerRunnerMiddleware` sends the response to the ether via [zend-httphandlerrunner](https://github.com/zendframework/zend-httphandlerrunner)
 - `FastRouteMiddleware` takes care of routing (`$router`  was configured in the previous step)
 - `DispatcherMiddleware` dispatches a controller which belongs to the request's current route
 

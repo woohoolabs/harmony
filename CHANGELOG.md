@@ -2,7 +2,12 @@
 
 ADDED:
 
+- `HttpHandlerRunnerMiddleware` in order to be able to easily use Zend's Http Handler Runner package
+
 CHANGED:
+
+- Deprecated `DiactorosResponderMiddleware` because the default HTTP response emitters were deprecated as of Diactoros v1.8.0.
+You can use `HttpHandlerRunnerMiddleware` instead.
 
 REMOVED:
 
