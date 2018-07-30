@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace WoohooLabs\Harmony\Tests\Utils\Diactoros;
+namespace WoohooLabs\Harmony\Tests\Utils\Emitter;
 
 use Psr\Http\Message\ResponseInterface;
 use Zend\Diactoros\Response\EmitterInterface;
 
-class DummyEmitter implements EmitterInterface
+class DummyDiactorosEmitter implements EmitterInterface
 {
     /**
      * Emit a response.

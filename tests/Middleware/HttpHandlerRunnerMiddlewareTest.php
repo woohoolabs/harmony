@@ -5,21 +5,21 @@ namespace WoohooLabs\Harmony\Tests\Middleware;
 
 use PHPUnit\Framework\TestCase;
 use WoohooLabs\Harmony\Harmony;
-use WoohooLabs\Harmony\Middleware\DiactorosResponderMiddleware;
-use WoohooLabs\Harmony\Tests\Utils\Emitter\DummyDiactorosEmitter;
+use WoohooLabs\Harmony\Middleware\HttpHandlerRunnerMiddleware;
+use WoohooLabs\Harmony\Tests\Utils\Emitter\DummyHttpHandlerRunnerEmitter;
 use WoohooLabs\Harmony\Tests\Utils\Psr7\DummyResponse;
 use WoohooLabs\Harmony\Tests\Utils\Psr7\DummyServerRequest;
 
-class DiactorosResponderMiddlewareTest extends TestCase
+class HttpHandlerRunnerMiddlewareTest extends TestCase
 {
     /**
      * @test
      */
     public function construct()
     {
-        $middleware = new DiactorosResponderMiddleware(new DummyDiactorosEmitter());
+        $middleware = new HttpHandlerRunnerMiddleware(new DummyHttpHandlerRunnerEmitter());
 
-        $this->assertEquals(DummyDiactorosEmitter::class, get_class($middleware->getEmitter()));
+        $this->assertEquals(DummyHttpHandlerRunnerEmitter::class, get_class($middleware->getEmitter()));
     }
 
     /**
@@ -27,10 +27,10 @@ class DiactorosResponderMiddlewareTest extends TestCase
      */
     public function setEmitter()
     {
-        $middleware = new DiactorosResponderMiddleware(null);
-        $middleware->setEmitter(new DummyDiactorosEmitter());
+        $middleware = new HttpHandlerRunnerMiddleware(null);
+        $middleware->setEmitter(new DummyHttpHandlerRunnerEmitter());
 
-        $this->assertEquals(DummyDiactorosEmitter::class, get_class($middleware->getEmitter()));
+        $this->assertEquals(DummyHttpHandlerRunnerEmitter::class, get_class($middleware->getEmitter()));
     }
 
     /**
@@ -39,7 +39,7 @@ class DiactorosResponderMiddlewareTest extends TestCase
     public function invoke()
     {
         $harmony = $this->createHarmony();
-        $middleware = new DiactorosResponderMiddleware(new DummyDiactorosEmitter());
+        $middleware = new HttpHandlerRunnerMiddleware(new DummyHttpHandlerRunnerEmitter());
 
         $this->expectOutputString("true");
         $middleware->process($harmony->getRequest(), $harmony);
@@ -50,7 +50,7 @@ class DiactorosResponderMiddlewareTest extends TestCase
      */
     public function isOutputStartChecked()
     {
-        $middleware = new DiactorosResponderMiddleware(null, true);
+        $middleware = new HttpHandlerRunnerMiddleware(null, true);
         $this->assertTrue($middleware->isOutputStartChecked());
     }
 
@@ -59,7 +59,7 @@ class DiactorosResponderMiddlewareTest extends TestCase
      */
     public function setCheckOutputStart()
     {
-        $middleware = new DiactorosResponderMiddleware(null, true);
+        $middleware = new HttpHandlerRunnerMiddleware(null, true);
         $middleware->setCheckOutputStart(false);
         $this->assertFalse($middleware->isOutputStartChecked());
     }
