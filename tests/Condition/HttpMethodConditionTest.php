@@ -5,7 +5,6 @@ namespace WoohooLabs\Harmony\Tests\Container;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_MockObject_MockObject;
 use Psr\Http\Message\ServerRequestInterface;
 use WoohooLabs\Harmony\Condition\HttpMethodCondition;
 use WoohooLabs\Harmony\Tests\Utils\Psr7\DummyResponse;

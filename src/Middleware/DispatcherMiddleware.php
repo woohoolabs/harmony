@@ -23,7 +23,7 @@ class DispatcherMiddleware implements MiddlewareInterface
      */
     protected $actionAttributeName;
 
-    public function __construct(ContainerInterface $container = null, string $actionAttributeName = "__action")
+    public function __construct(?ContainerInterface $container = null, string $actionAttributeName = "__action")
     {
         $this->container = $container ?? new BasicContainer();
         $this->actionAttributeName = $actionAttributeName;

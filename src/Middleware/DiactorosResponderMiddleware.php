@@ -22,7 +22,7 @@ class DiactorosResponderMiddleware implements MiddlewareInterface
      */
     protected $checkOutputStart;
 
-    public function __construct(EmitterInterface $emitter = null, bool $checkOutputStart = false)
+    public function __construct(?EmitterInterface $emitter = null, bool $checkOutputStart = false)
     {
         $this->emitter = $emitter ?? new SapiEmitter();
         $this->checkOutputStart = $checkOutputStart;
