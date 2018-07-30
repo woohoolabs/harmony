@@ -1,4 +1,14 @@
-## 5.1.0 - unreleased
+## 5.1.0 - 2018-07-30
+
+ADDED:
+
+CHANGED:
+
+REMOVED:
+
+FIXED:
+
+## 5.1.0 - 2018-07-30
 
 ADDED:
 
@@ -8,10 +18,6 @@ CHANGED:
 
 - Deprecated `DiactorosResponderMiddleware` because the default HTTP response emitters were deprecated as of Diactoros v1.8.0.
 You can use `HttpHandlerRunnerMiddleware` instead.
-
-REMOVED:
-
-FIXED:
 
 ## 5.0.0 - 2018-02-02
 
