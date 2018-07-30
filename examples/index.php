@@ -8,12 +8,12 @@ use Psr\Http\Message\ServerRequestInterface;
 use WoohooLabs\Harmony\Examples\Controller\GetBookAction;
 use WoohooLabs\Harmony\Examples\Controller\UserController;
 use WoohooLabs\Harmony\Harmony;
-use WoohooLabs\Harmony\Middleware\DiactorosResponderMiddleware;
 use WoohooLabs\Harmony\Middleware\DispatcherMiddleware;
 use WoohooLabs\Harmony\Middleware\FastRouteMiddleware;
+use WoohooLabs\Harmony\Middleware\HttpHandlerRunnerMiddleware;
 use Zend\Diactoros\Response;
-use Zend\Diactoros\Response\SapiEmitter;
 use Zend\Diactoros\ServerRequestFactory;
+use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
 
 // Initializing the request and the response objects
 $request = ServerRequestFactory::fromGlobals();
@@ -34,7 +34,7 @@ $router = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
 // Stacking up middleware
 $harmony = new Harmony(ServerRequestFactory::fromGlobals(), new Response());
 $harmony
-    ->addMiddleware(new DiactorosResponderMiddleware(new SapiEmitter()))
+    ->addMiddleware(new HttpHandlerRunnerMiddleware(new SapiEmitter()))
     ->addMiddleware(new FastRouteMiddleware($router))
     ->addMiddleware(new DispatcherMiddleware());
 
