@@ -29,7 +29,8 @@
         "zendframework/zend-httphandlerrunner": "^1.0.0"
     },
     "suggest": {
-        "nikic/fast-route": "Allows to use the default router"
+        "nikic/fast-route": "Allows to use the default router middleware",
+        "zendframework/zend-httphandlerrunner": "Allows to use the default HTTP response emitter middleware"
     },
     "provide": {
         "psr/container-implementation": "^1.0",
