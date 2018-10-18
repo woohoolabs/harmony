@@ -1,10 +1,16 @@
-## 5.2.0 - unreleased
+## 6.0.0 - unreleased
 
 ADDED:
 
+- Support for Zend Diactoros 2.0
+
 CHANGED:
 
+- Run tests on PHP 7.3
+
 REMOVED:
+
+- `DiactorosResponderMiddleware` as it has been deprecated since Harmony 5.1.0 (**breaking change**)
 
 FIXED:
 
@@ -34,9 +40,9 @@ CHANGED:
 
 REMOVED:
 
-- `HarmonyMiddlewareInterface`  (**breaking change**)
-- `Harmony::getResponse()`  (**breaking change**)
-- `Harmony::removeMiddleware()`  (**breaking change**)
+- `HarmonyMiddlewareInterface` (**breaking change**)
+- `Harmony::getResponse()` (**breaking change**)
+- `Harmony::removeMiddleware()` (**breaking change**)
 
 ## 4.1.1 - 2017-11-04
 
