@@ -1,3 +1,13 @@
+## 6.1.0 - unreleased
+
+ADDED:
+
+CHANGED:
+
+REMOVED:
+
+FIXED:
+
 ## 6.0.0 - 2018-10-18
 
 ADDED:
@@ -11,8 +21,6 @@ CHANGED:
 REMOVED:
 
 - `DiactorosResponderMiddleware` as it has been deprecated since Harmony 5.1.0 (**breaking change**)
-
-FIXED:
 
 ## 5.1.0 - 2018-07-30
 
