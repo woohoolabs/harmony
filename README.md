@@ -47,7 +47,7 @@ This blog post explains the idea best why Harmony was born back in 2014: http://
 
 There are a lot of very similar middleware dispatcher libraries out there, like
 [Zend-Stratigility](https://github.com/zendframework/zend-stratigility/),
-[Slim Framework 3](http://www.slimframework.com/docs/concepts/middleware.html) or
+[Slim Framework 3](https://www.slimframework.com/docs/concepts/middleware.html) or
 [Relay](http://relayphp.com/). You might ask yourself, what is the purpose of yet another library with the same
 functionality?
 
@@ -100,7 +100,7 @@ very concept:
 
 ## Install
 
-The only thing you need before getting started is [Composer](http://getcomposer.org).
+The only thing you need before getting started is [Composer](https://getcomposer.org).
 
 ### Install a PSR-7 implementation:
 
@@ -178,7 +178,7 @@ The following example applies only if you use the
 [default router middleware](https://github.com/woohoolabs/harmony/blob/master/src/Middleware/FastRouteMiddleware.php)
 which is based on [FastRoute](https://github.com/nikic/FastRoute), the library of Nikita Popov. We chose to use it by
 default because of its performance and simplicity. You can read more about it
-[in Nikita's blog](http://nikic.github.io/2014/02/18/Fast-request-routing-using-regular-expressions.html).
+[in Nikita's blog](https://nikic.github.io/2014/02/18/Fast-request-routing-using-regular-expressions.html).
 
 Let's add the routes for the aforementioned endpoints to FastRoute:
 
@@ -475,7 +475,7 @@ it out!
 
 ## Versioning
 
-This library follows [SemVer v2.0.0](http://semver.org/).
+This library follows [SemVer v2.0.0](https://semver.org/).
 
 ## Change Log
 
