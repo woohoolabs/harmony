@@ -483,14 +483,13 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 
 ## Testing
 
-Harmony has a PHPUnit test suite. To run the tests, run the following command from the project folder
-after you have copied phpunit.xml.dist to phpunit.xml:
+Harmony has a PHPUnit test suite. To run the tests, run the following command from the project folder:
 
 ``` bash
 $ phpunit
 ```
 
-Additionally, you may run `docker-compose up` to execute the tests.
+Additionally, you may run `docker-compose up` or `make test` to execute the tests.
 
 ## Contributing
 

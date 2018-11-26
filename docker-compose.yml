@@ -1,7 +1,7 @@
 version: '2'
 
 services:
-    php:
+    harmony-php:
         container_name: harmony-php
         image: php:7.1-cli
         volumes:
