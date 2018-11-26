@@ -17,17 +17,12 @@ class ExactPathConditionTest extends TestCase
      */
     public function evaluateToTrue()
     {
-        /** @var UriInterface|MockObject $uri */
-        $uri = $this->getMockBuilder(UriInterface::class)->getMock();
-        $uri->method("getPath")->willReturn("/api");
-
-        /** @var ServerRequestInterface|MockObject $request */
-        $request = $this->getMockBuilder(ServerRequestInterface::class)->getMock();
-        $request->method("getUri")->willReturn($uri);
-
+        $request = $this->createRequestWithPath("/api");
         $condition = new ExactPathCondition(["/api"]);
 
-        $this->assertTrue($condition->evaluate($request, new DummyResponse()));
+        $result = $condition->evaluate($request, new DummyResponse());
+
+        $this->assertTrue($result);
     }
 
     /**
@@ -35,16 +30,24 @@ class ExactPathConditionTest extends TestCase
      */
     public function evaluateToFalse()
     {
+        $request = $this->createRequestWithPath("/api");
+        $condition = new ExactPathCondition(["/not-api"]);
+
+        $result = $condition->evaluate($request, new DummyResponse());
+
+        $this->assertFalse($result);
+    }
+
+    private function createRequestWithPath(string $path): ServerRequestInterface
+    {
         /** @var UriInterface|MockObject $uri */
         $uri = $this->getMockBuilder(UriInterface::class)->getMock();
-        $uri->method("getPath")->willReturn("/api");
+        $uri->method("getPath")->willReturn($path);
 
         /** @var ServerRequestInterface|MockObject $request */
         $request = $this->getMockBuilder(ServerRequestInterface::class)->getMock();
         $request->method("getUri")->willReturn($uri);
 
-        $condition = new ExactPathCondition(["/not-api"]);
-
-        $this->assertFalse($condition->evaluate($request, new DummyResponse()));
+        return $request;
     }
 }

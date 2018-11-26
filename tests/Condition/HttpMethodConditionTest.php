@@ -16,13 +16,12 @@ class HttpMethodConditionTest extends TestCase
      */
     public function evaluateTrue()
     {
-        /** @var ServerRequestInterface|MockObject $request */
-        $request = $this->getMockBuilder(ServerRequestInterface::class)->getMock();
-        $request->method("getMethod")->willReturn("POST");
-
+        $request = $this->createRequestWithMethod("POST");
         $condition = new HttpMethodCondition(["POST"]);
 
-        $this->assertTrue($condition->evaluate($request, new DummyResponse()));
+        $result = $condition->evaluate($request, new DummyResponse());
+
+        $this->assertTrue($result);
     }
 
     /**
@@ -30,12 +29,20 @@ class HttpMethodConditionTest extends TestCase
      */
     public function evaluateFalse()
     {
-        /** @var ServerRequestInterface|MockObject $request */
-        $request = $this->getMockBuilder(ServerRequestInterface::class)->getMock();
-        $request->method("getMethod")->willReturn("GET");
-
+        $request = $this->createRequestWithMethod("GET");
         $condition = new HttpMethodCondition(["POST"]);
 
-        $this->assertFalse($condition->evaluate($request, new DummyResponse()));
+        $result = $condition->evaluate($request, new DummyResponse());
+
+        $this->assertFalse($result);
+    }
+
+    private function createRequestWithMethod(string $method): ServerRequestInterface
+    {
+        /** @var ServerRequestInterface|MockObject $request */
+        $request = $this->getMockBuilder(ServerRequestInterface::class)->getMock();
+        $request->method("getMethod")->willReturn($method);
+
+        return $request;
     }
 }

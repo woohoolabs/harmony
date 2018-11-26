@@ -25,13 +25,13 @@ class DispatcherMiddlewareTest extends TestCase
      */
     public function returnResponse()
     {
-        $harmony = $this->createHarmony(
+        $harmony = $this->createHarmonyWithAction(
             function (ServerRequestInterface $request, ResponseInterface $response) {
                 return $response->withStatus(404);
             }
         );
-
         $middleware = new DispatcherMiddleware();
+
         $response = $middleware->process($harmony->getRequest(), $harmony);
 
         $this->assertEquals(404, $response->getStatusCode());
@@ -42,16 +42,16 @@ class DispatcherMiddlewareTest extends TestCase
      */
     public function callNextMiddleware()
     {
-        $harmony = $this->createHarmony(
+        $harmony = $this->createHarmonyWithAction(
             function (ServerRequestInterface $request, ResponseInterface $response) {
                 return $response;
             }
         );
         $harmony->addMiddleware(new ExceptionMiddleware("next"), "exception");
-
         $middleware = new DispatcherMiddleware();
 
         $this->expectException(TestException::class);
+
         $middleware->process($harmony->getRequest(), $harmony);
     }
 
@@ -63,6 +63,7 @@ class DispatcherMiddlewareTest extends TestCase
         $middleware = new DispatcherMiddleware();
 
         $this->expectException(DispatcherException::class);
+
         $middleware->process(
             new DummyServerRequest(),
             new class implements RequestHandlerInterface {
@@ -81,10 +82,10 @@ class DispatcherMiddlewareTest extends TestCase
     {
         $request = new DummyServerRequest();
         $request = $request->withAttribute("__action", [ExceptionController::class, "dummyAction"]);
-
         $middleware = new DispatcherMiddleware();
 
         $this->expectException(TestException::class);
+
         $middleware->process($request, new Harmony($request, new DummyResponse()));
     }
 
@@ -98,10 +99,10 @@ class DispatcherMiddlewareTest extends TestCase
             throw new TestException();
         };
         $request = $request->withAttribute("__action", $callable);
-
         $middleware = new DispatcherMiddleware();
 
         $this->expectException(TestException::class);
+
         $middleware->process($request, new Harmony($request, new DummyResponse()));
     }
 
@@ -112,10 +113,10 @@ class DispatcherMiddlewareTest extends TestCase
     {
         $request = new DummyServerRequest();
         $request = $request->withAttribute("__action", InvokableExceptionController::class);
-
         $middleware = new DispatcherMiddleware();
 
         $this->expectException(TestException::class);
+
         $middleware->process($request, new Harmony($request, new DummyResponse()));
     }
 
@@ -125,7 +126,10 @@ class DispatcherMiddlewareTest extends TestCase
     public function getContainer()
     {
         $middleware = new DispatcherMiddleware(new BasicContainer());
-        $this->assertInstanceOf(BasicContainer::class, $middleware->getContainer());
+
+        $container = $middleware->getContainer();
+
+        $this->assertInstanceOf(BasicContainer::class, $container);
     }
 
     /**
@@ -134,7 +138,9 @@ class DispatcherMiddlewareTest extends TestCase
     public function setContainer()
     {
         $middleware = new DispatcherMiddleware();
+
         $middleware->setContainer(new BasicContainer());
+
         $this->assertInstanceOf(BasicContainer::class, $middleware->getContainer());
     }
 
@@ -144,8 +150,10 @@ class DispatcherMiddlewareTest extends TestCase
     public function getDefaultHandlerAttribute()
     {
         $middleware = new DispatcherMiddleware();
-        $middleware->setContainer(new BasicContainer());
-        $this->assertEquals("__action", $middleware->getActionAttributeName());
+
+        $attributeName = $middleware->getActionAttributeName();
+
+        $this->assertEquals("__action", $attributeName);
     }
 
     /**
@@ -154,14 +162,16 @@ class DispatcherMiddlewareTest extends TestCase
     public function getHandlerAttribute()
     {
         $middleware = new DispatcherMiddleware();
+
         $middleware->setActionAttributeName("action");
+
         $this->assertEquals("action", $middleware->getActionAttributeName());
     }
 
     /**
      * @param mixed $callable
      */
-    protected function createHarmony($callable, string $attributeName = "__action"): Harmony
+    protected function createHarmonyWithAction($callable, string $attributeName = "__action"): Harmony
     {
         $request = new DummyServerRequest();
         $request = $request->withAttribute($attributeName, $callable);

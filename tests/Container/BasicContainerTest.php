@@ -5,6 +5,7 @@ namespace WoohooLabs\Harmony\Tests\Container;
 
 use PHPUnit\Framework\TestCase;
 use WoohooLabs\Harmony\Container\BasicContainer;
+use WoohooLabs\Harmony\Container\BasicContainerNotFoundException;
 use WoohooLabs\Harmony\Tests\Utils\Controller\DummyController;
 
 class BasicContainerTest extends TestCase
@@ -16,8 +17,11 @@ class BasicContainerTest extends TestCase
     {
         $container = new BasicContainer();
 
-        $this->assertEquals(true, $container->has(DummyController::class));
-        $this->assertInstanceOf(DummyController::class, $container->get(DummyController::class));
+        $hasController = $container->has(DummyController::class);
+        $getController = $container->get(DummyController::class);
+
+        $this->assertTrue($hasController);
+        $this->assertInstanceOf(DummyController::class, $getController);
     }
 
     /**
@@ -27,17 +31,20 @@ class BasicContainerTest extends TestCase
     {
         $container = new BasicContainer();
 
-        $this->assertEquals(false, $container->has("FooBarClass"));
+        $hasItem = $container->has("FooBarClass");
+
+        $this->assertFalse($hasItem);
     }
 
     /**
      * @test
-     * @expectedException \WoohooLabs\Harmony\Container\BasicContainerNotFoundException
      */
     public function getNotExistingClass()
     {
         $container = new BasicContainer();
 
-        $this->assertEquals(false, $container->get("FooBarClass"));
+        $this->expectException(BasicContainerNotFoundException::class);
+
+        $this->assertFalse($container->get("FooBarClass"));
     }
 }

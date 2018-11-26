@@ -5,7 +5,6 @@ namespace WoohooLabs\Harmony\Tests\Container;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_MockObject_MockObject;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
 use WoohooLabs\Harmony\Condition\PathPrefixCondition;
@@ -18,17 +17,12 @@ class PathPrefixConditionTest extends TestCase
      */
     public function evaluateExactPathToTrue()
     {
-        /** @var UriInterface|MockObject $uri */
-        $uri = $this->getMockBuilder(UriInterface::class)->getMock();
-        $uri->method("getPath")->willReturn("/api");
-
-        /** @var ServerRequestInterface|MockObject $request */
-        $request = $this->getMockBuilder(ServerRequestInterface::class)->getMock();
-        $request->method("getUri")->willReturn($uri);
-
+        $request = $this->createRequestWithPath("/api");
         $condition = new PathPrefixCondition(["/api"]);
 
-        $this->assertTrue($condition->evaluate($request, new DummyResponse()));
+        $result = $condition->evaluate($request, new DummyResponse());
+
+        $this->assertTrue($result);
     }
 
     /**
@@ -36,17 +30,12 @@ class PathPrefixConditionTest extends TestCase
      */
     public function evaluateSubPathToTrue()
     {
-        /** @var UriInterface|MockObject $uri */
-        $uri = $this->getMockBuilder(UriInterface::class)->getMock();
-        $uri->method("getPath")->willReturn("/api/users");
-
-        /** @var ServerRequestInterface|PHPUnit_Framework_MockObject_MockObject $request */
-        $request = $this->getMockBuilder(ServerRequestInterface::class)->getMock();
-        $request->method("getUri")->willReturn($uri);
-
+        $request = $this->createRequestWithPath("/api/users");
         $condition = new PathPrefixCondition(["/api"]);
 
-        $this->assertTrue($condition->evaluate($request, new DummyResponse()));
+        $result = $condition->evaluate($request, new DummyResponse());
+
+        $this->assertTrue($result);
     }
 
     /**
@@ -54,16 +43,24 @@ class PathPrefixConditionTest extends TestCase
      */
     public function evaluateDifferentPathToFalse()
     {
-        /** @var UriInterface|PHPUnit_Framework_MockObject_MockObject $uri */
-        $uri = $this->getMockBuilder(UriInterface::class)->getMock();
-        $uri->method("getPath")->willReturn("/app");
+        $request = $this->createRequestWithPath("/app");
+        $condition = new PathPrefixCondition(["/api"]);
 
-        /** @var ServerRequestInterface|PHPUnit_Framework_MockObject_MockObject $request */
+        $result = $condition->evaluate($request, new DummyResponse());
+
+        $this->assertFalse($result);
+    }
+
+    private function createRequestWithPath(string $path): ServerRequestInterface
+    {
+        /** @var UriInterface|MockObject $uri */
+        $uri = $this->getMockBuilder(UriInterface::class)->getMock();
+        $uri->method("getPath")->willReturn($path);
+
+        /** @var ServerRequestInterface|MockObject $request */
         $request = $this->getMockBuilder(ServerRequestInterface::class)->getMock();
         $request->method("getUri")->willReturn($uri);
 
-        $condition = new PathPrefixCondition(["/api"]);
-
-        $this->assertFalse($condition->evaluate($request, new DummyResponse()));
+        return $request;
     }
 }

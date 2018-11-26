@@ -9,17 +9,33 @@ use WoohooLabs\Harmony\Middleware\HttpHandlerRunnerMiddleware;
 use WoohooLabs\Harmony\Tests\Utils\Emitter\DummyHttpHandlerRunnerEmitter;
 use WoohooLabs\Harmony\Tests\Utils\Psr7\DummyResponse;
 use WoohooLabs\Harmony\Tests\Utils\Psr7\DummyServerRequest;
+use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
 
 class HttpHandlerRunnerMiddlewareTest extends TestCase
 {
     /**
      * @test
      */
-    public function construct()
+    public function constructWithCustomEmitter()
     {
-        $middleware = new HttpHandlerRunnerMiddleware(new DummyHttpHandlerRunnerEmitter());
+        $emitter = new DummyHttpHandlerRunnerEmitter();
+        $middleware = new HttpHandlerRunnerMiddleware($emitter);
 
-        $this->assertEquals(DummyHttpHandlerRunnerEmitter::class, get_class($middleware->getEmitter()));
+        $returnedEmitter = $middleware->getEmitter();
+
+        $this->assertEquals($emitter, $returnedEmitter);
+    }
+
+    /**
+     * @test
+     */
+    public function constructWithDefaultEmitter()
+    {
+        $middleware = new HttpHandlerRunnerMiddleware();
+
+        $returnedEmitter = $middleware->getEmitter();
+
+        $this->assertInstanceOf(SapiEmitter::class, $returnedEmitter);
     }
 
     /**
@@ -27,10 +43,11 @@ class HttpHandlerRunnerMiddlewareTest extends TestCase
      */
     public function setEmitter()
     {
-        $middleware = new HttpHandlerRunnerMiddleware(null);
+        $middleware = new HttpHandlerRunnerMiddleware();
+
         $middleware->setEmitter(new DummyHttpHandlerRunnerEmitter());
 
-        $this->assertEquals(DummyHttpHandlerRunnerEmitter::class, get_class($middleware->getEmitter()));
+        $this->assertInstanceOf(DummyHttpHandlerRunnerEmitter::class, $middleware->getEmitter());
     }
 
     /**
@@ -42,6 +59,7 @@ class HttpHandlerRunnerMiddlewareTest extends TestCase
         $middleware = new HttpHandlerRunnerMiddleware(new DummyHttpHandlerRunnerEmitter());
 
         $this->expectOutputString("true");
+
         $middleware->process($harmony->getRequest(), $harmony);
     }
 
@@ -51,7 +69,10 @@ class HttpHandlerRunnerMiddlewareTest extends TestCase
     public function isOutputStartChecked()
     {
         $middleware = new HttpHandlerRunnerMiddleware(null, true);
-        $this->assertTrue($middleware->isOutputStartChecked());
+
+        $isOutputStarted = $middleware->isOutputStartChecked();
+
+        $this->assertTrue($isOutputStarted);
     }
 
     /**
@@ -60,7 +81,9 @@ class HttpHandlerRunnerMiddlewareTest extends TestCase
     public function setCheckOutputStart()
     {
         $middleware = new HttpHandlerRunnerMiddleware(null, true);
+
         $middleware->setCheckOutputStart(false);
+
         $this->assertFalse($middleware->isOutputStartChecked());
     }
 

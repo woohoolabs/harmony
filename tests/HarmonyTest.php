@@ -19,11 +19,13 @@ class HarmonyTest extends TestCase
     /**
      * @test
      */
-    public function construct()
+    public function construc()
     {
         $harmony = $this->createHarmony();
 
-        $this->assertInstanceOf(DummyServerRequest::class, $harmony->getRequest());
+        $request = $harmony->getRequest();
+
+        $this->assertInstanceOf(DummyServerRequest::class, $request);
     }
 
     /**
@@ -93,9 +95,13 @@ class HarmonyTest extends TestCase
         $harmony->addMiddleware(new FakeMiddleware("dummy2"), "dummy2");
         $harmony->addMiddleware(new FakeMiddleware("dummy3"), "dummy3");
 
-        $this->assertInstanceOf(FakeMiddleware::class, $harmony->getMiddleware("dummy1"));
-        $this->assertInstanceOf(FakeMiddleware::class, $harmony->getMiddleware("dummy2"));
-        $this->assertInstanceOf(FakeMiddleware::class, $harmony->getMiddleware("dummy3"));
+        $middleware1 = $harmony->getMiddleware("dummy1");
+        $middleware2 = $harmony->getMiddleware("dummy2");
+        $middleware3 = $harmony->getMiddleware("dummy3");
+
+        $this->assertInstanceOf(FakeMiddleware::class, $middleware1);
+        $this->assertInstanceOf(FakeMiddleware::class, $middleware2);
+        $this->assertInstanceOf(FakeMiddleware::class, $middleware3);
     }
 
     /**
@@ -105,7 +111,9 @@ class HarmonyTest extends TestCase
     {
         $harmony = $this->createHarmony();
 
-        $this->assertNull($harmony->getMiddleware("dummy"));
+        $middleware = $harmony->getMiddleware("dummy");
+
+        $this->assertNull($middleware);
     }
 
     /**
@@ -114,11 +122,12 @@ class HarmonyTest extends TestCase
     public function getExistentMiddleware()
     {
         $middleware = new FakeMiddleware();
-
         $harmony = $this->createHarmony();
         $harmony->addMiddleware($middleware, "dummy");
 
-        $this->assertEquals($middleware, $harmony->getMiddleware("dummy"));
+        $returnedMiddleware = $harmony->getMiddleware("dummy");
+
+        $this->assertEquals($middleware, $returnedMiddleware);
     }
 
     /**
@@ -127,7 +136,6 @@ class HarmonyTest extends TestCase
     public function invokeMiddlewareConditionally()
     {
         $middleware = new SpyMiddleware();
-
         $harmony = $this->createHarmony();
         $harmony->addCondition(
             new StubCondition(true),
@@ -135,6 +143,7 @@ class HarmonyTest extends TestCase
                 $harmony->addMiddleware($middleware);
             }
         );
+
         $harmony();
 
         $this->assertTrue($middleware->isInvoked());
@@ -146,7 +155,6 @@ class HarmonyTest extends TestCase
     public function doNotInvokeMiddlewareWhenConditionIsFalse()
     {
         $middleware = new SpyMiddleware();
-
         $harmony = $this->createHarmony();
         $harmony->addCondition(
             new StubCondition(false),
@@ -160,7 +168,7 @@ class HarmonyTest extends TestCase
         $this->assertFalse($middleware->isInvoked());
     }
 
-    protected function createHarmony()
+    protected function createHarmony(): Harmony
     {
         return new Harmony(new DummyServerRequest(), new DummyResponse());
     }
