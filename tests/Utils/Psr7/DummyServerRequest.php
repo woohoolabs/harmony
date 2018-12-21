@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace WoohooLabs\Harmony\Tests\Utils\Psr7;
 
+use InvalidArgumentException;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriInterface;
@@ -137,7 +138,7 @@ class DummyServerRequest implements ServerRequestInterface
      * @param string $name Case-insensitive header field name.
      * @param string|string[] $value Header value(s).
      * @return self
-     * @throws \InvalidArgumentException for invalid header names or values.
+     * @throws InvalidArgumentException for invalid header names or values.
      */
     public function withHeader($name, $value)
     {
@@ -157,7 +158,7 @@ class DummyServerRequest implements ServerRequestInterface
      * @param string $name Case-insensitive header field name to add.
      * @param string|string[] $value Header value(s).
      * @return self
-     * @throws \InvalidArgumentException for invalid header names or values.
+     * @throws InvalidArgumentException for invalid header names or values.
      */
     public function withAddedHeader($name, $value)
     {
@@ -199,7 +200,7 @@ class DummyServerRequest implements ServerRequestInterface
      *
      * @param StreamInterface $body Body.
      * @return self
-     * @throws \InvalidArgumentException When the body is not valid.
+     * @throws InvalidArgumentException When the body is not valid.
      */
     public function withBody(StreamInterface $body)
     {
@@ -269,7 +270,7 @@ class DummyServerRequest implements ServerRequestInterface
      *
      * @param string $method Case-sensitive method.
      * @return self
-     * @throws \InvalidArgumentException for invalid HTTP methods.
+     * @throws InvalidArgumentException for invalid HTTP methods.
      */
     public function withMethod($method)
     {
@@ -438,7 +439,7 @@ class DummyServerRequest implements ServerRequestInterface
      *
      * @param array An array tree of UploadedFileInterface instances.
      * @return self
-     * @throws \InvalidArgumentException if an invalid structure is provided.
+     * @throws InvalidArgumentException if an invalid structure is provided.
      */
     public function withUploadedFiles(array $uploadedFiles)
     {
@@ -456,7 +457,7 @@ class DummyServerRequest implements ServerRequestInterface
      * potential types MUST be arrays or objects only. A null value indicates
      * the absence of body content.
      *
-     * @return null|array|object The deserialized body parameters, if any.
+     * @return array|object|null The deserialized body parameters, if any.
      *     These will typically be an array or object.
      */
     public function getParsedBody()
@@ -485,10 +486,10 @@ class DummyServerRequest implements ServerRequestInterface
      * immutability of the message, and MUST return an instance that has the
      * updated body parameters.
      *
-     * @param null|array|object $data The deserialized body data. This will
+     * @param array|object|null $data The deserialized body data. This will
      *     typically be in an array or object.
      * @return self
-     * @throws \InvalidArgumentException if an unsupported argument type is
+     * @throws InvalidArgumentException if an unsupported argument type is
      *     provided.
      */
     public function withParsedBody($data)
@@ -528,7 +529,7 @@ class DummyServerRequest implements ServerRequestInterface
      */
     public function getAttribute($name, $default = null)
     {
-        return isset($this->attributes[$name]) ? $this->attributes[$name] : $default;
+        return $this->attributes[$name] ?? $default;
     }
 
     /**

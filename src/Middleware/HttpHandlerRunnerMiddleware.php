@@ -9,6 +9,7 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Zend\HttpHandlerRunner\Emitter\EmitterInterface;
 use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
+use function headers_sent;
 
 class HttpHandlerRunnerMiddleware implements MiddlewareInterface
 {
@@ -27,6 +28,7 @@ class HttpHandlerRunnerMiddleware implements MiddlewareInterface
         $this->emitter = $emitter ?? new SapiEmitter();
         $this->checkOutputStart = $checkOutputStart;
     }
+
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $response = $handler->handle($request);
@@ -36,6 +38,7 @@ class HttpHandlerRunnerMiddleware implements MiddlewareInterface
 
         return $response;
     }
+
     public function getEmitter(): EmitterInterface
     {
         return $this->emitter;

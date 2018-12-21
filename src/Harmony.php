@@ -82,7 +82,7 @@ class Harmony implements RequestHandlerInterface
     {
         $this->middleware[] = [
             "id" => $id,
-            "middleware" => $middleware
+            "middleware" => $middleware,
         ];
 
         return $this;
@@ -92,7 +92,7 @@ class Harmony implements RequestHandlerInterface
     {
         $this->middleware[] = [
             "condition" => $condition,
-            "middleware" => $callableOnSuccess
+            "middleware" => $callableOnSuccess,
         ];
 
         return $this;

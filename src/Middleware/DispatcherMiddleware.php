@@ -10,6 +10,9 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use WoohooLabs\Harmony\Container\BasicContainer;
 use WoohooLabs\Harmony\Exception\DispatcherException;
+use function is_array;
+use function is_callable;
+use function is_string;
 
 class DispatcherMiddleware implements MiddlewareInterface
 {

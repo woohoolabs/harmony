@@ -3,8 +3,10 @@ declare(strict_types=1);
 
 namespace WoohooLabs\Harmony\Tests\Utils\Psr7;
 
+use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
+use function is_array;
 
 class DummyResponse implements ResponseInterface
 {
@@ -110,7 +112,7 @@ class DummyResponse implements ResponseInterface
      */
     public function getHeader($name)
     {
-        return isset($this->headers[$name]) ? $this->headers[$name] : [];
+        return $this->headers[$name] ?? [];
     }
 
     /**
@@ -149,7 +151,7 @@ class DummyResponse implements ResponseInterface
      * @param string $name Case-insensitive header field name.
      * @param string|string[] $value Header value(s).
      * @return self
-     * @throws \InvalidArgumentException for invalid header names or values.
+     * @throws InvalidArgumentException for invalid header names or values.
      */
     public function withHeader($name, $value)
     {
@@ -173,7 +175,7 @@ class DummyResponse implements ResponseInterface
      * @param string $name Case-insensitive header field name to add.
      * @param string|string[] $value Header value(s).
      * @return self
-     * @throws \InvalidArgumentException for invalid header names or values.
+     * @throws InvalidArgumentException for invalid header names or values.
      */
     public function withAddedHeader($name, $value)
     {
@@ -215,7 +217,7 @@ class DummyResponse implements ResponseInterface
      *
      * @param StreamInterface $body Body.
      * @return self
-     * @throws \InvalidArgumentException When the body is not valid.
+     * @throws InvalidArgumentException When the body is not valid.
      */
     public function withBody(StreamInterface $body)
     {
@@ -252,7 +254,7 @@ class DummyResponse implements ResponseInterface
      *     provided status code; if none is provided, implementations MAY
      *     use the defaults as suggested in the HTTP specification.
      * @return self
-     * @throws \InvalidArgumentException For invalid status code arguments.
+     * @throws InvalidArgumentException For invalid status code arguments.
      */
     public function withStatus($code, $reasonPhrase = '')
     {

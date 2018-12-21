@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace WoohooLabs\Harmony\Tests\Utils\Controller;
 
 use Psr\Http\Message\ResponseInterface;

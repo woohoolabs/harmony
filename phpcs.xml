@@ -1,22 +1,21 @@
 <?xml version="1.0"?>
-<ruleset name="Woohoo Labs. Coding Standard">
-    <description>Woohoo Labs. Coding Standard</description>
+<ruleset name="Harmony" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="vendor/squizlabs/php_codesniffer/phpcs.xsd">
+    <description>PHP Coding Standards for Harmony</description>
 
-    <!-- Options -->
-    <arg value="p"/>
-    <arg name="colors"/>
+    <arg name="basepath" value="."/>
+    <arg name="cache" value=".phpcs-cache"/>
+    <arg name="colors" />
+    <arg name="encoding" value="UTF-8"/>
+    <arg name="extensions" value="php"/>
+    <arg name="parallel" value="80"/>
+    <arg name="report" value="code"/>
+    <arg name="report-width" value="160"/>
 
-    <!-- Rules -->
-    <rule ref="PSR12"/>
-    <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
-    <rule ref="Generic.Files.LineLength">
-        <properties>
-            <property name="lineLimit" value="150"/>
-            <property name="absoluteLineLimit" value="160"/>
-        </properties>
-    </rule>
+    <!-- Show progress of the run -->
+    <arg value="nps"/>
 
-    <!-- Paths -->
-    <file>src</file>
-    <file>tests</file>
+    <file>src/</file>
+    <file>tests/</file>
+
+    <rule ref="WoohooLabs"/>
 </ruleset>

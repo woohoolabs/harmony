@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace WoohooLabs\Harmony\Tests\Utils\Psr7;
 
+use InvalidArgumentException;
 use Psr\Http\Message\UriInterface;
 
 class DummyUri implements UriInterface
@@ -94,7 +95,7 @@ class DummyUri implements UriInterface
      * If no port is present, but a scheme is present, this method MAY return
      * the standard port for that scheme, but SHOULD return null.
      *
-     * @return null|int The URI port.
+     * @return int|null The URI port.
      */
     public function getPort()
     {
@@ -187,7 +188,7 @@ class DummyUri implements UriInterface
      *
      * @param string $scheme The scheme to use with the new instance.
      * @return self A new instance with the specified scheme.
-     * @throws \InvalidArgumentException for invalid or unsupported schemes.
+     * @throws InvalidArgumentException for invalid or unsupported schemes.
      */
     public function withScheme($scheme)
     {
@@ -204,7 +205,7 @@ class DummyUri implements UriInterface
      * information.
      *
      * @param string $user The user name to use for authority.
-     * @param null|string $password The password associated with $user.
+     * @param string|null $password The password associated with $user.
      * @return self A new instance with the specified user information.
      */
     public function withUserInfo($user, $password = null)
@@ -221,7 +222,7 @@ class DummyUri implements UriInterface
      *
      * @param string $host The hostname to use with the new instance.
      * @return self A new instance with the specified host.
-     * @throws \InvalidArgumentException for invalid hostnames.
+     * @throws InvalidArgumentException for invalid hostnames.
      */
     public function withHost($host)
     {
@@ -239,10 +240,10 @@ class DummyUri implements UriInterface
      * A null value provided for the port is equivalent to removing the port
      * information.
      *
-     * @param null|int $port The port to use with the new instance; a null value
+     * @param int|null $port The port to use with the new instance; a null value
      *     removes the port information.
      * @return self A new instance with the specified port.
-     * @throws \InvalidArgumentException for invalid ports.
+     * @throws InvalidArgumentException for invalid ports.
      */
     public function withPort($port)
     {
@@ -268,7 +269,7 @@ class DummyUri implements UriInterface
      *
      * @param string $path The path to use with the new instance.
      * @return self A new instance with the specified path.
-     * @throws \InvalidArgumentException for invalid paths.
+     * @throws InvalidArgumentException for invalid paths.
      */
     public function withPath($path)
     {
@@ -287,7 +288,7 @@ class DummyUri implements UriInterface
      *
      * @param string $query The query string to use with the new instance.
      * @return self A new instance with the specified query string.
-     * @throws \InvalidArgumentException for invalid query strings.
+     * @throws InvalidArgumentException for invalid query strings.
      */
     public function withQuery($query)
     {

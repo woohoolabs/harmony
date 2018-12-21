@@ -5,6 +5,7 @@ namespace WoohooLabs\Harmony\Condition;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use function in_array;
 
 class ExactPathCondition implements ConditionInterface
 {
