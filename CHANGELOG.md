@@ -8,6 +8,12 @@ REMOVED:
 
 FIXED:
 
+## 6.0.1 - 2018-12-21
+
+CHANGED:
+
+- Apply the Woohoo Labs. Coding Standard
+
 ## 6.0.0 - 2018-10-18
 
 ADDED:
