@@ -10,7 +10,9 @@ class UserController
 {
     public function getUser(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $response->getBody()->write("This is a user with ID '" . $request->getAttribute("id") . "'!");
+        $userId = $request->getAttribute("id");
+
+        $response->getBody()->write("This is a user with ID '$userId'.");
 
         return $response;
     }

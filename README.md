@@ -10,7 +10,7 @@
 
 **Woohoo Labs. Harmony is a PSR-15 compatible middleware dispatcher.**
 
-Our aim was to create an invisible and extremely flexible framework for your long-term, strategic applications.
+Our aim was to create an invisible and flexible framework for your long-term, strategic applications.
 That's why Harmony supports the [PSR-7](https://www.php-fig.org/psr/psr-7/),
 [PSR-11](https://www.php-fig.org/psr/psr-11/) and
 [PSR-15](https://www.php-fig.org/psr/psr-15/) standards.
@@ -76,7 +76,7 @@ interfaces, making it possible to rely on loosely coupled components.
 By using middleware, you can easily take hands on the course of action of the request-response lifecycle: you can
 authenticate before routing, do some logging after the response has been sent, or you can even dispatch multiple
 routes in one request. This all can be achieved because everything in Harmony is a middleware, so the framework
-itself only consists of cc. 200 lines of code. This is why there is no framework-wide configuration, only middleware
+itself only consists of cc. 140 lines of code. This is why there is no framework-wide configuration, only middleware
 can be configured. What you do with Harmony depends only on your imagination and needs.
 
 But middleware must work in cooperation (the router and the dispatcher are particularly tightly coupled to each other).
@@ -355,7 +355,7 @@ class AuthenticationMiddleware implements MiddlewareInterface
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        // Return Error 401 "Unauthorized" if the provided API key doesn't match the needed one
+        // Return Error 401 "Unauthorized" if the provided API key doesn't match the expected one
         if ($request->getHeader("x-api-key") !== [$this->apiKey]) {
             return $this->errorResponsePrototype->withStatusCode(401);
         }
@@ -369,7 +369,7 @@ class AuthenticationMiddleware implements MiddlewareInterface
 Then 
 
 ```php
-$harmony->addMiddleware(new AuthenticationMiddleware("123"));
+$harmony->addMiddleware(new AuthenticationMiddleware("123"), new Response());
 ```
 
 ### Defining conditions
@@ -433,14 +433,14 @@ class AuthenticationMiddleware implements MiddlewareInterface
 And finally attach the middleware to Harmony:
 
 ```php
-$harmony->addMiddleware(new AuthenticationMiddleware("/users", new ApiKeyAuthenticator("123")));
+$harmony->addMiddleware(new AuthenticationMiddleware("/users", new ApiKeyAuthenticator("123"), new Response()));
 ```
 
-You only had to check the current URI inside the middleware and the problem was solved. The downside of doing this is
+You had to check the current URI inside the middleware and the problem was solved. The downside of doing this is
 that `AuthenticationMiddleware` and all its dependencies are instantiated for each request even though authentication
 is not needed at all! This can be a major inconvenience if you depend on a big object graph.
 
-In Harmony 3+, however, you are able to use conditions in order to optimize the number of objects created. In this case
+In Harmony 3+, however, you are able to use conditions in order to optimize the number of invoked middleware. In this case
 you can utilize the built-in `PathPrefixCondition`. You only have to attach it to Harmony:
 
 ```php
@@ -456,7 +456,7 @@ This way, `AuthenticationMiddleware` will only be instantiated when `PathPrefixC
 (when the current URI path starts with `/users`). Furthermore, you are able to attach more middleware to Harmony in
 the anonymous function. They will be executed together, as if they were part of a containing middleware.
 
-Here is a complete list of the built-in conditions:
+Here is the complete list of the built-in conditions:
 
 - [`ExactPathCondition`](https://github.com/woohoolabs/harmony/blob/master/src/Condition/ExactPathCondition.php):
 Evaluates to true if the current URI path exactly matches any of the allowed paths.

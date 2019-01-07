@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-include_once "../vendor/autoload.php";
+require_once "../vendor/autoload.php";
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -15,14 +15,10 @@ use Zend\Diactoros\Response;
 use Zend\Diactoros\ServerRequestFactory;
 use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
 
-// Initializing the request and the response objects
-$request = ServerRequestFactory::fromGlobals();
-$response = new Response();
-
 // Initializing the router
 $router = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
     $r->addRoute("GET", "/me", function (ServerRequestInterface $request, ResponseInterface $response) {
-        $response->getBody()->write("I am me!");
+        $response->getBody()->write("Hello, World!");
 
         return $response;
     });
@@ -31,8 +27,10 @@ $router = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
     $r->addRoute("GET", "/books/{id}", GetBookAction::class);
 });
 
-// Stacking up middleware
+// Instantiating the framework
 $harmony = new Harmony(ServerRequestFactory::fromGlobals(), new Response());
+
+// Stacking up middleware
 $harmony
     ->addMiddleware(new HttpHandlerRunnerMiddleware(new SapiEmitter()))
     ->addMiddleware(new FastRouteMiddleware($router))

@@ -10,7 +10,9 @@ class GetBookAction
 {
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $response->getBody()->write("This is a book with ID '" . $request->getAttribute("id") . "'");
+        $bookId = $request->getAttribute("id");
+
+        $response->getBody()->write("This is a book with ID '$bookId'.");
 
         return $response;
     }
