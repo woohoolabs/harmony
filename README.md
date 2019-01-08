@@ -224,7 +224,7 @@ Note that there is a second optional argument of `Harmony::addMiddleware()` with
 middleware (doing so is necessary if you want to call `Harmony::getMiddleware()` somewhere in your code).
 
 Of course, it is completely up to you how you add additional middleware or how you replace them with your own
-implementations. When you'd like to go live, just call `$harmony()`!
+implementations. When you'd like to go live, call `$harmony()`!
 
 ## Advanced Usage
 
@@ -471,7 +471,7 @@ Evaluates to true if the current HTTP method matches any of the allowed HTTP met
 
 If you want to see a really basic application structure in action, have a look at the
 [examples](https://github.com/woohoolabs/yin/tree/master/examples). If `docker-compose` and `make` is available on your system,
-then just run the following commands in order to try out the example app:
+then run the following commands in order to try out the example app:
 
 ```bash
 cp .env.dist .env      # You can now edit the settings in the .env file
@@ -479,7 +479,7 @@ make composer-install  # Install the Composer dependencies
 make up                # Start the webserver
 ```
 
-If you don't have `make`, then you can just copy the underlying commands, and directly use them in your terminal. 
+> If you don't have `make`, you can copy the underlying commands, and directly use them in your terminal. 
 
 Finally, the example app is available at `localhost:8080`. 
 
@@ -487,8 +487,8 @@ Finally, the example app is available at `localhost:8080`.
 
 Example URIs:
 - `GET /books/1`
-- `GET /users/1
-- `GET /me
+- `GET /users/1`
+- `GET /me`
 
 When you finished your work, simply stop the webserver:
 
