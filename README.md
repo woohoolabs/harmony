@@ -274,7 +274,7 @@ $harmony->addMiddleware(new DispatcherMiddleware($container));
 
 ### Creating custom middleware
 
-It's very easy to add a new middleware to your stack. For a basic scenario, you can use anonymous functions. Let's
+New middleware also has to implement the [PSR-15](https://www.php-fig.org/psr/psr-15/) `MiddlewareInterface`. Let's
 see an example:
 
 ```php
@@ -313,14 +313,14 @@ class LoggerMiddleware implements MiddlewareInterface
 }
 ```
 
-And then you have to attach the middleware to Harmony:
+And when you are ready, attach it to Harmony:
 
 ```php
 $harmony->addMiddleware(new LoggerMiddleware(new Logger()));
 ```
 
 What to do if you do not want to invoke the remaining middleware (possibly because of an error)? Then you can simply
-manipulate and return a response whose "prototype" was passed to the middleware in its constructor. You can see it
+manipulate and return a response whose "prototype" was passed to the middleware in its constructor. You can see this
 in action in the following example:
 
 ```php
