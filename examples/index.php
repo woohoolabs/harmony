@@ -7,6 +7,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use WoohooLabs\Harmony\Examples\Controller\GetBookAction;
 use WoohooLabs\Harmony\Examples\Controller\UserController;
+use WoohooLabs\Harmony\Examples\Middleware\ExceptionHandlerMiddleware;
 use WoohooLabs\Harmony\Harmony;
 use WoohooLabs\Harmony\Middleware\DispatcherMiddleware;
 use WoohooLabs\Harmony\Middleware\FastRouteMiddleware;
@@ -27,12 +28,17 @@ $router = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
     $r->addRoute("GET", "/books/{id}", GetBookAction::class);
 });
 
+// Removing argv and argc because they cause problems in ServerRequestFactory::fromGlobals()
+$server = $_SERVER;
+unset($server["argv"], $server["argc"]);
+
 // Instantiating the framework
-$harmony = new Harmony(ServerRequestFactory::fromGlobals(), new Response());
+$harmony = new Harmony(ServerRequestFactory::fromGlobals($server), new Response());
 
 // Stacking up middleware
 $harmony
     ->addMiddleware(new HttpHandlerRunnerMiddleware(new SapiEmitter()))
+    ->addMiddleware(new ExceptionHandlerMiddleware(new Response()))
     ->addMiddleware(new FastRouteMiddleware($router))
     ->addMiddleware(new DispatcherMiddleware());
 

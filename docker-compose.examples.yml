@@ -1,0 +1,28 @@
+version: '2'
+
+services:
+    harmony-examples-nginx:
+        image: nginx:1.15-alpine
+        container_name: harmony-examples-nginx
+        networks:
+        - harmony-examples
+        volumes:
+        - .:/var/www/
+        ports:
+        - "$HOST_WEB_PORT:80"
+        command: /var/www/build/nginx.sh
+        env_file:
+        - .env
+        depends_on:
+        - harmony-examples-php-fpm
+
+    harmony-examples-php-fpm:
+        container_name: harmony-examples-php-fpm
+        image: php:7.1-fpm
+        networks:
+        - harmony-examples
+        volumes:
+            - .:/var/www/
+
+networks:
+    harmony-examples:

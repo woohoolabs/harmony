@@ -184,12 +184,6 @@ Let's add the routes for the aforementioned endpoints to FastRoute:
 
 ```php
 $router = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
-    $r->addRoute("GET", "/me", function (ServerRequestInterface $request, ResponseInterface $response) {
-        $response->getBody()->write("Welcome to the real world!");
-        
-        return $response;
-    });
-    
     $r->addRoute("GET", "/users", [\App\Controllers\UserController::class, "getUsers"]);
     $r->addRoute("POST", "/users/{id}", [\App\Controllers\UserController::class, "updateUser"]);
 });
@@ -469,9 +463,35 @@ Evaluates to true if the current HTTP method matches any of the allowed HTTP met
 
 ## Examples
 
-Have a look at the [examples directory](https://github.com/woohoolabs/harmony/blob/master/examples/) for a really basic
-application structure. Don't forget to run `composer install` first in Harmony's root directory if you want to try
-it out!
+If you want to see a really basic application structure in action, have a look at the
+[examples](https://github.com/woohoolabs/yin/tree/master/examples). If `docker-compose` and `make` is available on your system,
+then just run the following commands in order to try out the example app:
+
+```bash
+cp .env.dist .env      # You can now edit the settings in the .env file
+make composer-install  # Install the Composer dependencies
+make up                # Start the webserver
+```
+
+If you don't have `make`, then you can just copy the underlying commands, and directly use them in your terminal. 
+
+Finally, the example app is available at `localhost:8080`. 
+
+> If you modified the `.env` file, you should change the port to the value of the `HOST_WEB_PORT` variable.
+
+Example URIs:
+- `GET /books/1`
+- `GET /users/1
+- `GET /me
+
+When you finished your work, simply stop the webserver:
+
+```bash
+make down
+```
+
+If the prerequisites are not available for you, you have to set up a webserver on your host, install PHP, as
+well as the dependencies via `Composer`.
 
 ## Versioning
 
