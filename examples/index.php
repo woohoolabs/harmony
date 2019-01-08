@@ -28,12 +28,8 @@ $router = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
     $r->addRoute("GET", "/books/{id}", GetBookAction::class);
 });
 
-// Removing argv and argc because they cause problems in ServerRequestFactory::fromGlobals()
-$server = $_SERVER;
-unset($server["argv"], $server["argc"]);
-
 // Instantiating the framework
-$harmony = new Harmony(ServerRequestFactory::fromGlobals($server), new Response());
+$harmony = new Harmony(ServerRequestFactory::fromGlobals(), new Response());
 
 // Stacking up middleware
 $harmony
