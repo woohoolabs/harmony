@@ -10,10 +10,9 @@
 
 **Woohoo Labs. Harmony is a PSR-15 compatible middleware dispatcher.**
 
-Our aim was to create an invisible and flexible framework for your long-term, strategic applications.
-That's why Harmony supports the [PSR-7](https://www.php-fig.org/psr/psr-7/),
-[PSR-11](https://www.php-fig.org/psr/psr-11/) and
-[PSR-15](https://www.php-fig.org/psr/psr-15/) standards.
+Harmony was born to be a totally flexible and almost invisible "framework" that creates a harmonious foundation
+for your applications. That's why Harmony supports the [PSR-7](https://www.php-fig.org/psr/psr-7/),
+[PSR-11](https://www.php-fig.org/psr/psr-11/), as well as the [PSR-15](https://www.php-fig.org/psr/psr-15/) standards.
 
 ## Table of Contents
 
@@ -38,8 +37,8 @@ This blog post explains the idea best why Harmony was born back in 2014: http://
 
 ### Features
 
-- Extreme flexibility through middleware via PSR-15
-- High performance due to a simple and clean design
+- High performance due to Harmony's simplicity
+- High flexibility thanks to the vast middleware ecosystem of PSR-15
 - Full control over HTTP messages via PSR-7
 - Support for many DI Containers via PSR-11 (formerly known as Container-Interop)
 
@@ -62,11 +61,10 @@ namely, the ability to invoke middleware conditionally.
 
 ### Use cases
 
-Certainly, Harmony won't suit the needs of all projects and teams: this framework works best for advanced teams.
-Less experienced teams should probably choose a less lenient framework with more features, in order to speed up
-development in its initial phase. Harmony's flexibility is the most advantageous when your software is a long-term,
-strategic project. That's why legacy applications can also benefit from Harmony, because it makes gradual refactoring
-easier.
+Certainly, Harmony won't suit the needs of all projects and teams: this framework works best for an experienced team with a
+longer term project. Less experienced teams - especially if they have short deadlines - should probably choose a framework
+with more features - working out-of-the box - in order to speed up development in its initial phase. Harmony's flexibility
+is the most advantageous when your software should be supported for a longer time.
 
 ### Concepts
 
@@ -183,9 +181,17 @@ default because of its performance and simplicity. You can read more about it
 Let's add the routes for the aforementioned endpoints to FastRoute:
 
 ```php
+use App\Controllers\UserController;
+
 $router = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
-    $r->addRoute("GET", "/users", [\App\Controllers\UserController::class, "getUsers"]);
-    $r->addRoute("POST", "/users/{id}", [\App\Controllers\UserController::class, "updateUser"]);
+    // An anonymous function endpoint
+    $r->addRoute("GET", "/me", function (ServerRequestInterface $request, ResponseInterface $response) {
+            // ...
+    });
+
+    // Class method endpoints
+    $r->addRoute("GET", "/users", [UserController::class, "getUsers"]);
+    $r->addRoute("POST", "/users/{id}", [UserController::class, "updateUser"]);
 });
 ```
 
@@ -222,7 +228,7 @@ implementations. When you'd like to go live, just call `$harmony()`!
 
 ## Advanced Usage
 
-### Using invokable controllers
+### Using invokable class controllers
 
 Most of the time, you will define your endpoints (~controller actions) as regular callables as was shown in the
 section about the default router:
