@@ -10,9 +10,8 @@
 
 **Woohoo Labs. Harmony is a PSR-15 compatible middleware dispatcher.**
 
-Harmony was born to be a totally flexible and almost invisible "framework" that creates a harmonious foundation
-for your applications. That's why Harmony supports the [PSR-7](https://www.php-fig.org/psr/psr-7/),
-[PSR-11](https://www.php-fig.org/psr/psr-11/), as well as the [PSR-15](https://www.php-fig.org/psr/psr-15/) standards.
+Harmony was born to be a totally flexible and almost invisible framework for your application. That's why Harmony
+supports the [PSR-7](https://www.php-fig.org/psr/psr-7/), [PSR-11](https://www.php-fig.org/psr/psr-11/), as well as the [PSR-15](https://www.php-fig.org/psr/psr-15/) standards.
 
 ## Table of Contents
 
@@ -33,7 +32,7 @@ for your applications. That's why Harmony supports the [PSR-7](https://www.php-f
 
 ### Rationale
 
-This blog post explains the idea best why Harmony was born back in 2014: http://www.catonmat.net/blog/frameworks-dont-make-sense/ 
+This blog post explains the idea best why Harmony was started back in 2014: http://www.catonmat.net/blog/frameworks-dont-make-sense/ 
 
 ### Features
 
