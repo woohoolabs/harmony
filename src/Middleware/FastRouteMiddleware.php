@@ -8,13 +8,14 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use WoohooLabs\Harmony\Exception\FastRouteException;
 use WoohooLabs\Harmony\Exception\MethodNotAllowed;
 use WoohooLabs\Harmony\Exception\RouteNotFound;
 
 class FastRouteMiddleware implements MiddlewareInterface
 {
     /**
-     * @var Dispatcher
+     * @var Dispatcher|null
      */
     protected $fastRoute;
 
@@ -42,6 +43,10 @@ class FastRouteMiddleware implements MiddlewareInterface
 
     public function getFastRoute(): Dispatcher
     {
+        if ($this->fastRoute === null) {
+            throw $this->createFastRouteException();
+        }
+
         return $this->fastRoute;
     }
 
@@ -62,6 +67,10 @@ class FastRouteMiddleware implements MiddlewareInterface
 
     protected function routeRequest(ServerRequestInterface $request): ServerRequestInterface
     {
+        if ($this->fastRoute === null) {
+            throw $this->createFastRouteException();
+        }
+
         $route = $this->fastRoute->dispatch($request->getMethod(), $request->getUri()->getPath());
 
         if ($route[0] === Dispatcher::NOT_FOUND) {
@@ -78,5 +87,10 @@ class FastRouteMiddleware implements MiddlewareInterface
         $request = $request->withAttribute($this->actionAttributeName, $route[1]);
 
         return $request;
+    }
+
+    private function createFastRouteException(): FastRouteException
+    {
+        return new FastRouteException("Property FastRouteMiddleware::\$fastRoute isn't set!");
     }
 }

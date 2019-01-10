@@ -3,9 +3,7 @@ declare(strict_types=1);
 
 namespace WoohooLabs\Harmony\Container;
 
-use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
-use Psr\Container\NotFoundExceptionInterface;
 use Throwable;
 use function class_exists;
 
@@ -16,8 +14,8 @@ class BasicContainer implements ContainerInterface
      *
      * @param string $id Identifier of the entry to look for.
      *
-     * @throws NotFoundExceptionInterface  No entry was found for **this** identifier.
-     * @throws ContainerExceptionInterface Error while retrieving the entry.
+     * @throws BasicContainerNotFoundException  No entry was found for **this** identifier.
+     * @throws BasicContainerException Error while retrieving the entry.
      *
      * @return mixed Entry.
      */

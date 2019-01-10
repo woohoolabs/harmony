@@ -8,6 +8,8 @@ REMOVED:
 
 FIXED:
 
+- Instead of a fatal error, an exception is thrown when the `FastRouteMiddleware::$fastRoute` property is `null` 
+
 ## 6.0.1 - 2018-12-21
 
 CHANGED:

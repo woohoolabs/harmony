@@ -53,7 +53,7 @@ class HttpHandlerRunnerMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function invoke()
+    public function process()
     {
         $harmony = $this->createHarmony();
         $middleware = new HttpHandlerRunnerMiddleware(new DummyHttpHandlerRunnerEmitter());
