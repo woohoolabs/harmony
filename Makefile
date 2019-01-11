@@ -34,3 +34,6 @@ cs:
 
 cs-fix:
 	docker-compose run --rm harmony-php /var/www/vendor/bin/phpcbf --standard=/var/www/phpcs.xml
+
+release:
+	make test && make phpstan && make cs && ./vendor/bin/releaser release
