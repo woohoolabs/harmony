@@ -18,4 +18,5 @@ SUPPORT.md export-ignore
 docker-compose.yml export-ignore
 Makefile export-ignore
 phpcs.xml export-ignore
+phpstan.neon export-ignore
 phpunit.xml.dist export-ignore
