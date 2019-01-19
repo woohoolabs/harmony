@@ -2,6 +2,9 @@ parameters:
     bootstrap: vendor/autoload.php
     ignoreErrors:
         - '#^Construct empty\(\) is not allowed\. Use more strict comparison\.$#'
+        -
+            message: '#^Variable method call on mixed\.$#'
+            path: src/Middleware/DispatcherMiddleware.php
 
 includes:
 	- vendor/phpstan/phpstan-strict-rules/rules.neon
