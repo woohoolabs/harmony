@@ -36,7 +36,5 @@ $harmony
     ->addMiddleware(new HttpHandlerRunnerMiddleware(new SapiEmitter()))
     ->addMiddleware(new ExceptionHandlerMiddleware(new Response()))
     ->addMiddleware(new FastRouteMiddleware($router))
-    ->addMiddleware(new DispatcherMiddleware());
-
-// Run!
-$harmony();
+    ->addMiddleware(new DispatcherMiddleware())
+    ->run();

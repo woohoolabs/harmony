@@ -19,13 +19,29 @@ class HarmonyTest extends TestCase
     /**
      * @test
      */
-    public function construc()
+    public function construct()
     {
         $harmony = $this->createHarmony();
 
         $request = $harmony->getRequest();
 
         $this->assertInstanceOf(DummyServerRequest::class, $request);
+    }
+
+    /**
+     * @test
+     */
+    public function runAllMiddleware()
+    {
+        $harmony = $this->createHarmony();
+        $harmony->addMiddleware(new HeaderMiddleware("dummy", "dummy"));
+        $harmony->addMiddleware(new FakeMiddleware());
+        $harmony->addMiddleware(new InternalServerErrorMiddleware(new DummyResponse()));
+
+        $response = $harmony->run();
+
+        $this->assertEquals(["dummy"], $response->getHeader("dummy"));
+        $this->assertEquals(500, $response->getStatusCode());
     }
 
     /**

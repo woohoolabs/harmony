@@ -37,11 +37,22 @@ class Harmony implements RequestHandlerInterface
         $this->response = $response;
     }
 
+    public function run(): ResponseInterface
+    {
+        return $this->handle($this->request);
+    }
+
+    /**
+     * @deprecated since 6.1.0. Use Harmony::run() instead.
+     */
     public function __invoke(): ResponseInterface
     {
         return $this->handle($this->request);
     }
 
+    /**
+     * @internal
+     */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $this->request = $request;
@@ -130,7 +141,7 @@ class Harmony implements RequestHandlerInterface
 
         $harmony = new Harmony($this->request, $this->response);
         $callable($harmony, $this->request);
-        $harmony();
+        $harmony->run();
 
         $this->request = $harmony->request;
         $this->response = $harmony->response;
