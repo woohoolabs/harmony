@@ -124,7 +124,7 @@ Harmony 6 requires PHP 7.1 at least, but you may use Harmony 4.0.0 for PHP 7.0.
 
 ### Install the optional dependencies:
 
-If you want to use the default middleware stack then you have to require the following dependency too:
+If you want to use the default middleware stack then you have to require the following dependencies too:
 
 ```bash
 $ composer require nikic/fast-route:^1.0.0 # FastRouteMiddleware needs it
@@ -209,9 +209,8 @@ $harmony = new Harmony(ServerRequestFactory::fromGlobals(), new Response());
 $harmony
     ->addMiddleware(new HttpHandlerRunnerMiddleware(new SapiEmitter()))
     ->addMiddleware(new FastRouteMiddleware($router))
-    ->addMiddleware(new DispatcherMiddleware());
-
-$harmony();
+    ->addMiddleware(new DispatcherMiddleware())
+    ->run();
 ```
 
 You have to register all the prior middleware in order for the framework to function properly:
@@ -223,34 +222,28 @@ Note that there is a second optional argument of `Harmony::addMiddleware()` with
 middleware (doing so is necessary if you want to call `Harmony::getMiddleware()` somewhere in your code).
 
 Of course, it is completely up to you how you add additional middleware or how you replace them with your own
-implementations. When you'd like to go live, call `$harmony()`!
+implementations. When you'd like to go live, call `$harmony->run()`!
 
 ## Advanced Usage
 
 ### Using invokable class controllers
 
-Most of the time, you will define your endpoints (~controller actions) as regular callables as was shown in the
+Most of the time, you will define your endpoints (~controller actions) as regular callables as shown in the
 section about the default router:
 
 ```php
 $r->addRoute("GET", "/users/me", [\App\Controllers\UserController::class, "getMe"]);
 ```
 
-But nowadays, there is an increasing popularity of controllers containing only one action. To do so, it is a general
-practice to implement the `__invoke()` magic method. In former versions of Harmony, if you wanted to apply this pattern,
-you had to define the example route above the following way (at least if you used the default router and dispatcher):
-  
-```php
-$r->addRoute("GET", "/users/me", [\App\Controllers\GetMe::class, "__invoke"]);
-```
-
-As of Harmony 2.1.0, your route definition can be simplified to:
+Nowadays, there is an increasing popularity of controllers containing only one action. In this case it is a general
+practice to implement the `__invoke()` magic method. When following this school of thought, your route definition can be
+simplified as seen below:
 
 ```php
 $r->addRoute("GET", "/users/me", \App\Controllers\GetMe::class);
 ```
 
-Note: If you use a different router or dispatcher than the default ones, please make sure if the feature is available
+Note: In case you use a different router or dispatcher than the default ones, please make sure if the feature is available
 for you.
 
 If you are interested in how you could benefit from invokable controllers in the context of the Action-Domain-Responder
@@ -265,12 +258,11 @@ For this purpose, we chose to build upon [PSR-11](https://www.php-fig.org/psr/ps
 interface for DI Containers - in the built-in `DispatcherMiddleware`.
 
 It's also important to know that the `DispatcherMiddleware` uses the `BasicContainer` by default. It's nothing more
-than a very silly DIC which tries to create objects based on their class name (so calling
-`$basicContainer->get(Foo::class)` would create a new `Foo` instance).
+than a very silly DIC which tries to create objects based on their class name (so calling `$basicContainer->get(Foo::class)`
+would create a new `Foo` instance).
 
-But if you provide an argument to the middleware's constructor, you can use your favourite PSR-11 compliant
-DI Container too. Let's have a look at an example where one would like to swap `BasicContainer` with
-[Zen](https://github.com/woohoolabs/zen):
+But if you provide an argument to the middleware's constructor, you can use your favourite PSR-11 compliant DI Container
+too. Let's have a look at an example where one would like to swap `BasicContainer` with [Zen](https://github.com/woohoolabs/zen):
 
 ```php
 $container = new MyContainer();
