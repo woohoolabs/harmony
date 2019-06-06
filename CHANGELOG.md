@@ -1,4 +1,4 @@
-## 6.1.0 - unreleased
+## 6.2.0 - unreleased
 
 ADDED:
 
@@ -8,9 +8,13 @@ REMOVED:
 
 DEPRECATED:
 
-- `Harmony::__invoke()`: use `Harmony::run()` instead
-
 FIXED:
+
+## 6.1.0 - 2019-06-06
+
+DEPRECATED:
+
+- `Harmony::__invoke()`: use `Harmony::run()` instead
 
 ## 6.0.2 - 2019-01-11
 
