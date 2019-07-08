@@ -24,6 +24,7 @@ class DummyUri implements UriInterface
      */
     public function getScheme()
     {
+        return "";
     }
 
     /**
@@ -46,6 +47,7 @@ class DummyUri implements UriInterface
      */
     public function getAuthority()
     {
+        return "";
     }
 
     /**
@@ -65,6 +67,7 @@ class DummyUri implements UriInterface
      */
     public function getUserInfo()
     {
+        return "";
     }
 
     /**
@@ -80,6 +83,7 @@ class DummyUri implements UriInterface
      */
     public function getHost()
     {
+        return "";
     }
 
     /**
@@ -99,6 +103,7 @@ class DummyUri implements UriInterface
      */
     public function getPort()
     {
+        return null;
     }
 
     /**
@@ -153,6 +158,7 @@ class DummyUri implements UriInterface
      */
     public function getQuery()
     {
+        return "";
     }
 
     /**
@@ -173,6 +179,7 @@ class DummyUri implements UriInterface
      */
     public function getFragment()
     {
+        return "";
     }
 
     /**
@@ -187,11 +194,12 @@ class DummyUri implements UriInterface
      * An empty scheme is equivalent to removing the scheme.
      *
      * @param string $scheme The scheme to use with the new instance.
-     * @return self A new instance with the specified scheme.
+     * @return static A new instance with the specified scheme.
      * @throws InvalidArgumentException for invalid or unsupported schemes.
      */
     public function withScheme($scheme)
     {
+        return $this;
     }
 
     /**
@@ -206,10 +214,11 @@ class DummyUri implements UriInterface
      *
      * @param string $user The user name to use for authority.
      * @param string|null $password The password associated with $user.
-     * @return self A new instance with the specified user information.
+     * @return static A new instance with the specified user information.
      */
     public function withUserInfo($user, $password = null)
     {
+        return $this;
     }
 
     /**
@@ -221,11 +230,12 @@ class DummyUri implements UriInterface
      * An empty host value is equivalent to removing the host.
      *
      * @param string $host The hostname to use with the new instance.
-     * @return self A new instance with the specified host.
+     * @return static A new instance with the specified host.
      * @throws InvalidArgumentException for invalid hostnames.
      */
     public function withHost($host)
     {
+        return $this;
     }
 
     /**
@@ -242,11 +252,12 @@ class DummyUri implements UriInterface
      *
      * @param int|null $port The port to use with the new instance; a null value
      *     removes the port information.
-     * @return self A new instance with the specified port.
+     * @return static A new instance with the specified port.
      * @throws InvalidArgumentException for invalid ports.
      */
     public function withPort($port)
     {
+        return $this;
     }
 
     /**
@@ -268,11 +279,12 @@ class DummyUri implements UriInterface
      * Implementations ensure the correct encoding as outlined in getPath().
      *
      * @param string $path The path to use with the new instance.
-     * @return self A new instance with the specified path.
+     * @return static A new instance with the specified path.
      * @throws InvalidArgumentException for invalid paths.
      */
     public function withPath($path)
     {
+        return $this;
     }
 
     /**
@@ -287,11 +299,12 @@ class DummyUri implements UriInterface
      * An empty query string value is equivalent to removing the query string.
      *
      * @param string $query The query string to use with the new instance.
-     * @return self A new instance with the specified query string.
+     * @return static A new instance with the specified query string.
      * @throws InvalidArgumentException for invalid query strings.
      */
     public function withQuery($query)
     {
+        return $this;
     }
 
     /**
@@ -306,10 +319,11 @@ class DummyUri implements UriInterface
      * An empty fragment value is equivalent to removing the fragment.
      *
      * @param string $fragment The fragment to use with the new instance.
-     * @return self A new instance with the specified fragment.
+     * @return static A new instance with the specified fragment.
      */
     public function withFragment($fragment)
     {
+        return $this;
     }
 
     /**
@@ -337,5 +351,6 @@ class DummyUri implements UriInterface
      */
     public function __toString()
     {
+        return "";
     }
 }

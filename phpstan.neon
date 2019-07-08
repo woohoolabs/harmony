@@ -5,6 +5,10 @@ parameters:
         -
             message: '#^Variable method call on mixed\.$#'
             path: src/Middleware/DispatcherMiddleware.php
+        - '#^Dynamic call to static method PHPUnit\\Framework\\.*$#'
 
 includes:
-	- vendor/phpstan/phpstan-strict-rules/rules.neon
+    - vendor/phpstan/phpstan/conf/bleedingEdge.neon
+    - vendor/phpstan/phpstan-strict-rules/rules.neon
+    - vendor/phpstan/phpstan-phpunit/extension.neon
+    - vendor/phpstan/phpstan-phpunit/rules.neon

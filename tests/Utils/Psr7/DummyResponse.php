@@ -7,6 +7,7 @@ use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use function is_array;
+use Zend\Diactoros\Stream;
 
 class DummyResponse implements ResponseInterface
 {
@@ -34,6 +35,7 @@ class DummyResponse implements ResponseInterface
      */
     public function getProtocolVersion()
     {
+        return "";
     }
 
     /**
@@ -47,10 +49,11 @@ class DummyResponse implements ResponseInterface
      * new protocol version.
      *
      * @param string $version HTTP protocol version
-     * @return self
+     * @return static
      */
     public function withProtocolVersion($version)
     {
+        return $this;
     }
 
     /**
@@ -74,7 +77,7 @@ class DummyResponse implements ResponseInterface
      * While header names are not case-sensitive, getHeaders() will preserve the
      * exact case in which headers were originally specified.
      *
-     * @return array Returns an associative array of the message's headers. Each
+     * @return string[][] Returns an associative array of the message's headers. Each
      *     key MUST be a header name, and each value MUST be an array of strings
      *     for that header.
      */
@@ -136,6 +139,7 @@ class DummyResponse implements ResponseInterface
      */
     public function getHeaderLine($name)
     {
+        return "";
     }
 
     /**
@@ -150,7 +154,7 @@ class DummyResponse implements ResponseInterface
      *
      * @param string $name Case-insensitive header field name.
      * @param string|string[] $value Header value(s).
-     * @return self
+     * @return static
      * @throws InvalidArgumentException for invalid header names or values.
      */
     public function withHeader($name, $value)
@@ -174,11 +178,12 @@ class DummyResponse implements ResponseInterface
      *
      * @param string $name Case-insensitive header field name to add.
      * @param string|string[] $value Header value(s).
-     * @return self
+     * @return static
      * @throws InvalidArgumentException for invalid header names or values.
      */
     public function withAddedHeader($name, $value)
     {
+        return $this;
     }
 
     /**
@@ -191,10 +196,11 @@ class DummyResponse implements ResponseInterface
      * the named header.
      *
      * @param string $name Case-insensitive header field name to remove.
-     * @return self
+     * @return static
      */
     public function withoutHeader($name)
     {
+        return $this;
     }
 
     /**
@@ -204,6 +210,7 @@ class DummyResponse implements ResponseInterface
      */
     public function getBody()
     {
+        return new Stream("");
     }
 
     /**
@@ -216,11 +223,12 @@ class DummyResponse implements ResponseInterface
      * new body stream.
      *
      * @param StreamInterface $body Body.
-     * @return self
+     * @return static
      * @throws InvalidArgumentException When the body is not valid.
      */
     public function withBody(StreamInterface $body)
     {
+        return $this;
     }
 
     /**
@@ -253,7 +261,7 @@ class DummyResponse implements ResponseInterface
      * @param string $reasonPhrase The reason phrase to use with the
      *     provided status code; if none is provided, implementations MAY
      *     use the defaults as suggested in the HTTP specification.
-     * @return self
+     * @return static
      * @throws InvalidArgumentException For invalid status code arguments.
      */
     public function withStatus($code, $reasonPhrase = '')
@@ -280,5 +288,6 @@ class DummyResponse implements ResponseInterface
      */
     public function getReasonPhrase()
     {
+        return "";
     }
 }

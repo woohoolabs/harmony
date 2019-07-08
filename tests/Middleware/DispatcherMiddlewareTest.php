@@ -23,7 +23,7 @@ class DispatcherMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function returnResponse()
+    public function returnResponse(): void
     {
         $harmony = $this->createHarmonyWithAction(
             function (ServerRequestInterface $request, ResponseInterface $response) {
@@ -40,7 +40,7 @@ class DispatcherMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function callNextMiddleware()
+    public function callNextMiddleware(): void
     {
         $harmony = $this->createHarmonyWithAction(
             function (ServerRequestInterface $request, ResponseInterface $response) {
@@ -58,7 +58,7 @@ class DispatcherMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function exceptionWhenNoAction()
+    public function exceptionWhenNoAction(): void
     {
         $middleware = new DispatcherMiddleware();
 
@@ -78,7 +78,7 @@ class DispatcherMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function dispatchArrayCallable()
+    public function dispatchArrayCallable(): void
     {
         $request = new DummyServerRequest();
         $request = $request->withAttribute("__action", [ExceptionController::class, "dummyAction"]);
@@ -92,7 +92,7 @@ class DispatcherMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function dispatchAnonymousFunction()
+    public function dispatchAnonymousFunction(): void
     {
         $request = new DummyServerRequest();
         $callable = function () {
@@ -109,7 +109,7 @@ class DispatcherMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function dispatchInvokableClass()
+    public function dispatchInvokableClass(): void
     {
         $request = new DummyServerRequest();
         $request = $request->withAttribute("__action", InvokableExceptionController::class);
@@ -123,7 +123,7 @@ class DispatcherMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function getContainer()
+    public function getContainer(): void
     {
         $middleware = new DispatcherMiddleware(new BasicContainer());
 
@@ -135,7 +135,7 @@ class DispatcherMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function setContainer()
+    public function setContainer(): void
     {
         $middleware = new DispatcherMiddleware();
 
@@ -147,7 +147,7 @@ class DispatcherMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function getDefaultHandlerAttribute()
+    public function getDefaultHandlerAttribute(): void
     {
         $middleware = new DispatcherMiddleware();
 
@@ -159,7 +159,7 @@ class DispatcherMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function getHandlerAttribute()
+    public function getHandlerAttribute(): void
     {
         $middleware = new DispatcherMiddleware();
 

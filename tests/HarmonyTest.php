@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace WoohooLabsTest\Harmony;
+namespace WoohooLabs\Harmony\Tests;
 
 use PHPUnit\Framework\TestCase;
 use WoohooLabs\Harmony\Harmony;
@@ -19,7 +19,7 @@ class HarmonyTest extends TestCase
     /**
      * @test
      */
-    public function construct()
+    public function construct(): void
     {
         $harmony = $this->createHarmony();
 
@@ -31,7 +31,7 @@ class HarmonyTest extends TestCase
     /**
      * @test
      */
-    public function runAllMiddleware()
+    public function runAllMiddleware(): void
     {
         $harmony = $this->createHarmony();
         $harmony->addMiddleware(new HeaderMiddleware("dummy", "dummy"));
@@ -47,7 +47,7 @@ class HarmonyTest extends TestCase
     /**
      * @test
      */
-    public function invokeAllMiddleware()
+    public function invokeAllMiddleware(): void
     {
         $harmony = $this->createHarmony();
         $harmony->addMiddleware(new HeaderMiddleware("dummy", "dummy"));
@@ -63,7 +63,7 @@ class HarmonyTest extends TestCase
     /**
      * @test
      */
-    public function returnAfterSecondMiddleware()
+    public function returnAfterSecondMiddleware(): void
     {
         $harmony = $this->createHarmony();
         $harmony->addMiddleware(new FakeMiddleware());
@@ -78,7 +78,7 @@ class HarmonyTest extends TestCase
     /**
      * @test
      */
-    public function getRequest()
+    public function getRequest(): void
     {
         $harmony = $this->createHarmony();
         $request = new DummyServerRequest();
@@ -91,7 +91,7 @@ class HarmonyTest extends TestCase
     /**
      * @test
      */
-    public function getResponse()
+    public function getResponse(): void
     {
         $harmony = $this->createHarmony();
         $response = new DummyResponse();
@@ -104,7 +104,7 @@ class HarmonyTest extends TestCase
     /**
      * @test
      */
-    public function addMiddleware()
+    public function addMiddleware(): void
     {
         $harmony = $this->createHarmony();
         $harmony->addMiddleware(new FakeMiddleware("dummy1"), "dummy1");
@@ -123,7 +123,7 @@ class HarmonyTest extends TestCase
     /**
      * @test
      */
-    public function getNonExistentMiddleware()
+    public function getNonExistentMiddleware(): void
     {
         $harmony = $this->createHarmony();
 
@@ -135,7 +135,7 @@ class HarmonyTest extends TestCase
     /**
      * @test
      */
-    public function getExistentMiddleware()
+    public function getExistentMiddleware(): void
     {
         $middleware = new FakeMiddleware();
         $harmony = $this->createHarmony();
@@ -149,7 +149,7 @@ class HarmonyTest extends TestCase
     /**
      * @test
      */
-    public function invokeMiddlewareConditionally()
+    public function invokeMiddlewareConditionally(): void
     {
         $middleware = new SpyMiddleware();
         $harmony = $this->createHarmony();
@@ -168,7 +168,7 @@ class HarmonyTest extends TestCase
     /**
      * @test
      */
-    public function doNotInvokeMiddlewareWhenConditionIsFalse()
+    public function doNotInvokeMiddlewareWhenConditionIsFalse(): void
     {
         $middleware = new SpyMiddleware();
         $harmony = $this->createHarmony();

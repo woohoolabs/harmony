@@ -7,6 +7,7 @@ use InvalidArgumentException;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriInterface;
+use Zend\Diactoros\Stream;
 
 class DummyServerRequest implements ServerRequestInterface
 {
@@ -24,6 +25,7 @@ class DummyServerRequest implements ServerRequestInterface
      */
     public function getProtocolVersion()
     {
+        return "";
     }
 
     /**
@@ -37,10 +39,11 @@ class DummyServerRequest implements ServerRequestInterface
      * new protocol version.
      *
      * @param string $version HTTP protocol version
-     * @return self
+     * @return static
      */
     public function withProtocolVersion($version)
     {
+        return $this;
     }
 
     /**
@@ -64,12 +67,13 @@ class DummyServerRequest implements ServerRequestInterface
      * While header names are not case-sensitive, getHeaders() will preserve the
      * exact case in which headers were originally specified.
      *
-     * @return array Returns an associative array of the message's headers. Each
+     * @return string[][] Returns an associative array of the message's headers. Each
      *     key MUST be a header name, and each value MUST be an array of strings
      *     for that header.
      */
     public function getHeaders()
     {
+        return [];
     }
 
     /**
@@ -82,6 +86,7 @@ class DummyServerRequest implements ServerRequestInterface
      */
     public function hasHeader($name)
     {
+        return false;
     }
 
     /**
@@ -100,6 +105,7 @@ class DummyServerRequest implements ServerRequestInterface
      */
     public function getHeader($name)
     {
+        return [];
     }
 
     /**
@@ -123,6 +129,7 @@ class DummyServerRequest implements ServerRequestInterface
      */
     public function getHeaderLine($name)
     {
+        return "";
     }
 
     /**
@@ -137,11 +144,12 @@ class DummyServerRequest implements ServerRequestInterface
      *
      * @param string $name Case-insensitive header field name.
      * @param string|string[] $value Header value(s).
-     * @return self
+     * @return static
      * @throws InvalidArgumentException for invalid header names or values.
      */
     public function withHeader($name, $value)
     {
+        return $this;
     }
 
     /**
@@ -157,11 +165,12 @@ class DummyServerRequest implements ServerRequestInterface
      *
      * @param string $name Case-insensitive header field name to add.
      * @param string|string[] $value Header value(s).
-     * @return self
+     * @return static
      * @throws InvalidArgumentException for invalid header names or values.
      */
     public function withAddedHeader($name, $value)
     {
+        return $this;
     }
 
     /**
@@ -174,10 +183,11 @@ class DummyServerRequest implements ServerRequestInterface
      * the named header.
      *
      * @param string $name Case-insensitive header field name to remove.
-     * @return self
+     * @return static
      */
     public function withoutHeader($name)
     {
+        return $this;
     }
 
     /**
@@ -187,6 +197,7 @@ class DummyServerRequest implements ServerRequestInterface
      */
     public function getBody()
     {
+        return new Stream("");
     }
 
     /**
@@ -199,11 +210,12 @@ class DummyServerRequest implements ServerRequestInterface
      * new body stream.
      *
      * @param StreamInterface $body Body.
-     * @return self
+     * @return static
      * @throws InvalidArgumentException When the body is not valid.
      */
     public function withBody(StreamInterface $body)
     {
+        return $this;
     }
 
     /**
@@ -224,6 +236,7 @@ class DummyServerRequest implements ServerRequestInterface
      */
     public function getRequestTarget()
     {
+        return "";
     }
 
     /**
@@ -241,10 +254,11 @@ class DummyServerRequest implements ServerRequestInterface
      * @link https://tools.ietf.org/html/rfc7230#section-2.7 (for the various
      *     request-target forms allowed in request messages)
      * @param mixed $requestTarget
-     * @return self
+     * @return static
      */
     public function withRequestTarget($requestTarget)
     {
+        return $this;
     }
 
     /**
@@ -269,11 +283,12 @@ class DummyServerRequest implements ServerRequestInterface
      * changed request method.
      *
      * @param string $method Case-sensitive method.
-     * @return self
+     * @return static
      * @throws InvalidArgumentException for invalid HTTP methods.
      */
     public function withMethod($method)
     {
+        return $this;
     }
 
     /**
@@ -318,10 +333,11 @@ class DummyServerRequest implements ServerRequestInterface
      * @link https://tools.ietf.org/html/rfc3986#section-4.3
      * @param UriInterface $uri New request URI to use.
      * @param bool $preserveHost Preserve the original state of the Host header.
-     * @return self
+     * @return static
      */
     public function withUri(UriInterface $uri, $preserveHost = false)
     {
+        return $this;
     }
 
     /**
@@ -335,6 +351,7 @@ class DummyServerRequest implements ServerRequestInterface
      */
     public function getServerParams()
     {
+        return [];
     }
 
     /**
@@ -349,6 +366,7 @@ class DummyServerRequest implements ServerRequestInterface
      */
     public function getCookieParams()
     {
+        return [];
     }
 
     /**
@@ -366,10 +384,11 @@ class DummyServerRequest implements ServerRequestInterface
      * updated cookie values.
      *
      * @param array $cookies Array of key/value pairs representing cookies.
-     * @return self
+     * @return static
      */
     public function withCookieParams(array $cookies)
     {
+        return $this;
     }
 
     /**
@@ -386,6 +405,7 @@ class DummyServerRequest implements ServerRequestInterface
      */
     public function getQueryParams()
     {
+        return [];
     }
 
     /**
@@ -408,10 +428,11 @@ class DummyServerRequest implements ServerRequestInterface
      *
      * @param array $query Array of query string arguments, typically from
      *     $_GET.
-     * @return self
+     * @return static
      */
     public function withQueryParams(array $query)
     {
+        return $this;
     }
 
     /**
@@ -428,6 +449,7 @@ class DummyServerRequest implements ServerRequestInterface
      */
     public function getUploadedFiles()
     {
+        return [];
     }
 
     /**
@@ -437,12 +459,13 @@ class DummyServerRequest implements ServerRequestInterface
      * immutability of the message, and MUST return an instance that has the
      * updated body parameters.
      *
-     * @param array An array tree of UploadedFileInterface instances.
-     * @return self
+     * @param array $uploadedFiles An array tree of UploadedFileInterface instances.
+     * @return static
      * @throws InvalidArgumentException if an invalid structure is provided.
      */
     public function withUploadedFiles(array $uploadedFiles)
     {
+        return $this;
     }
 
     /**
@@ -462,6 +485,7 @@ class DummyServerRequest implements ServerRequestInterface
      */
     public function getParsedBody()
     {
+        return [];
     }
 
     /**
@@ -488,12 +512,13 @@ class DummyServerRequest implements ServerRequestInterface
      *
      * @param array|object|null $data The deserialized body data. This will
      *     typically be in an array or object.
-     * @return self
+     * @return static
      * @throws InvalidArgumentException if an unsupported argument type is
      *     provided.
      */
     public function withParsedBody($data)
     {
+        return $this;
     }
 
     /**
@@ -545,7 +570,7 @@ class DummyServerRequest implements ServerRequestInterface
      * @see getAttributes()
      * @param string $name The attribute name.
      * @param mixed $value The value of the attribute.
-     * @return self
+     * @return static
      */
     public function withAttribute($name, $value)
     {
@@ -567,9 +592,10 @@ class DummyServerRequest implements ServerRequestInterface
      *
      * @see getAttributes()
      * @param string $name The attribute name.
-     * @return self
+     * @return static
      */
     public function withoutAttribute($name)
     {
+        return $this;
     }
 }

@@ -10,6 +10,9 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class FakeMiddleware implements MiddlewareInterface
 {
+    /**
+     * @var string
+     */
     protected $text;
 
     public function __construct(string $text = "dummy")

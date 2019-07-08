@@ -16,7 +16,7 @@ class HttpHandlerRunnerMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function constructWithCustomEmitter()
+    public function constructWithCustomEmitter(): void
     {
         $emitter = new DummyHttpHandlerRunnerEmitter();
         $middleware = new HttpHandlerRunnerMiddleware($emitter);
@@ -29,7 +29,7 @@ class HttpHandlerRunnerMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function constructWithDefaultEmitter()
+    public function constructWithDefaultEmitter(): void
     {
         $middleware = new HttpHandlerRunnerMiddleware();
 
@@ -41,7 +41,7 @@ class HttpHandlerRunnerMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function setEmitter()
+    public function setEmitter(): void
     {
         $middleware = new HttpHandlerRunnerMiddleware();
 
@@ -53,7 +53,7 @@ class HttpHandlerRunnerMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function process()
+    public function process(): void
     {
         $harmony = $this->createHarmony();
         $middleware = new HttpHandlerRunnerMiddleware(new DummyHttpHandlerRunnerEmitter());
@@ -66,7 +66,7 @@ class HttpHandlerRunnerMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function isOutputStartChecked()
+    public function isOutputStartChecked(): void
     {
         $middleware = new HttpHandlerRunnerMiddleware(null, true);
 
@@ -78,7 +78,7 @@ class HttpHandlerRunnerMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function setCheckOutputStart()
+    public function setCheckOutputStart(): void
     {
         $middleware = new HttpHandlerRunnerMiddleware(null, true);
 

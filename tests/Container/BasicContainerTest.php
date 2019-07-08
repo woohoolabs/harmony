@@ -13,7 +13,7 @@ class BasicContainerTest extends TestCase
     /**
      * @test
      */
-    public function instantiateController()
+    public function instantiateController(): void
     {
         $container = new BasicContainer();
 
@@ -27,7 +27,7 @@ class BasicContainerTest extends TestCase
     /**
      * @test
      */
-    public function hasNotExistingClass()
+    public function hasNotExistingClass(): void
     {
         $container = new BasicContainer();
 
@@ -39,7 +39,7 @@ class BasicContainerTest extends TestCase
     /**
      * @test
      */
-    public function getNotExistingClass()
+    public function getNotExistingClass(): void
     {
         $container = new BasicContainer();
 

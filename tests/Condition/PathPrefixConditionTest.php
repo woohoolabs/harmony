@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace WoohooLabs\Harmony\Tests\Container;
+namespace WoohooLabs\Harmony\Tests\Condition;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -15,7 +15,7 @@ class PathPrefixConditionTest extends TestCase
     /**
      * @test
      */
-    public function evaluateExactPathToTrue()
+    public function evaluateExactPathToTrue(): void
     {
         $request = $this->createRequestWithPath("/api");
         $condition = new PathPrefixCondition(["/api"]);
@@ -28,7 +28,7 @@ class PathPrefixConditionTest extends TestCase
     /**
      * @test
      */
-    public function evaluateSubPathToTrue()
+    public function evaluateSubPathToTrue(): void
     {
         $request = $this->createRequestWithPath("/api/users");
         $condition = new PathPrefixCondition(["/api"]);
@@ -41,7 +41,7 @@ class PathPrefixConditionTest extends TestCase
     /**
      * @test
      */
-    public function evaluateDifferentPathToFalse()
+    public function evaluateDifferentPathToFalse(): void
     {
         $request = $this->createRequestWithPath("/app");
         $condition = new PathPrefixCondition(["/api"]);

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace WoohooLabs\Harmony\Tests\Container;
+namespace WoohooLabs\Harmony\Tests\Condition;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -15,7 +15,7 @@ class ExactPathConditionTest extends TestCase
     /**
      * @test
      */
-    public function evaluateToTrue()
+    public function evaluateToTrue(): void
     {
         $request = $this->createRequestWithPath("/api");
         $condition = new ExactPathCondition(["/api"]);
@@ -28,7 +28,7 @@ class ExactPathConditionTest extends TestCase
     /**
      * @test
      */
-    public function evaluateToFalse()
+    public function evaluateToFalse(): void
     {
         $request = $this->createRequestWithPath("/api");
         $condition = new ExactPathCondition(["/not-api"]);

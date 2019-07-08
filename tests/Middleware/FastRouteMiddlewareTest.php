@@ -20,7 +20,7 @@ class FastRouteMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function construct()
+    public function construct(): void
     {
         $middleware = new FastRouteMiddleware(new StubDispatcher());
 
@@ -32,7 +32,7 @@ class FastRouteMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function getFastRouteWhenNull()
+    public function getFastRouteWhenNull(): void
     {
         $middleware = new FastRouteMiddleware();
 
@@ -44,7 +44,7 @@ class FastRouteMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function setFastRoute()
+    public function setFastRoute(): void
     {
         $middleware = new FastRouteMiddleware(null);
 
@@ -56,7 +56,7 @@ class FastRouteMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function processRouteNotFound()
+    public function processRouteNotFound(): void
     {
         $harmony = $this->createHarmony();
         $middleware = new FastRouteMiddleware(new StubDispatcher([Dispatcher::NOT_FOUND]));
@@ -69,7 +69,7 @@ class FastRouteMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function processMethodNotAllowed()
+    public function processMethodNotAllowed(): void
     {
         $harmony = $this->createHarmony();
         $middleware = new FastRouteMiddleware(new StubDispatcher([Dispatcher::METHOD_NOT_ALLOWED]));
@@ -82,7 +82,7 @@ class FastRouteMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function processWhenNull()
+    public function processWhenNull(): void
     {
         $harmony = $this->createHarmony();
         $middleware = new FastRouteMiddleware();
@@ -95,7 +95,7 @@ class FastRouteMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function process()
+    public function process(): void
     {
         $harmony = $this->createHarmony();
         $middleware = new FastRouteMiddleware(new StubDispatcher([Dispatcher::FOUND, [DummyController::class, "dummyAction"], []]));
@@ -108,7 +108,7 @@ class FastRouteMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function processAttributesPassed()
+    public function processAttributesPassed(): void
     {
         $harmony = $this->createHarmony();
         $middleware = new FastRouteMiddleware(new StubDispatcher([Dispatcher::FOUND, ["", ""], ["arg1" => "val1", "arg2" => "val2"]]));

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace WoohooLabs\Harmony\Tests\Container;
+namespace WoohooLabs\Harmony\Tests\Condition;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -14,7 +14,7 @@ class HttpMethodConditionTest extends TestCase
     /**
      * @test
      */
-    public function evaluateTrue()
+    public function evaluateTrue(): void
     {
         $request = $this->createRequestWithMethod("POST");
         $condition = new HttpMethodCondition(["POST"]);
@@ -27,7 +27,7 @@ class HttpMethodConditionTest extends TestCase
     /**
      * @test
      */
-    public function evaluateFalse()
+    public function evaluateFalse(): void
     {
         $request = $this->createRequestWithMethod("GET");
         $condition = new HttpMethodCondition(["POST"]);

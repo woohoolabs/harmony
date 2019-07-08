@@ -27,7 +27,7 @@ test:
 	docker-compose up
 
 phpstan:
-	docker-compose run --rm harmony-php /bin/bash -c "cd /var/www && ./vendor/bin/phpstan analyse --level 7 src"
+	docker-compose run --rm harmony-php /bin/bash -c "cd /var/www && ./vendor/bin/phpstan analyse --level 7 src tests"
 
 cs:
 	docker-compose run --rm harmony-php /var/www/vendor/bin/phpcs --standard=/var/www/phpcs.xml
