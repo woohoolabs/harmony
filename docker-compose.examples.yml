@@ -18,7 +18,7 @@ services:
 
     harmony-examples-php-fpm:
         container_name: harmony-examples-php-fpm
-        image: php:7.4.0alpha2-fpm-buster
+        image: php:7.4.0beta2-fpm-buster
         networks:
         - harmony-examples
         volumes:

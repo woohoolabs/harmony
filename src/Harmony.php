@@ -11,25 +11,13 @@ use WoohooLabs\Harmony\Condition\ConditionInterface;
 
 class Harmony implements RequestHandlerInterface
 {
-    /**
-     * @var ServerRequestInterface
-     */
-    protected $request;
+    protected ServerRequestInterface $request;
 
-    /**
-     * @var ResponseInterface
-     */
-    protected $response;
+    protected ResponseInterface $response;
 
-    /**
-     * @var array
-     */
-    protected $middleware = [];
+    protected array $middleware = [];
 
-    /**
-     * @var int
-     */
-    protected $currentMiddleware = -1;
+    protected int $currentMiddleware = -1;
 
     public function __construct(ServerRequestInterface $request, ResponseInterface $response)
     {

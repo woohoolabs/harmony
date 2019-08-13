@@ -24,13 +24,13 @@ composer-update:
 	docker run --rm --interactive --tty --volume $(PWD):/app --user $(id -u):$(id -g) composer update --ignore-platform-reqs
 
 test:
-	docker-compose up
+	docker-compose run --rm --no-deps harmony-php /bin/bash -c "cd /var/www; php vendor/bin/phpunit"
 
 phpstan:
-	docker-compose run --rm harmony-php /bin/bash -c "cd /var/www && ./vendor/bin/phpstan analyse --level 7 src tests"
+	docker-compose run --rm --no-deps harmony-php /bin/bash -c "cd /var/www && ./vendor/bin/phpstan analyse --level 7 src tests"
 
 cs:
-	docker-compose run --rm harmony-php /var/www/vendor/bin/phpcs --standard=/var/www/phpcs.xml
+	docker-compose run --rm --no-deps harmony-php /var/www/vendor/bin/phpcs --standard=/var/www/phpcs.xml
 
 cs-fix:
 	docker-compose run --rm harmony-php /var/www/vendor/bin/phpcbf --standard=/var/www/phpcs.xml

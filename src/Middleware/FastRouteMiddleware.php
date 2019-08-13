@@ -19,10 +19,7 @@ class FastRouteMiddleware implements MiddlewareInterface
      */
     protected $fastRoute;
 
-    /**
-     * @var string
-     */
-    protected $actionAttributeName;
+    protected string $actionAttributeName;
 
     public function __construct(?Dispatcher $fastRoute = null, string $actionAttributeName = "__action")
     {

@@ -9,10 +9,7 @@ use function in_array;
 
 class HttpMethodCondition implements ConditionInterface
 {
-    /**
-     * @var array
-     */
-    protected $methods = [];
+    protected array $methods = [];
 
     public function __construct(array $methods)
     {

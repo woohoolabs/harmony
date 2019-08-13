@@ -9,10 +9,7 @@ use WoohooLabs\Harmony\Condition\ConditionInterface;
 
 class StubCondition implements ConditionInterface
 {
-    /**
-     * @var bool
-     */
-    protected $result;
+    protected bool $result;
 
     public function __construct(bool $result)
     {

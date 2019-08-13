@@ -16,15 +16,9 @@ use function is_string;
 
 class DispatcherMiddleware implements MiddlewareInterface
 {
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
+    protected ContainerInterface $container;
 
-    /**
-     * @var string
-     */
-    protected $actionAttributeName;
+    protected string $actionAttributeName;
 
     public function __construct(?ContainerInterface $container = null, string $actionAttributeName = "__action")
     {

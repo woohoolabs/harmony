@@ -10,10 +10,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class HeaderMiddleware implements MiddlewareInterface
 {
-    /**
-     * @var string
-     */
-    protected $name;
+    protected string $name;
 
     /**
      * @var string|string[]

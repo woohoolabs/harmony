@@ -10,10 +10,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class InternalServerErrorMiddleware implements MiddlewareInterface
 {
-    /**
-     * @var ResponseInterface
-     */
-    private $responsePrototype;
+    private ResponseInterface $responsePrototype;
 
     public function __construct(ResponseInterface $responsePrototype)
     {

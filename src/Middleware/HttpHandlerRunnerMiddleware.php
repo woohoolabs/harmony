@@ -13,15 +13,9 @@ use function headers_sent;
 
 class HttpHandlerRunnerMiddleware implements MiddlewareInterface
 {
-    /**
-     * @var EmitterInterface
-     */
-    protected $emitter;
+    protected EmitterInterface $emitter;
 
-    /**
-     * @var bool
-     */
-    protected $checkOutputStart;
+    protected bool $checkOutputStart;
 
     public function __construct(?EmitterInterface $emitter = null, bool $checkOutputStart = false)
     {

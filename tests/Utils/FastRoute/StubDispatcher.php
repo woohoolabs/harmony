@@ -7,10 +7,7 @@ use FastRoute\Dispatcher;
 
 class StubDispatcher implements Dispatcher
 {
-    /**
-     * @var array
-     */
-    private $routeInfo;
+    private array $routeInfo;
 
     public function __construct(array $routeInfo = [])
     {

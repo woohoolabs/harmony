@@ -9,10 +9,7 @@ use function strpos;
 
 class PathPrefixCondition implements ConditionInterface
 {
-    /**
-     * @var array
-     */
-    protected $pathPrefixes = [];
+    protected array $pathPrefixes = [];
 
     public function __construct(array $pathPrefixes)
     {

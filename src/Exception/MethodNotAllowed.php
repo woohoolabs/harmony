@@ -7,10 +7,7 @@ use Exception;
 
 class MethodNotAllowed extends Exception
 {
-    /**
-     * @var string
-     */
-    protected $method;
+    protected string $method;
 
     public function __construct(string $method)
     {

@@ -7,10 +7,7 @@ use Exception;
 
 class RouteNotFound extends Exception
 {
-    /**
-     * @var string
-     */
-    protected $route;
+    protected string $route;
 
     public function __construct(string $route)
     {

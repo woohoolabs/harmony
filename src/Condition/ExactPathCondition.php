@@ -9,10 +9,7 @@ use function in_array;
 
 class ExactPathCondition implements ConditionInterface
 {
-    /**
-     * @var array
-     */
-    protected $paths = [];
+    protected array $paths = [];
 
     public function __construct(array $paths)
     {

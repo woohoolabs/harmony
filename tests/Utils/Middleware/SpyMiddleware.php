@@ -10,10 +10,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class SpyMiddleware implements MiddlewareInterface
 {
-    /**
-     * @var bool
-     */
-    protected $invoked;
+    protected bool $invoked;
 
     public function __construct()
     {

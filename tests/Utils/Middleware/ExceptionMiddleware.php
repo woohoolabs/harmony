@@ -11,10 +11,7 @@ use WoohooLabs\Harmony\Tests\Utils\Exception\TestException;
 
 class ExceptionMiddleware implements MiddlewareInterface
 {
-    /**
-     * @var string
-     */
-    protected $text;
+    protected string $text;
 
     public function __construct(string $text = "Exception")
     {

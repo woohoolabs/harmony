@@ -13,10 +13,7 @@ use WoohooLabs\Harmony\Exception\RouteNotFound;
 
 final class ExceptionHandlerMiddleware implements MiddlewareInterface
 {
-    /**
-     * @var ResponseInterface
-     */
-    private $errorResponsePrototype;
+    private ResponseInterface $errorResponsePrototype;
 
     public function __construct(ResponseInterface $errorResponsePrototype)
     {
