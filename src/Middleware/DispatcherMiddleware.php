@@ -16,7 +16,10 @@ use function is_string;
 
 class DispatcherMiddleware implements MiddlewareInterface
 {
-    protected ContainerInterface $container;
+    /**
+     * @var ContainerInterface
+     */
+    protected $container;
 
     protected string $actionAttributeName;
 
