@@ -47,7 +47,7 @@ class Harmony implements RequestHandlerInterface
         $this->currentMiddleware++;
 
         // Stop if there isn't any executable middleware remaining
-        if (isset($this->middleware[$this->currentMiddleware]) === false) {
+        if (array_key_exists($this->currentMiddleware, $this->middleware) === false) {
             return $this->response;
         }
 
