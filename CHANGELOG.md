@@ -1,16 +1,20 @@
-## 6.2.0 - unreleased
+## 6.3.0 - unreleased
 
 ADDED:
 
 CHANGED:
-
-- Increased minimum PHP version requirement to 7.4
 
 REMOVED:
 
 DEPRECATED:
 
 FIXED:
+
+## 6.2.0 - 2019-08-14
+
+CHANGED:
+
+- Increased minimum PHP version requirement to 7.4 as property type declarations were added
 
 ## 6.1.0 - 2019-06-06
 
