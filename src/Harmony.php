@@ -8,6 +8,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use WoohooLabs\Harmony\Condition\ConditionInterface;
+use function array_key_exists;
 
 class Harmony implements RequestHandlerInterface
 {
