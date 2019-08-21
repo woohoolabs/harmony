@@ -52,11 +52,11 @@ class Harmony implements RequestHandlerInterface
             return $this->response;
         }
 
-        // Execute the next middleware or condition
-        if (empty($this->middleware[$this->currentMiddleware]["condition"])) {
-            $this->executeMiddleware($this->middleware[$this->currentMiddleware]);
-        } else {
+        // Execute the next condition or middleware
+        if (array_key_exists("condition", $this->middleware[$this->currentMiddleware])) {
             $this->executeCondition($this->middleware[$this->currentMiddleware]);
+        } else {
+            $this->executeMiddleware($this->middleware[$this->currentMiddleware]);
         }
 
         return $this->response;
