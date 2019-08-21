@@ -10,6 +10,13 @@ DEPRECATED:
 
 FIXED:
 
+## 6.2.1 - 2019-08-21
+
+CHANGED:
+
+- Updated dev dependencies
+- Improved static analysis
+
 ## 6.2.0 - 2019-08-14
 
 CHANGED:
