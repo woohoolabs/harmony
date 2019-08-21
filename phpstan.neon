@@ -5,7 +5,6 @@ parameters:
             message: '#^Variable method call on mixed\.$#'
             path: src/Middleware/DispatcherMiddleware.php
         - '#^Dynamic call to static method PHPUnit\\Framework\\.*$#'
-        - '#^PHPDoc tag @var for property .* with type mixed is not subtype of native type.*$#'
 
 includes:
     - vendor/phpstan/phpstan/conf/bleedingEdge.neon
