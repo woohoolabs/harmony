@@ -17,8 +17,8 @@ use Zend\Diactoros\ServerRequestFactory;
 use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
 
 // Initializing the router
-$router = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
-    $r->addRoute("GET", "/me", function (ServerRequestInterface $request, ResponseInterface $response) {
+$router = FastRoute\simpleDispatcher(static function (FastRoute\RouteCollector $r) {
+    $r->addRoute("GET", "/me", static function (ServerRequestInterface $request, ResponseInterface $response) {
         $response->getBody()->write("Hello, World!");
 
         return $response;

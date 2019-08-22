@@ -12,9 +12,7 @@ class HeaderMiddleware implements MiddlewareInterface
 {
     protected string $name;
 
-    /**
-     * @var string|string[]
-     */
+    /** @var string|string[] */
     protected $value;
 
     /**

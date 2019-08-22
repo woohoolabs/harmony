@@ -26,7 +26,7 @@ class DispatcherMiddlewareTest extends TestCase
     public function returnResponse(): void
     {
         $harmony = $this->createHarmonyWithAction(
-            function (ServerRequestInterface $request, ResponseInterface $response) {
+            static function (ServerRequestInterface $request, ResponseInterface $response) {
                 return $response->withStatus(404);
             }
         );
@@ -43,7 +43,7 @@ class DispatcherMiddlewareTest extends TestCase
     public function callNextMiddleware(): void
     {
         $harmony = $this->createHarmonyWithAction(
-            function (ServerRequestInterface $request, ResponseInterface $response) {
+            static function (ServerRequestInterface $request, ResponseInterface $response) {
                 return $response;
             }
         );
@@ -95,7 +95,7 @@ class DispatcherMiddlewareTest extends TestCase
     public function dispatchAnonymousFunction(): void
     {
         $request = new DummyServerRequest();
-        $callable = function () {
+        $callable = static function () {
             throw new TestException();
         };
         $request = $request->withAttribute("__action", $callable);

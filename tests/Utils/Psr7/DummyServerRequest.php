@@ -11,9 +11,7 @@ use Zend\Diactoros\Stream;
 
 class DummyServerRequest implements ServerRequestInterface
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     private $attributes = [];
 
     /**
@@ -253,6 +251,7 @@ class DummyServerRequest implements ServerRequestInterface
      *
      * @link https://tools.ietf.org/html/rfc7230#section-2.7 (for the various
      *     request-target forms allowed in request messages)
+     *
      * @param mixed $requestTarget
      * @return static
      */
@@ -297,6 +296,7 @@ class DummyServerRequest implements ServerRequestInterface
      * This method MUST return a UriInterface instance.
      *
      * @link https://tools.ietf.org/html/rfc3986#section-4.3
+     *
      * @return UriInterface Returns a UriInterface instance
      *     representing the URI of the request.
      */
@@ -331,6 +331,7 @@ class DummyServerRequest implements ServerRequestInterface
      * new UriInterface instance.
      *
      * @link https://tools.ietf.org/html/rfc3986#section-4.3
+     *
      * @param UriInterface $uri New request URI to use.
      * @param bool $preserveHost Preserve the original state of the Host header.
      * @return static
@@ -548,6 +549,7 @@ class DummyServerRequest implements ServerRequestInterface
      * specifying a default value to return if the attribute is not found.
      *
      * @see getAttributes()
+     *
      * @param string $name The attribute name.
      * @param mixed $default Default value to return if the attribute does not exist.
      * @return mixed
@@ -568,6 +570,7 @@ class DummyServerRequest implements ServerRequestInterface
      * updated attribute.
      *
      * @see getAttributes()
+     *
      * @param string $name The attribute name.
      * @param mixed $value The value of the attribute.
      * @return static
@@ -591,6 +594,7 @@ class DummyServerRequest implements ServerRequestInterface
      * the attribute.
      *
      * @see getAttributes()
+     *
      * @param string $name The attribute name.
      * @return static
      */

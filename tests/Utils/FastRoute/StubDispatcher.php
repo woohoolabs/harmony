@@ -25,7 +25,6 @@ class StubDispatcher implements Dispatcher
      *
      * @param string $httpMethod
      * @param string $uri
-     *
      * @return array
      */
     public function dispatch($httpMethod, $uri)

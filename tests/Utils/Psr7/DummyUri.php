@@ -20,6 +20,7 @@ class DummyUri implements UriInterface
      * added.
      *
      * @see https://tools.ietf.org/html/rfc3986#section-3.1
+     *
      * @return string The URI scheme.
      */
     public function getScheme()
@@ -43,6 +44,7 @@ class DummyUri implements UriInterface
      * scheme, it SHOULD NOT be included.
      *
      * @see https://tools.ietf.org/html/rfc3986#section-3.2
+     *
      * @return string The URI authority, in "[user-info@]host[:port]" format.
      */
     public function getAuthority()
@@ -79,6 +81,7 @@ class DummyUri implements UriInterface
      * Section 3.2.2.
      *
      * @see https://tools.ietf.org/html/rfc3986#section-3.2.2
+     *
      * @return string The URI host.
      */
     public function getHost()
@@ -129,6 +132,7 @@ class DummyUri implements UriInterface
      *
      * @see https://tools.ietf.org/html/rfc3986#section-2
      * @see https://tools.ietf.org/html/rfc3986#section-3.3
+     *
      * @return string The URI path.
      */
     public function getPath()
@@ -154,6 +158,7 @@ class DummyUri implements UriInterface
      *
      * @see https://tools.ietf.org/html/rfc3986#section-2
      * @see https://tools.ietf.org/html/rfc3986#section-3.4
+     *
      * @return string The URI query string.
      */
     public function getQuery()
@@ -175,6 +180,7 @@ class DummyUri implements UriInterface
      *
      * @see https://tools.ietf.org/html/rfc3986#section-2
      * @see https://tools.ietf.org/html/rfc3986#section-3.5
+     *
      * @return string The URI fragment.
      */
     public function getFragment()
@@ -347,6 +353,7 @@ class DummyUri implements UriInterface
      * - If a fragment is present, it MUST be prefixed by "#".
      *
      * @see https://tools.ietf.org/html/rfc3986#section-4.1
+     *
      * @return string
      */
     public function __toString()

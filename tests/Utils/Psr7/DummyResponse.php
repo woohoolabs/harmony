@@ -11,19 +11,13 @@ use function is_array;
 
 class DummyResponse implements ResponseInterface
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     private $reasonPhrase = '';
 
-    /**
-     * @var int
-     */
+    /** @var int */
     private $statusCode = 200;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     private $headers = [];
 
     /**
@@ -257,6 +251,7 @@ class DummyResponse implements ResponseInterface
      *
      * @link https://tools.ietf.org/html/rfc7231#section-6
      * @link https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml
+     *
      * @param int $code The 3-digit integer result code to set.
      * @param string $reasonPhrase The reason phrase to use with the
      *     provided status code; if none is provided, implementations MAY
@@ -284,10 +279,11 @@ class DummyResponse implements ResponseInterface
      *
      * @link https://tools.ietf.org/html/rfc7231#section-6
      * @link https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml
+     *
      * @return string Reason phrase; must return an empty string if none present.
      */
     public function getReasonPhrase()
     {
-        return "";
+        return $this->reasonPhrase;
     }
 }

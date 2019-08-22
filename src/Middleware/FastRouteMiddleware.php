@@ -14,9 +14,7 @@ use WoohooLabs\Harmony\Exception\RouteNotFound;
 
 class FastRouteMiddleware implements MiddlewareInterface
 {
-    /**
-     * @var Dispatcher|null
-     */
+    /** @var Dispatcher|null */
     protected $fastRoute;
 
     protected string $actionAttributeName;
