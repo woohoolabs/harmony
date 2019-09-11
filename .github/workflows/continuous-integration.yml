@@ -1,0 +1,116 @@
+name: "Continuous Integration"
+
+on:
+  - pull_request
+  - push
+
+jobs:
+  coding-standards:
+    name: "Coding Standards"
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@master
+
+      - name: "Install PHP 7.4"
+        run: |
+          sudo add-apt-repository ppa:ondrej/php
+          sudo apt-get update
+          sudo apt-get install php7.4 php7.4-mbstring php7.4-xml
+
+      - name: "Validate composer.json"
+        run: php7.4 $(which composer) validate --strict
+
+      - name: "Install dependencies with composer"
+        run: php7.4 $(which composer) install --no-interaction --no-progress --no-suggest
+
+      - name: "Run PHP CodeSniffer"
+        run: php7.4 vendor/bin/phpcs --standard=phpcs.xml
+
+  static-code-analysis:
+    name: "Static Code Analysis"
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@master
+
+      - name: "Install PHP 7.4"
+        run: |
+          sudo add-apt-repository ppa:ondrej/php
+          sudo apt-get update
+          sudo apt-get install php7.4 php7.4-mbstring php7.4-xml
+
+      - name: "Install dependencies with composer"
+        run: php7.4 $(which composer) install --no-interaction --no-progress --no-suggest
+
+      - name: "Run phpstan/phpstan"
+        run: php7.4 vendor/bin/phpstan analyse --level 7 src tests
+
+  tests:
+    name: "Tests"
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php-binary:
+          - php7.4
+
+        dependencies:
+          - lowest
+          - highest
+
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@master
+
+      - name: "Install PHP 7.4"
+        run: |
+          sudo add-apt-repository ppa:ondrej/php
+          sudo apt-get update
+          sudo apt-get install php7.4 php7.4-mbstring php7.4-xml
+
+      - name: "Install lowest dependencies with composer"
+        if: matrix.dependencies == 'lowest'
+        run: ${{ matrix.php-binary }} $(which composer) update --no-interaction --no-progress --no-suggest --prefer-lowest
+
+      - name: "Install highest dependencies with composer"
+        if: matrix.dependencies == 'highest'
+        run: ${{ matrix.php-binary }} $(which composer) update --no-interaction --no-progress --no-suggest
+
+      - name: "Run unit tests"
+        run: ${{ matrix.php-binary }} vendor/bin/phpunit
+
+  code-coverage:
+    name: "Code Coverage"
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@master
+
+      - name: "Install PHP 7.4"
+        run: |
+          sudo add-apt-repository ppa:ondrej/php
+          sudo apt-get update
+          sudo apt-get install php7.4 php7.4-mbstring php7.4-xml
+
+      - name: "Install dependencies with composer"
+        run: php7.4 $(which composer) install --no-interaction --no-progress --no-suggest
+
+      - name: "Dump Xdebug filter with phpunit/phpunit"
+        run: php7.4 vendor/bin/phpunit --dump-xdebug-filter=.build/phpunit/xdebug-filter.php
+
+      - name: "Collect code coverage with Xdebug and phpunit/phpunit"
+        run: php7.4 vendor/bin/phpunit --coverage-clover=build/logs/clover.xml --prepend=.build/phpunit/xdebug-filter.php
+
+      - name: "Download code coverage uploader for Codecov.io"
+        run: curl -s https://codecov.io/bash -o codecov
+
+      - name: "Send code coverage report to Codecov.io"
+        run: bash codecov -t ${{ secrets.CODECOV_TOKEN }}
