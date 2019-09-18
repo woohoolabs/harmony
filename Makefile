@@ -1,5 +1,6 @@
 .PHONY: help
 .DEFAULT_GOAL := help
+$(VERBOSE).SILENT:
 
 help: ## Print the help screen
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
@@ -28,5 +29,5 @@ cs: ## Run PHP CodeSniffer to detect issues with coding style
 cs-fix: ## Run PHPCBF to automatically fix issues with coding style
 	docker-compose run --rm harmony-php /var/www/vendor/bin/phpcbf --standard=/var/www/phpcs.xml
 
-release: ## Release a new version of the library
-	make test && make phpstan && make cs && ./vendor/bin/releaser release
+release: test phpstan cs ## Release a new version of the library
+	./vendor/bin/releaser release
