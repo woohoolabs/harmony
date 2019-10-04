@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace WoohooLabs\Harmony\Middleware;
@@ -9,12 +10,12 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Zend\HttpHandlerRunner\Emitter\EmitterInterface;
 use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
+
 use function headers_sent;
 
 class HttpHandlerRunnerMiddleware implements MiddlewareInterface
 {
     protected EmitterInterface $emitter;
-
     protected bool $checkOutputStart;
 
     public function __construct(?EmitterInterface $emitter = null, bool $checkOutputStart = false)

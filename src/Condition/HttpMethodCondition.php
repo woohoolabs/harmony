@@ -1,10 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace WoohooLabs\Harmony\Condition;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+
 use function in_array;
 
 class HttpMethodCondition implements ConditionInterface

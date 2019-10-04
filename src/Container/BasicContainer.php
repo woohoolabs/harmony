@@ -1,10 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace WoohooLabs\Harmony\Container;
 
 use Psr\Container\ContainerInterface;
 use Throwable;
+
 use function class_exists;
 
 class BasicContainer implements ContainerInterface

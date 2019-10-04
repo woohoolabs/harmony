@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace WoohooLabs\Harmony;
@@ -8,16 +9,14 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use WoohooLabs\Harmony\Condition\ConditionInterface;
+
 use function array_key_exists;
 
 class Harmony implements RequestHandlerInterface
 {
     protected ServerRequestInterface $request;
-
     protected ResponseInterface $response;
-
     protected array $middleware = [];
-
     protected int $currentMiddleware = -1;
 
     public function __construct(ServerRequestInterface $request, ResponseInterface $response)

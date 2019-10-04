@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace WoohooLabs\Harmony\Middleware;
@@ -10,15 +11,14 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use WoohooLabs\Harmony\Container\BasicContainer;
 use WoohooLabs\Harmony\Exception\DispatcherException;
+
 use function is_array;
 use function is_callable;
 use function is_string;
 
 class DispatcherMiddleware implements MiddlewareInterface
 {
-    /** @var ContainerInterface */
-    protected $container;
-
+    protected ContainerInterface $container;
     protected string $actionAttributeName;
 
     public function __construct(?ContainerInterface $container = null, string $actionAttributeName = "__action")

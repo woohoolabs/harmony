@@ -10,6 +10,13 @@ DEPRECATED:
 
 FIXED:
 
+## 6.2.2 - 2019-10-04
+
+CHANGED:
+
+- Improved PSR-12 conformance
+- Added more property type declarations
+
 ## 6.2.1 - 2019-08-21
 
 CHANGED:

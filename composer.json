@@ -27,9 +27,9 @@
         "phpstan/phpstan-phpunit": "^0.11.0",
         "phpstan/phpstan-strict-rules": "^0.11.0",
         "phpunit/phpunit": "^8.3.4",
-        "squizlabs/php_codesniffer": "^3.4.2",
-        "woohoolabs/coding-standard": "^2.0.1",
-        "woohoolabs/releaser": "^1.1.0",
+        "squizlabs/php_codesniffer": "^3.5.0",
+        "woohoolabs/coding-standard": "^2.1.1",
+        "woohoolabs/releaser": "^1.2.0",
         "zendframework/zend-diactoros": "^2.0.0",
         "zendframework/zend-httphandlerrunner": "^1.0.0"
     },

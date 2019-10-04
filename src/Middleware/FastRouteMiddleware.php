@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace WoohooLabs\Harmony\Middleware;
@@ -14,9 +15,7 @@ use WoohooLabs\Harmony\Exception\RouteNotFound;
 
 class FastRouteMiddleware implements MiddlewareInterface
 {
-    /** @var Dispatcher|null */
-    protected $fastRoute;
-
+    protected ?Dispatcher $fastRoute;
     protected string $actionAttributeName;
 
     public function __construct(?Dispatcher $fastRoute = null, string $actionAttributeName = "__action")

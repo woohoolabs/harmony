@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace WoohooLabs\Harmony\Tests\Utils\Psr7;
@@ -7,6 +8,7 @@ use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use Zend\Diactoros\Stream;
+
 use function is_array;
 
 class DummyResponse implements ResponseInterface
