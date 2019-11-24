@@ -23,6 +23,15 @@ jobs:
       - name: "Validate composer.json"
         run: php7.4 $(which composer) validate --strict
 
+      - name: "Cache dependencies"
+        uses: actions/cache@v1
+        id: cache
+        with:
+          path: ~/.composer/cache/files
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
       - name: "Install dependencies with composer"
         run: php7.4 $(which composer) install --no-interaction --no-progress --no-suggest
 
@@ -44,8 +53,17 @@ jobs:
           sudo apt-get update
           sudo apt-get install php7.4 php7.4-mbstring php7.4-xml
 
+      - name: "Cache dependencies"
+        uses: actions/cache@v1
+        id: cache
+        with:
+          path: ~/.composer/cache/files
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
       - name: "Install dependencies with composer"
-        run: php7.4 $(which composer) install --no-interaction --no-progress --no-suggest
+        run: php7.4 $(which composer) install --no-interaction --no-progress --no-suggest --no-plugins
 
       - name: "Run phpstan/phpstan"
         run: php7.4 vendor/bin/phpstan analyse --level 7 src tests
@@ -74,13 +92,22 @@ jobs:
           sudo apt-get update
           sudo apt-get install php7.4 php7.4-mbstring php7.4-xml
 
+      - name: "Cache dependencies"
+        uses: actions/cache@v1
+        id: cache
+        with:
+          path: ~/.composer/cache/files
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
       - name: "Install lowest dependencies with composer"
         if: matrix.dependencies == 'lowest'
-        run: ${{ matrix.php-binary }} $(which composer) update --no-interaction --no-progress --no-suggest --prefer-lowest
+        run: ${{ matrix.php-binary }} $(which composer) update --no-interaction --no-progress --no-suggest --no-plugins --prefer-lowest
 
       - name: "Install highest dependencies with composer"
         if: matrix.dependencies == 'highest'
-        run: ${{ matrix.php-binary }} $(which composer) update --no-interaction --no-progress --no-suggest
+        run: ${{ matrix.php-binary }} $(which composer) update --no-interaction --no-progress --no-suggest --no-plugins
 
       - name: "Run unit tests"
         run: ${{ matrix.php-binary }} vendor/bin/phpunit
@@ -100,8 +127,17 @@ jobs:
           sudo apt-get update
           sudo apt-get install php7.4 php7.4-mbstring php7.4-xml
 
+      - name: "Cache dependencies"
+        uses: actions/cache@v1
+        id: cache
+        with:
+          path: ~/.composer/cache/files
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
       - name: "Install dependencies with composer"
-        run: php7.4 $(which composer) install --no-interaction --no-progress --no-suggest
+        run: php7.4 $(which composer) install --no-interaction --no-progress --no-suggest --no-plugins
 
       - name: "Dump Xdebug filter with phpunit/phpunit"
         run: php7.4 vendor/bin/phpunit --dump-xdebug-filter=.build/phpunit/xdebug-filter.php
@@ -114,3 +150,4 @@ jobs:
 
       - name: "Send code coverage report to Codecov.io"
         run: bash codecov -t ${{ secrets.CODECOV_TOKEN }}
+
