@@ -8,8 +8,12 @@ use FastRoute\Dispatcher;
 
 class StubDispatcher implements Dispatcher
 {
+    /** @var array<int, mixed> */
     private array $routeInfo;
 
+    /**
+     * @param array<int, mixed> $routeInfo
+     */
     public function __construct(array $routeInfo = [])
     {
         $this->routeInfo = $routeInfo;
@@ -26,9 +30,9 @@ class StubDispatcher implements Dispatcher
      *
      * @param string $httpMethod
      * @param string $uri
-     * @return array
+     * @return array<int, mixed>
      */
-    public function dispatch($httpMethod, $uri)
+    public function dispatch($httpMethod, $uri): array
     {
         return $this->routeInfo;
     }

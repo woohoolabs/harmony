@@ -11,8 +11,12 @@ use function strpos;
 
 class PathPrefixCondition implements ConditionInterface
 {
+    /** @var string[] */
     protected array $pathPrefixes = [];
 
+    /**
+     * @param string[] $pathPrefixes
+     */
     public function __construct(array $pathPrefixes)
     {
         $this->pathPrefixes = $pathPrefixes;

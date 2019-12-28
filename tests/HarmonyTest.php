@@ -156,7 +156,7 @@ class HarmonyTest extends TestCase
         $harmony = $this->createHarmony();
         $harmony->addCondition(
             new StubCondition(true),
-            static function (Harmony $harmony) use ($middleware) {
+            static function (Harmony $harmony) use ($middleware): void {
                 $harmony->addMiddleware($middleware);
             }
         );
@@ -175,7 +175,7 @@ class HarmonyTest extends TestCase
         $harmony = $this->createHarmony();
         $harmony->addCondition(
             new StubCondition(false),
-            static function (Harmony $harmony) use ($middleware) {
+            static function (Harmony $harmony) use ($middleware): void {
                 $harmony->addMiddleware($middleware);
             }
         );

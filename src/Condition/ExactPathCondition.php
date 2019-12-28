@@ -11,8 +11,12 @@ use function in_array;
 
 class ExactPathCondition implements ConditionInterface
 {
+    /** @var string[] */
     protected array $paths = [];
 
+    /**
+     * @param string[] $paths
+     */
     public function __construct(array $paths)
     {
         $this->paths = $paths;

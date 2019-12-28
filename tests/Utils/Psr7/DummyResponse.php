@@ -19,7 +19,7 @@ class DummyResponse implements ResponseInterface
     /** @var int */
     private $statusCode = 200;
 
-    /** @var array */
+    /** @var array<string, mixed> */
     private $headers = [];
 
     /**

@@ -12,8 +12,8 @@ use Zend\Diactoros\Stream;
 
 class DummyServerRequest implements ServerRequestInterface
 {
-    /** @var array */
-    private $attributes = [];
+    /** @var array<string, mixed> */
+    private array $attributes = [];
 
     /**
      * Retrieves the HTTP protocol version as a string.
@@ -349,9 +349,9 @@ class DummyServerRequest implements ServerRequestInterface
      * typically derived from PHP's $_SERVER superglobal. The data IS NOT
      * REQUIRED to originate from $_SERVER.
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    public function getServerParams()
+    public function getServerParams(): array
     {
         return [];
     }
@@ -364,7 +364,7 @@ class DummyServerRequest implements ServerRequestInterface
      * The data MUST be compatible with the structure of the $_COOKIE
      * superglobal.
      *
-     * @return array
+     * @return array<mixed, mixed>
      */
     public function getCookieParams()
     {
@@ -385,7 +385,7 @@ class DummyServerRequest implements ServerRequestInterface
      * immutability of the message, and MUST return an instance that has the
      * updated cookie values.
      *
-     * @param array $cookies Array of key/value pairs representing cookies.
+     * @param array<mixed, mixed> $cookies Array of key/value pairs representing cookies.
      * @return static
      */
     public function withCookieParams(array $cookies)
@@ -403,7 +403,7 @@ class DummyServerRequest implements ServerRequestInterface
      * values, you may need to parse the query string from `getUri()->getQuery()`
      * or from the `QUERY_STRING` server param.
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function getQueryParams()
     {
@@ -428,7 +428,7 @@ class DummyServerRequest implements ServerRequestInterface
      * immutability of the message, and MUST return an instance that has the
      * updated query string arguments.
      *
-     * @param array $query Array of query string arguments, typically from
+     * @param array<mixed, mixed> $query Array of query string arguments, typically from
      *     $_GET.
      * @return static
      */
@@ -446,7 +446,7 @@ class DummyServerRequest implements ServerRequestInterface
      * These values MAY be prepared from $_FILES or the message body during
      * instantiation, or MAY be injected via withUploadedFiles().
      *
-     * @return array An array tree of UploadedFileInterface instances; an empty
+     * @return array<mixed, mixed> An array tree of UploadedFileInterface instances; an empty
      *     array MUST be returned if no data is present.
      */
     public function getUploadedFiles()
@@ -461,7 +461,7 @@ class DummyServerRequest implements ServerRequestInterface
      * immutability of the message, and MUST return an instance that has the
      * updated body parameters.
      *
-     * @param array $uploadedFiles An array tree of UploadedFileInterface instances.
+     * @param array<mixed, mixed> $uploadedFiles An array tree of UploadedFileInterface instances.
      * @return static
      * @throws InvalidArgumentException if an invalid structure is provided.
      */
@@ -482,7 +482,7 @@ class DummyServerRequest implements ServerRequestInterface
      * potential types MUST be arrays or objects only. A null value indicates
      * the absence of body content.
      *
-     * @return array|object|null The deserialized body parameters, if any.
+     * @return array<mixed, mixed>|object|null The deserialized body parameters, if any.
      *     These will typically be an array or object.
      */
     public function getParsedBody()
@@ -512,7 +512,7 @@ class DummyServerRequest implements ServerRequestInterface
      * immutability of the message, and MUST return an instance that has the
      * updated body parameters.
      *
-     * @param array|object|null $data The deserialized body data. This will
+     * @param array<mixed, mixed>|object|null $data The deserialized body data. This will
      *     typically be in an array or object.
      * @return static
      * @throws InvalidArgumentException if an unsupported argument type is
@@ -532,7 +532,7 @@ class DummyServerRequest implements ServerRequestInterface
      * deserializing non-form-encoded message bodies; etc. Attributes
      * will be application and request specific, and CAN be mutable.
      *
-     * @return array Attributes derived from the request.
+     * @return array<mixed, mixed> Attributes derived from the request.
      */
     public function getAttributes()
     {

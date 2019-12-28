@@ -16,6 +16,7 @@ class Harmony implements RequestHandlerInterface
 {
     protected ServerRequestInterface $request;
     protected ResponseInterface $response;
+    /** @var array<int, array<string, mixed>> */
     protected array $middleware = [];
     protected int $currentMiddleware = -1;
 
@@ -108,6 +109,9 @@ class Harmony implements RequestHandlerInterface
         return null;
     }
 
+    /**
+     * @param array<string, mixed> $middlewareArray
+     */
     protected function executeMiddleware(array $middlewareArray): void
     {
         /** @var MiddlewareInterface $middleware */
@@ -116,6 +120,9 @@ class Harmony implements RequestHandlerInterface
         $this->response = $middleware->process($this->request, $this);
     }
 
+    /**
+     * @param array<string, mixed> $conditionArray
+     */
     protected function executeCondition(array $conditionArray): void
     {
         /** @var ConditionInterface $condition */
