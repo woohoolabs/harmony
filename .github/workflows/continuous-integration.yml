@@ -51,7 +51,7 @@ jobs:
         run: |
           sudo add-apt-repository ppa:ondrej/php
           sudo apt-get update
-          sudo apt-get install php7.4 php7.4-mbstring php7.4-xml
+          sudo apt-get install php7.4 php7.4-mbstring php7.4-xdebug php7.4-xml
 
       - name: "Cache dependencies"
         uses: actions/cache@v1
