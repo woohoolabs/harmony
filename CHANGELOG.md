@@ -1,4 +1,4 @@
-## 6.3.0 - unreleased
+## 7.1.0 - unreleased
 
 ADDED:
 
@@ -9,6 +9,12 @@ REMOVED:
 DEPRECATED:
 
 FIXED:
+
+## 7.0.0 - 2019-12-29
+
+REMOVED:
+
+- `Harmony::__invoke()` which was deprecated since Harmony 6.1.0
 
 ## 6.2.2 - 2019-10-04
 

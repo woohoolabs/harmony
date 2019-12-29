@@ -120,7 +120,7 @@ $ composer require woohoolabs/harmony
 > Note: The tests and examples won't be downloaded by default. You have to use `composer require woohoolabs/harmony --prefer-source`
 or clone the repository if you need them.
 
-Harmony 6.2 requires PHP 7.4 at least, but you may use Harmony 6.1 for PHP 7.1+.
+Harmony 6.2+ requires PHP 7.4 at least, but you may use Harmony 6.1 for PHP 7.1+.
 
 ### Install the optional dependencies:
 
