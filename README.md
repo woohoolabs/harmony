@@ -182,7 +182,7 @@ Let's add the routes for the aforementioned endpoints to FastRoute:
 ```php
 use App\Controllers\UserController;
 
-$router = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
+$router = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
     // An anonymous function endpoint
     $r->addRoute("GET", "/me", function (ServerRequestInterface $request, ResponseInterface $response) {
             // ...
@@ -232,7 +232,7 @@ Most of the time, you will define your endpoints (~controller actions) as regula
 section about the default router:
 
 ```php
-$r->addRoute("GET", "/users/me", [\App\Controllers\UserController::class, "getMe"]);
+$router->addRoute("GET", "/users/me", [\App\Controllers\UserController::class, "getMe"]);
 ```
 
 Nowadays, there is an increasing popularity of controllers containing only one action. In this case it is a general
@@ -240,7 +240,7 @@ practice to implement the `__invoke()` magic method. When following this school 
 simplified as seen below:
 
 ```php
-$r->addRoute("GET", "/users/me", \App\Controllers\GetMe::class);
+$router->addRoute("GET", "/users/me", \App\Controllers\GetMe::class);
 ```
 
 Note: In case you use a different router or dispatcher than the default ones, please make sure if the feature is available
@@ -275,18 +275,15 @@ New middleware also has to implement the [PSR-15](https://www.php-fig.org/psr/ps
 see an example:
 
 ```php
-use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Log\LoggerInterface;
 
 class LoggerMiddleware implements MiddlewareInterface
 {
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
     
     public function __construct(LoggerInterface $logger)
     {
@@ -296,13 +293,13 @@ class LoggerMiddleware implements MiddlewareInterface
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         // Perform logging before handling the request
-        $logger->info("Request needs to be handled");
+        $this->logger->info("Request needs to be handled");
         
         // Invoking the remaining middleware
         $response = $handler->handle($request);
         
         // Perform logging after the request has been handled
-        $logger->info("Request was successfuly handled");
+        $this->logger->info("Request was successfully handled");
     
         // Return the response
         return $response;
@@ -321,22 +318,15 @@ manipulate and return a response whose "prototype" was passed to the middleware 
 in action in the following example:
 
 ```php
-use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
 class AuthenticationMiddleware implements MiddlewareInterface
 {
-    /**
-     * @var string
-     */
-    protected $apiKey;
-    
-    /**
-     * @var ResponseInterface
-     */
-    protected $errorResponsePrototype;
+    protected string $apiKey;
+    protected ResponseInterface $errorResponsePrototype;
 
     public function __construct(string $apiKey, ResponseInterface $errorResponsePrototype)
     {
@@ -374,27 +364,16 @@ Let's revisit our authentication middleware example from the last section! This 
 endpoints below the `/users` path. In Harmony 2, we had to achieve it with something like this:
 
 ```php
-use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
 class AuthenticationMiddleware implements MiddlewareInterface
 {
-    /**
-     * @var string
-     */
-    protected $securedPath;
-
-    /**
-     * @var MyAuthenticatorInterface
-     */
-    protected $authenticator;
-    
-    /**
-     * @var ResponseInterface
-     */
-    protected $errorResponsePrototype;
+    protected string $securedPath;
+    protected MyAuthenticatorInterface $authenticator;
+    protected ResponseInterface $errorResponsePrototype;
 
     public function __construct(string $securedPath, MyAuthenticatorInterface $authenticator, ResponseInterface $errorResponsePrototype)
     {
@@ -403,7 +382,7 @@ class AuthenticationMiddleware implements MiddlewareInterface
         $this->errorResponsePrototype = $errorResponsePrototype;
     }
 
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next): ResponseInterface
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         // Invoke the remaining middleware and cancel authentication if the current URL is for a public endpoint
         if (substr($request->getUri()->getPath(), 0, strlen($this->securedPath)) !== $this->securedPath) {
@@ -437,7 +416,7 @@ you can utilize the built-in `PathPrefixCondition`. You only have to attach it t
 ```php
 $harmony->addCondition(
     new PathPrefixCondition(["/users"]),
-    function (Harmony $harmony) {
+    static function (Harmony $harmony) {
         $harmony->addMiddleware(new AuthenticationMiddleware(new ApiKeyAuthenticator("123")));
     }
 );
