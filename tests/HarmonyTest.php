@@ -55,7 +55,7 @@ class HarmonyTest extends TestCase
         $harmony->addMiddleware(new FakeMiddleware());
         $harmony->addMiddleware(new InternalServerErrorMiddleware(new DummyResponse()));
 
-        $response = $harmony();
+        $response = $harmony->run();
 
         $this->assertEquals(["dummy"], $response->getHeader("dummy"));
         $this->assertEquals(500, $response->getStatusCode());
@@ -71,7 +71,7 @@ class HarmonyTest extends TestCase
         $harmony->addMiddleware(new InternalServerErrorMiddleware(new DummyResponse()));
         $harmony->addMiddleware(new ExceptionMiddleware());
 
-        $response = $harmony();
+        $response = $harmony->run();
 
         $this->assertEquals(500, $response->getStatusCode());
     }
@@ -84,7 +84,7 @@ class HarmonyTest extends TestCase
         $harmony = $this->createHarmony();
         $request = new DummyServerRequest();
 
-        $harmony();
+        $harmony->run();
 
         $this->assertEquals($request, $harmony->getRequest());
     }
@@ -97,7 +97,7 @@ class HarmonyTest extends TestCase
         $harmony = $this->createHarmony();
         $response = new DummyResponse();
 
-        $result = $harmony();
+        $result = $harmony->run();
 
         $this->assertEquals($response, $result);
     }
@@ -161,7 +161,7 @@ class HarmonyTest extends TestCase
             }
         );
 
-        $harmony();
+        $harmony->run();
 
         $this->assertTrue($middleware->isInvoked());
     }
@@ -180,7 +180,7 @@ class HarmonyTest extends TestCase
             }
         );
 
-        $harmony();
+        $harmony->run();
 
         $this->assertFalse($middleware->isInvoked());
     }
