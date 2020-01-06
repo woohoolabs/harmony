@@ -44,7 +44,7 @@ This blog post explains the idea best why Harmony was started back in 2014: http
 ### Why Harmony?
 
 There are a lot of very similar middleware dispatcher libraries out there, like
-[Zend-Stratigility](https://github.com/zendframework/zend-stratigility/),
+[Laminas-Stratigility](https://github.com/laminas/laminas-stratigility),
 [Slim Framework 3](https://www.slimframework.com/docs/concepts/middleware.html) or
 [Relay](http://relayphp.com/). You might ask yourself, what is the purpose of yet another library with the same
 functionality?
@@ -102,11 +102,11 @@ The only thing you need before getting started is [Composer](https://getcomposer
 ### Install a PSR-7 implementation:
 
 Because Harmony requires a PSR-7 implementation (a package which provides the `psr/http-message-implementation` virtual
-package), you must install one first. You may use [Zend Diactoros](https://github.com/zendframework/zend-diactoros) or
+package), you must install one first. You may use [Laminas Diactoros](https://github.com/laminas/laminas-diactoros) or
 any other library of your preference:
 
 ```bash
-$ composer require zendframework/zend-diactoros
+$ composer require laminas/laminas-diactoros
 ```
 
 ### Install Harmony:
@@ -128,7 +128,7 @@ If you want to use the default middleware stack then you have to require the fol
 
 ```bash
 $ composer require nikic/fast-route # FastRouteMiddleware needs it
-$ composer require zendframework/zend-httphandlerrunner # HttpHandlerRunnerMiddleware needs it
+$ composer require laminas/laminas-httphandlerrunner # LaminasEmitterMiddleware needs it
 ```
 
 ## Basic Usage
@@ -197,24 +197,24 @@ $router = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
 ### Finally, launch the app:
 
 ```php
+use Laminas\Diactoros\Response;
+use Laminas\Diactoros\ServerRequestFactory;
+use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use WoohooLabs\Harmony\Harmony;
-use WoohooLabs\Harmony\Middleware\FastRouteMiddleware;
 use WoohooLabs\Harmony\Middleware\DispatcherMiddleware;
-use WoohooLabs\Harmony\Middleware\HttpHandlerRunnerMiddleware;
-use Zend\Diactoros\ServerRequestFactory;
-use Zend\Diactoros\Response;
-use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
+use WoohooLabs\Harmony\Middleware\FastRouteMiddleware;
+use WoohooLabs\Harmony\Middleware\LaminasEmitterMiddleware;
 
 $harmony = new Harmony(ServerRequestFactory::fromGlobals(), new Response());
 $harmony
-    ->addMiddleware(new HttpHandlerRunnerMiddleware(new SapiEmitter()))
+    ->addMiddleware(new LaminasEmitterMiddleware(new SapiEmitter()))
     ->addMiddleware(new FastRouteMiddleware($router))
     ->addMiddleware(new DispatcherMiddleware())
     ->run();
 ```
 
 You have to register all the prior middleware in order for the framework to function properly:
-- `HttpHandlerRunnerMiddleware` sends the response to the ether via [zend-httphandlerrunner](https://github.com/zendframework/zend-httphandlerrunner)
+- `HttpHandlerRunnerMiddleware` sends the response to the ether via [laminas-httphandlerrunner](https://github.com/laminas/laminas-httphandlerrunner)
 - `FastRouteMiddleware` takes care of routing (`$router`  was configured in the previous step)
 - `DispatcherMiddleware` dispatches a controller which belongs to the request's current route
 

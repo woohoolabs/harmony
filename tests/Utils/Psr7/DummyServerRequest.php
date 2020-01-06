@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace WoohooLabs\Harmony\Tests\Utils\Psr7;
 
 use InvalidArgumentException;
+use Laminas\Diactoros\Stream;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriInterface;
-use Zend\Diactoros\Stream;
 
 class DummyServerRequest implements ServerRequestInterface
 {

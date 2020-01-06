@@ -7,20 +7,20 @@ namespace WoohooLabs\Harmony\Tests\Middleware;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use PHPUnit\Framework\TestCase;
 use WoohooLabs\Harmony\Harmony;
-use WoohooLabs\Harmony\Middleware\HttpHandlerRunnerMiddleware;
-use WoohooLabs\Harmony\Tests\Utils\Emitter\DummyHttpHandlerRunnerEmitter;
+use WoohooLabs\Harmony\Middleware\LaminasEmitterMiddleware;
+use WoohooLabs\Harmony\Tests\Utils\Emitter\DummyLaminasEmitter;
 use WoohooLabs\Harmony\Tests\Utils\Psr7\DummyResponse;
 use WoohooLabs\Harmony\Tests\Utils\Psr7\DummyServerRequest;
 
-class HttpHandlerRunnerMiddlewareTest extends TestCase
+class LaminasEmitterMiddlewareTest extends TestCase
 {
     /**
      * @test
      */
     public function constructWithCustomEmitter(): void
     {
-        $emitter = new DummyHttpHandlerRunnerEmitter();
-        $middleware = new HttpHandlerRunnerMiddleware($emitter);
+        $emitter = new DummyLaminasEmitter();
+        $middleware = new LaminasEmitterMiddleware($emitter);
 
         $returnedEmitter = $middleware->getEmitter();
 
@@ -32,7 +32,7 @@ class HttpHandlerRunnerMiddlewareTest extends TestCase
      */
     public function constructWithDefaultEmitter(): void
     {
-        $middleware = new HttpHandlerRunnerMiddleware();
+        $middleware = new LaminasEmitterMiddleware();
 
         $returnedEmitter = $middleware->getEmitter();
 
@@ -44,11 +44,11 @@ class HttpHandlerRunnerMiddlewareTest extends TestCase
      */
     public function setEmitter(): void
     {
-        $middleware = new HttpHandlerRunnerMiddleware();
+        $middleware = new LaminasEmitterMiddleware();
 
-        $middleware->setEmitter(new DummyHttpHandlerRunnerEmitter());
+        $middleware->setEmitter(new DummyLaminasEmitter());
 
-        $this->assertInstanceOf(DummyHttpHandlerRunnerEmitter::class, $middleware->getEmitter());
+        $this->assertInstanceOf(DummyLaminasEmitter::class, $middleware->getEmitter());
     }
 
     /**
@@ -57,7 +57,7 @@ class HttpHandlerRunnerMiddlewareTest extends TestCase
     public function process(): void
     {
         $harmony = $this->createHarmony();
-        $middleware = new HttpHandlerRunnerMiddleware(new DummyHttpHandlerRunnerEmitter());
+        $middleware = new LaminasEmitterMiddleware(new DummyLaminasEmitter());
 
         $this->expectOutputString("true");
 
@@ -69,7 +69,7 @@ class HttpHandlerRunnerMiddlewareTest extends TestCase
      */
     public function isOutputStartChecked(): void
     {
-        $middleware = new HttpHandlerRunnerMiddleware(null, true);
+        $middleware = new LaminasEmitterMiddleware(null, true);
 
         $isOutputStarted = $middleware->isOutputStartChecked();
 
@@ -81,7 +81,7 @@ class HttpHandlerRunnerMiddlewareTest extends TestCase
      */
     public function setCheckOutputStart(): void
     {
-        $middleware = new HttpHandlerRunnerMiddleware(null, true);
+        $middleware = new LaminasEmitterMiddleware(null, true);
 
         $middleware->setCheckOutputStart(false);
 

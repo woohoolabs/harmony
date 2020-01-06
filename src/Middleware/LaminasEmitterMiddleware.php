@@ -4,19 +4,16 @@ declare(strict_types=1);
 
 namespace WoohooLabs\Harmony\Middleware;
 
+use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
+use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Zend\HttpHandlerRunner\Emitter\EmitterInterface;
-use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
 
 use function headers_sent;
 
-/**
- * @deprecated since 7.1.0. Use LaminasEmitterMiddleware instead.
- */
-class HttpHandlerRunnerMiddleware implements MiddlewareInterface
+class LaminasEmitterMiddleware implements MiddlewareInterface
 {
     protected EmitterInterface $emitter;
     protected bool $checkOutputStart;

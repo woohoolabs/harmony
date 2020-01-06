@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 require_once "../vendor/autoload.php";
 
+use Laminas\Diactoros\Response;
+use Laminas\Diactoros\ServerRequestFactory;
+use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use WoohooLabs\Harmony\Examples\Controller\GetBookAction;
@@ -12,10 +15,7 @@ use WoohooLabs\Harmony\Examples\Middleware\ExceptionHandlerMiddleware;
 use WoohooLabs\Harmony\Harmony;
 use WoohooLabs\Harmony\Middleware\DispatcherMiddleware;
 use WoohooLabs\Harmony\Middleware\FastRouteMiddleware;
-use WoohooLabs\Harmony\Middleware\HttpHandlerRunnerMiddleware;
-use Zend\Diactoros\Response;
-use Zend\Diactoros\ServerRequestFactory;
-use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
+use WoohooLabs\Harmony\Middleware\LaminasEmitterMiddleware;
 
 // Initializing the router
 $router = FastRoute\simpleDispatcher(static function (FastRoute\RouteCollector $r) {
@@ -34,7 +34,7 @@ $harmony = new Harmony(ServerRequestFactory::fromGlobals(), new Response());
 
 // Stacking up middleware
 $harmony
-    ->addMiddleware(new HttpHandlerRunnerMiddleware(new SapiEmitter()))
+    ->addMiddleware(new LaminasEmitterMiddleware(new SapiEmitter()))
     ->addMiddleware(new ExceptionHandlerMiddleware(new Response()))
     ->addMiddleware(new FastRouteMiddleware($router))
     ->addMiddleware(new DispatcherMiddleware())

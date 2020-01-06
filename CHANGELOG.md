@@ -2,11 +2,15 @@
 
 ADDED:
 
+- `LaminasEmitterMiddleware`
+
 CHANGED:
 
 REMOVED:
 
 DEPRECATED:
+
+- `HttpHandlerRunnerMiddleware` because Zend Framework was migrated to Laminas
 
 FIXED:
 
