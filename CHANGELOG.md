@@ -1,8 +1,6 @@
-## 7.1.0 - unreleased
+## 7.2.0 - unreleased
 
 ADDED:
-
-- `LaminasEmitterMiddleware`
 
 CHANGED:
 
@@ -10,9 +8,17 @@ REMOVED:
 
 DEPRECATED:
 
-- `HttpHandlerRunnerMiddleware` because Zend Framework was migrated to Laminas
-
 FIXED:
+
+## 7.1.0 - 2020-01-06
+
+ADDED:
+
+- `LaminasEmitterMiddleware`
+
+DEPRECATED:
+
+- `HttpHandlerRunnerMiddleware` because Zend Framework was migrated to Laminas
 
 ## 7.0.0 - 2019-12-29
 
