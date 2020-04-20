@@ -88,12 +88,15 @@ class Harmony implements RequestHandlerInterface
         ]);
     }
 
-    protected function add(array $middleware): Harmony
+    /**
+     * @param array<string, mixed> $middlewareArray
+     */
+    protected function add(array $middlewareArray): Harmony
     {
         if ($this->injectNewMiddlewarePosition === null) {
-            $this->middleware[] = $middleware;
+            $this->middleware[] = $middlewareArray;
         } else {
-            array_splice($this->middleware, $this->injectNewMiddlewarePosition, 0, [$middleware]);
+            array_splice($this->middleware, $this->injectNewMiddlewarePosition, 0, [$middlewareArray]);
         }
 
         return $this;
