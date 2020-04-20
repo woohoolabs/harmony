@@ -185,6 +185,29 @@ class HarmonyTest extends TestCase
         $this->assertFalse($middleware->isInvoked());
     }
 
+    /**
+     * @test
+     */
+    public function runMiddlewareAfterConditionalMiddleware(): void
+    {
+        $middlewareCond = new SpyMiddleware();
+        $middlewareSecond = new SpyMiddleware();
+
+        $harmony = $this->createHarmony();
+        $harmony->addCondition(
+            new StubCondition(true),
+            static function (Harmony $harmony) use ($middlewareCond): void {
+                $harmony->addMiddleware($middlewareCond);
+            }
+        );
+        $harmony->addMiddleware($middlewareSecond);
+
+        $harmony->run();
+
+        $this->assertTrue($middlewareCond->isInvoked());
+        $this->assertTrue($middlewareSecond->isInvoked());
+    }
+
     protected function createHarmony(): Harmony
     {
         return new Harmony(new DummyServerRequest(), new DummyResponse());

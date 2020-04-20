@@ -19,6 +19,7 @@ class Harmony implements RequestHandlerInterface
     /** @var array<int, array<string, mixed>> */
     protected array $middleware = [];
     protected int $currentMiddleware = -1;
+    protected ?int $injectNewMiddlewarePosition = null;
 
     public function __construct(ServerRequestInterface $request, ResponseInterface $response)
     {
@@ -72,20 +73,27 @@ class Harmony implements RequestHandlerInterface
 
     public function addMiddleware(MiddlewareInterface $middleware, ?string $id = null): Harmony
     {
-        $this->middleware[] = [
+        return $this->add([
             "id" => $id,
             "middleware" => $middleware,
-        ];
-
-        return $this;
+        ]);
     }
 
     public function addCondition(ConditionInterface $condition, callable $callableOnSuccess): Harmony
     {
-        $this->middleware[] = [
+        return $this->add([
             "condition" => $condition,
             "middleware" => $callableOnSuccess,
-        ];
+        ]);
+    }
+
+    protected function add($middleware)
+    {
+        if ($this->injectNewMiddlewarePosition === null) {
+            $this->middleware[] = $middleware;
+        } else {
+            array_splice($this->middleware, $this->injectNewMiddlewarePosition, 0, [$middleware]);
+        }
 
         return $this;
     }
@@ -126,11 +134,10 @@ class Harmony implements RequestHandlerInterface
             return;
         }
 
-        $harmony = new Harmony($this->request, $this->response);
-        $callable($harmony, $this->request);
-        $harmony->run();
+        $this->injectNewMiddlewarePosition = $this->currentMiddleware + 1;
+        $callable($this, $this->request);
+        $this->injectNewMiddlewarePosition = null;
 
-        $this->request = $harmony->request;
-        $this->response = $harmony->response;
+        $this->handle($this->request);
     }
 }
