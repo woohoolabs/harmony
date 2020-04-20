@@ -11,6 +11,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 use WoohooLabs\Harmony\Condition\ConditionInterface;
 
 use function array_key_exists;
+use function array_splice;
 
 class Harmony implements RequestHandlerInterface
 {
@@ -87,7 +88,7 @@ class Harmony implements RequestHandlerInterface
         ]);
     }
 
-    protected function add($middleware)
+    protected function add(array $middleware): Harmony
     {
         if ($this->injectNewMiddlewarePosition === null) {
             $this->middleware[] = $middleware;
