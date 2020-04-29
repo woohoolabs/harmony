@@ -124,6 +124,151 @@ class HarmonyTest extends TestCase
     /**
      * @test
      */
+    public function runMiddlewareAfterConditionalMiddleware(): void
+    {
+        $middlewareCond = new SpyMiddleware();
+        $middlewareSecond = new SpyMiddleware();
+
+        $harmony = $this->createHarmony();
+        $harmony->addCondition(
+            new StubCondition(true),
+            static function (Harmony $harmony) use ($middlewareCond): void {
+                $harmony->addMiddleware($middlewareCond);
+            }
+        );
+        $harmony->addMiddleware($middlewareSecond);
+
+        $harmony->run();
+
+        $this->assertTrue($middlewareCond->isInvoked());
+        $this->assertTrue($middlewareSecond->isInvoked());
+    }
+
+    /**
+     * @test
+     */
+    public function runMiddlewareAfterConditionalMiddlewareWhenFalse(): void
+    {
+        $conditionalMiddleware = new SpyMiddleware();
+        $middleware = new SpyMiddleware();
+
+        $harmony = $this->createHarmony();
+        $harmony->addCondition(
+            new StubCondition(false),
+            static function (Harmony $harmony) use ($conditionalMiddleware): void {
+                $harmony->addMiddleware($conditionalMiddleware);
+            }
+        );
+        $harmony->addMiddleware($middleware);
+
+        $harmony->run();
+
+        $this->assertFalse($conditionalMiddleware->isInvoked());
+        $this->assertTrue($middleware->isInvoked());
+    }
+
+    /**
+     * @test
+     */
+    public function runMiddlewareAfterNestedConditionalMiddleware(): void
+    {
+        $middlewareInCondition = new SpyMiddleware();
+        $middlewareInCondition2 = new SpyMiddleware();
+        $middlewareInCondition3 = new SpyMiddleware();
+        $middleware = new SpyMiddleware();
+
+        $harmony = $this->createHarmony();
+        $harmony->addCondition(
+            new StubCondition(true),
+            static function (Harmony $harmony) use ($middlewareInCondition, $middlewareInCondition2, $middlewareInCondition3): void {
+                $harmony->addMiddleware($middlewareInCondition);
+                $harmony->addCondition(
+                    new StubCondition(true),
+                    static function (Harmony $harmony) use ($middlewareInCondition2) {
+                        $harmony->addMiddleware($middlewareInCondition2);
+                });
+                $harmony->addMiddleware($middlewareInCondition3);
+            }
+        );
+        $harmony->addMiddleware($middleware);
+
+        $harmony->run();
+
+        $this->assertTrue($middlewareInCondition->isInvoked());
+        $this->assertTrue($middlewareInCondition2->isInvoked());
+        $this->assertTrue($middlewareInCondition3->isInvoked());
+        $this->assertTrue($middleware->isInvoked());
+    }
+
+    /**
+     * @test
+     */
+    public function runMiddlewareAfterNestedConditionalMiddlewareWhenFalse(): void
+    {
+        $middlewareInCondition = new SpyMiddleware();
+        $middlewareInCondition2 = new SpyMiddleware();
+        $middlewareInCondition3 = new SpyMiddleware();
+        $middleware = new SpyMiddleware();
+
+        $harmony = $this->createHarmony();
+        $harmony->addCondition(
+            new StubCondition(false),
+            static function (Harmony $harmony) use ($middlewareInCondition, $middlewareInCondition2, $middlewareInCondition3): void {
+                $harmony->addMiddleware($middlewareInCondition);
+                $harmony->addCondition(
+                    new StubCondition(true),
+                    static function (Harmony $harmony) use ($middlewareInCondition2) {
+                        $harmony->addMiddleware($middlewareInCondition2);
+                });
+                $harmony->addMiddleware($middlewareInCondition3);
+            }
+        );
+        $harmony->addMiddleware($middleware);
+
+        $harmony->run();
+
+        $this->assertFalse($middlewareInCondition->isInvoked());
+        $this->assertFalse($middlewareInCondition2->isInvoked());
+        $this->assertFalse($middlewareInCondition3->isInvoked());
+        $this->assertTrue($middleware->isInvoked());
+    }
+
+    /**
+     * @test
+     */
+    public function runMiddlewareAfterNestedConditionalMiddlewareWhenInnerFalse(): void
+    {
+        $middlewareInCondition = new SpyMiddleware();
+        $middlewareInCondition2 = new SpyMiddleware();
+        $middlewareInCondition3 = new SpyMiddleware();
+        $middleware = new SpyMiddleware();
+
+        $harmony = $this->createHarmony();
+        $harmony->addCondition(
+            new StubCondition(true),
+            static function (Harmony $harmony) use ($middlewareInCondition, $middlewareInCondition2, $middlewareInCondition3): void {
+                $harmony->addMiddleware($middlewareInCondition);
+                $harmony->addCondition(
+                    new StubCondition(false),
+                    static function (Harmony $harmony) use ($middlewareInCondition2) {
+                        $harmony->addMiddleware($middlewareInCondition2);
+                });
+                $harmony->addMiddleware($middlewareInCondition3);
+            }
+        );
+        $harmony->addMiddleware($middleware);
+
+        $harmony->run();
+
+        $this->assertTrue($middlewareInCondition->isInvoked());
+        $this->assertFalse($middlewareInCondition2->isInvoked());
+        $this->assertTrue($middlewareInCondition3->isInvoked());
+        $this->assertTrue($middleware->isInvoked());
+    }
+
+    /**
+     * @test
+     */
     public function getNonExistentMiddleware(): void
     {
         $harmony = $this->createHarmony();

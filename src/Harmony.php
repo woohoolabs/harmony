@@ -123,6 +123,7 @@ class Harmony implements RequestHandlerInterface
         $callable = $conditionArray["middleware"];
 
         if ($condition->evaluate($this->request, $this->response) === false) {
+            $this->handle($this->request);
             return;
         }
 
@@ -132,5 +133,7 @@ class Harmony implements RequestHandlerInterface
 
         $this->request = $harmony->request;
         $this->response = $harmony->response;
+
+        $this->handle($this->request);
     }
 }

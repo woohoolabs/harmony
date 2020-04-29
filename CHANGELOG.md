@@ -10,6 +10,12 @@ DEPRECATED:
 
 FIXED:
 
+## 7.1.1 - unreleased
+
+FIXED:
+
+- Middleware after a false condition are not run
+
 ## 7.1.0 - 2020-01-06
 
 ADDED:
