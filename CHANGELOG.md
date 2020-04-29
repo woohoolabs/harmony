@@ -10,7 +10,7 @@ DEPRECATED:
 
 FIXED:
 
-## 7.1.1 - unreleased
+## 7.1.1 - 2020-04-29
 
 FIXED:
 
