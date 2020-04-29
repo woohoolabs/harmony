@@ -184,9 +184,10 @@ class HarmonyTest extends TestCase
                 $harmony->addMiddleware($middlewareInCondition);
                 $harmony->addCondition(
                     new StubCondition(true),
-                    static function (Harmony $harmony) use ($middlewareInCondition2) {
+                    static function (Harmony $harmony) use ($middlewareInCondition2): void {
                         $harmony->addMiddleware($middlewareInCondition2);
-                });
+                    }
+                );
                 $harmony->addMiddleware($middlewareInCondition3);
             }
         );
@@ -217,9 +218,10 @@ class HarmonyTest extends TestCase
                 $harmony->addMiddleware($middlewareInCondition);
                 $harmony->addCondition(
                     new StubCondition(true),
-                    static function (Harmony $harmony) use ($middlewareInCondition2) {
+                    static function (Harmony $harmony) use ($middlewareInCondition2): void {
                         $harmony->addMiddleware($middlewareInCondition2);
-                });
+                    }
+                );
                 $harmony->addMiddleware($middlewareInCondition3);
             }
         );
@@ -250,9 +252,10 @@ class HarmonyTest extends TestCase
                 $harmony->addMiddleware($middlewareInCondition);
                 $harmony->addCondition(
                     new StubCondition(false),
-                    static function (Harmony $harmony) use ($middlewareInCondition2) {
+                    static function (Harmony $harmony) use ($middlewareInCondition2): void {
                         $harmony->addMiddleware($middlewareInCondition2);
-                });
+                    }
+                );
                 $harmony->addMiddleware($middlewareInCondition3);
             }
         );

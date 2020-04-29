@@ -124,6 +124,7 @@ class Harmony implements RequestHandlerInterface
 
         if ($condition->evaluate($this->request, $this->response) === false) {
             $this->handle($this->request);
+
             return;
         }
 
