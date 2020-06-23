@@ -15,7 +15,7 @@
         "source": "https://github.com/woohoolabs/harmony"
     },
     "require": {
-        "php": "^7.4.0",
+        "php": "^7.4.0||^8.0.0",
         "psr/container": "^1.0.0",
         "psr/http-message-implementation": "^1.0.0",
         "psr/http-server-handler": "^1.0.0",

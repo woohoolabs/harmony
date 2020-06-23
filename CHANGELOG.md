@@ -10,6 +10,13 @@ DEPRECATED:
 
 FIXED:
 
+## 7.1.2 - unreleased
+
+ADDED:
+
+- Support for PHP 8
+- Support for PHPUnit 9
+
 ## 7.1.1 - 2020-04-29
 
 FIXED:
