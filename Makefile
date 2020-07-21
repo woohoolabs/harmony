@@ -21,7 +21,7 @@ test: ## Run PHPUnit for the unit tests
 	docker-compose run --rm --no-deps harmony-php /bin/sh -c "cd /var/www && ./vendor/bin/phpunit"
 
 phpstan: ## Run PHPStan to perform static analysis
-	docker-compose run --rm --no-deps harmony-php /bin/sh -c "cd /var/www && ./vendor/bin/phpstan analyse --level 7 src tests"
+	docker-compose run --rm --no-deps harmony-php /bin/sh -c "cd /var/www && ./vendor/bin/phpstan analyse --level 8 src tests"
 
 cs: ## Run PHP CodeSniffer to detect issues with coding style
 	docker-compose run --rm --no-deps harmony-php /var/www/vendor/bin/phpcs --standard=/var/www/phpcs.xml
