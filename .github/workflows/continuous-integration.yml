@@ -65,6 +65,7 @@ jobs:
       matrix:
         php-binary:
           - php7.4
+          - php8.0
 
         dependencies:
           - lowest
@@ -73,6 +74,14 @@ jobs:
     steps:
       - name: "Checkout"
         uses: actions/checkout@master
+
+      - name: "Install PHP ${{ matrix.php-binary }}"
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "${{ matrix.php-binary }}"
+          extensions: mbstring, xml
+          coverage: none
+          tools: composer
 
       - name: "Cache dependencies"
         uses: actions/cache@v1
