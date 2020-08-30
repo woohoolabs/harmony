@@ -34,7 +34,7 @@ jobs:
             ${{ runner.os }}-composer-
 
       - name: "Install dependencies with composer"
-        run: php7.4 $(which composer) install --no-interaction --no-progress --no-suggest
+        run: php7.4 $(which composer) install --no-interaction --no-progress
 
       - name: "Run PHP CodeSniffer"
         run: php7.4 vendor/bin/phpcs --standard=phpcs.xml
@@ -64,7 +64,7 @@ jobs:
             ${{ runner.os }}-composer-
 
       - name: "Install dependencies with composer"
-        run: php7.4 $(which composer) install --no-interaction --no-progress --no-suggest --no-plugins
+        run: php7.4 $(which composer) install --no-interaction --no-progress --no-plugins
 
       - name: "Run phpstan/phpstan"
         run: php7.4 vendor/bin/phpstan analyse --level 8 src tests
@@ -106,11 +106,11 @@ jobs:
 
       - name: "Install lowest dependencies with composer"
         if: matrix.dependencies == 'lowest'
-        run: php${{ matrix.php-version }} $(which composer) update --no-interaction --no-progress --no-suggest --no-plugins --prefer-lowest --ignore-platform-reqs
+        run: php${{ matrix.php-version }} $(which composer) update --no-interaction --no-progress ---no-plugins --prefer-lowest --ignore-platform-reqs
 
       - name: "Install highest dependencies with composer"
         if: matrix.dependencies == 'highest'
-        run: php${{ matrix.php-version }} $(which composer) update --no-interaction --no-progress --no-suggest --no-plugins --ignore-platform-reqs
+        run: php${{ matrix.php-version }} $(which composer) update --no-interaction --no-progress --no-plugins --ignore-platform-reqs
 
       - name: "Run unit tests"
         run: php${{ matrix.php-version }} vendor/bin/phpunit
@@ -140,7 +140,7 @@ jobs:
             ${{ runner.os }}-composer-
 
       - name: "Install dependencies with composer"
-        run: php7.4 $(which composer) install --no-interaction --no-progress --no-suggest --no-plugins
+        run: php7.4 $(which composer) install --no-interaction --no-progress --no-plugins
 
       - name: "Dump Xdebug filter with phpunit/phpunit"
         run: php7.4 vendor/bin/phpunit --dump-xdebug-filter=.build/phpunit/xdebug-filter.php
