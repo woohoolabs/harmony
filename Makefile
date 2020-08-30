@@ -29,5 +29,7 @@ cs: ## Run PHP CodeSniffer to detect issues with coding style
 cs-fix: ## Run PHPCBF to automatically fix issues with coding style
 	docker-compose run --rm harmony-php /var/www/vendor/bin/phpcbf --standard=/var/www/phpcs.xml
 
+qa: test phpstan cs ## Test code quality
+
 release: test phpstan cs ## Release a new version of the library
 	./vendor/bin/releaser release
