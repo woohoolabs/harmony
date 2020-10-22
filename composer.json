@@ -39,7 +39,7 @@
     },
     "provide": {
         "psr/container-implementation": "^1.0",
-        "psr/http-server-handler": "^1.0"
+        "psr/http-server-handler-implementation": "^1.0"
     },
     "autoload": {
         "psr-4": {
