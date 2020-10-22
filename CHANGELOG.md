@@ -10,6 +10,16 @@ DEPRECATED:
 
 FIXED:
 
+## 7.1.3 - 2020-10-22
+
+CHANGED:
+
+- Increased minimum PHPUnit version requirement to 9.3
+
+FIXED:
+
+- [#28](https://github.com/woohoolabs/harmony/pull/28): Fix the composer provide rule
+
 ## 7.1.2 - 2020-06-23
 
 ADDED:
