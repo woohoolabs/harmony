@@ -86,6 +86,7 @@ jobs:
         php-versions:
           - "7.4"
           - "8.0"
+          - "8.1"
 
         dependencies:
           - lowest
@@ -115,11 +116,11 @@ jobs:
 
       - name: "Install lowest dependencies with composer"
         if: matrix.dependencies == 'lowest'
-        run: composer update --no-interaction --no-progress --no-plugins --prefer-lowest
+        run: composer update --no-interaction --no-progress --no-plugins --prefer-lowest --ignore-platform-reqs
 
       - name: "Install highest dependencies with composer"
         if: matrix.dependencies == 'highest'
-        run: composer update --no-interaction --no-progress --no-plugins
+        run: composer update --no-interaction --no-progress --no-plugins --ignore-platform-reqs
 
       - name: "Run unit tests"
         run: vendor/bin/phpunit --verbose
