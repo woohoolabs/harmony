@@ -59,6 +59,7 @@
         "phpcbf": "phpcbf"
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "platform-check": false
     }
 }
