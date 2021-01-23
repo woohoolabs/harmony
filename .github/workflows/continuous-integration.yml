@@ -14,30 +14,33 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@master
 
-      - name: "Install PHP 7.4"
+      - name: "Install PHP 8.0"
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "7.4"
+          php-version: "8.0"
           extensions: mbstring, xml
+          coverage: none
           tools: composer:v2
 
       - name: "Validate composer.json"
-        run: php $(which composer) validate --strict
+        run: composer validate --strict
+
+      - name: "Determine Composer cache directory"
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
       - name: "Cache dependencies"
-        uses: actions/cache@v1
-        id: cache
+        uses: actions/cache@v2
         with:
-          path: ~/.composer/cache/files
+          path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
+          restore-keys: ${{ runner.os }}-composer-
 
       - name: "Install dependencies with composer"
-        run: php $(which composer) install --no-interaction --no-progress
+        run: composer install --no-interaction --no-progress
 
       - name: "Run PHP CodeSniffer"
-        run: php vendor/bin/phpcs --standard=phpcs.xml
+        run: vendor/bin/phpcs
 
   static-code-analysis:
     name: "Static Code Analysis"
@@ -48,27 +51,30 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@master
 
-      - name: "Install PHP 7.4"
+      - name: "Install PHP 8.0"
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "7.4"
+          php-version: "8.0"
           extensions: mbstring, xml
+          coverage: none
           tools: composer:v2
 
+      - name: "Determine Composer cache directory"
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
       - name: "Cache dependencies"
-        uses: actions/cache@v1
-        id: cache
+        uses: actions/cache@v2
         with:
-          path: ~/.composer/cache/files
+          path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
+          restore-keys: ${{ runner.os }}-composer-
 
       - name: "Install dependencies with composer"
-        run: php $(which composer) install --no-interaction --no-progress --no-plugins
+        run: composer install --no-interaction --no-progress --no-plugins
 
       - name: "Run phpstan/phpstan"
-        run: php vendor/bin/phpstan analyse --level 8 src tests
+        run: vendor/bin/phpstan analyse --level 8 src/
 
   tests:
     name: "Tests"
@@ -80,7 +86,6 @@ jobs:
         php-versions:
           - "7.4"
           - "8.0"
-          - "8.1"
 
         dependencies:
           - lowest
@@ -97,25 +102,27 @@ jobs:
           extensions: mbstring, xml
           tools: composer:v2
 
+      - name: "Determine Composer cache directory"
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
       - name: "Cache dependencies"
-        uses: actions/cache@v1
-        id: cache
+        uses: actions/cache@v2
         with:
-          path: ~/.composer/cache/files
+          path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
+          restore-keys: ${{ runner.os }}-composer-
 
       - name: "Install lowest dependencies with composer"
         if: matrix.dependencies == 'lowest'
-        run: php $(which composer) update --no-interaction --no-progress --no-plugins --prefer-lowest --ignore-platform-reqs
+        run: composer update --no-interaction --no-progress --no-plugins --prefer-lowest
 
       - name: "Install highest dependencies with composer"
         if: matrix.dependencies == 'highest'
-        run: php $(which composer) update --no-interaction --no-progress --no-plugins --ignore-platform-reqs
+        run: composer update --no-interaction --no-progress --no-plugins
 
       - name: "Run unit tests"
-        run: php vendor/bin/phpunit
+        run: vendor/bin/phpunit --verbose
 
   code-coverage:
     name: "Code Coverage"
@@ -126,27 +133,30 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@master
 
-      - name: "Install PHP 7.4"
+      - name: "Install PHP 8.0"
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "7.4"
-          coverage: xdebug:v3
+          php-version: "8.0"
           extensions: mbstring, xml
+          coverage: xdebug:v3
+          tools: composer:v2
+
+      - name: "Determine Composer cache directory"
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
       - name: "Cache dependencies"
-        uses: actions/cache@v1
-        id: cache
+        uses: actions/cache@v2
         with:
-          path: ~/.composer/cache/files
+          path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
+          restore-keys: ${{ runner.os }}-composer-
 
       - name: "Install dependencies with composer"
-        run: php $(which composer) install --no-interaction --no-progress --no-plugins
+        run: composer install --no-interaction --no-progress --no-plugins
 
       - name: "Collect code coverage with Xdebug and phpunit/phpunit"
-        run: php vendor/bin/phpunit --coverage-clover=build/logs/clover.xml
+        run: vendor/bin/phpunit --coverage-clover=build/logs/clover.xml
 
       - name: "Download code coverage uploader for Codecov.io"
         run: curl -s https://codecov.io/bash -o codecov
