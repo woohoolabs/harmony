@@ -8,7 +8,7 @@
         </include>
     </coverage>
     <testsuites>
-        <testsuite name="WoohooLabs\\Zen Tests">
+        <testsuite name="WoohooLabs\\Harmony Tests">
             <directory>./tests</directory>
         </testsuite>
     </testsuites>
