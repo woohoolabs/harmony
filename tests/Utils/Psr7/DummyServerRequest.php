@@ -388,7 +388,7 @@ class DummyServerRequest implements ServerRequestInterface
      * @param array<mixed, mixed> $cookies Array of key/value pairs representing cookies.
      * @return static
      */
-    public function withCookieParams(array $cookies)
+    public function withCookieParams($cookies)
     {
         return $this;
     }
@@ -428,11 +428,11 @@ class DummyServerRequest implements ServerRequestInterface
      * immutability of the message, and MUST return an instance that has the
      * updated query string arguments.
      *
-     * @param array<mixed, mixed> $query Array of query string arguments, typically from
+     * @param array<int|string, mixed> $query Array of query string arguments, typically from
      *     $_GET.
      * @return static
      */
-    public function withQueryParams(array $query)
+    public function withQueryParams($query)
     {
         return $this;
     }
@@ -461,11 +461,11 @@ class DummyServerRequest implements ServerRequestInterface
      * immutability of the message, and MUST return an instance that has the
      * updated body parameters.
      *
-     * @param array<mixed, mixed> $uploadedFiles An array tree of UploadedFileInterface instances.
+     * @param array<int|string, mixed> $uploadedFiles An array tree of UploadedFileInterface instances.
      * @return static
      * @throws InvalidArgumentException if an invalid structure is provided.
      */
-    public function withUploadedFiles(array $uploadedFiles)
+    public function withUploadedFiles($uploadedFiles)
     {
         return $this;
     }
@@ -512,7 +512,7 @@ class DummyServerRequest implements ServerRequestInterface
      * immutability of the message, and MUST return an instance that has the
      * updated body parameters.
      *
-     * @param array<mixed, mixed>|object|null $data The deserialized body data. This will
+     * @param array<int|string, mixed>|object|null $data The deserialized body data. This will
      *     typically be in an array or object.
      * @return static
      * @throws InvalidArgumentException if an unsupported argument type is
