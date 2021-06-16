@@ -32,7 +32,7 @@ supports the [PSR-7](https://www.php-fig.org/psr/psr-7/), [PSR-11](https://www.p
 
 ### Rationale
 
-This blog post explains the idea best why Harmony was started back in 2014: http://www.catonmat.net/blog/frameworks-dont-make-sense/ 
+This blog post explains the idea best why Harmony was started back in 2014: http://www.catonmat.net/blog/frameworks-dont-make-sense/
 
 ### Features
 
@@ -92,8 +92,8 @@ Woohoo Labs. Harmony's middleware interface design is based on the the
 If you want to learn about the specifics of this style, please refer to the following articles which describe the
 very concept:
 
-- [PSR-15 Meta Document](https://www.php-fig.org/psr/psr-15/meta/) 
-- [PSR-15](https://mwop.net/blog/2018-01-23-psr-15.html) 
+- [PSR-15 Meta Document](https://www.php-fig.org/psr/psr-15/meta/)
+- [PSR-15](https://mwop.net/blog/2018-01-23-psr-15.html)
 
 ## Install
 
@@ -153,7 +153,7 @@ class UserController
     {
         $users = ["Steve", "Arnie", "Jason", "Bud"];
         $response->getBody()->write(json_encode($users));
-        
+
         return $response;
     }
 
@@ -163,7 +163,7 @@ class UserController
         $userData = $request->getParsedBody();
 
         // Updating user...
-        
+
         return $response;
     }
 }
@@ -284,7 +284,7 @@ use Psr\Log\LoggerInterface;
 class LoggerMiddleware implements MiddlewareInterface
 {
     private LoggerInterface $logger;
-    
+
     public function __construct(LoggerInterface $logger)
     {
         $this->logger = $logger;
@@ -294,13 +294,13 @@ class LoggerMiddleware implements MiddlewareInterface
     {
         // Perform logging before handling the request
         $this->logger->info("Request needs to be handled");
-        
+
         // Invoking the remaining middleware
         $response = $handler->handle($request);
-        
+
         // Perform logging after the request has been handled
         $this->logger->info("Request was successfully handled");
-    
+
         // Return the response
         return $response;
     }
@@ -340,14 +340,14 @@ class AuthenticationMiddleware implements MiddlewareInterface
         if ($request->getHeader("x-api-key") !== [$this->apiKey]) {
             return $this->errorResponsePrototype->withStatusCode(401);
         }
-        
+
         // Invoke the remaining middleware if authentication was successful
         return $handler->handle($request);
     }
 }
 ```
 
-Then 
+Then
 
 ```php
 $harmony->addMiddleware(new AuthenticationMiddleware("123"), new Response());
@@ -388,12 +388,12 @@ class AuthenticationMiddleware implements MiddlewareInterface
         if (substr($request->getUri()->getPath(), 0, strlen($this->securedPath)) !== $this->securedPath) {
             return $handler->handle($request);
         }
-    
+
         // Return Error 401 "Unauthorized" if authentication fails
         if ($this->authenticator->authenticate($request) === false) {
             return $this->errorResponsePrototype->withStatusCode(401);
         }
-        
+
         // Invoke the remaining middleware otherwise
         return $handler->handle($request);
     }
@@ -449,9 +449,9 @@ make composer-install  # Install the Composer dependencies
 make up                # Start the webserver
 ```
 
-> If you don't have `make`, you can copy the underlying commands, and directly use them in your terminal. 
+> If you don't have `make`, you can copy the underlying commands, and directly use them in your terminal.
 
-Finally, the example app is available at `localhost:8080`. 
+Finally, the example app is available at `localhost:8080`.
 
 > If you modified the `.env` file, you should change the port to the value of the `HOST_WEB_PORT` variable.
 
