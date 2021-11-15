@@ -169,10 +169,7 @@ class DispatcherMiddlewareTest extends TestCase
         $this->assertEquals("action", $middleware->getActionAttributeName());
     }
 
-    /**
-     * @param mixed $callable
-     */
-    protected function createHarmonyWithAction($callable, string $attributeName = "__action"): Harmony
+    protected function createHarmonyWithAction(callable $callable, string $attributeName = "__action"): Harmony
     {
         $request = new DummyServerRequest();
         $request = $request->withAttribute($attributeName, $callable);

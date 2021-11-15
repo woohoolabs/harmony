@@ -16,7 +16,7 @@ class Harmony implements RequestHandlerInterface
 {
     protected ServerRequestInterface $request;
     protected ResponseInterface $response;
-    /** @var array<int, array<string, mixed>> */
+    /** @var array<int, array{id: string|null, condition?: ConditionInterface, callback?: callable, middleware?: MiddlewareInterface}> */
     protected array $middleware = [];
     protected int $currentMiddleware = -1;
 
@@ -62,12 +62,11 @@ class Harmony implements RequestHandlerInterface
     public function getMiddleware(string $id): ?MiddlewareInterface
     {
         $position = $this->findMiddleware($id);
-
         if ($position === null) {
             return null;
         }
 
-        return $this->middleware[$position]["middleware"];
+        return $this->middleware[$position]["middleware"] ?? null;
     }
 
     public function addMiddleware(MiddlewareInterface $middleware, ?string $id = null): Harmony
@@ -83,8 +82,9 @@ class Harmony implements RequestHandlerInterface
     public function addCondition(ConditionInterface $condition, callable $callableOnSuccess): Harmony
     {
         $this->middleware[] = [
+            "id" => null,
             "condition" => $condition,
-            "middleware" => $callableOnSuccess,
+            "callback" => $callableOnSuccess,
         ];
 
         return $this;
@@ -102,25 +102,24 @@ class Harmony implements RequestHandlerInterface
     }
 
     /**
-     * @param array<string, mixed> $middlewareArray
+     * @param array{id: string|null, condition?: ConditionInterface, callback?: callable, middleware?: MiddlewareInterface} $middlewareArray
      */
     protected function executeMiddleware(array $middlewareArray): void
     {
-        /** @var MiddlewareInterface $middleware */
-        $middleware = $middlewareArray["middleware"];
+        $middleware = $middlewareArray["middleware"] ?? null;
+        assert($middleware !== null);
 
         $this->response = $middleware->process($this->request, $this);
     }
 
     /**
-     * @param array<string, mixed> $conditionArray
+     * @param array{id: string|null, condition: ConditionInterface, callback?: callable, middleware?: MiddlewareInterface} $conditionArray
      */
     protected function executeCondition(array $conditionArray): void
     {
-        /** @var ConditionInterface $condition */
         $condition = $conditionArray["condition"];
-        /** @var callable $callable */
-        $callable = $conditionArray["middleware"];
+        $callable = $conditionArray["callback"] ?? null;
+        assert($callable !== null);
 
         if ($condition->evaluate($this->request, $this->response) === false) {
             $this->handle($this->request);

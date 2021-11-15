@@ -47,10 +47,12 @@ class DispatcherMiddleware implements MiddlewareInterface
             $object = $this->container->get($action[0]);
             $response = $object->{$action[1]}($request, $response);
         } else {
-            if (is_callable($action) === false) {
+            if (is_callable($action) === false && is_string($action)) {
                 $action = $this->container->get($action);
             }
-            $response = $action($request, $response);
+            if (is_callable($action)) {
+                $response = $action($request, $response);
+            }
         }
 
         return $response;
