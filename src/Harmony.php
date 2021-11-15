@@ -11,6 +11,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 use WoohooLabs\Harmony\Condition\ConditionInterface;
 
 use function array_key_exists;
+use function assert;
 
 class Harmony implements RequestHandlerInterface
 {
