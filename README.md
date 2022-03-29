@@ -338,7 +338,7 @@ class AuthenticationMiddleware implements MiddlewareInterface
     {
         // Return Error 401 "Unauthorized" if the provided API key doesn't match the expected one
         if ($request->getHeader("x-api-key") !== [$this->apiKey]) {
-            return $this->errorResponsePrototype->withStatusCode(401);
+            return $this->errorResponsePrototype->withStatus(401);
         }
 
         // Invoke the remaining middleware if authentication was successful
@@ -440,7 +440,7 @@ Evaluates to true if the current HTTP method matches any of the allowed HTTP met
 ## Examples
 
 If you want to see a really basic application structure in action, have a look at the
-[examples](https://github.com/woohoolabs/yin/tree/master/examples). If `docker-compose` and `make` is available on your system,
+[examples](https://github.com/woohoolabs/harmony/tree/master/examples). If `docker-compose` and `make` is available on your system,
 then run the following commands in order to try out the example app:
 
 ```bash
