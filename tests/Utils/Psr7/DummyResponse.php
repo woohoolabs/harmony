@@ -13,14 +13,10 @@ use function is_array;
 
 class DummyResponse implements ResponseInterface
 {
-    /** @var string */
-    private $reasonPhrase = '';
-
-    /** @var int */
-    private $statusCode = 200;
-
+    private string $reasonPhrase = '';
+    private int $statusCode = 200;
     /** @var string[][] */
-    private $headers = [];
+    private array $headers = [];
 
     /**
      * Retrieves the HTTP protocol version as a string.
@@ -29,7 +25,7 @@ class DummyResponse implements ResponseInterface
      *
      * @return string HTTP protocol version.
      */
-    public function getProtocolVersion()
+    public function getProtocolVersion(): string
     {
         return "";
     }
@@ -47,7 +43,7 @@ class DummyResponse implements ResponseInterface
      * @param string $version HTTP protocol version
      * @return static
      */
-    public function withProtocolVersion($version)
+    public function withProtocolVersion(string $version): DummyResponse
     {
         return $this;
     }
@@ -77,7 +73,7 @@ class DummyResponse implements ResponseInterface
      *     key MUST be a header name, and each value MUST be an array of strings
      *     for that header.
      */
-    public function getHeaders()
+    public function getHeaders(): array
     {
         return $this->headers;
     }
@@ -90,7 +86,7 @@ class DummyResponse implements ResponseInterface
      *     name using a case-insensitive string comparison. Returns false if
      *     no matching header name is found in the message.
      */
-    public function hasHeader($name)
+    public function hasHeader(string $name): bool
     {
         return isset($this->headers[$name]);
     }
@@ -109,7 +105,7 @@ class DummyResponse implements ResponseInterface
      *    header. If the header does not appear in the message, this method MUST
      *    return an empty array.
      */
-    public function getHeader($name)
+    public function getHeader(string $name): array
     {
         return $this->headers[$name] ?? [];
     }
@@ -133,7 +129,7 @@ class DummyResponse implements ResponseInterface
      *    concatenated together using a comma. If the header does not appear in
      *    the message, this method MUST return an empty string.
      */
-    public function getHeaderLine($name)
+    public function getHeaderLine(string $name): string
     {
         return "";
     }
@@ -153,7 +149,7 @@ class DummyResponse implements ResponseInterface
      * @return static
      * @throws InvalidArgumentException for invalid header names or values.
      */
-    public function withHeader($name, $value)
+    public function withHeader(string $name, $value): DummyResponse
     {
         $new = clone $this;
         $new->headers[$name] = is_array($value) ? $value : [$value];
@@ -177,7 +173,7 @@ class DummyResponse implements ResponseInterface
      * @return static
      * @throws InvalidArgumentException for invalid header names or values.
      */
-    public function withAddedHeader($name, $value)
+    public function withAddedHeader(string $name, $value): DummyResponse
     {
         return $this;
     }
@@ -194,7 +190,7 @@ class DummyResponse implements ResponseInterface
      * @param string $name Case-insensitive header field name to remove.
      * @return static
      */
-    public function withoutHeader($name)
+    public function withoutHeader(string $name): DummyResponse
     {
         return $this;
     }
@@ -204,7 +200,7 @@ class DummyResponse implements ResponseInterface
      *
      * @return StreamInterface Returns the body as a stream.
      */
-    public function getBody()
+    public function getBody(): StreamInterface
     {
         return new Stream("");
     }
@@ -222,7 +218,7 @@ class DummyResponse implements ResponseInterface
      * @return static
      * @throws InvalidArgumentException When the body is not valid.
      */
-    public function withBody(StreamInterface $body)
+    public function withBody(StreamInterface $body): DummyResponse
     {
         return $this;
     }
@@ -235,7 +231,7 @@ class DummyResponse implements ResponseInterface
      *
      * @return int Status code.
      */
-    public function getStatusCode()
+    public function getStatusCode(): int
     {
         return $this->statusCode;
     }
@@ -261,7 +257,7 @@ class DummyResponse implements ResponseInterface
      * @return static
      * @throws InvalidArgumentException For invalid status code arguments.
      */
-    public function withStatus($code, $reasonPhrase = '')
+    public function withStatus(int $code, string $reasonPhrase = ''): DummyResponse
     {
         $new = clone $this;
         $new->statusCode = $code;
@@ -284,7 +280,7 @@ class DummyResponse implements ResponseInterface
      *
      * @return string Reason phrase; must return an empty string if none present.
      */
-    public function getReasonPhrase()
+    public function getReasonPhrase(): string
     {
         return $this->reasonPhrase;
     }

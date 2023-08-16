@@ -24,7 +24,7 @@ class DummyUri implements UriInterface
      *
      * @return string The URI scheme.
      */
-    public function getScheme()
+    public function getScheme(): string
     {
         return "";
     }
@@ -48,7 +48,7 @@ class DummyUri implements UriInterface
      *
      * @return string The URI authority, in "[user-info@]host[:port]" format.
      */
-    public function getAuthority()
+    public function getAuthority(): string
     {
         return "";
     }
@@ -68,7 +68,7 @@ class DummyUri implements UriInterface
      *
      * @return string The URI user information, in "username[:password]" format.
      */
-    public function getUserInfo()
+    public function getUserInfo(): string
     {
         return "";
     }
@@ -85,7 +85,7 @@ class DummyUri implements UriInterface
      *
      * @return string The URI host.
      */
-    public function getHost()
+    public function getHost(): string
     {
         return "";
     }
@@ -105,7 +105,7 @@ class DummyUri implements UriInterface
      *
      * @return int|null The URI port.
      */
-    public function getPort()
+    public function getPort(): ?int
     {
         return null;
     }
@@ -136,7 +136,7 @@ class DummyUri implements UriInterface
      *
      * @return string The URI path.
      */
-    public function getPath()
+    public function getPath(): string
     {
         return "";
     }
@@ -162,7 +162,7 @@ class DummyUri implements UriInterface
      *
      * @return string The URI query string.
      */
-    public function getQuery()
+    public function getQuery(): string
     {
         return "";
     }
@@ -184,7 +184,7 @@ class DummyUri implements UriInterface
      *
      * @return string The URI fragment.
      */
-    public function getFragment()
+    public function getFragment(): string
     {
         return "";
     }
@@ -204,7 +204,7 @@ class DummyUri implements UriInterface
      * @return static A new instance with the specified scheme.
      * @throws InvalidArgumentException for invalid or unsupported schemes.
      */
-    public function withScheme($scheme)
+    public function withScheme(string $scheme): DummyUri
     {
         return $this;
     }
@@ -223,7 +223,7 @@ class DummyUri implements UriInterface
      * @param string|null $password The password associated with $user.
      * @return static A new instance with the specified user information.
      */
-    public function withUserInfo($user, $password = null)
+    public function withUserInfo(string $user, ?string $password = null): DummyUri
     {
         return $this;
     }
@@ -240,7 +240,7 @@ class DummyUri implements UriInterface
      * @return static A new instance with the specified host.
      * @throws InvalidArgumentException for invalid hostnames.
      */
-    public function withHost($host)
+    public function withHost(string $host): DummyUri
     {
         return $this;
     }
@@ -262,7 +262,7 @@ class DummyUri implements UriInterface
      * @return static A new instance with the specified port.
      * @throws InvalidArgumentException for invalid ports.
      */
-    public function withPort($port)
+    public function withPort(?int $port): DummyUri
     {
         return $this;
     }
@@ -289,7 +289,7 @@ class DummyUri implements UriInterface
      * @return static A new instance with the specified path.
      * @throws InvalidArgumentException for invalid paths.
      */
-    public function withPath($path)
+    public function withPath(string $path): DummyUri
     {
         return $this;
     }
@@ -309,7 +309,7 @@ class DummyUri implements UriInterface
      * @return static A new instance with the specified query string.
      * @throws InvalidArgumentException for invalid query strings.
      */
-    public function withQuery($query)
+    public function withQuery(string $query): DummyUri
     {
         return $this;
     }
@@ -328,7 +328,7 @@ class DummyUri implements UriInterface
      * @param string $fragment The fragment to use with the new instance.
      * @return static A new instance with the specified fragment.
      */
-    public function withFragment($fragment)
+    public function withFragment(string $fragment): DummyUri
     {
         return $this;
     }
@@ -357,7 +357,7 @@ class DummyUri implements UriInterface
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return "";
     }

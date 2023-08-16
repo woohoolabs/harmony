@@ -22,7 +22,7 @@ class DummyServerRequest implements ServerRequestInterface
      *
      * @return string HTTP protocol version.
      */
-    public function getProtocolVersion()
+    public function getProtocolVersion(): string
     {
         return "";
     }
@@ -40,7 +40,7 @@ class DummyServerRequest implements ServerRequestInterface
      * @param string $version HTTP protocol version
      * @return static
      */
-    public function withProtocolVersion($version)
+    public function withProtocolVersion(string $version): DummyServerRequest
     {
         return $this;
     }
@@ -70,7 +70,7 @@ class DummyServerRequest implements ServerRequestInterface
      *     key MUST be a header name, and each value MUST be an array of strings
      *     for that header.
      */
-    public function getHeaders()
+    public function getHeaders(): array
     {
         return [];
     }
@@ -83,7 +83,7 @@ class DummyServerRequest implements ServerRequestInterface
      *     name using a case-insensitive string comparison. Returns false if
      *     no matching header name is found in the message.
      */
-    public function hasHeader($name)
+    public function hasHeader(string $name): bool
     {
         return false;
     }
@@ -102,7 +102,7 @@ class DummyServerRequest implements ServerRequestInterface
      *    header. If the header does not appear in the message, this method MUST
      *    return an empty array.
      */
-    public function getHeader($name)
+    public function getHeader(string $name): array
     {
         return [];
     }
@@ -126,7 +126,7 @@ class DummyServerRequest implements ServerRequestInterface
      *    concatenated together using a comma. If the header does not appear in
      *    the message, this method MUST return an empty string.
      */
-    public function getHeaderLine($name)
+    public function getHeaderLine(string $name): string
     {
         return "";
     }
@@ -146,7 +146,7 @@ class DummyServerRequest implements ServerRequestInterface
      * @return static
      * @throws InvalidArgumentException for invalid header names or values.
      */
-    public function withHeader($name, $value)
+    public function withHeader(string $name, $value): DummyServerRequest
     {
         return $this;
     }
@@ -167,7 +167,7 @@ class DummyServerRequest implements ServerRequestInterface
      * @return static
      * @throws InvalidArgumentException for invalid header names or values.
      */
-    public function withAddedHeader($name, $value)
+    public function withAddedHeader(string $name, $value): DummyServerRequest
     {
         return $this;
     }
@@ -184,7 +184,7 @@ class DummyServerRequest implements ServerRequestInterface
      * @param string $name Case-insensitive header field name to remove.
      * @return static
      */
-    public function withoutHeader($name)
+    public function withoutHeader(string $name): DummyServerRequest
     {
         return $this;
     }
@@ -194,7 +194,7 @@ class DummyServerRequest implements ServerRequestInterface
      *
      * @return StreamInterface Returns the body as a stream.
      */
-    public function getBody()
+    public function getBody(): StreamInterface
     {
         return new Stream("");
     }
@@ -212,7 +212,7 @@ class DummyServerRequest implements ServerRequestInterface
      * @return static
      * @throws InvalidArgumentException When the body is not valid.
      */
-    public function withBody(StreamInterface $body)
+    public function withBody(StreamInterface $body): DummyServerRequest
     {
         return $this;
     }
@@ -233,7 +233,7 @@ class DummyServerRequest implements ServerRequestInterface
      *
      * @return string
      */
-    public function getRequestTarget()
+    public function getRequestTarget(): string
     {
         return "";
     }
@@ -253,10 +253,10 @@ class DummyServerRequest implements ServerRequestInterface
      * @link https://tools.ietf.org/html/rfc7230#section-2.7 (for the various
      *     request-target forms allowed in request messages)
      *
-     * @param mixed $requestTarget
+     * @param string $requestTarget
      * @return static
      */
-    public function withRequestTarget($requestTarget)
+    public function withRequestTarget(string $requestTarget): DummyServerRequest
     {
         return $this;
     }
@@ -266,7 +266,7 @@ class DummyServerRequest implements ServerRequestInterface
      *
      * @return string Returns the request method.
      */
-    public function getMethod()
+    public function getMethod(): string
     {
         return "";
     }
@@ -286,7 +286,7 @@ class DummyServerRequest implements ServerRequestInterface
      * @return static
      * @throws InvalidArgumentException for invalid HTTP methods.
      */
-    public function withMethod($method)
+    public function withMethod(string $method): DummyServerRequest
     {
         return $this;
     }
@@ -301,7 +301,7 @@ class DummyServerRequest implements ServerRequestInterface
      * @return UriInterface Returns a UriInterface instance
      *     representing the URI of the request.
      */
-    public function getUri()
+    public function getUri(): UriInterface
     {
         return new DummyUri();
     }
@@ -337,7 +337,7 @@ class DummyServerRequest implements ServerRequestInterface
      * @param bool $preserveHost Preserve the original state of the Host header.
      * @return static
      */
-    public function withUri(UriInterface $uri, $preserveHost = false)
+    public function withUri(UriInterface $uri, bool $preserveHost = false): DummyServerRequest
     {
         return $this;
     }
@@ -366,7 +366,7 @@ class DummyServerRequest implements ServerRequestInterface
      *
      * @return array<mixed, mixed>
      */
-    public function getCookieParams()
+    public function getCookieParams(): array
     {
         return [];
     }
@@ -388,7 +388,7 @@ class DummyServerRequest implements ServerRequestInterface
      * @param array<mixed, mixed> $cookies Array of key/value pairs representing cookies.
      * @return static
      */
-    public function withCookieParams($cookies)
+    public function withCookieParams(array $cookies): DummyServerRequest
     {
         return $this;
     }
@@ -405,7 +405,7 @@ class DummyServerRequest implements ServerRequestInterface
      *
      * @return array<string, mixed>
      */
-    public function getQueryParams()
+    public function getQueryParams(): array
     {
         return [];
     }
@@ -432,7 +432,7 @@ class DummyServerRequest implements ServerRequestInterface
      *     $_GET.
      * @return static
      */
-    public function withQueryParams($query)
+    public function withQueryParams(array $query): DummyServerRequest
     {
         return $this;
     }
@@ -449,7 +449,7 @@ class DummyServerRequest implements ServerRequestInterface
      * @return array<mixed, mixed> An array tree of UploadedFileInterface instances; an empty
      *     array MUST be returned if no data is present.
      */
-    public function getUploadedFiles()
+    public function getUploadedFiles(): array
     {
         return [];
     }
@@ -465,7 +465,7 @@ class DummyServerRequest implements ServerRequestInterface
      * @return static
      * @throws InvalidArgumentException if an invalid structure is provided.
      */
-    public function withUploadedFiles($uploadedFiles)
+    public function withUploadedFiles(array $uploadedFiles): DummyServerRequest
     {
         return $this;
     }
@@ -485,7 +485,7 @@ class DummyServerRequest implements ServerRequestInterface
      * @return array<mixed, mixed>|object|null The deserialized body parameters, if any.
      *     These will typically be an array or object.
      */
-    public function getParsedBody()
+    public function getParsedBody(): array|object|null
     {
         return [];
     }
@@ -518,7 +518,7 @@ class DummyServerRequest implements ServerRequestInterface
      * @throws InvalidArgumentException if an unsupported argument type is
      *     provided.
      */
-    public function withParsedBody($data)
+    public function withParsedBody($data): DummyServerRequest
     {
         return $this;
     }
@@ -534,7 +534,7 @@ class DummyServerRequest implements ServerRequestInterface
      *
      * @return array<mixed, mixed> Attributes derived from the request.
      */
-    public function getAttributes()
+    public function getAttributes(): array
     {
         return $this->attributes;
     }
@@ -555,7 +555,7 @@ class DummyServerRequest implements ServerRequestInterface
      * @param mixed $default Default value to return if the attribute does not exist.
      * @return mixed
      */
-    public function getAttribute($name, $default = null)
+    public function getAttribute(string $name, $default = null): mixed
     {
         return $this->attributes[$name] ?? $default;
     }
@@ -576,7 +576,7 @@ class DummyServerRequest implements ServerRequestInterface
      * @param mixed $value The value of the attribute.
      * @return static
      */
-    public function withAttribute($name, $value)
+    public function withAttribute(string $name, $value): DummyServerRequest
     {
         $request = clone $this;
         $request->attributes[$name] = $value;
@@ -599,7 +599,7 @@ class DummyServerRequest implements ServerRequestInterface
      * @param string $name The attribute name.
      * @return static
      */
-    public function withoutAttribute($name)
+    public function withoutAttribute(string $name): DummyServerRequest
     {
         return $this;
     }
