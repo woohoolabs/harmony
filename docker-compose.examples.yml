@@ -2,7 +2,7 @@ version: '2'
 
 services:
     harmony-examples-nginx:
-        image: nginx:1.17-alpine
+        image: nginx:1.25-alpine
         container_name: harmony-examples-nginx
         networks:
         - harmony-examples
@@ -18,7 +18,7 @@ services:
 
     harmony-examples-php-fpm:
         container_name: harmony-examples-php-fpm
-        image: php:8-0-fpm
+        image: php:8-2-fpm
         networks:
         - harmony-examples
         volumes:
