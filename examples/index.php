@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 require_once "../vendor/autoload.php";
 
+use FastRoute\RouteCollector;
 use Laminas\Diactoros\Response;
 use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
@@ -17,8 +18,10 @@ use WoohooLabs\Harmony\Middleware\DispatcherMiddleware;
 use WoohooLabs\Harmony\Middleware\FastRouteMiddleware;
 use WoohooLabs\Harmony\Middleware\LaminasEmitterMiddleware;
 
+use function FastRoute\simpleDispatcher;
+
 // Initializing the router
-$router = FastRoute\simpleDispatcher(static function (FastRoute\RouteCollector $r) {
+$router = simpleDispatcher(static function (RouteCollector $r) {
     $r->addRoute("GET", "/me", static function (ServerRequestInterface $request, ResponseInterface $response) {
         $response->getBody()->write("Hello, World!");
 
