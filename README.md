@@ -214,7 +214,7 @@ $harmony
 ```
 
 You have to register all the prior middleware in order for the framework to function properly:
-- `HttpHandlerRunnerMiddleware` sends the response to the ether via [laminas-httphandlerrunner](https://github.com/laminas/laminas-httphandlerrunner)
+- `LaminasEmitterMiddleware` sends the response to the ether via [laminas-httphandlerrunner](https://github.com/laminas/laminas-httphandlerrunner)
 - `FastRouteMiddleware` takes care of routing (`$router`  was configured in the previous step)
 - `DispatcherMiddleware` dispatches a controller which belongs to the request's current route
 
