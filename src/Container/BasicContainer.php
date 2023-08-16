@@ -19,7 +19,7 @@ class BasicContainer implements ContainerInterface
      * @throws BasicContainerNotFoundException  No entry was found for **this** identifier.
      * @throws BasicContainerException Error while retrieving the entry.
      */
-    public function get($id)
+    public function get(string $id): mixed
     {
         if ($this->has($id) === false) {
             throw new BasicContainerNotFoundException();
@@ -42,7 +42,7 @@ class BasicContainer implements ContainerInterface
      * @param string $id Identifier of the entry to look for.
      * @return bool
      */
-    public function has($id)
+    public function has(string $id): bool
     {
         return class_exists($id);
     }

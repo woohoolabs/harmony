@@ -8,20 +8,12 @@ use Psr\Container\ContainerInterface;
 
 class DummyContainer implements ContainerInterface
 {
-    /**
-     * @param string $id
-     * @return null
-     */
-    public function get($id)
+    public function get(string $id): mixed
     {
         return null;
     }
 
-    /**
-     * @param string $id
-     * @return bool
-     */
-    public function has($id)
+    public function has(string $id): bool
     {
         return false;
     }
