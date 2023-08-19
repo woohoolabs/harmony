@@ -2,6 +2,18 @@
 
 ADDED:
 
+CHANGED:
+
+REMOVED:
+
+DEPRECATED:
+
+FIXED:
+
+## 8.0.0 - 2023-08-19
+
+ADDED:
+
 - Support for PSR-11 v2.0
 
 CHANGED:
