@@ -1,14 +1,17 @@
-## 7.2.0 - unreleased
+## 8.0.0 - 2023-08-19
 
 ADDED:
 
+- Support for PSR-11 v2.0
+
 CHANGED:
+
+- Increased minimum PHP version requirement to 8.0
+- Increased minimum PSR-11 version requirement to v1.1
 
 REMOVED:
 
-DEPRECATED:
-
-FIXED:
+- Deprecated `HttpHandlerRunnerMiddleware`
 
 ## 7.1.3 - 2020-10-22
 
@@ -79,7 +82,7 @@ DEPRECATED:
 
 FIXED:
 
-- Instead of a fatal error, an exception is thrown when the `FastRouteMiddleware::$fastRoute` property is `null` 
+- Instead of a fatal error, an exception is thrown when the `FastRouteMiddleware::$fastRoute` property is `null`
 
 ## 6.0.1 - 2018-12-21
 
