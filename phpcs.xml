@@ -19,4 +19,13 @@
     <file>tests/</file>
 
     <rule ref="WoohooLabs"/>
+
+    <!-- Require presence of declare(strict_types=1) -->
+    <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes">
+        <properties>
+            <property name="linesCountBeforeDeclare" value="1"/>
+            <property name="spacesCountAroundEqualsSign" value="0"/>
+            <property name="linesCountAfterDeclare" value="1"/>
+        </properties>
+    </rule>
 </ruleset>
