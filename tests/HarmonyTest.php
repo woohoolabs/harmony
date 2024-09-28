@@ -79,6 +79,56 @@ class HarmonyTest extends TestCase
     /**
      * @test
      */
+    public function returnResponseWhenConditionIsInvolved(): void
+    {
+        $harmony = $this->createHarmony();
+        $harmony->addMiddleware(new FakeMiddleware());
+        $harmony->addCondition(
+            new StubCondition(true),
+            static fn (Harmony $harmony): Harmony => $harmony->addMiddleware(new InternalServerErrorMiddleware(new DummyResponse()))
+        );
+        $middlewareSecond = new SpyMiddleware();
+        $harmony->addMiddleware($middlewareSecond);
+
+        $harmony->run();
+
+        $this->assertFalse($middlewareSecond->isInvoked());
+    }
+
+    /**
+     * @test
+     */
+    public function returnResponseWhenMultipleConditionsAreInvolved(): void
+    {
+        $harmony = $this->createHarmony();
+        $harmony->addMiddleware(new FakeMiddleware());
+        $middlewareFirst = new SpyMiddleware();
+        $harmony->addMiddleware($middlewareFirst);
+
+        $middlewareSecond = new SpyMiddleware();
+        $harmony->addCondition(
+            new StubCondition(true),
+            static fn (Harmony $harmony): Harmony => $harmony->addMiddleware($middlewareSecond)
+        );
+
+        $harmony->addCondition(
+            new StubCondition(true),
+            static fn (Harmony $harmony): Harmony => $harmony->addMiddleware(new InternalServerErrorMiddleware(new DummyResponse()))
+        );
+
+        $middlewareThird = new SpyMiddleware();
+        $harmony->addMiddleware($middlewareThird);
+
+        $harmony->run();
+
+        $this->assertTrue($middlewareFirst->isInvoked());
+        $this->assertTrue($middlewareSecond->isInvoked());
+        $this->assertFalse($middlewareThird->isInvoked());
+    }
+
+    /**
+     * @test
+     */
     public function getRequest(): void
     {
         $harmony = $this->createHarmony();

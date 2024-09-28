@@ -12,6 +12,7 @@ use WoohooLabs\Harmony\Condition\ConditionInterface;
 
 use function array_key_exists;
 use function assert;
+use function count;
 
 class Harmony implements RequestHandlerInterface
 {
@@ -128,13 +129,17 @@ class Harmony implements RequestHandlerInterface
             return;
         }
 
+        //When the Condition evaluates to true: instantiate a new/branched Harmony instance to process the conditional Middleware
         $harmony = new Harmony($this->request, $this->response);
         $callable($harmony, $this->request);
+
+        //Add remaining Middleware of the current Harmony instance to the new/branched Harmony instance and run it
+        for ($i = $this->currentMiddleware + 1; $i < count($this->middleware); $i++) {
+            $harmony->middleware[] = $this->middleware[$i];
+        }
         $harmony->run();
 
         $this->request = $harmony->request;
         $this->response = $harmony->response;
-
-        $this->handle($this->request);
     }
 }
