@@ -21,10 +21,7 @@ use WoohooLabs\Harmony\Tests\Utils\Psr7\DummyServerRequest;
 
 class DispatcherMiddlewareTest extends TestCase
 {
-    /**
-     * @test
-     */
-    public function returnResponse(): void
+    public function testReturnResponse(): void
     {
         $harmony = $this->createHarmonyWithAction(
             static function (ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
@@ -38,10 +35,7 @@ class DispatcherMiddlewareTest extends TestCase
         $this->assertEquals(404, $response->getStatusCode());
     }
 
-    /**
-     * @test
-     */
-    public function callNextMiddleware(): void
+    public function testCallNextMiddleware(): void
     {
         $harmony = $this->createHarmonyWithAction(
             static function (ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
@@ -56,10 +50,7 @@ class DispatcherMiddlewareTest extends TestCase
         $middleware->process($harmony->getRequest(), $harmony);
     }
 
-    /**
-     * @test
-     */
-    public function exceptionWhenNoAction(): void
+    public function testExceptionWhenNoAction(): void
     {
         $middleware = new DispatcherMiddleware();
 
@@ -76,10 +67,7 @@ class DispatcherMiddlewareTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
-    public function dispatchArrayCallable(): void
+    public function testDispatchArrayCallable(): void
     {
         $request = new DummyServerRequest();
         $request = $request->withAttribute("__action", [ExceptionController::class, "dummyAction"]);
@@ -90,10 +78,7 @@ class DispatcherMiddlewareTest extends TestCase
         $middleware->process($request, new Harmony($request, new DummyResponse()));
     }
 
-    /**
-     * @test
-     */
-    public function dispatchAnonymousFunction(): void
+    public function testDispatchAnonymousFunction(): void
     {
         $request = new DummyServerRequest();
         $callable = static function (): ResponseInterface {
@@ -107,10 +92,7 @@ class DispatcherMiddlewareTest extends TestCase
         $middleware->process($request, new Harmony($request, new DummyResponse()));
     }
 
-    /**
-     * @test
-     */
-    public function dispatchInvokableClass(): void
+    public function testDispatchInvokableClass(): void
     {
         $request = new DummyServerRequest();
         $request = $request->withAttribute("__action", InvokableExceptionController::class);
@@ -121,10 +103,7 @@ class DispatcherMiddlewareTest extends TestCase
         $middleware->process($request, new Harmony($request, new DummyResponse()));
     }
 
-    /**
-     * @test
-     */
-    public function getContainer(): void
+    public function testGetContainer(): void
     {
         $middleware = new DispatcherMiddleware(new BasicContainer());
 
@@ -133,10 +112,7 @@ class DispatcherMiddlewareTest extends TestCase
         $this->assertInstanceOf(BasicContainer::class, $container);
     }
 
-    /**
-     * @test
-     */
-    public function setContainer(): void
+    public function testSetContainer(): void
     {
         $middleware = new DispatcherMiddleware();
 
@@ -145,10 +121,7 @@ class DispatcherMiddlewareTest extends TestCase
         $this->assertInstanceOf(BasicContainer::class, $middleware->getContainer());
     }
 
-    /**
-     * @test
-     */
-    public function getDefaultHandlerAttribute(): void
+    public function testGetDefaultHandlerAttribute(): void
     {
         $middleware = new DispatcherMiddleware();
 
@@ -157,10 +130,7 @@ class DispatcherMiddlewareTest extends TestCase
         $this->assertEquals("__action", $attributeName);
     }
 
-    /**
-     * @test
-     */
-    public function getHandlerAttribute(): void
+    public function testGetHandlerAttribute(): void
     {
         $middleware = new DispatcherMiddleware();
 

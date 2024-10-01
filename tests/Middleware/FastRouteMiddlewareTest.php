@@ -18,10 +18,7 @@ use WoohooLabs\Harmony\Tests\Utils\Psr7\DummyServerRequest;
 
 class FastRouteMiddlewareTest extends TestCase
 {
-    /**
-     * @test
-     */
-    public function construct(): void
+    public function testConstruct(): void
     {
         $middleware = new FastRouteMiddleware(new StubDispatcher());
 
@@ -30,10 +27,7 @@ class FastRouteMiddlewareTest extends TestCase
         $this->assertInstanceOf(StubDispatcher::class, $fastRoute);
     }
 
-    /**
-     * @test
-     */
-    public function getFastRouteWhenNull(): void
+    public function testGetFastRouteWhenNull(): void
     {
         $middleware = new FastRouteMiddleware();
 
@@ -42,10 +36,7 @@ class FastRouteMiddlewareTest extends TestCase
         $middleware->getFastRoute();
     }
 
-    /**
-     * @test
-     */
-    public function setFastRoute(): void
+    public function testSetFastRoute(): void
     {
         $middleware = new FastRouteMiddleware(null);
 
@@ -54,10 +45,7 @@ class FastRouteMiddlewareTest extends TestCase
         $this->assertInstanceOf(StubDispatcher::class, $middleware->getFastRoute());
     }
 
-    /**
-     * @test
-     */
-    public function processRouteNotFound(): void
+    public function testProcessRouteNotFound(): void
     {
         $harmony = $this->createHarmony();
         $middleware = new FastRouteMiddleware(new StubDispatcher([Dispatcher::NOT_FOUND]));
@@ -67,10 +55,7 @@ class FastRouteMiddlewareTest extends TestCase
         $middleware->process($harmony->getRequest(), $harmony);
     }
 
-    /**
-     * @test
-     */
-    public function processMethodNotAllowed(): void
+    public function testProcessMethodNotAllowed(): void
     {
         $harmony = $this->createHarmony();
         $middleware = new FastRouteMiddleware(new StubDispatcher([Dispatcher::METHOD_NOT_ALLOWED]));
@@ -80,10 +65,7 @@ class FastRouteMiddlewareTest extends TestCase
         $middleware->process($harmony->getRequest(), $harmony);
     }
 
-    /**
-     * @test
-     */
-    public function processWhenNull(): void
+    public function testProcessWhenNull(): void
     {
         $harmony = $this->createHarmony();
         $middleware = new FastRouteMiddleware();
@@ -93,10 +75,7 @@ class FastRouteMiddlewareTest extends TestCase
         $middleware->process($harmony->getRequest(), $harmony);
     }
 
-    /**
-     * @test
-     */
-    public function process(): void
+    public function testProcess(): void
     {
         $harmony = $this->createHarmony();
         $middleware = new FastRouteMiddleware(new StubDispatcher([Dispatcher::FOUND, [DummyController::class, "dummyAction"], []]));
@@ -106,10 +85,7 @@ class FastRouteMiddlewareTest extends TestCase
         $this->assertEquals([DummyController::class, "dummyAction"], $harmony->getRequest()->getAttribute("__action"));
     }
 
-    /**
-     * @test
-     */
-    public function processAttributesPassed(): void
+    public function testProcessAttributesPassed(): void
     {
         $harmony = $this->createHarmony();
         $middleware = new FastRouteMiddleware(new StubDispatcher([Dispatcher::FOUND, ["", ""], ["arg1" => "val1", "arg2" => "val2"]]));

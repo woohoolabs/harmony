@@ -12,10 +12,7 @@ use WoohooLabs\Harmony\Tests\Utils\Psr7\DummyResponse;
 
 class HttpMethodConditionTest extends TestCase
 {
-    /**
-     * @test
-     */
-    public function evaluateTrue(): void
+    public function testEvaluateTrue(): void
     {
         $request = $this->createRequestWithMethod("POST");
         $condition = new HttpMethodCondition(["POST"]);
@@ -25,10 +22,7 @@ class HttpMethodConditionTest extends TestCase
         $this->assertTrue($result);
     }
 
-    /**
-     * @test
-     */
-    public function evaluateFalse(): void
+    public function testEvaluateFalse(): void
     {
         $request = $this->createRequestWithMethod("GET");
         $condition = new HttpMethodCondition(["POST"]);

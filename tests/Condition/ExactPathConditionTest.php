@@ -13,10 +13,7 @@ use WoohooLabs\Harmony\Tests\Utils\Psr7\DummyResponse;
 
 class ExactPathConditionTest extends TestCase
 {
-    /**
-     * @test
-     */
-    public function evaluateToTrue(): void
+    public function testEvaluateToTrue(): void
     {
         $request = $this->createRequestWithPath("/api");
         $condition = new ExactPathCondition(["/api"]);
@@ -26,10 +23,7 @@ class ExactPathConditionTest extends TestCase
         $this->assertTrue($result);
     }
 
-    /**
-     * @test
-     */
-    public function evaluateToFalse(): void
+    public function testEvaluateToFalse(): void
     {
         $request = $this->createRequestWithPath("/api");
         $condition = new ExactPathCondition(["/not-api"]);

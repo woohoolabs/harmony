@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
-    bootstrap="./vendor/autoload.php" colors="true" convertDeprecationsToExceptions="false">
-    <coverage processUncoveredFiles="true">
-        <include>
-            <directory suffix=".php">src</directory>
-        </include>
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.4/phpunit.xsd"
+    bootstrap="./vendor/autoload.php"
+    colors="true"
+    failOnWarning="true"
+    failOnRisky="true"
+    failOnDeprecation="true"
+    failOnNotice="true"
+    failOnPhpunitDeprecation="true"
+    beStrictAboutChangesToGlobalState="true"
+    beStrictAboutTestsThatDoNotTestAnything="true"
+    displayDetailsOnPhpunitDeprecations="true"
+    displayDetailsOnTestsThatTriggerDeprecations="true"
+    displayDetailsOnTestsThatTriggerErrors="true"
+    displayDetailsOnTestsThatTriggerNotices="true"
+    displayDetailsOnTestsThatTriggerWarnings="true">
+    <coverage includeUncoveredFiles="false">
     </coverage>
     <testsuites>
         <testsuite name="WoohooLabs\\Harmony Tests">

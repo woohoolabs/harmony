@@ -13,10 +13,7 @@ use WoohooLabs\Harmony\Tests\Utils\Psr7\DummyResponse;
 
 class PathPrefixConditionTest extends TestCase
 {
-    /**
-     * @test
-     */
-    public function evaluateExactPathToTrue(): void
+    public function testEvaluateExactPathToTrue(): void
     {
         $request = $this->createRequestWithPath("/api");
         $condition = new PathPrefixCondition(["/api"]);
@@ -26,10 +23,7 @@ class PathPrefixConditionTest extends TestCase
         $this->assertTrue($result);
     }
 
-    /**
-     * @test
-     */
-    public function evaluateSubPathToTrue(): void
+    public function testEvaluateSubPathToTrue(): void
     {
         $request = $this->createRequestWithPath("/api/users");
         $condition = new PathPrefixCondition(["/api"]);
@@ -39,10 +33,7 @@ class PathPrefixConditionTest extends TestCase
         $this->assertTrue($result);
     }
 
-    /**
-     * @test
-     */
-    public function evaluateDifferentPathToFalse(): void
+    public function testEvaluateDifferentPathToFalse(): void
     {
         $request = $this->createRequestWithPath("/app");
         $condition = new PathPrefixCondition(["/api"]);

@@ -2,7 +2,11 @@
 
 ADDED:
 
+- Explicit support for PSR-7 2.0
+
 CHANGED:
+
+- Updated dependencies
 
 REMOVED:
 

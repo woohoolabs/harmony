@@ -14,10 +14,7 @@ use WoohooLabs\Harmony\Tests\Utils\Psr7\DummyServerRequest;
 
 class LaminasEmitterMiddlewareTest extends TestCase
 {
-    /**
-     * @test
-     */
-    public function constructWithCustomEmitter(): void
+    public function testConstructWithCustomEmitter(): void
     {
         $emitter = new DummyLaminasEmitter();
         $middleware = new LaminasEmitterMiddleware($emitter);
@@ -27,10 +24,7 @@ class LaminasEmitterMiddlewareTest extends TestCase
         $this->assertEquals($emitter, $returnedEmitter);
     }
 
-    /**
-     * @test
-     */
-    public function constructWithDefaultEmitter(): void
+    public function testConstructWithDefaultEmitter(): void
     {
         $middleware = new LaminasEmitterMiddleware();
 
@@ -39,10 +33,7 @@ class LaminasEmitterMiddlewareTest extends TestCase
         $this->assertInstanceOf(SapiEmitter::class, $returnedEmitter);
     }
 
-    /**
-     * @test
-     */
-    public function setEmitter(): void
+    public function testSetEmitter(): void
     {
         $middleware = new LaminasEmitterMiddleware();
 
@@ -51,10 +42,7 @@ class LaminasEmitterMiddlewareTest extends TestCase
         $this->assertInstanceOf(DummyLaminasEmitter::class, $middleware->getEmitter());
     }
 
-    /**
-     * @test
-     */
-    public function process(): void
+    public function testProcess(): void
     {
         $harmony = $this->createHarmony();
         $middleware = new LaminasEmitterMiddleware(new DummyLaminasEmitter());
@@ -64,10 +52,7 @@ class LaminasEmitterMiddlewareTest extends TestCase
         $middleware->process($harmony->getRequest(), $harmony);
     }
 
-    /**
-     * @test
-     */
-    public function isOutputStartChecked(): void
+    public function testIsOutputStartChecked(): void
     {
         $middleware = new LaminasEmitterMiddleware(null, true);
 
@@ -76,10 +61,7 @@ class LaminasEmitterMiddlewareTest extends TestCase
         $this->assertTrue($isOutputStarted);
     }
 
-    /**
-     * @test
-     */
-    public function setCheckOutputStart(): void
+    public function testSetCheckOutputStart(): void
     {
         $middleware = new LaminasEmitterMiddleware(null, true);
 

@@ -11,10 +11,7 @@ use WoohooLabs\Harmony\Tests\Utils\Controller\DummyController;
 
 class BasicContainerTest extends TestCase
 {
-    /**
-     * @test
-     */
-    public function instantiateController(): void
+    public function testInstantiateController(): void
     {
         $container = new BasicContainer();
 
@@ -25,10 +22,7 @@ class BasicContainerTest extends TestCase
         $this->assertInstanceOf(DummyController::class, $getController);
     }
 
-    /**
-     * @test
-     */
-    public function hasNotExistingClass(): void
+    public function testHasNotExistingClass(): void
     {
         $container = new BasicContainer();
 
@@ -37,10 +31,7 @@ class BasicContainerTest extends TestCase
         $this->assertFalse($hasItem);
     }
 
-    /**
-     * @test
-     */
-    public function getNotExistingClass(): void
+    public function testGetNotExistingClass(): void
     {
         $container = new BasicContainer();
 
