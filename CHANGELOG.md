@@ -6,6 +6,7 @@ ADDED:
 
 CHANGED:
 
+- Increased minimum PHP version requirement to 8.2
 - Updated dependencies
 
 REMOVED:
