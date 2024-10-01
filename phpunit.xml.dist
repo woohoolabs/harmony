@@ -16,9 +16,11 @@
     displayDetailsOnTestsThatTriggerErrors="true"
     displayDetailsOnTestsThatTriggerNotices="true"
     displayDetailsOnTestsThatTriggerWarnings="true">
-    <include>
-        <directory suffix=".php">src</directory>
-    </include>
+    <source>
+        <include>
+            <directory suffix=".php">src</directory>
+        </include>
+    </source>
     <coverage includeUncoveredFiles="true">
     </coverage>
     <testsuites>
