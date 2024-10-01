@@ -14,10 +14,10 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@master
 
-      - name: "Install PHP 8.4"
+      - name: "Install PHP 8.3"
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.4"
+          php-version: "8.3"
           extensions: mbstring, xml
           coverage: none
           tools: composer:v2
@@ -51,10 +51,10 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@master
 
-      - name: "Install PHP 8.4"
+      - name: "Install PHP 8.3"
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.4"
+          php-version: "8.3"
           extensions: mbstring, xml
           coverage: none
           tools: composer:v2
@@ -86,7 +86,6 @@ jobs:
         php-versions:
           - "8.2"
           - "8.3"
-          - "8.4"
 
         dependencies:
           - lowest
@@ -134,10 +133,10 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@master
 
-      - name: "Install PHP 8.4"
+      - name: "Install PHP 8.3"
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.4"
+          php-version: "8.3"
           extensions: mbstring, xml
           coverage: xdebug:v3
           tools: composer:v2
