@@ -6,9 +6,6 @@ parameters:
             message: '#^Variable method call on mixed\.$#'
             path: src/Middleware/DispatcherMiddleware.php
         - '#^Dynamic call to static method PHPUnit\\Framework\\.*$#'
-        -
-            message: '#^.*should be contravariant with parameter.*$#'
-            path: tests/Utils/Psr7/DummyServerRequest.php
 
 includes:
     - vendor/phpstan/phpstan/conf/bleedingEdge.neon
