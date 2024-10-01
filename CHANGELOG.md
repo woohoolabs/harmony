@@ -10,6 +10,12 @@ DEPRECATED:
 
 FIXED:
 
+## 8.0.1 - 2024-10-01
+
+FIXED:
+
+- [#34](https://github.com/woohoolabs/harmony/issues/34): Direct return of response by middleware seems not possible when using a condition
+
 ## 8.0.0 - 2023-08-19
 
 ADDED:
@@ -125,7 +131,7 @@ ADDED:
 CHANGED:
 
 - Deprecated `DiactorosResponderMiddleware` because the default HTTP response emitters were deprecated as of Diactoros v1.8.0.
-You can use `HttpHandlerRunnerMiddleware` instead.
+  You can use `HttpHandlerRunnerMiddleware` instead.
 
 ## 5.0.0 - 2018-02-02
 
