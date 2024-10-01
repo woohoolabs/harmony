@@ -16,7 +16,10 @@
     displayDetailsOnTestsThatTriggerErrors="true"
     displayDetailsOnTestsThatTriggerNotices="true"
     displayDetailsOnTestsThatTriggerWarnings="true">
-    <coverage includeUncoveredFiles="false">
+    <include>
+        <directory suffix=".php">src</directory>
+    </include>
+    <coverage includeUncoveredFiles="true">
     </coverage>
     <testsuites>
         <testsuite name="WoohooLabs\\Harmony Tests">
